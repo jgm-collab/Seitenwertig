@@ -1,0 +1,552 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Feedback — SeitenWertig</title>
+<link rel="stylesheet" href="fonts.css"/>
+<style>
+:root {
+  --bg:#0F1117; --card:#161821; --light:#1C1E2A;
+  --text:#E8E9ED; --muted:#8B8D97;
+  --accent:#2DD4A8; --glow:rgba(45,212,168,0.15);
+  --border:rgba(255,255,255,0.06); --white:#fff;
+  --red:rgba(255,80,80,0.15); --red-text:#ff8080;
+  --serif:'Outfit',sans-serif; --sans:'DM Sans',sans-serif;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--text);font-family:var(--sans);font-size:16px;line-height:1.6;-webkit-font-smoothing:antialiased;min-height:100vh}
+.app{max-width:720px;margin:0 auto;padding:40px 24px 80px}
+
+/* HEADER */
+.header{display:flex;justify-content:space-between;align-items:center;margin-bottom:40px}
+.brand{font-family:var(--serif);font-weight:700;font-size:1.1rem;color:var(--white)}
+.brand span{color:var(--accent)}
+.step-lbl{font-size:.75rem;font-weight:500;letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
+
+/* PROGRESS */
+.bar{height:2px;background:var(--border);margin-bottom:48px;border-radius:2px}
+.fill{height:100%;background:var(--accent);border-radius:2px;transition:width .4s ease}
+
+/* STEPS */
+.step{display:none}
+.step.active{display:block;animation:up .35s ease both}
+@keyframes up{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:translateY(0)}}
+
+.eyebrow{font-size:.74rem;font-weight:500;letter-spacing:.12em;text-transform:uppercase;color:var(--accent);margin-bottom:12px;display:flex;align-items:center;gap:8px}
+.eyebrow::before{content:'';width:22px;height:1px;background:var(--accent);display:inline-block}
+h1{font-family:var(--serif);font-size:clamp(1.5rem,4vw,2.1rem);line-height:1.2;margin-bottom:8px;color:var(--white)}
+.sub{color:var(--muted);font-weight:300;margin-bottom:32px;font-size:.95rem}
+
+/* FIELDS */
+.field{margin-bottom:18px}
+label{display:block;font-size:.74rem;font-weight:500;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin-bottom:7px}
+.opt{font-size:.66rem;color:#555;font-style:italic;text-transform:none;letter-spacing:0;margin-left:6px}
+input[type=text],textarea,select{
+  width:100%;background:rgba(255,255,255,0.04);border:1px solid var(--border);
+  color:var(--text);font-family:var(--sans);font-size:.95rem;
+  padding:12px 15px;outline:none;transition:border-color .2s;border-radius:8px}
+input:focus,textarea:focus,select:focus{border-color:var(--accent)}
+input::placeholder,textarea::placeholder{color:#444}
+textarea{resize:vertical;min-height:90px}
+select option{background:#1C1E2A}
+.row{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+@media(max-width:500px){.row{grid-template-columns:1fr}}
+
+/* RATING STARS */
+.stars{display:flex;gap:8px;margin-bottom:20px}
+.star{width:44px;height:44px;border-radius:10px;background:rgba(255,255,255,0.04);border:1px solid var(--border);cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:1.3rem;transition:all .15s}
+.star:hover,.star.active{background:var(--glow);border-color:var(--accent)}
+.star-label{font-size:.8rem;color:var(--muted);margin-top:6px;min-height:18px;text-align:center}
+
+/* TILES */
+.tiles{display:grid;gap:10px;margin-bottom:20px}
+.col2{grid-template-columns:1fr 1fr}
+.col3{grid-template-columns:1fr 1fr 1fr}
+@media(max-width:500px){.col2,.col3{grid-template-columns:1fr 1fr}}
+.tile{border:1px solid var(--border);padding:14px 12px;cursor:pointer;transition:all .15s;background:rgba(255,255,255,0.02);user-select:none;text-align:center;border-radius:10px}
+.tile:hover{border-color:var(--accent)}
+.tile.selected{border-color:var(--accent);background:var(--glow)}
+.tile.bad{border-color:rgba(255,80,80,0.3)}
+.tile.bad.selected{border-color:var(--red-text);background:var(--red)}
+.tile-icon{font-size:1.3rem;margin-bottom:5px;display:block}
+.tile-label{font-size:.82rem;font-weight:500;color:var(--text)}
+.tile-sub{font-size:.7rem;color:var(--muted);margin-top:2px}
+
+/* CHIPS */
+.chips{display:flex;flex-wrap:wrap;gap:9px;margin-bottom:20px}
+.chip{border:1px solid var(--border);padding:7px 15px;font-size:.82rem;cursor:pointer;background:rgba(255,255,255,0.02);transition:all .15s;user-select:none;border-radius:6px;color:var(--muted)}
+.chip:hover{border-color:var(--accent);color:var(--text)}
+.chip.selected{border-color:var(--accent);background:var(--glow);color:var(--white);font-weight:500}
+
+/* CHANGE BLOCKS */
+.change-block{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:20px;margin-bottom:14px;position:relative}
+.change-block .rm{position:absolute;top:14px;right:14px;background:none;border:1px solid var(--border);color:var(--muted);width:26px;height:26px;border-radius:6px;cursor:pointer;font-size:.8rem;display:flex;align-items:center;justify-content:center;transition:all .15s}
+.change-block .rm:hover{border-color:var(--red-text);color:var(--red-text)}
+.add-btn{width:100%;padding:12px;border:1px dashed var(--border);background:none;color:var(--muted);font-family:var(--sans);font-size:.85rem;cursor:pointer;border-radius:10px;transition:all .15s;margin-bottom:20px}
+.add-btn:hover{border-color:var(--accent);color:var(--accent)}
+
+/* SECTION LABEL */
+.sec{font-size:.72rem;font-weight:500;letter-spacing:.12em;text-transform:uppercase;color:var(--accent);margin:24px 0 14px;display:flex;align-items:center;gap:10px}
+.sec::after{content:'';flex:1;height:1px;background:var(--border)}
+
+/* PRIORITY BADGE */
+.prio-row{display:flex;gap:10px;margin-bottom:20px;flex-wrap:wrap}
+.prio{padding:9px 18px;border-radius:8px;font-size:.82rem;font-weight:500;cursor:pointer;border:1px solid var(--border);color:var(--muted);transition:all .15s;user-select:none}
+.prio:hover{border-color:var(--accent)}
+.prio.p1.selected{background:rgba(255,80,80,0.15);border-color:#ff8080;color:#ff8080}
+.prio.p2.selected{background:rgba(255,180,50,0.15);border-color:#ffb432;color:#ffb432}
+.prio.p3.selected{background:var(--glow);border-color:var(--accent);color:var(--accent)}
+
+/* NAV */
+.nav{display:flex;gap:12px;margin-top:28px}
+.back{background:none;border:1px solid var(--border);color:var(--muted);font-family:var(--sans);font-size:.85rem;padding:11px 22px;cursor:pointer;border-radius:8px;transition:all .15s}
+.back:hover{border-color:var(--muted)}
+.next{background:var(--accent);border:none;color:#0F1117;font-family:var(--sans);font-size:.85rem;font-weight:600;letter-spacing:.06em;text-transform:uppercase;padding:12px 30px;cursor:pointer;border-radius:8px;transition:background .15s}
+.next:hover{background:#22B893}
+
+/* RESULT */
+.result-box{background:var(--card);border:1px solid var(--border);padding:28px;border-radius:14px;position:relative;margin-top:20px}
+.result-box pre{font-family:'Courier New',monospace;font-size:.8rem;line-height:1.75;white-space:pre-wrap;word-break:break-word;color:rgba(232,233,237,0.8);max-height:380px;overflow-y:auto}
+.copy{position:absolute;top:14px;right:14px;background:rgba(255,255,255,0.06);border:1px solid var(--border);color:var(--text);font-family:var(--sans);font-size:.72rem;padding:6px 14px;cursor:pointer;border-radius:6px;transition:all .15s;letter-spacing:.06em;text-transform:uppercase}
+.copy:hover{background:var(--glow);border-color:var(--accent);color:var(--accent)}
+.copied{font-size:.78rem;color:var(--accent);margin-top:8px;display:none}
+.restart{background:none;border:1px solid var(--border);color:var(--muted);font-family:var(--sans);font-size:.85rem;padding:11px 22px;cursor:pointer;border-radius:8px;margin-top:16px}
+</style>
+</head>
+<body>
+<div class="app">
+
+<div class="header">
+  <span class="brand">Seiten<span>Wert</span></span>
+  <span class="step-lbl" id="lbl">Schritt 1 von 6</span>
+</div>
+<div class="bar"><div class="fill" id="fill" style="width:16%"></div></div>
+
+<!-- ══ 1: GESAMTEINDRUCK ══ -->
+<div class="step active" id="s1">
+  <p class="eyebrow">Feedback · Runde 1</p>
+  <h1>Wie ist dein erster Eindruck?</h1>
+  <p class="sub">Sei direkt — das hilft mir mehr als Höflichkeit.</p>
+
+  <div class="field">
+    <label>Gesamteindruck</label>
+    <div class="stars" id="stars">
+      <div style="display:flex;flex-direction:column;align-items:center" onclick="rate(1)"><div class="star" data-r="1">😕</div><div class="star-label" id="sl1"></div></div>
+      <div style="display:flex;flex-direction:column;align-items:center" onclick="rate(2)"><div class="star" data-r="2">😐</div><div class="star-label" id="sl2"></div></div>
+      <div style="display:flex;flex-direction:column;align-items:center" onclick="rate(3)"><div class="star" data-r="3">🙂</div><div class="star-label" id="sl3"></div></div>
+      <div style="display:flex;flex-direction:column;align-items:center" onclick="rate(4)"><div class="star" data-r="4">😊</div><div class="star-label" id="sl4"></div></div>
+      <div style="display:flex;flex-direction:column;align-items:center" onclick="rate(5)"><div class="star" data-r="5">🤩</div><div class="star-label" id="sl5"></div></div>
+    </div>
+    <div id="rate-text" style="font-size:.85rem;color:var(--muted);min-height:20px"></div>
+  </div>
+
+  <div class="field">
+    <label>Was war dein erster Gedanke beim Anschauen?</label>
+    <textarea id="s1-first" placeholder="Ehrliche Reaktion — gut oder schlecht…"></textarea>
+  </div>
+
+  <div class="field">
+    <label>Trifft der Gesamtstil deinen Betrieb?</label>
+    <div class="tiles col3">
+      <div class="tile" onclick="solo(this,'s1-fit')" data-v="Ja, passt gut"><span class="tile-icon">✅</span><div class="tile-label">Ja, passt</div></div>
+      <div class="tile" onclick="solo(this,'s1-fit')" data-v="Teilweise, mit Anpassungen"><span class="tile-icon">🔧</span><div class="tile-label">Teilweise</div></div>
+      <div class="tile" onclick="solo(this,'s1-fit')" data-v="Nein, komplett andere Richtung nötig"><span class="tile-icon">❌</span><div class="tile-label">Nein</div></div>
+    </div>
+  </div>
+
+  <div class="nav"><button class="next" onclick="go(1,2)">Weiter →</button></div>
+</div>
+
+<!-- ══ 2: WAS BLEIBT ══ -->
+<div class="step" id="s2">
+  <p class="eyebrow">Was funktioniert</p>
+  <h1>Was soll genau so bleiben?</h1>
+  <p class="sub">Wähle alles was dir gefällt — das wird nicht angetastet.</p>
+
+  <div class="tiles col2" id="s2-keep">
+    <div class="tile" onclick="multi(this,'keep')" data-v="Navigation & Menü"><span class="tile-icon">🧭</span><div class="tile-label">Navigation</div></div>
+    <div class="tile" onclick="multi(this,'keep')" data-v="Hero-Bereich (Überschrift & Einstieg)"><span class="tile-icon">🏠</span><div class="tile-label">Hero</div></div>
+    <div class="tile" onclick="multi(this,'keep')" data-v="Leistungen & Angebote"><span class="tile-icon">✨</span><div class="tile-label">Leistungen</div></div>
+    <div class="tile" onclick="multi(this,'keep')" data-v="Über mich / Über uns"><span class="tile-icon">👤</span><div class="tile-label">Über mich</div></div>
+    <div class="tile" onclick="multi(this,'keep')" data-v="Preisbereich"><span class="tile-icon">💰</span><div class="tile-label">Preise</div></div>
+    <div class="tile" onclick="multi(this,'keep')" data-v="Kundenstimmen"><span class="tile-icon">⭐</span><div class="tile-label">Bewertungen</div></div>
+    <div class="tile" onclick="multi(this,'keep')" data-v="Kontaktformular"><span class="tile-icon">📩</span><div class="tile-label">Kontakt</div></div>
+    <div class="tile" onclick="multi(this,'keep')" data-v="Footer & Impressum"><span class="tile-icon">📋</span><div class="tile-label">Footer</div></div>
+    <div class="tile" onclick="multi(this,'keep')" data-v="Farben & Farbschema"><span class="tile-icon">🎨</span><div class="tile-label">Farben</div></div>
+    <div class="tile" onclick="multi(this,'keep')" data-v="Schriften & Typografie"><span class="tile-icon">🔤</span><div class="tile-label">Schriften</div></div>
+  </div>
+
+  <div class="field">
+    <label>Was gefällt dir konkret? <span class="opt">Details helfen</span></label>
+    <textarea id="s2-gut" placeholder="z.B. die Überschrift trifft es gut, die Farben passen, das Foto im Header…"></textarea>
+  </div>
+
+  <div class="nav">
+    <button class="back" onclick="go(2,1)">← Zurück</button>
+    <button class="next" onclick="go(2,3)">Weiter →</button>
+  </div>
+</div>
+
+<!-- ══ 3: ÄNDERUNGEN ══ -->
+<div class="step" id="s3">
+  <p class="eyebrow">Anpassungen</p>
+  <h1>Was soll geändert werden?</h1>
+  <p class="sub">Für jeden Bereich den du ändern möchtest — ein Block. So präzise wie möglich.</p>
+
+  <div id="change-list"></div>
+  <button class="add-btn" onclick="addChange()">+ Änderung hinzufügen</button>
+
+  <div class="nav">
+    <button class="back" onclick="go(3,2)">← Zurück</button>
+    <button class="next" onclick="go(3,4)">Weiter →</button>
+  </div>
+</div>
+
+<!-- ══ 4: DESIGN ══ -->
+<div class="step" id="s4">
+  <p class="eyebrow">Design-Details</p>
+  <h1>Gibt es Design-Anpassungen?</h1>
+  <p class="sub">Konkrete Änderungen an Farben, Bildern oder Stil.</p>
+
+  <p class="sec">Farben</p>
+  <div class="field">
+    <label>Welche Farben sollen geändert werden? <span class="opt">leer lassen wenn ok</span></label>
+    <textarea id="s4-farbe" style="min-height:70px" placeholder="z.B. Buttons sollen dunkler sein, Hintergrund zu hell, Akzentfarbe zu knallig…"></textarea>
+  </div>
+
+  <p class="sec">Bilder & Fotos</p>
+  <div class="chips" id="s4-bilder">
+    <div class="chip" onclick="chip(this,'bilder')" data-v="Platzhalter-Bilder ersetzen (eigene Fotos folgen)">Eigene Fotos kommen noch</div>
+    <div class="chip" onclick="chip(this,'bilder')" data-v="Bilder komplett weglassen">Keine Bilder</div>
+    <div class="chip" onclick="chip(this,'bilder')" data-v="Logo muss ausgetauscht werden">Logo ersetzen</div>
+    <div class="chip" onclick="chip(this,'bilder')" data-v="Bilder passen so">Bilder passen so</div>
+  </div>
+
+  <p class="sec">Stil & Atmosphäre</p>
+  <div class="chips" id="s4-stil">
+    <div class="chip" onclick="chip(this,'stil')" data-v="Mehr Weißraum / luftiger">Luftiger</div>
+    <div class="chip" onclick="chip(this,'stil')" data-v="Kompakter / dichter">Kompakter</div>
+    <div class="chip" onclick="chip(this,'stil')" data-v="Wärmer / einladender">Wärmer</div>
+    <div class="chip" onclick="chip(this,'stil')" data-v="Professioneller / seriöser">Seriöser</div>
+    <div class="chip" onclick="chip(this,'stil')" data-v="Moderner / frischer">Moderner</div>
+    <div class="chip" onclick="chip(this,'stil')" data-v="Ruhiger / reduzierter">Ruhiger</div>
+    <div class="chip" onclick="chip(this,'stil')" data-v="Stil passt so">Passt so</div>
+  </div>
+
+  <div class="nav">
+    <button class="back" onclick="go(4,3)">← Zurück</button>
+    <button class="next" onclick="go(4,5)">Weiter →</button>
+  </div>
+</div>
+
+<!-- ══ 5: TEXTE & NEUES ══ -->
+<div class="step" id="s5">
+  <p class="eyebrow">Inhalte</p>
+  <h1>Texte & neue Elemente.</h1>
+  <p class="sub">Was inhaltlich fehlt oder geändert werden soll.</p>
+
+  <p class="sec">Texte</p>
+  <div class="field">
+    <label>Welche Texte müssen angepasst werden?</label>
+    <textarea id="s5-texte" placeholder="z.B. Über-mich-Text ist falsch, Öffnungszeiten fehlen, Preise sind veraltet, Headline passt nicht…"></textarea>
+  </div>
+
+  <p class="sec">Was fehlt noch?</p>
+  <div class="chips" id="s5-fehlt">
+    <div class="chip" onclick="chip(this,'fehlt')" data-v="Preistabelle">Preistabelle</div>
+    <div class="chip" onclick="chip(this,'fehlt')" data-v="Öffnungszeiten">Öffnungszeiten</div>
+    <div class="chip" onclick="chip(this,'fehlt')" data-v="Google Maps Karte">Google Maps</div>
+    <div class="chip" onclick="chip(this,'fehlt')" data-v="WhatsApp-Button">WhatsApp-Button</div>
+    <div class="chip" onclick="chip(this,'fehlt')" data-v="Foto-Galerie">Foto-Galerie</div>
+    <div class="chip" onclick="chip(this,'fehlt')" data-v="Kundenbewertungen">Bewertungen</div>
+    <div class="chip" onclick="chip(this,'fehlt')" data-v="Team-Vorstellung">Team</div>
+    <div class="chip" onclick="chip(this,'fehlt')" data-v="Social-Media-Links">Social Media</div>
+    <div class="chip" onclick="chip(this,'fehlt')" data-v="Online-Terminbuchung">Terminbuchung</div>
+    <div class="chip" onclick="chip(this,'fehlt')" data-v="FAQ-Bereich">FAQ</div>
+  </div>
+
+  <div class="field">
+    <label>Sonstiges was fehlt <span class="opt">Freitext</span></label>
+    <textarea id="s5-sonstiges" style="min-height:70px" placeholder="Alles was noch nicht abgefragt wurde…"></textarea>
+  </div>
+
+  <div class="nav">
+    <button class="back" onclick="go(5,4)">← Zurück</button>
+    <button class="next" onclick="go(5,6)">Weiter →</button>
+  </div>
+</div>
+
+<!-- ══ 6: PRIORITÄT ══ -->
+<div class="step" id="s6">
+  <p class="eyebrow">Fast fertig</p>
+  <h1>Was ist dringend?</h1>
+  <p class="sub">Hilft mir zu entscheiden was in Runde 1 kommt und was später.</p>
+
+  <div class="field">
+    <label>Was muss in der nächsten Version unbedingt geändert sein?</label>
+    <textarea id="s6-prio" placeholder="z.B. das Logo muss rein, die Farben müssen stimmen, der Text über mich ist falsch…"></textarea>
+  </div>
+
+  <div class="field">
+    <label>Was kann auch in einer späteren Runde kommen?</label>
+    <textarea id="s6-later" placeholder="z.B. Galerie, Blog, Preistabelle — kein Muss für jetzt…" style="min-height:70px"></textarea>
+  </div>
+
+  <p class="sec">Gesamte Dringlichkeit</p>
+  <div class="prio-row">
+    <div class="prio p1" onclick="selPrio(this,'p1')" data-v="Dringend — bitte so schnell wie möglich">🔴 Dringend</div>
+    <div class="prio p2" onclick="selPrio(this,'p2')" data-v="Normal — in der nächsten Woche">🟡 Normal</div>
+    <div class="prio p3" onclick="selPrio(this,'p3')" data-v="Kein Stress — wenn Zeit ist">🟢 Kein Stress</div>
+  </div>
+
+  <div class="field">
+    <label>Deine E-Mail <span class="opt">für Rückfragen</span></label>
+    <input type="email" id="s6-email" placeholder="deine@email.de"/>
+  </div>
+
+  <div class="nav">
+    <button class="back" onclick="go(6,5)">← Zurück</button>
+    <button class="next" onclick="build()">Feedback absenden →</button>
+  </div>
+</div>
+
+<!-- ══ RESULT ══ -->
+<div class="step" id="s-result">
+  <p class="eyebrow">Fertig</p>
+  <h1>Feedback erhalten.</h1>
+  <p class="sub" style="font-size:1rem">Ich setze die Änderungen um und schicke dir die neue Version zu.</p>
+
+  <div style="padding:28px;border-radius:14px;background:var(--card);border:1px solid var(--border);margin:24px 0">
+    <p style="font-size:.76rem;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--accent);margin-bottom:14px">Nächste Schritte</p>
+    <div style="display:flex;flex-direction:column;gap:12px">
+      <div style="display:flex;gap:12px"><span style="font-family:var(--serif);font-size:1.1rem;color:var(--accent);flex-shrink:0">1.</span><span style="font-size:.92rem;color:var(--muted)">Ich prüfe dein Feedback und kontaktiere dich bei Rückfragen.</span></div>
+      <div style="display:flex;gap:12px"><span style="font-family:var(--serif);font-size:1.1rem;color:var(--accent);flex-shrink:0">2.</span><span style="font-size:.92rem;color:var(--muted)">Die überarbeitete Version ist innerhalb von 24 Stunden bei dir.</span></div>
+      <div style="display:flex;gap:12px"><span style="font-family:var(--serif);font-size:1.1rem;color:var(--accent);flex-shrink:0">3.</span><span style="font-size:.92rem;color:var(--muted)">Weiterer Feedback-Zyklus falls nötig — bis du zufrieden bist.</span></div>
+    </div>
+  </div>
+
+  <!-- JAN ONLY: Revisions-Prompt — unsichtbar für Kunden, sichtbar für Jan -->
+  <details style="margin-top:8px">
+    <summary style="font-size:.75rem;color:var(--muted);cursor:pointer;letter-spacing:.06em;text-transform:uppercase">↓ Revisions-Prompt (intern)</summary>
+    <div class="result-box" style="margin-top:12px">
+      <button class="copy" onclick="cp()">Kopieren</button>
+      <pre id="prompt-out"></pre>
+    </div>
+    <p class="copied" id="copied">✓ Kopiert</p>
+  </details>
+
+  <!-- Hidden form → Formspree -->
+  <form id="ff" name="feedback" netlify netlify-honeypot="bot-field" style="display:none" method="POST">
+    <input type="hidden" name="form-name" value="feedback"/>
+    <input type="hidden" name="feedback" id="ff-feedback"/>
+    <input type="email" name="email" id="ff-email"/>
+  </form>
+
+  <button class="restart" onclick="restart()">Weiteres Feedback starten</button>
+</div>
+
+</div><!-- /app -->
+<script>
+const TOTAL = 6;
+let cur = 1;
+const M = {}; // multi-select
+const S = {}; // single-select (solo tiles)
+let rating = 0;
+let prioVal = '';
+let changes = [];
+let changeCnt = 0;
+
+// ── NAVIGATION ──
+function go(from, to) {
+  cur = to;
+  show(to === 'result' ? 's-result' : `s${to}`);
+  const pct = to === 'result' ? 100 : Math.round((to / TOTAL) * 100);
+  document.getElementById('fill').style.width = pct + '%';
+  document.getElementById('lbl').textContent = to === 'result' ? 'Fertig!' : `Schritt ${to} von ${TOTAL}`;
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+function show(id) {
+  document.querySelectorAll('.step').forEach(s => s.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+}
+
+// ── SELECTIONS ──
+function multi(el, grp) {
+  if (!M[grp]) M[grp] = new Set();
+  const v = el.dataset.v;
+  if (M[grp].has(v)) { M[grp].delete(v); el.classList.remove('selected'); }
+  else { M[grp].add(v); el.classList.add('selected'); }
+}
+function chip(el, grp) {
+  if (!M[grp]) M[grp] = new Set();
+  const v = el.dataset.v;
+  if (M[grp].has(v)) { M[grp].delete(v); el.classList.remove('selected'); }
+  else { M[grp].add(v); el.classList.add('selected'); }
+}
+function solo(el, key) {
+  el.closest('.tiles').querySelectorAll('.tile').forEach(t => t.classList.remove('selected'));
+  el.classList.add('selected');
+  S[key] = el.dataset.v;
+}
+function selPrio(el, cls) {
+  document.querySelectorAll('.prio').forEach(p => p.classList.remove('selected'));
+  el.classList.add('selected');
+  prioVal = el.dataset.v;
+}
+
+// ── RATING ──
+const rateLabels = ['', 'Gefällt mir nicht', 'Ausbaufähig', 'Ganz ok', 'Gefällt mir gut', 'Genau das!'];
+function rate(n) {
+  rating = n;
+  document.querySelectorAll('.star').forEach(s => {
+    s.classList.toggle('active', parseInt(s.dataset.r) <= n);
+  });
+  document.getElementById('rate-text').textContent = rateLabels[n];
+}
+
+// ── CHANGE BLOCKS ──
+function addChange() {
+  changeCnt++;
+  const id = changeCnt;
+  changes.push(id);
+  const sections = ['Navigation','Hero / Einstieg','Über mich / Über uns','Leistungen','Preise','Galerie','Kundenstimmen','Kontakt / Anfahrt','Footer','Allgemein / Übergreifend','Anderer Bereich'];
+  const opts = sections.map(s => `<option value="${s}">${s}</option>`).join('');
+  const div = document.createElement('div');
+  div.className = 'change-block';
+  div.id = `cb-${id}`;
+  div.innerHTML = `
+    <button class="rm" onclick="rmChange(${id})">×</button>
+    <div class="field" style="margin-bottom:14px">
+      <label>Bereich</label>
+      <select id="cb-sec-${id}"><option value="">Bitte wählen…</option>${opts}</select>
+    </div>
+    <div class="field" style="margin-bottom:0">
+      <label>Was genau soll sich ändern?</label>
+      <textarea id="cb-txt-${id}" placeholder="So konkret wie möglich — Formulierung, Farbe, Größe, Position, Inhalt…"></textarea>
+    </div>`;
+  document.getElementById('change-list').appendChild(div);
+}
+function rmChange(id) {
+  const el = document.getElementById(`cb-${id}`);
+  if (el) el.remove();
+  changes = changes.filter(x => x !== id);
+}
+function collectChanges() {
+  return changes.map(id => {
+    const sec = document.getElementById(`cb-sec-${id}`)?.value || '—';
+    const txt = document.getElementById(`cb-txt-${id}`)?.value?.trim() || '—';
+    return `  • ${sec}: ${txt}`;
+  }).join('\n') || '  — keine spezifischen Änderungen angegeben';
+}
+
+// ── HELPERS ──
+function v(id) { const el = document.getElementById(id); return el ? el.value.trim() : ''; }
+function mv(grp) { return M[grp] && M[grp].size ? [...M[grp]].join(', ') : '—'; }
+
+// ── BUILD PROMPT ──
+function buildPrompt() {
+  return `Du erhältst den bestehenden HTML-Code einer Website. Deine Aufgabe ist es, gezielt die unten beschriebenen Änderungen umzusetzen — nichts anderes.
+
+## KUNDENFEEDBACK
+
+**Gesamteindruck:** ${rating}/5 — ${rateLabels[rating] || '—'}
+**Erster Gedanke:** ${v('s1-first') || '—'}
+**Stil trifft den Betrieb:** ${S['s1-fit'] || '—'}
+
+## WAS BLEIBT UNVERÄNDERT
+
+${mv('keep')}
+
+**Was konkret gut gefällt:**
+${v('s2-gut') || '—'}
+
+## ÄNDERUNGEN
+
+${collectChanges()}
+
+## DESIGN-ANPASSUNGEN
+
+**Farben:** ${v('s4-farbe') || 'keine Änderungen'}
+**Bilder:** ${mv('bilder')}
+**Stil:** ${mv('stil')}
+
+## INHALTE & TEXTE
+
+**Textanpassungen:**
+${v('s5-texte') || '—'}
+
+**Fehlende Elemente ergänzen:**
+${mv('fehlt')}
+
+**Sonstiges:**
+${v('s5-sonstiges') || '—'}
+
+## PRIORITÄT
+
+**Dringend umsetzen:**
+${v('s6-prio') || '—'}
+
+**Kann später kommen:**
+${v('s6-later') || '—'}
+
+**Gesamte Dringlichkeit:** ${prioVal || '—'}
+
+## ANWEISUNG
+
+1. Übernimm exakt was unter "WAS BLEIBT UNVERÄNDERT" steht — keine Änderungen dort
+2. Setze alle Punkte unter "ÄNDERUNGEN" präzise um
+3. Wende "DESIGN-ANPASSUNGEN" global an
+4. Ergänze alle unter "INHALTE & TEXTE" genannten Elemente
+5. Priorisiere die unter "PRIORITÄT / Dringend" genannten Punkte
+6. Gib ausschließlich den vollständigen, überarbeiteten HTML-Code aus
+
+[HIER DEN BESTEHENDEN HTML-CODE EINFÜGEN]`;
+}
+
+// ── SUBMIT ──
+function build() {
+  const prompt = buildPrompt();
+  document.getElementById('prompt-out').textContent = prompt;
+  document.getElementById('ff-feedback').value = prompt;
+  document.getElementById('ff-email').value = v('s6-email');
+  const form = document.getElementById('ff');
+  fetch(form.action, { method: 'POST', body: new FormData(form), headers: { Accept: 'application/json' } }).catch(() => {});
+  go(6, 'result');
+}
+
+// ── COPY ──
+function cp() {
+  navigator.clipboard.writeText(document.getElementById('prompt-out').textContent).then(() => {
+    const el = document.getElementById('copied');
+    el.style.display = 'block';
+    setTimeout(() => el.style.display = 'none', 2500);
+  });
+}
+
+// ── RESTART ──
+function restart() {
+  Object.keys(M).forEach(k => delete M[k]);
+  Object.keys(S).forEach(k => delete S[k]);
+  rating = 0; prioVal = ''; changes = []; changeCnt = 0;
+  document.querySelectorAll('.tile.selected,.chip.selected,.prio.selected').forEach(e => e.classList.remove('selected'));
+  document.querySelectorAll('.star.active').forEach(e => e.classList.remove('active'));
+  document.querySelectorAll('input,textarea,select').forEach(e => e.value = '');
+  document.getElementById('change-list').innerHTML = '';
+  document.getElementById('rate-text').textContent = '';
+  go('result', 1);
+}
+
+function submitToNetlify(formName, data) {
+  const body = new URLSearchParams({ 'form-name': formName, ...data });
+  return fetch('/', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+    body: body.toString()
+  }).catch(() => {});
+}
+
+</script>
+</body>
+</html>

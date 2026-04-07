@@ -1,0 +1,443 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Änderungsauftrag — SeitenWertig</title>
+<link rel="stylesheet" href="fonts.css"/>
+<style>
+:root{
+  --bg:#0F1117;--card:#161821;--light:#1C1E2A;
+  --text:#E8E9ED;--muted:#8B8D97;
+  --accent:#2DD4A8;--glow:rgba(45,212,168,0.15);
+  --border:rgba(255,255,255,0.06);--white:#fff;
+  --red:rgba(255,80,80,0.12);--red-t:#ff8080;
+  --serif:'Outfit',sans-serif;--sans:'DM Sans',sans-serif;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--text);font-family:var(--sans);font-size:16px;line-height:1.6;-webkit-font-smoothing:antialiased;min-height:100vh}
+.app{max-width:680px;margin:0 auto;padding:40px 24px 80px}
+
+.header{display:flex;justify-content:space-between;align-items:center;margin-bottom:40px}
+.brand{font-family:var(--serif);font-weight:700;font-size:1.1rem;color:var(--white)}
+.brand span{color:var(--accent)}
+.step-lbl{font-size:.75rem;font-weight:500;letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
+
+.bar{height:2px;background:var(--border);margin-bottom:48px;border-radius:2px}
+.fill{height:100%;background:var(--accent);border-radius:2px;transition:width .4s ease}
+
+.step{display:none}
+.step.active{display:block;animation:up .35s ease both}
+@keyframes up{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:translateY(0)}}
+
+.eyebrow{font-size:.74rem;font-weight:500;letter-spacing:.12em;text-transform:uppercase;color:var(--accent);margin-bottom:12px;display:flex;align-items:center;gap:8px}
+.eyebrow::before{content:'';width:22px;height:1px;background:var(--accent);display:inline-block}
+h1{font-family:var(--serif);font-size:clamp(1.4rem,4vw,2rem);line-height:1.2;margin-bottom:8px;color:var(--white)}
+.sub{color:var(--muted);font-weight:300;margin-bottom:28px;font-size:.95rem}
+
+.field{margin-bottom:16px}
+label{display:block;font-size:.74rem;font-weight:500;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin-bottom:7px}
+.opt{font-size:.66rem;color:#555;font-style:italic;text-transform:none;letter-spacing:0;margin-left:6px}
+input[type=text],input[type=email],input[type=url],textarea,select{
+  width:100%;background:rgba(255,255,255,0.04);border:1px solid var(--border);
+  color:var(--text);font-family:var(--sans);font-size:.95rem;
+  padding:12px 15px;outline:none;transition:border-color .2s;border-radius:8px}
+input:focus,textarea:focus,select:focus{border-color:var(--accent)}
+input::placeholder,textarea::placeholder{color:#444}
+textarea{resize:vertical;min-height:85px}
+select option{background:#1C1E2A}
+.row{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+@media(max-width:500px){.row{grid-template-columns:1fr}}
+
+/* PRICE BADGE */
+.price-badge{
+  display:inline-flex;align-items:center;gap:10px;
+  padding:10px 20px;border-radius:10px;
+  background:var(--glow);border:1px solid rgba(45,212,168,0.25);
+  margin-bottom:28px;
+}
+.price-badge .amount{font-family:var(--serif);font-size:1.5rem;font-weight:700;color:var(--accent)}
+.price-badge .desc{font-size:.8rem;color:var(--muted);line-height:1.4}
+.price-badge .desc strong{color:var(--text);display:block}
+
+/* CHANGE BLOCKS */
+.change-wrap{margin-bottom:20px}
+.change-block{
+  background:var(--card);border:1px solid var(--border);
+  border-radius:12px;padding:20px;margin-bottom:10px;position:relative;
+  transition:border-color .2s;
+}
+.change-block:hover{border-color:rgba(45,212,168,0.2)}
+.block-num{
+  position:absolute;top:-10px;left:16px;
+  background:var(--accent);color:#0F1117;
+  font-family:var(--serif);font-size:.8rem;font-weight:700;
+  padding:2px 10px;border-radius:10px;
+}
+.rm{
+  position:absolute;top:14px;right:14px;
+  background:none;border:1px solid var(--border);color:var(--muted);
+  width:26px;height:26px;border-radius:6px;cursor:pointer;font-size:.8rem;
+  display:flex;align-items:center;justify-content:center;transition:all .15s;
+}
+.rm:hover{border-color:var(--red-t);color:var(--red-t);background:var(--red)}
+.add-btn{
+  width:100%;padding:13px;border:1px dashed rgba(45,212,168,0.25);
+  background:none;color:var(--accent);font-family:var(--sans);font-size:.85rem;
+  cursor:pointer;border-radius:10px;transition:all .15s;
+  display:flex;align-items:center;justify-content:center;gap:8px;
+}
+.add-btn:hover{border-color:var(--accent);background:var(--glow)}
+.add-btn:disabled{opacity:.3;cursor:not-allowed;pointer-events:none}
+.counter{
+  text-align:right;font-size:.78rem;color:var(--muted);
+  margin-bottom:12px;margin-top:-8px;
+}
+.counter span{color:var(--accent);font-weight:600}
+
+/* URGENCY */
+.urgency-row{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:20px}
+.urg{
+  padding:10px 20px;border-radius:8px;font-size:.85rem;font-weight:500;
+  cursor:pointer;border:1px solid var(--border);color:var(--muted);
+  transition:all .15s;user-select:none;
+}
+.urg:hover{border-color:var(--accent)}
+.urg.u1.on{background:rgba(255,80,80,0.12);border-color:#ff8080;color:#ff8080}
+.urg.u2.on{background:rgba(255,180,50,0.12);border-color:#ffb432;color:#ffb432}
+.urg.u3.on{background:var(--glow);border-color:var(--accent);color:var(--accent)}
+
+/* CONFIRM BOX */
+.confirm-box{
+  border:1px solid rgba(45,212,168,0.2);border-radius:14px;
+  padding:28px;background:var(--card);margin-bottom:24px;
+}
+.confirm-price{
+  font-family:var(--serif);font-size:2.2rem;font-weight:700;
+  color:var(--white);margin-bottom:4px;
+}
+.confirm-price sup{font-size:1rem;vertical-align:super;color:var(--muted)}
+.confirm-includes{display:flex;flex-direction:column;gap:8px;margin-top:16px}
+.ci-row{display:flex;align-items:center;gap:10px;font-size:.88rem;color:var(--muted)}
+.ci-icon{width:20px;height:20px;border-radius:6px;background:var(--glow);display:flex;align-items:center;justify-content:center;font-size:.7rem;color:var(--accent);flex-shrink:0}
+.scope-note{
+  margin-top:16px;padding:12px 16px;border-radius:8px;
+  background:rgba(255,80,80,0.06);border:1px solid rgba(255,80,80,0.15);
+  font-size:.82rem;color:#ff9999;line-height:1.5;
+}
+
+/* NAV */
+.nav{display:flex;gap:12px;margin-top:24px}
+.back{background:none;border:1px solid var(--border);color:var(--muted);font-family:var(--sans);font-size:.85rem;padding:11px 22px;cursor:pointer;border-radius:8px;transition:all .15s}
+.back:hover{border-color:var(--muted)}
+.next{background:var(--accent);border:none;color:#0F1117;font-family:var(--sans);font-size:.85rem;font-weight:600;letter-spacing:.06em;text-transform:uppercase;padding:12px 30px;cursor:pointer;border-radius:8px;transition:background .15s}
+.next:hover{background:#22B893}
+.submit-btn{
+  background:var(--accent);border:none;color:#0F1117;font-family:var(--sans);
+  font-size:1rem;font-weight:700;padding:16px 36px;cursor:pointer;
+  border-radius:10px;transition:all .2s;width:100%;margin-top:8px;
+  letter-spacing:.02em;
+}
+.submit-btn:hover{background:#22B893;transform:translateY(-1px)}
+
+/* RESULT */
+.thank-box{padding:28px;border-radius:14px;background:var(--card);border:1px solid var(--border);margin:24px 0}
+.ns-row{display:flex;gap:12px;align-items:flex-start;margin-bottom:12px}
+.ns-num{font-family:var(--serif);font-size:1.1rem;color:var(--accent);flex-shrink:0}
+.ns-text{font-size:.92rem;color:var(--muted)}
+.restart{background:none;border:1px solid var(--border);color:var(--muted);font-family:var(--sans);font-size:.85rem;padding:11px 22px;cursor:pointer;border-radius:8px;margin-top:16px}
+</style>
+</head>
+<body>
+<div class="app">
+
+<div class="header">
+  <span class="brand">Seiten<span>Wertig</span></span>
+  <span class="step-lbl" id="lbl">Schritt 1 von 3</span>
+</div>
+<div class="bar"><div class="fill" id="fill" style="width:33%"></div></div>
+
+<!-- ══ 1: IDENTIFIKATION ══ -->
+<div class="step active" id="s1">
+  <p class="eyebrow">Änderungsauftrag</p>
+  <h1>Um welche Website geht es?</h1>
+  <p class="sub">Damit ich direkt weiß womit ich arbeite.</p>
+
+  <div class="price-badge">
+    <div class="amount">€ 79</div>
+    <div class="desc">
+      <strong>Pauschalpreis pro Auftrag</strong>
+      Bis zu 5 Änderungen · Umsetzung in 24–48h
+    </div>
+  </div>
+
+  <div class="field"><label>Dein Name</label><input type="text" id="s1-name" placeholder="Maria Mustermann"/></div>
+  <div class="row">
+    <div class="field"><label>Betrieb</label><input type="text" id="s1-betrieb" placeholder="Studio Sonnenschein"/></div>
+    <div class="field"><label>Deine Website</label><input type="url" id="s1-url" placeholder="www.meineseite.de"/></div>
+  </div>
+  <div class="field"><label>Deine E-Mail</label><input type="email" id="s1-email" placeholder="deine@email.de"/></div>
+
+  <div class="nav"><button class="next" onclick="go(1,2)">Weiter →</button></div>
+</div>
+
+<!-- ══ 2: ÄNDERUNGEN ══ -->
+<div class="step" id="s2">
+  <p class="eyebrow">Was soll geändert werden?</p>
+  <h1>Deine Änderungswünsche.</h1>
+  <p class="sub">Beschreibe jeden Punkt so konkret wie möglich — je präziser, desto schneller die Umsetzung.</p>
+
+  <div class="price-badge">
+    <div class="amount">€ 79</div>
+    <div class="desc">
+      <strong>Bis zu 5 Änderungen inklusive</strong>
+      Jeder weitere Auftrag = neuer Request
+    </div>
+  </div>
+
+  <div class="counter">Änderungen: <span id="cnt">0</span> / 5</div>
+
+  <div class="change-wrap" id="change-list"></div>
+
+  <button class="add-btn" id="add-btn" onclick="addBlock()">
+    <span>+</span> Änderung hinzufügen
+  </button>
+
+  <div class="scope-note">
+    ⚠️ Größere Umbauten (neue Sektion, komplettes Redesign, neue Unterseite) zählen nicht als einfache Änderung — dafür erstelle ich ein separates Angebot.
+  </div>
+
+  <div class="nav">
+    <button class="back" onclick="go(2,1)">← Zurück</button>
+    <button class="next" onclick="go(2,3)">Weiter →</button>
+  </div>
+</div>
+
+<!-- ══ 3: BESTÄTIGUNG ══ -->
+<div class="step" id="s3">
+  <p class="eyebrow">Fast fertig</p>
+  <h1>Dringlichkeit & Bestätigung.</h1>
+  <p class="sub">Kurz priorisieren — dann absenden.</p>
+
+  <div class="field" style="margin-bottom:20px">
+    <label>Wie dringend?</label>
+    <div class="urgency-row">
+      <div class="urg u1" onclick="setUrg(this,'Dringend — so schnell wie möglich')">🔴 Dringend</div>
+      <div class="urg u2" onclick="setUrg(this,'Normal — innerhalb dieser Woche')">🟡 Diese Woche</div>
+      <div class="urg u3" onclick="setUrg(this,'Kein Stress — wenn Zeit ist')">🟢 Kein Stress</div>
+    </div>
+  </div>
+
+  <div class="field">
+    <label>Anmerkungen <span class="opt">optional</span></label>
+    <textarea id="s3-notes" placeholder="Alles was noch wichtig ist — z.B. bestimmte Schriften, Links, Texte die ersetzt werden sollen…" style="min-height:75px"></textarea>
+  </div>
+
+  <!-- CONFIRM BOX -->
+  <div class="confirm-box">
+    <p style="font-size:.76rem;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--accent);margin-bottom:12px">Dein Auftrag</p>
+
+    <div class="confirm-price">€ 79 <sup>inkl. MwSt.</sup></div>
+    <p style="font-size:.82rem;color:var(--muted);margin-top:2px">Einmalige Pauschale für diesen Änderungsauftrag</p>
+
+    <div class="confirm-includes">
+      <div class="ci-row"><div class="ci-icon">✓</div>Bis zu 5 Änderungen auf deiner bestehenden Website</div>
+      <div class="ci-row"><div class="ci-icon">✓</div>Umsetzung innerhalb von 24–48 Stunden</div>
+      <div class="ci-row"><div class="ci-icon">✓</div>Überarbeitete Version direkt per E-Mail</div>
+      <div class="ci-row"><div class="ci-icon">✓</div>Eine Korrektur-Runde inklusive</div>
+    </div>
+
+    <div style="margin-top:20px;padding-top:16px;border-top:1px solid var(--border)">
+      <p style="font-size:.78rem;color:var(--muted)">
+        Rechnung wird von <strong style="color:var(--text)">Mandy Mazur</strong> per E-Mail zugestellt.
+        Umsetzung startet nach Zahlungseingang. · Fragen: <a href="/cdn-cgi/l/email-protection#e58f848ba596808c91808b928097918c82cb8180" style="color:var(--accent)"><span class="__cf_email__" data-cfemail="5e343f301e2d3b372a3b30293b2c2a3739703a3b">[email&#160;protected]</span></a>
+      </p>
+    </div>
+  </div>
+
+  <button class="submit-btn" onclick="submit()">Auftrag verbindlich absenden →</button>
+
+  <p style="font-size:.76rem;color:var(--muted);text-align:center;margin-top:12px">
+    Ich melde mich innerhalb von 2 Stunden zur Bestätigung.
+  </p>
+
+  <div class="nav" style="margin-top:20px">
+    <button class="back" onclick="go(3,2)">← Zurück</button>
+  </div>
+</div>
+
+<!-- ══ RESULT ══ -->
+<div class="step" id="s-result">
+  <p class="eyebrow">Auftrag eingegangen</p>
+  <h1>Danke — alles klar.</h1>
+  <p class="sub" style="font-size:1rem">
+    Dein Änderungsauftrag ist bei mir. Ich bestätige innerhalb von <strong style="color:var(--white)">2 Stunden</strong>
+    und liefere die überarbeitete Version in <strong style="color:var(--white)">24–48 Stunden.</strong>
+  </p>
+
+  <div class="thank-box">
+    <p style="font-size:.76rem;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--accent);margin-bottom:14px">Nächste Schritte</p>
+    <div class="ns-row"><span class="ns-num">1.</span><span class="ns-text">Du bekommst eine Bestätigung per E-Mail — die Rechnung (€ 79) kommt von Mandy Mazur.</span></div>
+    <div class="ns-row"><span class="ns-num">2.</span><span class="ns-text">Nach Zahlungseingang starte ich sofort mit der Umsetzung.</span></div>
+    <div class="ns-row"><span class="ns-num">3.</span><span class="ns-text">Die überarbeitete Version ist in 24–48 Stunden bei dir.</span></div>
+    <div class="ns-row"><span class="ns-num">4.</span><span class="ns-text">Eine Korrektur-Runde ist inklusive — danach gilt der Auftrag als erledigt.</span></div>
+  </div>
+
+  <!-- Interner Prompt -->
+  <details style="margin-top:8px">
+    <summary style="font-size:.75rem;color:var(--muted);cursor:pointer;letter-spacing:.06em;text-transform:uppercase">↓ Revisions-Prompt (intern)</summary>
+    <div style="background:var(--card);border:1px solid var(--border);padding:24px;border-radius:12px;margin-top:10px;position:relative">
+      <button onclick="cp()" style="position:absolute;top:12px;right:12px;background:rgba(255,255,255,0.06);border:1px solid var(--border);color:var(--text);font-family:var(--sans);font-size:.72rem;padding:5px 12px;cursor:pointer;border-radius:6px;text-transform:uppercase;letter-spacing:.06em">Kopieren</button>
+      <pre id="prompt-out" style="font-family:'Courier New',monospace;font-size:.78rem;line-height:1.7;white-space:pre-wrap;word-break:break-word;color:rgba(232,233,237,0.8);max-height:360px;overflow-y:auto"></pre>
+    </div>
+    <p id="copied" style="font-size:.78rem;color:var(--accent);margin-top:8px;display:none">✓ Kopiert</p>
+  </details>
+
+  <!-- Hidden form -->
+  <form id="ff" name="aenderung" netlify netlify-honeypot="bot-field" style="display:none" method="POST">
+    <input type="hidden" name="form-name" value="aenderung"/>
+    <input type="hidden" name="auftrag" id="ff-auftrag"/>
+    <input type="email" name="email" id="ff-email"/>
+  </form>
+
+  <button class="restart" onclick="restart()">Weiteren Auftrag starten</button>
+</div>
+
+</div>
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js">
+function submitToNetlify(formName, data) {
+  const body = new URLSearchParams({ 'form-name': formName, ...data });
+  return fetch('/', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+    body: body.toString()
+  }).catch(() => {});
+}
+
+</script><script>
+const TOTAL=3;
+let changes=[]; let cnt=0; let urgency='';
+
+function go(from,to){
+  document.querySelectorAll('.step').forEach(s=>s.classList.remove('active'));
+  document.getElementById(to==='result'?'s-result':`s${to}`).classList.add('active');
+  const pct=to==='result'?100:Math.round((to/TOTAL)*100);
+  document.getElementById('fill').style.width=pct+'%';
+  document.getElementById('lbl').textContent=to==='result'?'Fertig!':`Schritt ${to} von ${TOTAL}`;
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+
+function addBlock(){
+  if(changes.length>=5)return;
+  cnt++;
+  const id=cnt;
+  changes.push(id);
+
+  const sections=['Navigation','Hero / Einstieg','Leistungen','Über mich','Preise','Kontakt','Galerie','Kundenstimmen','Footer / Impressum','Text / Inhalt allgemein','Farbe / Design','Bild / Logo','Button / Link','Formular','Anderer Bereich'];
+  const opts=sections.map(s=>`<option value="${s}">${s}</option>`).join('');
+
+  const div=document.createElement('div');
+  div.className='change-block';
+  div.id=`cb${id}`;
+  div.innerHTML=`
+    <div class="block-num">${changes.length}</div>
+    <button class="rm" onclick="rmBlock(${id})">×</button>
+    <div style="padding-top:8px">
+      <div class="field" style="margin-bottom:12px">
+        <label>Bereich</label>
+        <select id="cbs${id}"><option value="">Bitte wählen…</option>${opts}</select>
+      </div>
+      <div class="field" style="margin-bottom:0">
+        <label>Was genau soll sich ändern?</label>
+        <textarea id="cbt${id}" placeholder="So konkret wie möglich — Farbe, Text, Position, Inhalt, Link…"></textarea>
+      </div>
+    </div>`;
+  document.getElementById('change-list').appendChild(div);
+  updateCounter();
+}
+
+function rmBlock(id){
+  const el=document.getElementById(`cb${id}`);
+  if(el)el.remove();
+  changes=changes.filter(x=>x!==id);
+  // Re-number
+  document.querySelectorAll('.block-num').forEach((n,i)=>n.textContent=i+1);
+  updateCounter();
+}
+
+function updateCounter(){
+  document.getElementById('cnt').textContent=changes.length;
+  const btn=document.getElementById('add-btn');
+  btn.disabled=changes.length>=5;
+  btn.textContent=changes.length>=5?'Maximum erreicht (5/5)':'+ Änderung hinzufügen';
+}
+
+function setUrg(el,val){
+  document.querySelectorAll('.urg').forEach(u=>u.classList.remove('on'));
+  el.classList.add('on');
+  urgency=val;
+}
+
+function v(id){const el=document.getElementById(id);return el?el.value.trim():'';}
+
+function collectChanges(){
+  if(!changes.length)return'  — keine Änderungen angegeben';
+  return changes.map((id,i)=>{
+    const sec=document.getElementById(`cbs${id}`)?.value||'—';
+    const txt=document.getElementById(`cbt${id}`)?.value?.trim()||'—';
+    return `  ${i+1}. [${sec}] ${txt}`;
+  }).join('\n');
+}
+
+function buildPrompt(){
+  return `Du erhältst den bestehenden HTML-Code einer Website. Setze exakt die folgenden Änderungen um — nicht mehr, nicht weniger.
+
+## AUFTRAGGEBER
+
+Name: ${v('s1-name')||'—'}
+Betrieb: ${v('s1-betrieb')||'—'}
+Website: ${v('s1-url')||'—'}
+Dringlichkeit: ${urgency||'—'}
+
+## ÄNDERUNGSAUFTRAG (${changes.length} Punkt${changes.length!==1?'e':''})
+
+${collectChanges()}
+
+## ANMERKUNGEN
+
+${v('s3-notes')||'—'}
+
+## ANWEISUNG
+
+1. Setze NUR die oben genannten Änderungen um
+2. Alles andere bleibt exakt wie es ist — kein Redesign, keine Verbesserungsvorschläge
+3. Gib ausschließlich den vollständigen, überarbeiteten HTML-Code aus
+4. Keine Erklärungen, kein Kommentar — nur der Code
+
+[HIER DEN BESTEHENDEN HTML-CODE EINFÜGEN]`;
+}
+
+function submit(){
+  const prompt=buildPrompt();
+  document.getElementById('prompt-out').textContent=prompt;
+  document.getElementById('ff-auftrag').value=prompt;
+  document.getElementById('ff-email').value=v('s1-email');
+  submitToNetlify('aenderung', {
+    auftrag: document.getElementById('ff-auftrag').value,
+    email: document.getElementById('ff-email').value
+  });
+  go(3,'result');
+}
+
+function cp(){
+  navigator.clipboard.writeText(document.getElementById('prompt-out').textContent).then(()=>{
+    const el=document.getElementById('copied');
+    el.style.display='block';
+    setTimeout(()=>el.style.display='none',2500);
+  });
+}
+
+function restart(){
+  changes=[];cnt=0;urgency='';
+  document.getElementById('chan

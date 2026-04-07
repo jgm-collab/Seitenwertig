@@ -1,0 +1,70 @@
+/* ================================================
+   SEITENWERTIG — Lokale Schriften
+   ================================================
+   Schritt 1: Diese Datei liegt im Root-Ordner (fonts.css)
+   Schritt 2: Fonts-Ordner anlegen: /fonts/
+   Schritt 3: Dateien herunterladen (Anleitung unten)
+   ================================================
+
+   DOWNLOAD-ANLEITUNG:
+   → https://gwfh.madebyedit.com/outfit
+     Wähle: 400, 600, 700, 800 → "Download files"
+     Dateien in /fonts/ ablegen
+
+   → https://gwfh.madebyedit.com/dm-sans
+     Wähle: 300, 400, 500 → "Download files"
+     Dateien in /fonts/ ablegen
+   ================================================ */
+
+/* OUTFIT */
+@font-face {
+  font-family: 'Outfit';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url('outfit-v11-latin-regular.woff2') format('woff2');
+}
+@font-face {
+  font-family: 'Outfit';
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: url('outfit-v11-latin-600.woff2') format('woff2');
+}
+@font-face {
+  font-family: 'Outfit';
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url('outfit-v11-latin-700.woff2') format('woff2');
+}
+@font-face {
+  font-family: 'Outfit';
+  font-style: normal;
+  font-weight: 800;
+  font-display: swap;
+  src: url('outfit-v11-latin-800.woff2') format('woff2');
+}
+
+/* DM SANS */
+@font-face {
+  font-family: 'DM Sans';
+  font-style: normal;
+  font-weight: 300;
+  font-display: swap;
+  src: url('dm-sans-v15-latin-300.woff2') format('woff2');
+}
+@font-face {
+  font-family: 'DM Sans';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url('dm-sans-v15-latin-regular.woff2') format('woff2');
+}
+@font-face {
+  font-family: 'DM Sans';
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url('dm-sans-v15-latin-500.woff2') format('woff2');
+}

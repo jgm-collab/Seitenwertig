@@ -1,0 +1,414 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>SeitenWertig — Websites & KI-Automation</title>
+<meta name="description" content="Professionelle Websites und KI-Automationen für kleine Unternehmen. Forchheim & Region. Briefing in 10 Minuten, erster Entwurf in 24 Stunden."/>
+<link rel="stylesheet" href="fonts.css"/>
+<style>
+:root{
+  --bg:#0F1117;--card:#161821;--light:#1C1E2A;
+  --text:#E8E9ED;--muted:#8B8D97;
+  --accent:#2DD4A8;--hover:#22B893;--glow:rgba(45,212,168,0.15);
+  --border:rgba(255,255,255,0.06);--white:#fff;
+  --serif:'Outfit',sans-serif;--sans:'DM Sans',sans-serif;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--text);font-family:var(--sans);-webkit-font-smoothing:antialiased;overflow-x:hidden}
+a{text-decoration:none;color:inherit}
+img{max-width:100%}
+
+/* GRAIN */
+body::before{
+  content:'';position:fixed;top:-50%;left:-50%;width:200%;height:200%;
+  background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E");
+  pointer-events:none;z-index:9999;animation:grain 8s steps(10) infinite;
+}
+@keyframes grain{0%,100%{transform:translate(0,0)}10%{transform:translate(-5%,-10%)}30%{transform:translate(3%,-15%)}50%{transform:translate(-10%,5%)}70%{transform:translate(8%,10%)}90%{transform:translate(-3%,8%)}}
+
+/* ANIMATIONS */
+.fade-up{opacity:0;transform:translateY(40px);transition:opacity .8s ease,transform .8s ease}
+.fade-up.vis{opacity:1;transform:translateY(0)}
+.d1{transition-delay:.1s}.d2{transition-delay:.2s}.d3{transition-delay:.3s}.d4{transition-delay:.4s}
+@keyframes pulse{0%,100%{box-shadow:0 0 20px var(--glow)}50%{box-shadow:0 0 40px var(--glow),0 0 80px rgba(45,212,168,0.05)}}
+@keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-10px)}}
+
+/* NAV */
+nav{
+  position:fixed;top:0;left:0;right:0;z-index:1000;height:72px;
+  display:flex;align-items:center;justify-content:space-between;
+  padding:0 40px;transition:all .4s ease;
+}
+nav.scrolled{background:rgba(15,17,23,0.92);backdrop-filter:blur(20px);border-bottom:1px solid var(--border)}
+.nav-brand{display:flex;align-items:center;gap:10px}
+.nav-logo{width:36px;height:36px;border-radius:10px;background:linear-gradient(135deg,var(--accent),#1a9e7a);display:flex;align-items:center;justify-content:center;font-family:var(--serif);font-weight:800;font-size:18px;color:#0F1117}
+.nav-name{font-family:var(--serif);font-weight:700;font-size:20px;color:var(--white);letter-spacing:-.02em}
+.nav-name span{color:var(--accent)}
+.nav-links{display:flex;align-items:center;gap:32px}
+.nav-links a{color:var(--muted);font-size:14px;font-weight:500;transition:color .2s}
+.nav-links a:hover{color:var(--white)}
+.nav-cta{padding:10px 22px;border-radius:8px;background:var(--accent);color:#0F1117!important;font-weight:600;font-size:14px;transition:all .2s!important}
+.nav-cta:hover{background:var(--hover)!important;transform:translateY(-1px)}
+.nav-mobile{display:none}
+@media(max-width:768px){
+  .nav-links{display:none}
+  nav{padding:0 20px}
+  .nav-mobile{display:flex;align-items:center;gap:12px}
+  .nav-mobile a{padding:9px 18px;border-radius:8px;background:var(--accent);color:#0F1117;font-weight:600;font-size:13px}
+}
+
+/* SECTIONS */
+section{padding:100px 40px;max-width:1200px;margin:0 auto}
+@media(max-width:768px){section{padding:72px 20px}}
+.section-tag{font-size:13px;font-weight:600;color:var(--accent);text-transform:uppercase;letter-spacing:.1em;margin-bottom:12px;display:block}
+h2{font-family:var(--serif);font-size:clamp(28px,4vw,44px);font-weight:700;color:var(--white);letter-spacing:-.02em;line-height:1.15;margin-bottom:16px}
+.section-sub{font-size:17px;color:var(--muted);max-width:520px;line-height:1.65;margin-bottom:56px;font-weight:300}
+
+/* HERO */
+#hero{min-height:100vh;display:flex;flex-direction:column;justify-content:center;padding-top:140px;position:relative}
+.hero-glow{position:absolute;top:20%;right:-10%;width:500px;height:500px;background:radial-gradient(circle,rgba(45,212,168,0.08),transparent 70%);border-radius:50%;filter:blur(60px);pointer-events:none}
+.hero-tag{display:inline-flex;align-items:center;gap:8px;padding:6px 16px;border-radius:100px;background:var(--glow);border:1px solid rgba(45,212,168,0.2);margin-bottom:28px;align-self:flex-start}
+.hero-tag-dot{width:6px;height:6px;border-radius:50%;background:var(--accent)}
+.hero-tag span{font-size:13px;color:var(--accent);font-weight:500}
+h1{font-family:var(--serif);font-size:clamp(40px,6vw,76px);font-weight:800;line-height:1.05;letter-spacing:-.03em;color:var(--white);max-width:820px;margin-bottom:24px}
+.hero-gradient{background:linear-gradient(135deg,var(--accent),#7dd3c0);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.hero-sub{font-size:19px;line-height:1.65;color:var(--muted);max-width:540px;margin-bottom:40px;font-weight:300}
+.hero-btns{display:flex;gap:16px;flex-wrap:wrap;margin-bottom:64px}
+.btn-primary{padding:16px 36px;border-radius:10px;background:var(--accent);color:#0F1117;font-weight:700;font-size:16px;transition:all .3s;animation:pulse 3s ease infinite;display:inline-block}
+.btn-primary:hover{background:var(--hover);transform:translateY(-2px)}
+.btn-ghost{padding:16px 36px;border-radius:10px;border:1px solid var(--border);color:var(--text);font-size:16px;font-weight:500;transition:all .3s;display:inline-block}
+.btn-ghost:hover{border-color:rgba(45,212,168,0.3);color:var(--white)}
+.hero-stats{display:flex;gap:48px;flex-wrap:wrap}
+.stat-num{font-family:var(--serif);font-weight:700;font-size:28px;color:var(--white)}
+.stat-label{font-size:13px;color:var(--muted);margin-top:4px}
+
+/* CARDS */
+.grid-2{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:20px}
+.grid-3{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:24px}
+.card{padding:32px;border-radius:16px;background:var(--card);border:1px solid var(--border);transition:all .3s}
+.card:hover{border-color:rgba(45,212,168,0.3);transform:translateY(-4px)}
+.card-icon{font-size:32px;margin-bottom:16px}
+.card h3{font-family:var(--serif);font-weight:600;font-size:18px;color:var(--white);margin-bottom:8px}
+.card p{font-size:14px;line-height:1.65;color:var(--muted)}
+
+/* SERVICE CARDS */
+.svc-card{padding:40px;border-radius:20px;background:var(--card);border:1px solid var(--border);transition:all .4s;position:relative;overflow:hidden}
+.svc-card::before{content:'';position:absolute;top:-40px;right:-40px;width:120px;height:120px;background:radial-gradient(circle,var(--glow),transparent);border-radius:50%}
+.svc-card:hover{border-color:rgba(45,212,168,0.3)}
+.svc-icon{width:48px;height:48px;border-radius:12px;background:var(--glow);display:flex;align-items:center;justify-content:center;font-size:20px;color:var(--accent);margin-bottom:24px}
+.svc-card h3{font-family:var(--serif);font-weight:700;font-size:22px;color:var(--white);margin-bottom:12px}
+.svc-card p{font-size:15px;line-height:1.65;color:var(--muted);margin-bottom:24px}
+.feature-list{display:flex;flex-direction:column;gap:10px}
+.feature-row{display:flex;align-items:center;gap:10px;font-size:13px;color:var(--muted)}
+.feature-check{width:18px;height:18px;border-radius:6px;background:var(--glow);display:flex;align-items:center;justify-content:center;font-size:10px;color:var(--accent);flex-shrink:0}
+
+/* PRICING */
+.price-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:16px;margin-bottom:32px}
+.price-card{padding:28px 24px;border-radius:16px;background:var(--card);border:1px solid var(--border);display:flex;flex-direction:column;gap:8px}
+.price-card.featured{background:linear-gradient(135deg,var(--light),var(--card));border-color:rgba(45,212,168,0.25)}
+.price-tag{font-size:12px;font-weight:600;color:var(--accent);text-transform:uppercase;letter-spacing:.1em}
+.price-amount{font-family:var(--serif);font-size:28px;font-weight:700;color:var(--white);line-height:1.1}
+.price-amount sub{font-size:13px;font-weight:400;color:var(--muted)}
+.price-note{font-size:13px;color:var(--muted);line-height:1.55;flex:1}
+.price-link{margin-top:8px;padding:10px;border-radius:8px;background:var(--light);border:1px solid var(--border);color:var(--accent);font-weight:600;font-size:13px;text-align:center;transition:all .2s;display:block}
+.price-link:hover{background:var(--glow);border-color:var(--accent)}
+
+/* PROCESS */
+.process-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:2px}
+.process-step{padding:40px 28px;background:var(--card);border:1px solid var(--border);text-align:center}
+.process-step:first-child{border-radius:20px 4px 4px 20px}
+.process-step:last-child{border-radius:4px 20px 20px 4px}
+.process-num{font-family:var(--serif);font-size:48px;font-weight:800;background:linear-gradient(135deg,var(--accent),transparent);-webkit-background-clip:text;-webkit-text-fill-color:transparent;opacity:.3}
+.process-step h3{font-family:var(--serif);font-weight:700;font-size:20px;color:var(--white);margin:8px 0}
+.process-step p{font-size:14px;line-height:1.6;color:var(--muted);margin-bottom:16px}
+.process-badge{display:inline-block;padding:5px 14px;border-radius:100px;background:var(--glow);font-size:12px;color:var(--accent);font-weight:500}
+@media(max-width:768px){.process-step:first-child,.process-step:last-child{border-radius:12px}.process-step{border-radius:12px}}
+
+/* REFS */
+.ref-card{padding:36px;border-radius:20px;background:var(--card);border:1px solid var(--border)}
+.ref-tag{font-size:12px;font-weight:600;color:var(--accent);text-transform:uppercase;letter-spacing:.1em;margin-bottom:12px}
+.ref-card h3{font-family:var(--serif);font-weight:700;font-size:22px;color:var(--white);margin-bottom:14px}
+.ref-card p{font-size:14px;line-height:1.7;color:var(--muted);margin-bottom:20px}
+.ref-badge{display:inline-block;padding:7px 16px;border-radius:8px;background:var(--glow);font-size:12px;color:var(--accent);font-weight:500}
+
+/* FAQ */
+.faq-list{display:flex;flex-direction:column;gap:8px}
+.faq-item{border-radius:14px;background:var(--card);border:1px solid var(--border);overflow:hidden}
+.faq-btn{width:100%;padding:20px 24px;background:none;border:none;display:flex;justify-content:space-between;align-items:center;cursor:pointer;color:var(--white);font-family:var(--serif);font-weight:600;font-size:16px;text-align:left;gap:16px}
+.faq-icon{color:var(--accent);font-size:20px;transition:transform .3s;flex-shrink:0}
+.faq-icon.open{transform:rotate(45deg)}
+.faq-body{max-height:0;overflow:hidden;transition:max-height .4s ease,padding .4s ease;padding:0 24px}
+.faq-body.open{max-height:200px;padding:0 24px 20px}
+.faq-body p{font-size:14px;line-height:1.65;color:var(--muted)}
+
+/* CTA */
+#briefing-cta{padding:100px 40px}
+.cta-box{max-width:740px;margin:0 auto;padding:64px 48px;border-radius:28px;background:linear-gradient(135deg,var(--card),var(--light));border:1px solid rgba(45,212,168,0.15);text-align:center;position:relative;overflow:hidden}
+.cta-box::before{content:'';position:absolute;top:-80px;left:50%;transform:translateX(-50%);width:400px;height:400px;background:radial-gradient(circle,rgba(45,212,168,0.1),transparent);border-radius:50%;pointer-events:none}
+.cta-box h2{margin-bottom:16px}
+.cta-box p{font-size:16px;color:var(--muted);line-height:1.6;margin-bottom:32px;font-weight:300}
+.cta-note{font-size:12px;color:var(--muted);margin-top:16px}
+
+/* FOOTER */
+footer{padding:48px 40px 32px;border-top:1px solid var(--border);max-width:1200px;margin:0 auto}
+.footer-top{display:flex;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;gap:24px;margin-bottom:32px}
+.footer-brand p{font-size:13px;color:var(--muted);margin-top:8px}
+.footer-links{display:flex;gap:24px;flex-wrap:wrap}
+.footer-links a{font-size:13px;color:var(--muted);transition:color .2s}
+.footer-links a:hover{color:var(--accent)}
+.footer-bottom{font-size:12px;color:var(--muted);text-align:center;opacity:.5}
+@media(max-width:768px){footer{padding:40px 20px 24px}}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav id="nav">
+  <div class="nav-brand">
+    <div class="nav-logo">S</div>
+    <div class="nav-name">Seiten<span>Wertig</span></div>
+  </div>
+  <div class="nav-links">
+    <a href="#leistungen">Leistungen</a>
+    <a href="#prozess">Prozess</a>
+    <a href="#referenzen">Referenzen</a>
+    <a href="#faq">FAQ</a>
+    <a href="briefing.html" class="nav-cta">Projekt starten</a>
+  </div>
+  <div class="nav-mobile">
+    <a href="briefing.html">Briefing starten →</a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section id="hero">
+  <div class="hero-glow"></div>
+  <div class="hero-tag fade-up"><div class="hero-tag-dot"></div><span>Webdesign & KI-Automation · Forchheim & Region</span></div>
+  <h1 class="fade-up d1">Deine Website.<br>Dein Betrieb.<br><span class="hero-gradient">Mehr Wert.</span></h1>
+  <p class="hero-sub fade-up d2">Ich baue Websites und automatisiere digitale Prozesse für kleine Unternehmen — damit dein Betrieb online sichtbar ist und Anfragen automatisch reinkommen.</p>
+  <div class="hero-btns fade-up d3">
+    <a href="briefing.html" class="btn-primary">Briefing starten — kostenlos →</a>
+    <a href="#prozess" class="btn-ghost">So läuft's ab</a>
+  </div>
+  <div class="hero-stats fade-up d4">
+    <div><div class="stat-num">2–3 Wo.</div><div class="stat-label">Von Briefing bis Live</div></div>
+    <div><div class="stat-num">1 Paket</div><div class="stat-label">Kein Angebots-Menü</div></div>
+    <div><div class="stat-num">24 h</div><div class="stat-label">Erster Entwurf</div></div>
+  </div>
+</section>
+
+<!-- PROBLEM -->
+<section>
+  <div class="fade-up" style="text-align:center;margin-bottom:56px">
+    <span class="section-tag">Das Problem</span>
+    <h2>Kommt dir das bekannt vor?</h2>
+  </div>
+  <div class="grid-2">
+    <div class="card fade-up d1"><div class="card-icon">🔍</div><h3>Online unsichtbar</h3><p>Potenzielle Kunden suchen nach dir — und finden jemand anderen.</p></div>
+    <div class="card fade-up d2"><div class="card-icon">📵</div><h3>Keine Anfragen</h3><p>Die Website existiert, aber sie arbeitet nicht. Kein klarer CTA, keine Conversion.</p></div>
+    <div class="card fade-up d3"><div class="card-icon">⏳</div><h3>Kein Zeit für Technik</h3><p>Du hast ein Geschäft zu führen. Design, Updates und Technik sind mein Job.</p></div>
+    <div class="card fade-up d4"><div class="card-icon">🔁</div><h3>Alles manuell</h3><p>Terminanfragen per Telefon, Follow-ups vergessen. Das lässt sich automatisieren.</p></div>
+  </div>
+</section>
+
+<!-- LEISTUNGEN -->
+<section id="leistungen">
+  <span class="section-tag fade-up">Leistungen</span>
+  <h2 class="fade-up">Ein Paket. Alles drin.<br>Kein Optionen-Menü.</h2>
+  <div class="grid-3" style="margin-bottom:32px">
+    <div class="svc-card fade-up d1">
+      <div class="svc-icon">◆</div>
+      <h3>Website & Design</h3>
+      <p>Kein Template, kein Baukastensystem. Eine Website die zu deinem Betrieb passt — mobil, schnell, klar.</p>
+      <div class="feature-list">
+        <div class="feature-row"><div class="feature-check">✓</div>Design nach deinem Briefing</div>
+        <div class="feature-row"><div class="feature-check">✓</div>Responsive & schnell</div>
+        <div class="feature-row"><div class="feature-check">✓</div>SEO-Grundlage inklusive</div>
+      </div>
+    </div>
+    <div class="svc-card fade-up d2">
+      <div class="svc-icon">◈</div>
+      <h3>KI & Automation</h3>
+      <p>Terminanfragen, Follow-ups, Kontaktformulare — ich baue Prozesse die automatisch ablaufen.</p>
+      <div class="feature-list">
+        <div class="feature-row"><div class="feature-check">✓</div>Automatische Anfragen-Verarbeitung</div>
+        <div class="feature-row"><div class="feature-check">✓</div>Terminbuchung ohne Telefonat</div>
+        <div class="feature-row"><div class="feature-check">✓</div>E-Mail-Sequenzen</div>
+      </div>
+    </div>
+    <div class="svc-card fade-up d3">
+      <div class="svc-icon">◇</div>
+      <h3>Änderungen on demand</h3>
+      <p>Kein Abo, kein Vertrag. Wenn du etwas ändern möchtest, beauftragst du einen einzelnen Auftrag.</p>
+      <div class="feature-list">
+        <div class="feature-row"><div class="feature-check">✓</div>Bis zu 5 Änderungen pro Auftrag</div>
+        <div class="feature-row"><div class="feature-check">✓</div>Umsetzung in 24–48 Stunden</div>
+        <div class="feature-row"><div class="feature-check">✓</div>Nur wenn du es brauchst</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- PREISE -->
+  <div class="price-grid">
+    <div class="price-card featured fade-up d1">
+      <div class="price-tag">Komplettpaket · Einmalig</div>
+      <div class="price-amount">€ 1.490 <sub>inkl. MwSt.</sub></div>
+      <div class="price-note">Design, Entwicklung, Impressum, SEO-Basis, 1 KI-Automation, 2 Revisionsrunden — fertig übergeben.</div>
+      <a href="briefing.html" class="price-link">Jetzt Briefing starten →</a>
+    </div>
+    <div class="price-card fade-up d2">
+      <div class="price-tag">Änderungsauftrag</div>
+      <div class="price-amount">€ 79 <sub>pro Auftrag · inkl. MwSt.</sub></div>
+      <div class="price-note">Bis zu 5 Änderungen auf deiner bestehenden Website. Umsetzung in 24–48h. Kein Abo, kein Vertrag.</div>
+      <a href="aenderung.html" class="price-link">Auftrag starten →</a>
+    </div>
+  </div>
+</section>
+
+<!-- PROZESS -->
+<section id="prozess">
+  <div class="fade-up" style="text-align:center;margin-bottom:56px">
+    <span class="section-tag">Prozess</span>
+    <h2>In 4 Schritten zur Website<br>die für dich arbeitet</h2>
+  </div>
+  <div class="process-grid">
+    <div class="process-step fade-up d1">
+      <div class="process-num">01</div>
+      <h3>Briefing</h3>
+      <p>Du füllst den Wizard aus — Betrieb, Stil, Bilder, Impressum, Social Media.</p>
+      <span class="process-badge">10 Min</span>
+    </div>
+    <div class="process-step fade-up d2">
+      <div class="process-num">02</div>
+      <h3>Erster Entwurf</h3>
+      <p>Ich baue einen ersten visuellen Entwurf und schicke ihn dir zu. Kostenlos, unverbindlich.</p>
+      <span class="process-badge">24 Stunden</span>
+    </div>
+    <div class="process-step fade-up d3">
+      <div class="process-num">03</div>
+      <h3>Feedback & Feinschliff</h3>
+      <p>Du gibst Feedback über einen strukturierten Fragebogen — ich setze Änderungen direkt um.</p>
+      <span class="process-badge">1–2 Runden</span>
+    </div>
+    <div class="process-step fade-up d4">
+      <div class="process-num">04</div>
+      <h3>Live & Automatisiert</h3>
+      <p>Domain, Hosting, Launch — und Prozesse automatisieren damit dein Betrieb rund läuft.</p>
+      <span class="process-badge">Go Live</span>
+    </div>
+  </div>
+</section>
+
+<!-- REFERENZEN -->
+<section id="referenzen">
+  <div class="fade-up" style="text-align:center;margin-bottom:56px">
+    <span class="section-tag">Referenzen</span>
+    <h2>Echte Projekte.<br>Keine Agentur-Ästhetik.</h2>
+  </div>
+  <div class="grid-2">
+    <div class="ref-card fade-up d1">
+      <div class="ref-tag">EMS & Fußpflege · Forchheim</div>
+      <h3>Wohlfühl-Oase</h3>
+      <p>Kompletter Neuaufbau der digitalen Präsenz — von einer veralteten WordPress-Seite zu einer modernen, schnellen Website mit klarer Positionierung.</p>
+      <span class="ref-badge">✓ Neue Website in 2 Wochen</span>
+    </div>
+    <div class="ref-card fade-up d2">
+      <div class="ref-tag">S&C Beratung · Erlangen</div>
+      <h3>Spielbereit</h3>
+      <p>Website und Konzept für eine neue unabhängige Trainingsberatung — vom leeren Blatt zur fertigen digitalen Identität mit klarem Angebot.</p>
+      <span class="ref-badge">✓ Von null auf live in 3 Wochen</span>
+    </div>
+  </div>
+</section>
+
+<!-- FAQ -->
+<section id="faq" style="max-width:760px">
+  <div class="fade-up" style="text-align:center;margin-bottom:48px">
+    <span class="section-tag">FAQ</span>
+    <h2>Häufige Fragen</h2>
+  </div>
+  <div class="faq-list fade-up">
+    <div class="faq-item">
+      <button class="faq-btn" onclick="faq(this)">Was kostet eine Website?<span class="faq-icon">+</span></button>
+      <div class="faq-body"><p>Das Komplettpaket kostet € 1.490 einmalig — inklusive Design, Entwicklung, Impressum, SEO-Grundlage und einer KI-Automation deiner Wahl. Weitere Änderungen sind jederzeit als Einzelauftrag für € 79 möglich.</p></div>
+    </div>
+    <div class="faq-item">
+      <button class="faq-btn" onclick="faq(this)">Wie lange dauert die Umsetzung?<span class="faq-icon">+</span></button>
+      <div class="faq-body"><p>Du bekommst innerhalb von 24 Stunden einen ersten Entwurf. Die finale Version ist in der Regel in 2–3 Wochen live — abhängig von deinem Feedback-Tempo.</p></div>
+    </div>
+    <div class="faq-item">
+      <button class="faq-btn" onclick="faq(this)">Was brauche ich um loszulegen?<span class="faq-icon">+</span></button>
+      <div class="faq-body"><p>Nichts außer 10 Minuten für das Briefing. Ich brauche dein Logo, ein paar Fotos und deine Impressum-Daten — alles wird im Wizard abgefragt.</p></div>
+    </div>
+    <div class="faq-item">
+      <button class="faq-btn" onclick="faq(this)">Was ist eine KI-Automation genau?<span class="faq-icon">+</span></button>
+      <div class="faq-body"><p>Zum Beispiel: Anfragen über das Kontaktformular werden automatisch beantwortet und dir zusammengefasst. Oder: Terminanfragen buchen sich selbst ein. Wir besprechen was für deinen Betrieb Sinn macht.</p></div>
+    </div>
+    <div class="faq-item">
+      <button class="faq-btn" onclick="faq(this)">Kann ich die Website später selbst bearbeiten?<span class="faq-icon">+</span></button>
+      <div class="faq-body"><p>Für kleinere Änderungen nutzt du einfach den Änderungsauftrag für € 79. Für größere Anpassungen erstelle ich ein individuelles Angebot.</p></div>
+    </div>
+    <div class="faq-item">
+      <button class="faq-btn" onclick="faq(this)">Arbeitest du nur in Forchheim?<span class="faq-icon">+</span></button>
+      <div class="faq-body"><p>Nein. Ich arbeite vollständig digital und betreue Kunden aus ganz Deutschland. Persönliche Treffen in Forchheim und Umgebung sind aber jederzeit möglich.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section id="briefing-cta">
+  <div class="cta-box fade-up">
+    <span class="section-tag">Jetzt starten</span>
+    <h2>10 Minuten Briefing.<br>24 Stunden zum ersten Entwurf.</h2>
+    <p>Kostenlos und unverbindlich. Kein Verkaufsgespräch.<br>Du bekommst einen echten Entwurf — dann entscheidest du.</p>
+    <a href="briefing.html" class="btn-primary">Briefing starten →</a>
+    <p class="cta-note">Erster Entwurf innerhalb von 24 Stunden · Keine Verpflichtung · € 1.490 Festpreis</p>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-top">
+    <div class="footer-brand">
+      <div class="nav-brand"><div class="nav-logo">S</div><div class="nav-name">Seiten<span>Wertig</span></div></div>
+      <p style="margin-top:10px;margin-left:2px">Websites die Wert schaffen. · Forchheim & Region</p>
+      <a href="mailto:jan@seitenwertig.de" style="font-size:13px;color:var(--accent);margin-top:6px;display:inline-block">jan@seitenwertig.de</a>
+    </div>
+    <div class="footer-links">
+      <a href="rechtliches.html">Impressum</a>
+      <a href="rechtliches.html#datenschutz" onclick="setTimeout(()=>document.querySelector('[onclick*=datenschutz]')?.click(),100)">Datenschutz</a>
+      <a href="briefing.html">Briefing</a>
+      <a href="aenderung.html">Änderungsauftrag</a>
+    </div>
+  </div>
+  <p class="footer-bottom">© 2026 SeitenWertig · Jan · Forchheim · seitenwertig.de</p>
+</footer>
+
+<script>
+// Sticky nav
+window.addEventListener('scroll',()=>{
+  document.getElementById('nav').classList.toggle('scrolled',window.scrollY>50);
+});
+
+// Fade-in on scroll
+const obs=new IntersectionObserver(entries=>{
+  entries.forEach(e=>{if(e.isIntersecting)e.target.classList.add('vis');});
+},{threshold:0.12});
+document.querySelectorAll('.fade-up').forEach(el=>obs.observe(el));
+
+// FAQ accordion
+function faq(btn){
+  const body=btn.nextElementSibling;
+  const icon=btn.querySelector('.faq-icon');
+  const isOpen=body.classList.contains('open');
+  // close all
+  document.querySelectorAll('.faq-body').forEach(b=>b.classList.remove('open'));
+  document.querySelectorAll('.faq-icon').forEach(i=>i.classList.remove('open'));
+  // open clicked if was closed
+  if(!isOpen){body.classList.add('open');icon.classList.add('open');}
+}
+</script>
+</body>
+</html>
