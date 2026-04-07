@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>AGB — SeitenWertig</title>
+<link rel="stylesheet" href="/fonts.css"/>
+<style>
+:root{
+  --bg:#080b11;--card:#161821;--light:#1C1E2A;
+  --text:#E8E9ED;--muted:#8B8D97;
+  --accent:#2DD4A8;--glow:rgba(45,212,168,0.15);
+  --border:rgba(255,255,255,0.06);--white:#fff;
+  --serif:'Outfit',sans-serif;--sans:'DM Sans',sans-serif;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--text);font-family:var(--sans);-webkit-font-smoothing:antialiased;line-height:1.75}
+a{color:var(--accent);text-decoration:none}
+a:hover{text-decoration:underline}
+
+nav{position:sticky;top:0;z-index:100;height:64px;display:flex;align-items:center;justify-content:space-between;padding:0 40px;background:rgba(8,11,17,0.95);backdrop-filter:blur(20px);border-bottom:1px solid var(--border)}
+.nbrand{display:flex;align-items:center;gap:10px;text-decoration:none}
+.nlogo{width:32px;height:32px;border-radius:8px;background:linear-gradient(135deg,var(--accent),#1a9e7a);display:flex;align-items:center;justify-content:center;font-family:var(--serif);font-weight:800;font-size:16px;color:#080b11}
+.nname{font-family:var(--serif);font-weight:700;font-size:18px;color:var(--white);letter-spacing:-.02em}
+.nname span{color:var(--accent)}
+.nback{font-size:13px;color:var(--muted);transition:color .2s}
+.nback:hover{color:var(--accent)}
+@media(max-width:600px){nav{padding:0 20px}}
+
+.wrap{max-width:760px;margin:0 auto;padding:56px 24px 100px}
+
+/* HEADER */
+.eyebrow{font-size:.74rem;font-weight:500;letter-spacing:.12em;text-transform:uppercase;color:var(--accent);margin-bottom:12px;display:flex;align-items:center;gap:8px}
+.eyebrow::before{content:'';width:22px;height:1px;background:var(--accent);display:inline-block}
+h1{font-family:var(--serif);font-size:clamp(1.8rem,4vw,2.6rem);font-weight:700;color:var(--white);margin-bottom:8px;line-height:1.2}
+.lead{color:var(--muted);font-weight:300;margin-bottom:48px;font-size:.95rem}
+
+/* SECTIONS */
+.sec{margin-bottom:40px;padding-bottom:40px;border-bottom:1px solid var(--border)}
+.sec:last-child{border-bottom:none}
+h2{font-family:var(--serif);font-size:1.2rem;font-weight:600;color:var(--white);margin-bottom:16px;padding-bottom:10px;border-bottom:1px solid rgba(45,212,168,0.15)}
+h3{font-family:var(--serif);font-size:1rem;font-weight:600;color:var(--accent);margin:20px 0 10px}
+p{font-size:.93rem;color:var(--muted);margin-bottom:12px;line-height:1.8}
+p:last-child{margin-bottom:0}
+ul,ol{padding-left:20px;margin-bottom:12px}
+li{font-size:.93rem;color:var(--muted);line-height:1.8;margin-bottom:4px}
+strong{color:var(--text);font-weight:500}
+
+/* PACKAGE BOXES */
+.pkg{border:1px solid var(--border);border-radius:14px;padding:24px 28px;margin:20px 0;background:rgba(255,255,255,0.02)}
+.pkg.a{border-color:rgba(45,212,168,0.15)}
+.pkg.b{border-color:rgba(45,212,168,0.3);background:rgba(45,212,168,0.04)}
+.pkg-tag{font-size:.72rem;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--accent);margin-bottom:10px}
+.pkg h3{margin:0 0 12px;font-size:1rem;color:var(--white)}
+.pkg ul{margin-bottom:0}
+
+/* HIGHLIGHT BOX */
+.highlight{background:rgba(255,180,50,0.06);border:1px solid rgba(255,180,50,0.2);border-radius:10px;padding:16px 20px;margin:16px 0;font-size:.88rem;color:#ffb432;line-height:1.65}
+.highlight strong{color:#ffda85}
+
+/* INFO BOX */
+.info{background:var(--glow);border:1px solid rgba(45,212,168,0.2);border-radius:10px;padding:16px 20px;margin:16px 0;font-size:.88rem;color:var(--muted);line-height:1.65}
+.info strong{color:var(--accent)}
+
+/* TOC */
+.toc{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:24px 28px;margin-bottom:40px}
+.toc-title{font-size:.78rem;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--accent);margin-bottom:14px}
+.toc ol{padding-left:18px}
+.toc li{margin-bottom:6px}
+.toc a{font-size:.88rem;color:var(--muted);transition:color .2s}
+.toc a:hover{color:var(--accent);text-decoration:none}
+
+.stand{font-size:.78rem;color:var(--muted);opacity:.6;margin-top:40px;text-align:center}
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="/" class="nbrand">
+    <div class="nlogo">S</div>
+    <div class="nname">Seiten<span>Wertig</span></div>
+  </a>
+  <a href="/" class="nback">← Startseite</a>
+</nav>
+
+<div class="wrap">
+
+  <p class="eyebrow">Rechtliches</p>
+  <h1>Allgemeine Geschäftsbedingungen</h1>
+  <p class="lead">Gültig für alle Aufträge über seitenwertig.de · Stand: April 2026</p>
+
+  <!-- INHALTSVERZEICHNIS -->
+  <div class="toc">
+    <div class="toc-title">Inhaltsverzeichnis</div>
+    <ol>
+      <li><a href="#s1">Geltungsbereich & Vertragspartner</a></li>
+      <li><a href="#s2">Leistungsübersicht & Pakete</a></li>
+      <li><a href="#s3">Lieferumfang & Ausschlüsse</a></li>
+      <li><a href="#s4">Preise & Zahlung</a></li>
+      <li><a href="#s5">Hosting & laufende Kosten</a></li>
+      <li><a href="#s6">Mitwirkungspflichten des Auftraggebers</a></li>
+      <li><a href="#s7">Revisionen & Änderungsaufträge</a></li>
+      <li><a href="#s8">Zeitplan & Lieferfristen</a></li>
+      <li><a href="#s9">Abnahme & Übergabe</a></li>
+      <li><a href="#s10">Urheberrecht & Nutzungsrechte</a></li>
+      <li><a href="#s11">Haftung</a></li>
+      <li><a href="#s12">Datenschutz</a></li>
+      <li><a href="#s13">Schlussbestimmungen</a></li>
+    </ol>
+  </div>
+
+  <!-- §1 -->
+  <div class="sec" id="s1">
+    <h2>§ 1 · Geltungsbereich & Vertragspartner</h2>
+    <p>Diese Allgemeinen Geschäftsbedingungen gelten für alle Aufträge zwischen dem Auftraggeber (nachfolgend „Kunde") und <strong>Mandy Mazur, Bayreuther Straße 31, 91301 Forchheim</strong>, handelnd unter der Marke <strong>SeitenWertig</strong> (nachfolgend „Auftragnehmer").</p>
+    <p>Die operative Durchführung der Leistungen erfolgt durch <strong>Jan Müller</strong> im Auftrag von Mandy Mazur. Mit der Auftragserteilung erkennt der Kunde diese AGB an. Abweichende Bedingungen des Kunden gelten nur, wenn sie ausdrücklich schriftlich bestätigt wurden.</p>
+    <p>Diese AGB gelten ausschließlich gegenüber Unternehmern im Sinne des § 14 BGB. Eine Leistungserbringung gegenüber Verbrauchern im Sinne des § 13 BGB ist ausgeschlossen.</p>
+  </div>
+
+  <!-- §2 -->
+  <div class="sec" id="s2">
+    <h2>§ 2 · Leistungsübersicht & Pakete</h2>
+    <p>SeitenWertig bietet folgende Hauptpakete an:</p>
+
+    <div class="pkg a">
+      <div class="pkg-tag">Paket A</div>
+      <h3>Redesign — € 1.290 inkl. MwSt.</h3>
+      <p style="font-size:.88rem;color:var(--muted);margin-bottom:12px"><strong>Voraussetzung:</strong> Der Kunde verfügt bereits über eine registrierte Domain und ein aktives Hosting-Paket.</p>
+      <ul>
+        <li>Konzeption und Gestaltung einer responsiven Website auf Basis des Kunden-Briefings</li>
+        <li>Technische Entwicklung als HTML/CSS/JS (Single-Page oder Multi-Page)</li>
+        <li>Einbindung von Kundenlogo, Fotos und Texten gemäß Briefing</li>
+        <li>Erstellung von Impressum und Datenschutzerklärung auf Basis der Kundendaten</li>
+        <li>SEO-Grundoptimierung (Title, Meta-Description, Überschriftenstruktur)</li>
+        <li>1 KI-gestützte Automation nach Wahl (z.B. Kontaktformular-Verarbeitung, Terminbuchung)</li>
+        <li>2 Revisionsrunden inklusive</li>
+        <li>Deployment auf bestehendem Hosting des Kunden</li>
+      </ul>
+    </div>
+
+    <div class="pkg b">
+      <div class="pkg-tag">Paket B</div>
+      <h3>Komplett — € 1.590 inkl. MwSt.</h3>
+      <p style="font-size:.88rem;color:var(--muted);margin-bottom:12px"><strong>Für Neugründungen und Betriebe ohne bestehende Online-Präsenz.</strong></p>
+      <ul>
+        <li>Alle Leistungen aus Paket A</li>
+        <li>Registrierung der Wunsch-Domain (1 Jahr, Folgekosten trägt der Kunde — siehe § 5)</li>
+        <li>Einrichtung von Hosting über einen DSGVO-konformen Anbieter</li>
+        <li>DNS-Konfiguration und Verknüpfung mit Hosting</li>
+        <li>Einrichtung einer geschäftlichen E-Mail-Adresse auf der Kundendomain</li>
+        <li>SSL-Zertifikat (HTTPS) inklusive</li>
+      </ul>
+    </div>
+
+    <div class="info"><strong>Hinweis:</strong> Der Auftragnehmer wählt für die technische Umsetzung geeignete Drittanbieter-Dienste (z.B. für Hosting, Schriften, Formularverarbeitung). Dabei wird auf DSGVO-konforme Anbieter geachtet. Der Auftraggeber wird über eingesetzte Dienste informiert und erhält auf Wunsch einen Auftragsverarbeitungsvertrag.</div>
+  </div>
+
+  <!-- §3 -->
+  <div class="sec" id="s3">
+    <h2>§ 3 · Lieferumfang & Ausschlüsse</h2>
+
+    <h3>Im Leistungsumfang enthalten:</h3>
+    <ul>
+      <li>Eine vollständige Website gemäß abgestimmtem Briefing</li>
+      <li>Mobiloptimierung (responsive Design)</li>
+      <li>Kontaktformular mit Benachrichtigung per E-Mail</li>
+      <li>Integration der vom Kunden bereitgestellten Social-Media-Links</li>
+      <li>Impressum und Datenschutz auf Basis der im Briefing angegebenen Daten</li>
+    </ul>
+
+    <h3>Nicht im Leistungsumfang enthalten:</h3>
+    <ul>
+      <li>Erstellung von Texten, Fotos oder anderen Inhalten (diese werden vom Kunden bereitgestellt)</li>
+      <li>Laufende Pflege oder monatliche Betreuung</li>
+      <li>Online-Shop oder E-Commerce-Funktionen</li>
+      <li>Komplexe Webanwendungen, Mitgliederbereiche oder Login-Systeme</li>
+      <li>Suchmaschinenoptimierung über die Grundoptimierung hinaus</li>
+      <li>Google Ads, Social-Media-Werbung oder Performance-Marketing</li>
+      <li>Mehr als 2 Revisionsrunden (weitere Änderungen über Änderungsauftrag, § 7)</li>
+    </ul>
+
+    <div class="highlight"><strong>Wichtig:</strong> Kann der Auftragnehmer aufgrund fehlender Zulieferungen des Kunden (Texte, Fotos, Zugangsdaten) nicht fristgerecht liefern, verschiebt sich die Lieferfrist entsprechend. Dies begründet keinen Anspruch auf Preisminderung.</div>
+  </div>
+
+  <!-- §4 -->
+  <div class="sec" id="s4">
+    <h2>§ 4 · Preise & Zahlung</h2>
+    <p>Alle genannten Preise sind Nettopreise zzgl. der gesetzlichen Umsatzsteuer von derzeit 19 %. Die Umsatzsteuer wird auf der Rechnung gesondert ausgewiesen. Die Rechnungsstellung erfolgt durch <strong>Mandy Mazur</strong> (USt-IdNr.: DE310770435).</p>
+
+    <h3>Zahlungsmodalitäten:</h3>
+    <ul>
+      <li><strong>50 % Anzahlung</strong> bei Auftragserteilung — Umsetzung beginnt nach Zahlungseingang</li>
+      <li><strong>50 % Restzahlung</strong> nach Freigabe durch den Kunden, spätestens 7 Tage nach Fertigstellung</li>
+    </ul>
+
+    <h3>Änderungsaufträge:</h3>
+    <p>Einzelne Änderungsaufträge (§ 7) sind vor Umsetzungsbeginn vollständig zu bezahlen (€ 79 pro Auftrag). Die Rechnung wird per E-Mail zugestellt.</p>
+
+    <p>Bei Zahlungsverzug behält sich der Auftragnehmer vor, die Lieferung zu pausieren und die fertige Website bis zum vollständigen Zahlungseingang zurückzuhalten.</p>
+  </div>
+
+  <!-- §5 -->
+  <div class="sec" id="s5">
+    <h2>§ 5 · Hosting & laufende Kosten</h2>
+
+    <h3>Paket A — Redesign:</h3>
+    <p>Der Kunde trägt alle laufenden Kosten für Domain und Hosting vollständig selbst. Der Auftragnehmer hat keinen Einfluss auf Preisänderungen des bestehenden Hosting-Anbieters.</p>
+
+    <h3>Paket B — Komplett:</h3>
+    <div class="highlight">
+      <strong>Wichtiger Hinweis zu laufenden Kosten:</strong><br><br>
+      Im Rahmen von Paket B übernimmt der Auftragnehmer die einmalige Einrichtung von Domain und Hosting. Die daraus entstehenden <strong>laufenden Kosten trägt ausschließlich der Auftraggeber</strong>. Im Einzelnen:
+      <br><br>
+      <strong>Domain-Registrierung:</strong> Die Erstregistrierung der Domain (1 Jahr) ist im Paketpreis enthalten. Ab dem zweiten Jahr trägt der Auftraggeber die jährlichen Domain-Verlängerungskosten beim gewählten Registrar (typisch: € 10–20/Jahr je nach TLD).
+      <br><br>
+      <strong>Hosting:</strong> Das Hosting erfolgt über einen vom Auftragnehmer empfohlenen, DSGVO-konformen Anbieter. Ein geeigneter Einstiegsplan wird im Rahmen der Projektabstimmung festgelegt. Bei erhöhtem Traffic oder erweiterten Funktionen kann ein kostenpflichtiges Upgrade erforderlich werden — diese Kosten trägt der Auftraggeber.
+      <br><br>
+      <strong>E-Mail:</strong> Die Einrichtung einer E-Mail-Adresse auf der Kundendomain erfolgt über den vom Kunden gewählten E-Mail-Dienst. Laufende Kosten (z.B. iCloud+, Google Workspace) trägt der Auftraggeber.
+    </div>
+
+    <p>Der Auftragnehmer empfiehlt dem Auftraggeber, alle Zugangsdaten (Domain-Registrar, Hosting) direkt auf den eigenen Namen zu registrieren, um vollständige Kontrolle und Unabhängigkeit zu behalten. Der Auftragnehmer erhält temporären Zugang ausschließlich zur technischen Einrichtung.</p>
+  </div>
+
+  <!-- §6 -->
+  <div class="sec" id="s6">
+    <h2>§ 6 · Mitwirkungspflichten des Auftraggebers</h2>
+    <p>Der Auftraggeber verpflichtet sich, folgende Unterlagen und Informationen vollständig und rechtzeitig bereitzustellen:</p>
+    <ul>
+      <li>Ausgefülltes Briefing (über seitenwertig.de/briefing)</li>
+      <li>Logo in druckfähiger Qualität (PNG mit transparentem Hintergrund bevorzugt)</li>
+      <li>Fotos vom Betrieb, Team oder Produkt in ausreichender Auflösung</li>
+      <li>Vollständige Impressum-Daten (Name, Adresse, Steuernummer/USt-IdNr.)</li>
+      <li>Alle gewünschten Texte, Preise und Leistungsbeschreibungen</li>
+      <li>Bei Paket A: Zugangsdaten zum bestehenden Hosting</li>
+    </ul>
+    <p>Verzögerungen durch verspätete oder unvollständige Zulieferungen des Auftraggebers gehen nicht zu Lasten des Auftragnehmers und verlängern die vereinbarte Lieferfrist entsprechend.</p>
+  </div>
+
+  <!-- §7 -->
+  <div class="sec" id="s7">
+    <h2>§ 7 · Revisionen & Änderungsaufträge</h2>
+
+    <h3>Im Paketpreis enthaltene Revisionen:</h3>
+    <p>Jedes Paket (A und B) enthält <strong>2 Revisionsrunden</strong>. Eine Revisionsrunde umfasst alle Feedback-Punkte die der Auftraggeber in einem strukturierten Feedback-Formular (seitenwertig.de/feedback) einreicht.</p>
+    <p>Als Revision gilt: Anpassung von Farben, Texten, Layouts, Bildern oder kleineren Strukturänderungen auf Basis des bestehenden Entwurfs.</p>
+
+    <h3>Nicht als Revision gilt:</h3>
+    <ul>
+      <li>Grundlegende Änderung des Designs oder der Struktur nach Freigabe</li>
+      <li>Hinzufügen neuer Sektionen oder Seiten die im Briefing nicht vorgesehen waren</li>
+      <li>Änderung des vereinbarten Leistungsumfangs</li>
+    </ul>
+
+    <h3>Änderungsaufträge nach Projektabschluss:</h3>
+    <p>Nach der Übergabe der fertigen Website können Änderungen über den Änderungsauftrag (seitenwertig.de/aenderung) für <strong>€ 79 pro Auftrag</strong> beauftragt werden. Ein Auftrag umfasst bis zu 5 klar definierte Änderungspunkte. Umsetzung innerhalb von 24–48 Stunden nach Zahlungseingang. Eine Korrektur-Runde ist im Änderungsauftrag inklusive.</p>
+
+    <div class="highlight"><strong>Größere Umbauten</strong> (neue Sektion, komplettes Redesign einer Seite, neue Unterseite) sind kein Änderungsauftrag und werden separat angeboten.</div>
+  </div>
+
+  <!-- §8 -->
+  <div class="sec" id="s8">
+    <h2>§ 8 · Zeitplan & Lieferfristen</h2>
+    <ul>
+      <li><strong>Erster Entwurf:</strong> innerhalb von 24 Stunden nach vollständigem Briefing-Eingang</li>
+      <li><strong>Revisionen:</strong> innerhalb von 24–48 Stunden nach Eingang des Feedback-Formulars</li>
+      <li><strong>Fertigstellung & Übergabe:</strong> in der Regel 2–3 Wochen nach Auftragserteilung, abhängig vom Feedback-Tempo des Auftraggebers</li>
+    </ul>
+    <p>Diese Fristen gelten unter der Voraussetzung, dass alle erforderlichen Unterlagen (§ 6) vollständig und rechtzeitig vorliegen. Der Auftragnehmer erbringt seine Leistungen im Rahmen eines Nebengewerbes — bei unvorhergesehenen Verzögerungen informiert er den Auftraggeber unverzüglich.</p>
+  </div>
+
+  <!-- §9 -->
+  <div class="sec" id="s9">
+    <h2>§ 9 · Abnahme & Übergabe</h2>
+    <p>Nach Fertigstellung der Website erhält der Auftraggeber einen Vorschau-Link zur Prüfung. Die Abnahme gilt als erfolgt, wenn:</p>
+    <ul>
+      <li>der Auftraggeber die Freigabe ausdrücklich erteilt, oder</li>
+      <li>innerhalb von <strong>7 Werktagen</strong> nach Bereitstellung des Vorschau-Links keine begründeten Einwände eingehen</li>
+    </ul>
+    <p>Nach Abnahme und vollständigem Zahlungseingang erfolgt die Übergabe aller Dateien und Zugangsdaten. Mit der Übergabe gehen Verantwortung und Pflege der Website vollständig auf den Auftraggeber über.</p>
+  </div>
+
+  <!-- §10 -->
+  <div class="sec" id="s10">
+    <h2>§ 10 · Urheberrecht & Nutzungsrechte</h2>
+    <p>Mit vollständiger Zahlung des vereinbarten Paketpreises erhält der Auftraggeber das <strong>einfache, zeitlich unbeschränkte Nutzungsrecht</strong> an der erstellten Website für seinen Betrieb.</p>
+    <p>Der Auftragnehmer behält das Recht, die erstellte Website als Referenz in seinem Portfolio zu nennen und zu zeigen, sofern der Auftraggeber dem nicht ausdrücklich widerspricht.</p>
+    <p>Vom Auftraggeber bereitgestellte Inhalte (Texte, Fotos, Logo) verbleiben im Eigentum des Auftraggebers. Der Auftraggeber versichert, über die erforderlichen Rechte an diesen Inhalten zu verfügen.</p>
+    <p>Verwendete Open-Source-Komponenten, Schriften und Bibliotheken unterliegen den jeweiligen Lizenzbedingungen der Anbieter.</p>
+  </div>
+
+  <!-- §11 -->
+  <div class="sec" id="s11">
+    <h2>§ 11 · Haftung</h2>
+    <p>Der Auftragnehmer haftet für Schäden nur bei Vorsatz oder grober Fahrlässigkeit. Eine Haftung für entgangenen Gewinn, mittelbare Schäden oder Folgeschäden ist ausgeschlossen, soweit gesetzlich zulässig.</p>
+    <p>Der Auftragnehmer übernimmt keine Haftung für:</p>
+    <ul>
+      <li>Ausfälle oder Änderungen bei eingesetzten Drittanbieter-Diensten (Hosting, Domain-Registrar, E-Mail-Anbieter)</li>
+      <li>Rechtsverstöße durch vom Auftraggeber bereitgestellte Inhalte</li>
+      <li>Schäden durch fehlende oder fehlerhafte Zulieferungen des Auftraggebers</li>
+      <li>Rankingveränderungen in Suchmaschinen</li>
+    </ul>
+    <p>Die Haftung ist in jedem Fall auf den Wert des erteilten Auftrags begrenzt.</p>
+  </div>
+
+  <!-- §12 -->
+  <div class="sec" id="s12">
+    <h2>§ 12 · Datenschutz</h2>
+    <p>Die Verarbeitung personenbezogener Daten im Rahmen der Auftragsabwicklung erfolgt gemäß der Datenschutzerklärung unter <a href="/rechtliches">seitenwertig.de/rechtliches</a> und den Bestimmungen der DSGVO.</p>
+    <p>Zwischen Auftraggeber und Auftragnehmer besteht ein Auftragsverarbeitungsvertrag (AVV) gemäß Art. 28 DSGVO, sofern der Auftragnehmer im Rahmen der Leistungserbringung Zugang zu personenbezogenen Daten des Auftraggebers erhält.</p>
+  </div>
+
+  <!-- §13 -->
+  <div class="sec" id="s13">
+    <h2>§ 13 · Schlussbestimmungen</h2>
+    <p>Es gilt das Recht der Bundesrepublik Deutschland. Gerichtsstand ist Forchheim, soweit der Auftraggeber Kaufmann ist.</p>
+    <p>Sollten einzelne Bestimmungen dieser AGB unwirksam sein, bleibt die Wirksamkeit der übrigen Bestimmungen unberührt.</p>
+    <p>Der Auftragnehmer behält sich vor, diese AGB mit angemessener Voranküdigungsfrist zu ändern. Die jeweils aktuelle Fassung ist auf seitenwertig.de/agb abrufbar.</p>
+    <p>Für Fragen zu diesen AGB: <a href="#" onclick="this.href='mailto:jan@seitenwertig.de';return true">jan&#64;seitenwertig.de</a></p>
+  </div>
+
+  <p class="stand">Stand: April 2026 · SeitenWertig · Mandy Mazur · Forchheim</p>
+
+</div>
+</body>
+</html>

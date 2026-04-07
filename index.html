@@ -282,16 +282,24 @@ footer{position:relative;z-index:1;border-top:1px solid rgba(255,255,255,0.06);p
       </div>
     </div>
   </div>
-  <div class="pgrid">
-    <div class="pcard feat fu d1">
-      <div class="ptag">Komplettpaket · Einmalig</div>
-      <div class="pamt">€ 1.490 <sub>inkl. MwSt.</sub></div>
-      <div class="pnote">Design, Entwicklung, Impressum, SEO-Basis, 1 KI-Automation, 2 Revisionsrunden.</div>
-      <a href="briefing.html" class="pbtn">Jetzt Briefing starten →</a>
+  <div class="pgrid" style="grid-template-columns:repeat(auto-fit,minmax(220px,1fr))">
+    <div class="pcard fu d1">
+      <div class="ptag">Paket A · Redesign</div>
+      <div class="pamt">€ 1.290 <sub>zzgl. MwSt.</sub></div>
+      <div class="pnote" style="margin-bottom:8px">Du hast bereits Domain & Hosting. Ich übernehme Design, Entwicklung, Impressum, SEO-Basis, 1 KI-Automation, 2 Revisionsrunden.</div>
+      <div style="font-size:11px;color:var(--accent);margin-bottom:8px">✓ Domain vorhanden ✓ Hosting vorhanden</div>
+      <a href="briefing.html" class="pbtn">Briefing starten →</a>
     </div>
-    <div class="pcard fu d2">
+    <div class="pcard feat fu d2">
+      <div class="ptag" style="display:flex;align-items:center;gap:6px">Paket B · Komplett <span style="background:var(--accent);color:#080b11;font-size:10px;padding:2px 8px;border-radius:100px;font-weight:700">ALLES DRIN</span></div>
+      <div class="pamt">€ 1.590 <sub>zzgl. MwSt.</sub></div>
+      <div class="pnote" style="margin-bottom:8px">Du startest bei null. Ich übernehme alles — Domain, Hosting, DNS, E-Mail-Setup plus komplettes Design & Entwicklung.</div>
+      <div style="font-size:11px;color:var(--accent);margin-bottom:8px">✓ Domain-Registrierung ✓ Hosting-Setup ✓ DNS ✓ E-Mail</div>
+      <a href="briefing.html" class="pbtn">Briefing starten →</a>
+    </div>
+    <div class="pcard fu d3">
       <div class="ptag">Änderungsauftrag</div>
-      <div class="pamt">€ 79 <sub>pro Auftrag · inkl. MwSt.</sub></div>
+      <div class="pamt">€ 79 <sub>zzgl. MwSt.</sub></div>
       <div class="pnote">Bis zu 5 Änderungen auf deiner bestehenden Website. Umsetzung in 24–48h. Kein Abo.</div>
       <a href="aenderung.html" class="pbtn">Auftrag starten →</a>
     </div>
@@ -319,17 +327,29 @@ footer{position:relative;z-index:1;border-top:1px solid rgba(255,255,255,0.06);p
     <h2 class="fu">Echte Projekte.<br>Keine Agentur-Ästhetik.</h2>
   </div>
   <div class="g2">
-    <div class="rcard fu d1">
-      <div class="rtag">EMS & Fußpflege · Forchheim</div>
-      <h3>Wohlfühl-Oase</h3>
-      <p>Kompletter Neuaufbau der digitalen Präsenz — von einer veralteten WordPress-Seite zu einer modernen, schnellen Website mit klarer Positionierung.</p>
-      <span class="rbadge">✓ Neue Website in 2 Wochen</span>
+    <div class="rcard fu d1" style="padding:0;overflow:hidden">
+      <div style="position:relative;overflow:hidden;border-radius:20px 20px 0 0">
+        <img src="/ref-ems.jpg" alt="Mandy Mazur EMS Training Website" style="width:100%;display:block;height:220px;object-fit:cover;object-position:top"/>
+        <div style="position:absolute;inset:0;background:linear-gradient(to bottom,transparent 40%,rgba(8,11,17,0.9))"></div>
+      </div>
+      <div style="padding:24px 28px 28px">
+        <div class="rtag">EMS Training · Forchheim</div>
+        <h3>Mandy Mazur — medizinisches EMS Training</h3>
+        <p>Kompletter Website-Aufbau mit Conversion-Fokus — Sommer-Paket-Kampagne, Probetraining-Buchung, Platzverfügbarkeit live.</p>
+        <span class="rbadge">✓ Live in 2 Wochen</span>
+      </div>
     </div>
-    <div class="rcard fu d2">
-      <div class="rtag">S&C Beratung · Erlangen</div>
-      <h3>Spielbereit</h3>
-      <p>Website und Konzept für eine neue unabhängige Trainingsberatung — vom leeren Blatt zur fertigen digitalen Identität mit klarem Angebot.</p>
-      <span class="rbadge">✓ Von null auf live in 3 Wochen</span>
+    <div class="rcard fu d2" style="padding:0;overflow:hidden">
+      <div style="position:relative;overflow:hidden;border-radius:20px 20px 0 0">
+        <img src="/ref-fusspflege.jpg" alt="Mandys Fuß- & Wohlfühloase Website" style="width:100%;display:block;height:220px;object-fit:cover;object-position:top"/>
+        <div style="position:absolute;inset:0;background:linear-gradient(to bottom,transparent 40%,rgba(8,11,17,0.9))"></div>
+      </div>
+      <div style="padding:24px 28px 28px">
+        <div class="rtag">Fußpflege & Wohlfühloase · Forchheim</div>
+        <h3>Mandy's Fuß- & Wohlfühloase</h3>
+        <p>Elegante dark-theme Website mit persönlicher Ausstrahlung — zertifizierte Fachfußpflegerin, Terminbuchung, klare Leistungsübersicht.</p>
+        <span class="rbadge">✓ Von null auf live</span>
+      </div>
     </div>
   </div>
 </div>
@@ -399,6 +419,7 @@ footer{position:relative;z-index:1;border-top:1px solid rgba(255,255,255,0.06);p
       <a href="#" onclick="this.href='mailto:'+'jan'+'@'+'seitenwertig.de';return true" style="font-size:13px;color:var(--accent);margin-top:6px;display:inline-block">jan&#64;seitenwertig.de</a>
     </div>
     <div class="flinks">
+      <a href="/agb.html">AGB</a>
       <a href="rechtliches.html">Impressum</a>
       <a href="rechtliches.html">Datenschutz</a>
       <a href="briefing.html">Briefing</a>
