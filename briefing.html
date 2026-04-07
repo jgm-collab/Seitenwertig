@@ -116,6 +116,14 @@ select option{background:#1C1E2A}
 </style>
 </head>
 <body>
+<!-- Netlify Forms Detection -->
+<form name="briefing" netlify netlify-honeypot="bot-field" hidden>
+  <input type="hidden" name="form-name" value="briefing"/>
+  <input name="bot-field"/>
+  <input type="email" name="email"/>
+  <textarea name="briefing"></textarea>
+</form>
+
 <div class="app">
 
 <div class="header">
@@ -519,7 +527,7 @@ function submit(){
   document.getElementById('ff-briefing').value=prompt;
   document.getElementById('ff-email').value=v('s10-email');
   const form=document.getElementById('ff');
-  fetch(form.action,{method:'POST',body:new FormData(form),headers:{Accept:'application/json'}}).catch(()=>{});
+  fetch('/',{method:'POST',headers:{'Content-Type':'application/x-www-form-urlencoded'},body:new URLSearchParams({'form-name':'briefing',briefing:document.getElementById('ff-briefing').value,email:document.getElementById('ff-email').value})}).catch(()=>{});
   go(10,'result');
 }
 

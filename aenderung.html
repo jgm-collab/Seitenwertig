@@ -150,6 +150,14 @@ select option{background:#1C1E2A}
 </style>
 </head>
 <body>
+<!-- Netlify Forms Detection -->
+<form name="aenderung" netlify netlify-honeypot="bot-field" hidden>
+  <input type="hidden" name="form-name" value="aenderung"/>
+  <input name="bot-field"/>
+  <input type="email" name="email"/>
+  <textarea name="auftrag"></textarea>
+</form>
+
 <div class="app">
 
 <div class="header">

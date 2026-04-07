@@ -432,6 +432,15 @@ footer{
 </style>
 </head>
 <body>
+<!-- Netlify Forms Detection -->
+<form name="kontakt" netlify netlify-honeypot="bot-field" hidden>
+  <input type="hidden" name="form-name" value="kontakt"/>
+  <input name="bot-field"/>
+  <input type="text" name="name"/>
+  <input type="email" name="email"/>
+  <textarea name="nachricht"></textarea>
+</form>
+
 
 <div class="mesh">
   <div class="mesh-blob blob1"></div>
@@ -664,7 +673,7 @@ footer{
       <div class="tag" style="margin-bottom:20px;display:inline-flex"><div class="tag-dot"></div>Kontakt</div>
       <h2 style="margin-bottom:8px">Erst eine Frage?</h2>
       <p style="margin-bottom:32px;max-width:none">Kein Problem. Schreib mir direkt — ich antworte innerhalb von 24 Stunden.<br>
-      Oder per E-Mail: <a href="mailto:jan@seitenwertig.de" style="color:var(--accent);font-weight:500">jan@seitenwertig.de</a></p>
+      Oder per E-Mail: <a href="/cdn-cgi/l/email-protection#9df7fcf3ddeef8f4e9f8f3eaf8efe9f4fab3f9f8" style="color:var(--accent);font-weight:500"><span class="__cf_email__" data-cfemail="59333837192a3c302d3c372e3c2b2d303e773d3c">[email&#160;protected]</span></a></p>
 
       <form name="kontakt" netlify netlify-honeypot="bot-field" method="POST" onsubmit="submitKontakt(event)">
         <input type="hidden" name="form-name" value="kontakt"/>
@@ -699,7 +708,7 @@ footer{
     <div class="footer-brand">
       <div class="nav-brand"><div class="nav-logo">S</div><div class="nav-name" style="font-size:17px">Seiten<span>Wertig</span></div></div>
       <p style="margin-top:10px">Websites die Wert schaffen. · Forchheim & Region</p>
-      <a href="mailto:jan@seitenwertig.de" style="font-size:13px;color:var(--accent);margin-top:6px;display:inline-block">jan@seitenwertig.de</a>
+      <a href="/cdn-cgi/l/email-protection#1c767d725c6f79756879726b796e68757b327879" style="font-size:13px;color:var(--accent);margin-top:6px;display:inline-block"><span class="__cf_email__" data-cfemail="8be1eae5cbf8eee2ffeee5fceef9ffe2eca5efee">[email&#160;protected]</span></a>
     </div>
     <div class="footer-links">
       <a href="rechtliches.html">Impressum</a>
@@ -713,7 +722,7 @@ footer{
 
 </div><!-- /wrap -->
 
-<script>
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
 window.addEventListener('scroll',()=>{
   document.getElementById('nav').classList.toggle('scrolled',window.scrollY>50);
 });
@@ -735,13 +744,4 @@ function submitKontakt(e) {
 }
 
 function faq(btn){
-  const body=btn.nextElementSibling;
-  const icon=btn.querySelector('.faq-icon');
-  const isOpen=body.classList.contains('open');
-  document.querySelectorAll('.faq-body').forEach(b=>b.classList.remove('open'));
-  document.querySelectorAll('.faq-icon').forEach(i=>i.classList.remove('open'));
-  if(!isOpen){body.classList.add('open');icon.classList.add('open');}
-}
-</script>
-</body>
-</html>
+  const body
