@@ -16,7 +16,7 @@
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 html{scroll-behavior:smooth}
 body{background:var(--bg);color:var(--text);font-family:var(--sans);-webkit-font-smoothing:antialiased;line-height:1.7}
- 
+
 nav{
   position:sticky;top:0;z-index:100;height:64px;
   display:flex;align-items:center;justify-content:space-between;
@@ -29,24 +29,24 @@ nav{
 .nav-name span{color:var(--accent)}
 .nav-back{font-size:13px;color:var(--muted);text-decoration:none;transition:color .2s}
 .nav-back:hover{color:var(--accent)}
- 
+
 .wrap{max-width:760px;margin:0 auto;padding:60px 24px 100px}
- 
+
 /* TAB NAV */
 .tabs{display:flex;gap:4px;margin-bottom:48px;border-bottom:1px solid var(--border);padding-bottom:0}
 .tab{padding:12px 24px;font-size:.9rem;font-weight:500;cursor:pointer;color:var(--muted);border-bottom:2px solid transparent;transition:all .2s;background:none;border-top:none;border-left:none;border-right:none;font-family:var(--sans);margin-bottom:-1px}
 .tab:hover{color:var(--text)}
 .tab.active{color:var(--accent);border-bottom-color:var(--accent)}
- 
+
 .panel{display:none}
 .panel.active{display:block}
- 
+
 /* TYPOGRAPHY */
 .page-tag{font-size:.74rem;font-weight:500;letter-spacing:.12em;text-transform:uppercase;color:var(--accent);margin-bottom:12px;display:flex;align-items:center;gap:8px}
 .page-tag::before{content:'';width:22px;height:1px;background:var(--accent);display:inline-block}
 h1{font-family:var(--serif);font-size:clamp(1.6rem,4vw,2.4rem);font-weight:700;color:var(--white);margin-bottom:8px;line-height:1.2}
 .intro{color:var(--muted);font-weight:300;font-size:.95rem;margin-bottom:40px;max-width:580px}
- 
+
 h2{font-family:var(--serif);font-size:1.15rem;font-weight:600;color:var(--white);margin:32px 0 12px;padding-top:32px;border-top:1px solid var(--border)}
 h2:first-of-type{margin-top:0;padding-top:0;border-top:none}
 p{font-size:.93rem;color:var(--muted);margin-bottom:12px;line-height:1.75}
@@ -56,7 +56,7 @@ a:hover{text-decoration:underline}
 strong{color:var(--text);font-weight:500}
 ul{padding-left:20px;margin-bottom:12px}
 li{font-size:.93rem;color:var(--muted);line-height:1.75;margin-bottom:4px}
- 
+
 /* INFO CARD */
 .info-card{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:24px 28px;margin-bottom:28px}
 .info-card .label{font-size:.72rem;font-weight:500;letter-spacing:.1em;text-transform:uppercase;color:var(--accent);margin-bottom:14px}
@@ -64,14 +64,14 @@ li{font-size:.93rem;color:var(--muted);line-height:1.75;margin-bottom:4px}
 .info-row:last-child{margin-bottom:0}
 .info-key{color:var(--muted);min-width:140px;flex-shrink:0}
 .info-val{color:var(--text)}
- 
+
 /* WARNING */
 .notice{background:rgba(45,212,168,0.06);border:1px solid rgba(45,212,168,0.15);border-radius:10px;padding:16px 20px;margin:24px 0;font-size:.85rem;color:var(--muted);line-height:1.6}
 .notice strong{color:var(--accent)}
 </style>
 </head>
 <body>
- 
+
 <nav>
   <a href="index.html" class="nav-brand">
     <div class="nav-logo">S</div>
@@ -79,66 +79,68 @@ li{font-size:.93rem;color:var(--muted);line-height:1.75;margin-bottom:4px}
   </a>
   <a href="index.html" class="nav-back">← Zurück zur Startseite</a>
 </nav>
- 
+
 <div class="wrap">
- 
+
   <div class="tabs">
     <button class="tab active" onclick="showTab('impressum',this)">Impressum</button>
     <button class="tab" onclick="showTab('datenschutz',this)">Datenschutz</button>
   </div>
- 
+
   <!-- ══ IMPRESSUM ══ -->
   <div class="panel active" id="tab-impressum">
     <p class="page-tag">Rechtliches</p>
     <h1>Impressum</h1>
     <p class="intro">Angaben gemäß § 5 TMG</p>
- 
+
     <div class="info-card">
       <div class="label">Verantwortlich für den Inhalt</div>
       <div class="info-row"><span class="info-key">Inhaberin</span><span class="info-val">Mandy Mazur</span></div>
       <div class="info-row"><span class="info-key">Adresse</span><span class="info-val">Bayreuther Straße 31<br>91301 Forchheim</span></div>
       <div class="info-row"><span class="info-key">Website</span><span class="info-val"><a href="https://mandymazur.de">mandymazur.de</a></span></div>
     </div>
- 
+
     <div class="info-card">
       <div class="label">Kontakt</div>
       <div class="info-row"><span class="info-key">E-Mail</span><span class="info-val"><a href="/cdn-cgi/l/email-protection#7c161d123c0f19150819120b190e08151b521819"><span class="__cf_email__" data-cfemail="e389828da390868a97868d948691978a84cd8786">[email&#160;protected]</span></a></span></div>
       <!-- Telefon optional ergänzen -->
     </div>
- 
+
     <div class="info-card">
       <div class="label">Steuerangaben</div>
       <div class="info-row">
-        <span class="info-key">Steuernummer</span>
-        <!-- STEUERNUMMER VON MANDY EINTRAGEN -->
-        <span class="info-val" style="color:var(--accent)">STEUERNUMMER EINTRAGEN</span>
+        <span class="info-key">USt-IdNr.</span>
+        <span class="info-val">DE310770435</span>
       </div>
-      <div class="info-row"><span class="info-key">Hinweis</span><span class="info-val">Kleinunternehmer gem. § 19 UStG — keine Umsatzsteuerausweisung</span></div>
+      <div class="info-row">
+        <span class="info-key">Rechtsgrundlage</span>
+        <span class="info-val">Umsatzsteuer-Identifikationsnummer gemäß § 27a UStG</span>
+      </div>
     </div>
- 
+
     <h2>Verantwortlich für den Inhalt nach § 18 Abs. 2 MStV</h2>
     <p>Mandy Mazur, Bayreuther Straße 31, 91301 Forchheim</p>
- 
+
     <h2>Haftung für Inhalte</h2>
     <p>Als Diensteanbieter sind wir gemäß § 7 Abs. 1 TMG für eigene Inhalte auf diesen Seiten nach den allgemeinen Gesetzen verantwortlich. Nach §§ 8 bis 10 TMG sind wir als Diensteanbieter jedoch nicht verpflichtet, übermittelte oder gespeicherte fremde Informationen zu überwachen.</p>
- 
+
     <h2>Haftung für Links</h2>
     <p>Unser Angebot enthält Links zu externen Websites Dritter, auf deren Inhalte wir keinen Einfluss haben. Deshalb können wir für diese fremden Inhalte auch keine Gewähr übernehmen. Für die Inhalte der verlinkten Seiten ist stets der jeweilige Anbieter oder Betreiber der Seiten verantwortlich.</p>
- 
+
     <h2>Urheberrecht</h2>
     <p>Die durch die Seitenbetreiber erstellten Inhalte und Werke auf diesen Seiten unterliegen dem deutschen Urheberrecht. Die Vervielfältigung, Bearbeitung, Verbreitung und jede Art der Verwertung außerhalb der Grenzen des Urheberrechtes bedürfen der schriftlichen Zustimmung des jeweiligen Autors bzw. Erstellers.</p>
   </div>
- 
+
   <!-- ══ DATENSCHUTZ ══ -->
   <div class="panel" id="tab-datenschutz">
     <p class="page-tag">Rechtliches</p>
     <h1>Datenschutzerklärung</h1>
     <p class="intro">Informationen zur Verarbeitung personenbezogener Daten gemäß DSGVO</p>
- 
+
     <div class="notice">
       <strong>Hinweis:</strong> Diese Website verwendet keine Tracking-Tools, kein Google Analytics und keine Werbe-Cookies. Es werden ausschließlich die Daten verarbeitet, die du aktiv über unsere Formulare eingibst.
     </div>
- 
+
     <h2>1. Verantwortliche Stelle</h2>
     <p>
       <strong>Mandy Mazur</strong><br>
@@ -146,7 +148,7 @@ li{font-size:.93rem;color:var(--muted);line-height:1.75;margin-bottom:4px}
       91301 Forchheim<br>
       E-Mail: <a href="/cdn-cgi/l/email-protection#f69c9798b685939f829398819384829f91d89293"><span class="__cf_email__" data-cfemail="305a515e7043555944555e4755424459571e5455">[email&#160;protected]</span></a>
     </p>
- 
+
     <h2>2. Erhebung und Verarbeitung personenbezogener Daten</h2>
     <p>Wir erheben und verarbeiten personenbezogene Daten nur, wenn du uns diese aktiv mitteilst — etwa durch das Ausfüllen unseres Briefing-Formulars, des Feedback-Formulars oder des Änderungsauftrags.</p>
     <p>Dabei werden folgende Daten verarbeitet:</p>
@@ -157,24 +159,24 @@ li{font-size:.93rem;color:var(--muted);line-height:1.75;margin-bottom:4px}
       <li>Hochgeladene Bilder (Logo, Fotos)</li>
     </ul>
     <p>Rechtsgrundlage ist Art. 6 Abs. 1 lit. b DSGVO (Vertragsanbahnung) sowie Art. 6 Abs. 1 lit. f DSGVO (berechtigtes Interesse an der Bearbeitung deiner Anfrage).</p>
- 
+
     <h2>3. Zweck der Datenverarbeitung</h2>
     <p>Die übermittelten Daten werden ausschließlich zur Bearbeitung deiner Anfrage und zur Erstellung deines Website-Entwurfs verwendet. Eine Weitergabe an Dritte findet nicht statt, ausgenommen technische Dienstleister (siehe Punkt 5).</p>
- 
+
     <h2>4. Speicherdauer</h2>
     <p>Wir speichern deine Daten nur solange wie es für die Bearbeitung deines Auftrags erforderlich ist, oder solange gesetzliche Aufbewahrungspflichten bestehen. Nach Abschluss des Projekts und Ablauf der gesetzlichen Fristen werden die Daten gelöscht.</p>
- 
+
     <h2>5. Eingesetzte Dienste & Hosting</h2>
- 
+
     <p><strong>Netlify (Hosting)</strong><br>
     Diese Website wird auf Servern von Netlify, Inc. gehostet. Netlify verarbeitet dabei technisch notwendige Verbindungsdaten (IP-Adresse, Zeitstempel). Netlify ist Privacy Shield zertifiziert und bietet Standardvertragsklauseln gem. Art. 46 DSGVO. Datenschutzerklärung: <a href="https://www.netlify.com/privacy/" target="_blank">netlify.com/privacy</a></p>
- 
+
     <p><strong>Netlify Forms (Kontaktformulare)</strong><br>
     Die Formulardaten auf dieser Website werden über Netlify Forms verarbeitet. Die Daten werden auf Netlify-Servern gespeichert und per E-Mail an uns weitergeleitet. Es besteht ein Auftragsverarbeitungsvertrag (AVV) mit Netlify.</p>
- 
+
     <p><strong>Schriftarten (Bunny Fonts)</strong><br>
     Diese Website lädt Schriftarten über Bunny Fonts (bunny.net), einen europäischen Dienst ohne Tracking und ohne Weitergabe personenbezogener Daten. Es findet kein Datentransfer an Google statt. Datenschutzerklärung: <a href="https://bunny.net/privacy" target="_blank">bunny.net/privacy</a></p>
- 
+
     <h2>6. Deine Rechte</h2>
     <p>Du hast das Recht auf:</p>
     <ul>
@@ -186,12 +188,12 @@ li{font-size:.93rem;color:var(--muted);line-height:1.75;margin-bottom:4px}
       <li><strong>Datenübertragbarkeit</strong> (Art. 20 DSGVO)</li>
     </ul>
     <p>Zur Ausübung deiner Rechte wende dich an: <a href="/cdn-cgi/l/email-protection#bfd5ded1ffccdad6cbdad1c8dacdcbd6d891dbda"><span class="__cf_email__" data-cfemail="94fef5fad4e7f1fde0f1fae3f1e6e0fdf3baf0f1">[email&#160;protected]</span></a></p>
- 
+
     <h2>7. Beschwerderecht</h2>
     <p>Du hast das Recht, dich bei einer Datenschutz-Aufsichtsbehörde zu beschweren. Zuständig ist das Bayerische Landesamt für Datenschutzaufsicht (BayLDA), Promenade 27, 91522 Ansbach.</p>
- 
+
     <h2>8. Cookies</h2>
     <p>Diese Website verwendet keine Tracking-Cookies oder Marketing-Cookies. Es werden ausschließlich technisch notwendige Session-Daten verarbeitet, die für den Betrieb der Website erforderlich sind. Ein Cookie-Banner ist daher nicht erforderlich.</p>
- 
+
     <h2>9. Änderungen dieser Datenschutzerklärung</h2>
     <p>Wir behalten uns vor, diese Datenschutzerklärung bei Bedarf anzupassen. Die aktuelle Vers
