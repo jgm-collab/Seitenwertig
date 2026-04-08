@@ -4,6 +4,9 @@
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 <title>Website-Briefing — SeitenWertig</title>
+<link rel="icon" type="image/svg+xml" href="/favicon.svg"/>
+<link rel="alternate icon" type="image/png" href="/favicon.png"/>
+<meta name="theme-color" content="#2DD4A8"/>
 <link rel="stylesheet" href="fonts.css"/>
 <style>
 :root{
@@ -120,7 +123,9 @@ select option{background:#1C1E2A}
 <form name="briefing" netlify netlify-honeypot="bot-field" hidden>
   <input type="hidden" name="form-name" value="briefing"/>
   <input name="bot-field"/>
+  <input type="text" name="name"/>
   <input type="email" name="email"/>
+  <input type="tel" name="telefon"/>
   <textarea name="briefing"></textarea>
 </form>
 
@@ -137,6 +142,22 @@ select option{background:#1C1E2A}
   <p class="eyebrow">Los geht's</p>
   <h1>Dein Betrieb.</h1>
   <p class="sub">Ein paar Angaben — keine Romane nötig.</p>
+  <div class="field" style="margin-bottom:24px">
+    <label>Welches Paket passt zu dir?</label>
+    <div class="tiles col2" style="margin-bottom:0">
+      <div class="tile" onclick="solo(this,'paket')" data-v="Paket A — Redesign (€ 1.290): Domain & Hosting bereits vorhanden">
+        <span class="tile-icon">🎨</span>
+        <div class="tile-label">Paket A · Redesign</div>
+        <div class="tile-sub">€ 1.290 · Domain vorhanden</div>
+      </div>
+      <div class="tile" onclick="solo(this,'paket')" data-v="Paket B — Komplett (€ 1.590): Domain, Hosting, DNS, E-Mail plus Design & Entwicklung">
+        <span class="tile-icon">🚀</span>
+        <div class="tile-label">Paket B · Komplett</div>
+        <div class="tile-sub">€ 1.590 · Alles drin</div>
+      </div>
+    </div>
+  </div>
+
   <div class="field"><label>Name des Betriebs</label><input type="text" id="s1-name" placeholder="z.B. Studio Sonnenschein"/></div>
   <div class="field"><label>Was machst du?</label><input type="text" id="s1-branche" placeholder="z.B. EMS-Training, Physiotherapie, Friseur…"/></div>
   <div class="row">
@@ -346,7 +367,7 @@ select option{background:#1C1E2A}
 <div class="step" id="s10">
   <p class="eyebrow">Fast geschafft</p>
   <h1>Letzte Details.</h1>
-  <p class="sub">Optional — aber hilfreich.</p>
+  <p class="sub">Damit ich dich erreichen kann.</p>
   <div class="field"><label>Stil-Inspiration <span class="opt">Website die dir gefällt</span></label><input type="url" id="s10-inspo" placeholder="www.seite-die-mir-gefaellt.de"/></div>
   <div class="field"><label>Was soll die Seite nicht sein?</label><input type="text" id="s10-nein" placeholder="z.B. nicht zu bunt, kein Englisch, keine Stock-Fotos…"/></div>
   <p class="sec">Wie sollen Kunden dich kontaktieren?</p>
@@ -360,7 +381,12 @@ select option{background:#1C1E2A}
     <div class="tile" onclick="chip(this,'kontakt',4)" data-v="Online-Terminbuchung (Calendly o.ä.)"><span class="tile-icon">📅</span><div class="tile-label">Terminbuchung</div><div class="tile-sub">Calendly & Co.</div></div>
   </div>
 
-  <div class="field"><label>Deine E-Mail für den Entwurf</label><input type="email" id="s10-email" placeholder="deine@email.de"/></div>
+  <div style="background:rgba(45,212,168,0.04);border:1px solid rgba(45,212,168,0.15);border-radius:12px;padding:20px;margin:20px 0">
+    <p style="font-size:.75rem;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--accent);margin-bottom:14px">Deine Kontaktdaten — Pflichtfelder</p>
+    <div class="field"><label>Dein Name <span style="color:#e55;font-size:.8rem">*</span></label><input type="text" id="s10-kontakt-name" placeholder="Maria Mustermann" required/></div>
+    <div class="field"><label>E-Mail <span style="color:#e55;font-size:.8rem">*</span></label><input type="email" id="s10-email" placeholder="deine@email.de" required/></div>
+    <div class="field" style="margin-bottom:0"><label>Telefon <span style="color:#e55;font-size:.8rem">*</span></label><input type="tel" id="s10-telefon" placeholder="+49 171 1234567" required/></div>
+  </div>
   <div class="field"><label>Anmerkungen <span class="opt">alles was noch wichtig ist</span></label><textarea id="s10-notes" placeholder="Öffnungszeiten, besondere Wünsche, laufende Aktionen…" style="min-height:80px"></textarea></div>
   <div class="nav">
     <button class="back" onclick="go(10,9)">← Zurück</button>
@@ -474,6 +500,8 @@ function buildPrompt(){
 
 ## BRIEFING
 
+**Paket:** ${SV['paket']||'—'}
+**Kontakt:** ${v('s10-kontakt-name')||'—'} | ${v('s10-email')||'—'} | ${v('s10-telefon')||'—'}
 **Betrieb:** ${v('s1-name')||'—'}
 **Branche:** ${v('s1-branche')||'—'}
 **Standort:** ${v('s1-ort')||'—'}
@@ -523,11 +551,16 @@ Gib ausschließlich den vollständigen HTML-Code aus.`;
 }
 
 function submit(){
+  const name = v('s10-kontakt-name');
+  const email = v('s10-email');
+  const tel = v('s10-telefon');
+  if(!name){alert('Bitte gib deinen Namen ein.');document.getElementById('s10-kontakt-name').focus();return;}
+  if(!email||!email.includes('@')){alert('Bitte gib eine gültige E-Mail-Adresse ein.');document.getElementById('s10-email').focus();return;}
+  if(!tel){alert('Bitte gib deine Telefonnummer ein.');document.getElementById('s10-telefon').focus();return;}
   const prompt=buildPrompt();
   document.getElementById('ff-briefing').value=prompt;
-  document.getElementById('ff-email').value=v('s10-email');
-  const form=document.getElementById('ff');
-  fetch('/',{method:'POST',headers:{'Content-Type':'application/x-www-form-urlencoded'},body:new URLSearchParams({'form-name':'briefing',briefing:document.getElementById('ff-briefing').value,email:document.getElementById('ff-email').value})}).catch(()=>{});
+  document.getElementById('ff-email').value=email;
+  fetch('/',{method:'POST',headers:{'Content-Type':'application/x-www-form-urlencoded'},body:new URLSearchParams({'form-name':'briefing',briefing:prompt,email:email,name:name,telefon:tel})}).catch(()=>{});
   go(10,'result');
 }
 
