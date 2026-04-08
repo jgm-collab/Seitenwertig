@@ -126,6 +126,7 @@ select option{background:#1C1E2A}
   <input type="text" name="name"/>
   <input type="email" name="email"/>
   <input type="tel" name="telefon"/>
+  <input type="url" name="bilder"/>
   <textarea name="briefing"></textarea>
 </form>
 
@@ -381,6 +382,17 @@ select option{background:#1C1E2A}
     <div class="tile" onclick="chip(this,'kontakt',4)" data-v="Online-Terminbuchung (Calendly o.ä.)"><span class="tile-icon">📅</span><div class="tile-label">Terminbuchung</div><div class="tile-sub">Calendly & Co.</div></div>
   </div>
 
+  <div style="background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.08);border-radius:12px;padding:20px;margin:20px 0">
+    <p style="font-size:.75rem;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--accent);margin-bottom:6px">Logo & Bilder</p>
+    <p style="font-size:.82rem;color:var(--muted);margin-bottom:14px;line-height:1.6">Lade dein Logo und Fotos in Google Drive, Dropbox oder WeTransfer hoch und füge den Link hier ein. Alternativ schickst du die Dateien nach dem Briefing direkt per E-Mail.</p>
+    <div style="display:flex;flex-direction:column;gap:6px;margin-bottom:14px">
+      <div style="display:flex;align-items:center;gap:8px;font-size:.8rem;color:var(--muted)"><span style="color:var(--accent)">✓</span>Logo als <strong style="color:var(--text);font-weight:500">PNG mit transparentem Hintergrund</strong></div>
+      <div style="display:flex;align-items:center;gap:8px;font-size:.8rem;color:var(--muted)"><span style="color:var(--accent)">✓</span>Fotos mindestens <strong style="color:var(--text);font-weight:500">1200px breit</strong></div>
+      <div style="display:flex;align-items:center;gap:8px;font-size:.8rem;color:var(--muted)"><span style="color:var(--accent)">✓</span>Alles in <strong style="color:var(--text);font-weight:500">einem Ordner</strong> — nicht verstreut</div>
+    </div>
+    <div class="field" style="margin-bottom:0"><label>Link zu deinen Bildern <span class="opt">optional</span></label><input type="url" id="s10-bilder" placeholder="z.B. drive.google.com/... oder wetransfer.com/..."/></div>
+  </div>
+
   <div style="background:rgba(45,212,168,0.04);border:1px solid rgba(45,212,168,0.15);border-radius:12px;padding:20px;margin:20px 0">
     <p style="font-size:.75rem;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--accent);margin-bottom:14px">Deine Kontaktdaten — Pflichtfelder</p>
     <div class="field"><label>Dein Name <span style="color:#e55;font-size:.8rem">*</span></label><input type="text" id="s10-kontakt-name" placeholder="Maria Mustermann" required/></div>
@@ -402,8 +414,9 @@ select option{background:#1C1E2A}
   <div class="thank-box">
     <p style="font-size:.76rem;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--accent);margin-bottom:14px">Was passiert als nächstes</p>
     <div class="ns-row"><span class="ns-num">1.</span><span class="ns-text">Ich prüfe deine Angaben und melde mich bei Rückfragen.</span></div>
-    <div class="ns-row"><span class="ns-num">2.</span><span class="ns-text">Du bekommst einen ersten visuellen Entwurf — passend zu deinem Betrieb.</span></div>
-    <div class="ns-row"><span class="ns-num">3.</span><span class="ns-text">Wenn es gefällt, besprechen wir die nächsten Schritte. Kein Druck.</span></div>
+    <div class="ns-row"><span class="ns-num">2.</span><span class="ns-text">Falls noch nicht geschehen: Schick Logo & Fotos an <strong style="color:var(--accent)"><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="bdd7dcd3fdced8d4c9d8d3cad8cfc9d4da93d9d8">[email&#160;protected]</a></strong></span></div>
+    <div class="ns-row"><span class="ns-num">3.</span><span class="ns-text">Du bekommst einen ersten visuellen Entwurf — passend zu deinem Betrieb.</span></div>
+    <div class="ns-row"><span class="ns-num">4.</span><span class="ns-text">Wenn es gefällt, besprechen wir die nächsten Schritte. Kein Druck.</span></div>
   </div>
   <form id="ff" name="briefing" netlify netlify-honeypot="bot-field" style="display:none" method="POST">
     <input type="hidden" name="form-name" value="briefing"/>
@@ -414,7 +427,7 @@ select option{background:#1C1E2A}
 </div>
 
 </div>
-<script>
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
 const TOTAL=10; let cur=1;
 const M={}; const S={}; const SV={};
 const UP={logo:[],fotos:[]};
@@ -502,6 +515,7 @@ function buildPrompt(){
 
 **Paket:** ${SV['paket']||'—'}
 **Kontakt:** ${v('s10-kontakt-name')||'—'} | ${v('s10-email')||'—'} | ${v('s10-telefon')||'—'}
+**Bilder/Logo:** ${v('s10-bilder')||'Werden per E-Mail nachgereicht'}
 **Betrieb:** ${v('s1-name')||'—'}
 **Branche:** ${v('s1-branche')||'—'}
 **Standort:** ${v('s1-ort')||'—'}
@@ -560,7 +574,7 @@ function submit(){
   const prompt=buildPrompt();
   document.getElementById('ff-briefing').value=prompt;
   document.getElementById('ff-email').value=email;
-  fetch('/',{method:'POST',headers:{'Content-Type':'application/x-www-form-urlencoded'},body:new URLSearchParams({'form-name':'briefing',briefing:prompt,email:email,name:name,telefon:tel})}).catch(()=>{});
+  fetch('/',{method:'POST',headers:{'Content-Type':'application/x-www-form-urlencoded'},body:new URLSearchParams({'form-name':'briefing',briefing:prompt,email:email,name:name,telefon:tel,bilder:v('s10-bilder')||'—'})}).catch(()=>{});
   go(10,'result');
 }
 
@@ -576,14 +590,4 @@ function restart(){
 }
 
 function submitToNetlify(formName, data) {
-  const body = new URLSearchParams({ 'form-name': formName, ...data });
-  return fetch('/', {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-    body: body.toString()
-  }).catch(() => {});
-}
-
-</script>
-</body>
-</html>
+  const body = new URLSearchPar
