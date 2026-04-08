@@ -677,6 +677,7 @@ footer{position:relative;z-index:2;border-top:1px solid var(--border);padding:48
   <input name="bot-field"/>
   <input type="text" name="name"/>
   <input type="tel" name="telefon"/>
+  <input type="email" name="email"/>
   <textarea name="nachricht"></textarea>
 </form>
 
@@ -865,7 +866,7 @@ footer{position:relative;z-index:2;border-top:1px solid var(--border);padding:48
   <div class="g2">
     <div class="rcard fu d1">
       <div class="rcard-img"><img src="/ref-ems.jpg" alt="Webdesign Referenz: Mandy Mazur EMS Training Forchheim — erstellt von SeitenWertig"/><div class="rcard-img-overlay"></div></div>
-      <div class="rcard-body"><div class="rtag">EMS Training · Forchheim</div><h3>Mandy Mazur — medizinisches EMS Training</h3><p>Conversion-optimierte Website mit Sommer-Paket-Kampagne, Probetraining-Buchung und Live-Platzverfügbarkeit.</p><span class="rbadge">✓ Live in 2 Wochen</span></div>
+      <div class="rcard-body"><div class="rtag">EMS Training · Forchheim</div><h3>Mandy Mazur — medizinisches EMS Training</h3><p>Conversion-optimierte Website mit Sommer-Paket-Kampagne, Probetraining-Buchung und Live-Platzverfügbarkeit.</p><div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap"><span class="rbadge">✓ Live in 2 Wochen</span><a href="https://www.mandymazur.de" target="_blank" rel="noopener" style="display:inline-flex;align-items:center;gap:6px;padding:6px 14px;border-radius:8px;background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.1);font-size:12px;color:var(--muted);transition:all .2s" onmouseover="this.style.borderColor='rgba(45,212,168,0.3)';this.style.color='var(--accent)'" onmouseout="this.style.borderColor='rgba(255,255,255,0.1)';this.style.color='var(--muted)'">mandymazur.de →</a></div></div>
     </div>
     <div class="rcard fu d2">
       <div class="rcard-img"><img src="/ref-fusspflege.jpg" alt="Webdesign Referenz: Mandys Fuß- und Wohlfühloase Forchheim — erstellt von SeitenWertig"/><div class="rcard-img-overlay"></div></div>
@@ -1175,6 +1176,10 @@ function sendKontakt(e){
       <div class="cb-field">
         <label class="cb-label-txt">Telefon</label>
         <input type="tel" name="telefon" class="cb-inp" placeholder="+49 171 1234567" required/>
+      </div>
+      <div class="cb-field">
+        <label class="cb-label-txt">E-Mail <span style="font-size:.65rem;color:#555;text-transform:none;letter-spacing:0">optional</span></label>
+        <input type="email" name="email" class="cb-inp" placeholder="deine@email.de"/>
       </div>
       <div class="cb-field">
         <label class="cb-label-txt">Kurze Nachricht <span style="font-size:.65rem;color:#555;text-transform:none;letter-spacing:0">optional</span></label>
