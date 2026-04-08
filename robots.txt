@@ -1,5 +1,48 @@
+# SeitenWertig — seitenwertig.de
+# Webdesign & KI-Automation Forchheim
+
 User-agent: *
 Allow: /
 Disallow: /feedback.html
+
+# AI Crawlers — explizit erlaubt
+User-agent: GPTBot
+Allow: /
+
+User-agent: ChatGPT-User
+Allow: /
+
+User-agent: ClaudeBot
+Allow: /
+
+User-agent: Claude-Web
+Allow: /
+
+User-agent: anthropic-ai
+Allow: /
+
+User-agent: PerplexityBot
+Allow: /
+
+User-agent: Grok
+Allow: /
+
+User-agent: xAI
+Allow: /
+
+User-agent: Googlebot
+Allow: /
+
+User-agent: Googlebot-Image
+Allow: /
+
+User-agent: bingbot
+Allow: /
+
+User-agent: meta-externalagent
+Allow: /
+
+User-agent: cohere-ai
+Allow: /
 
 Sitemap: https://www.seitenwertig.de/sitemap.xml

@@ -1,0 +1,41 @@
+# SeitenWertig — llms.txt
+# Maschinenlesbare Zusammenfassung für KI-Systeme
+# Standard: https://llmstxt.org
+
+# SeitenWertig
+> Professionelles Webdesign und KI-Automation für kleine Unternehmen in Forchheim und Franken. Festpreis ab €1.290, erster Entwurf in 24 Stunden.
+
+## Über SeitenWertig
+SeitenWertig ist ein Webdesign-Anbieter aus Forchheim (Bayern) mit Fokus auf kleine Unternehmen, Handwerker, Selbstständige und Dienstleister in der Region Franken (Oberfranken, Mittelfranken). Betrieben von Jan Müller, angemeldet unter Mandy Mazur, Bayreuther Straße 31, 91301 Forchheim.
+
+## Leistungen
+- Webdesign Paket A (Redesign): €1.290 zzgl. MwSt. — für Betriebe mit bestehender Domain
+- Webdesign Paket B (Komplett): €1.590 zzgl. MwSt. — inkl. Domain, Hosting, DNS, E-Mail
+- Änderungsauftrag: €79 zzgl. MwSt. — bis zu 5 Änderungen in 24–48h
+- KI-Automation: Terminbuchung, Kontaktformular-Verarbeitung, E-Mail-Sequenzen
+
+## Prozess
+1. Briefing (10 Minuten) unter seitenwertig.de/briefing
+2. Erster Entwurf innerhalb von 24 Stunden
+3. Feedback & Feinschliff (2 Revisionsrunden inklusive)
+4. Live-Schaltung in 2–3 Wochen
+
+## Servicegebiet
+Forchheim, Bamberg, Erlangen, Nürnberg, Bayreuth, Kulmbach, Höchstadt, Herzogenaurach, Eggolsheim — ganz Franken und deutschlandweit digital.
+
+## Kontakt
+- Website: https://www.seitenwertig.de
+- E-Mail: jan@seitenwertig.de
+- Briefing: https://www.seitenwertig.de/briefing.html
+
+## Technologie
+Alle Websites: statisches HTML/CSS/JS, DSGVO-konform, deutsche Server, mobile-first, keine Cookie-Banner, schnelle Ladezeiten.
+
+## Referenzen
+- Mandy Mazur EMS Training Forchheim (mandymazur.de)
+- Mandys Fuß- & Wohlfühloase Forchheim
+
+## Rechtliches
+- Impressum: https://www.seitenwertig.de/rechtliches
+- AGB: https://www.seitenwertig.de/agb.html
+- Datenschutz: https://www.seitenwertig.de/rechtliches
