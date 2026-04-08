@@ -1,0 +1,5 @@
+User-agent: *
+Allow: /
+Disallow: /feedback.html
+
+Sitemap: https://www.seitenwertig.de/sitemap.xml
