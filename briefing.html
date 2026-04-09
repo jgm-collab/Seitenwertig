@@ -245,6 +245,29 @@ h1{font-family:var(--serif);font-size:clamp(1.5rem,5vw,2rem);font-weight:700;let
     <textarea id="desc" placeholder="Was machst du für wen — und was macht dich besonders? Ein paar Sätze reichen."></textarea>
     <div class="ferr" id="e-desc">Bitte kurz beschreiben</div>
   </div>
+  <div class="f">
+    <label>Zielgruppe</label>
+    <div class="chips" id="zg">
+      <div class="chip" data-v="Frauen 25–50">Frauen 25–50</div>
+      <div class="chip" data-v="Männer 30–55">Männer 30–55</div>
+      <div class="chip" data-v="Berufstätige">Berufstätige</div>
+      <div class="chip" data-v="Sportler & Aktive">Sportler</div>
+      <div class="chip" data-v="Senioren">Senioren</div>
+      <div class="chip" data-v="Familien">Familien</div>
+      <div class="chip" data-v="Selbstständige">Selbstständige</div>
+      <div class="chip" data-v="Unternehmen / B2B">B2B</div>
+    </div>
+  </div>
+  <div class="f">
+    <label>Dein Alleinstellungsmerkmal</label>
+    <input id="usp" type="text" placeholder="z.B. Maximal 2 Kunden gleichzeitig, persönliche Betreuung"/>
+    <div class="hint">Was macht dich besonders — wofür sollen Kunden speziell zu dir kommen?</div>
+  </div>
+  <div class="f">
+    <label>Das Problem deiner Kunden</label>
+    <input id="problem" type="text" placeholder="z.B. Fit in nur 20 Minuten, effektiv gegen Rückenschmerzen"/>
+    <div class="hint">Welches konkrete Problem löst du für deine Kunden?</div>
+  </div>
 
   <div class="btns">
     <button class="btnb" onclick="go(2,1)">←</button>
@@ -354,7 +377,7 @@ h1{font-family:var(--serif);font-size:clamp(1.5rem,5vw,2rem);font-weight:700;let
     <input id="bilder" type="url" placeholder="https://drive.google.com/…"/>
     <div class="hint">
       ✓ PNG-Logo mit transparentem Hintergrund &nbsp;·&nbsp; ✓ Fotos mind. 1.200 px &nbsp;·&nbsp; ✓ Alles in einem Ordner<br/>
-      Kein Link? Schick die Dateien nach dem Briefing an <a id="mail-hint">jan@seitenwertig.de</a>
+      Kein Link? Schick die Dateien nach dem Briefing an <a id="mail-hint"><span class="__cf_email__" data-cfemail="f79d9699b784929e839299809285839e90d99392">[email&#160;protected]</span></a>
     </div>
   </div>
   <div class="div"></div>
@@ -384,7 +407,7 @@ h1{font-family:var(--serif);font-size:clamp(1.5rem,5vw,2rem);font-weight:700;let
   <p class="sub">Du bekommst innerhalb von <strong style="color:var(--text)">24 Stunden</strong> einen Vorschau-Link — kostenlos und unverbindlich.</p>
   <div class="steps-list">
     <div class="nstep"><div class="nn">1</div><div class="nt">Ich prüfe deine Angaben und melde mich bei Rückfragen direkt bei dir.</div></div>
-    <div class="nstep"><div class="nn">2</div><div class="nt">Falls noch nicht geschehen — schick Logo & Fotos an <strong><a id="mail-done">jan@seitenwertig.de</a></strong></div></div>
+    <div class="nstep"><div class="nn">2</div><div class="nt">Falls noch nicht geschehen — schick Logo & Fotos an <strong><a id="mail-done"><span class="__cf_email__" data-cfemail="cda7aca38dbea8a4b9a8a3baa8bfb9a4aae3a9a8">[email&#160;protected]</span></a></strong></div></div>
     <div class="nstep"><div class="nn">3</div><div class="nt">Du bekommst einen <strong>Vorschau-Link</strong> — die fertige Seite live im Browser. Kein Download, kein Code.</div></div>
     <div class="nstep"><div class="nn">4</div><div class="nt">Feedback über das Feedback-Formular. Nach Freigabe & Anzahlung bekommst du alle Dateien.</div></div>
   </div>
@@ -393,7 +416,7 @@ h1{font-family:var(--serif);font-size:clamp(1.5rem,5vw,2rem);font-weight:700;let
 
 </main>
 
-<script>
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
 let pkg='A';
 
 function selPkg(el,p){
@@ -479,6 +502,9 @@ async function send(){
     'Ort':g('ort').value.trim(),
     'Bestehende Website':g('bsite').value.trim()||'—',
     'Beschreibung':g('desc').value.trim(),
+    'Zielgruppe':chips('zg')||'—',
+    'USP':g('usp').value.trim()||'—',
+    'Kundenproblem':g('problem').value.trim()||'—',
     'Stil':chips('cs')||'—',
     'Farbe':swVal()||(g('fc').value.trim()||'—'),
     'Seiteninhalt':tiles('ti')||'—',
@@ -492,7 +518,65 @@ async function send(){
     'Inspiration':g('insp').value.trim()||'—',
     'Anmerkungen':g('note').value.trim()||'—',
   };
-  const body=Object.entries(d).map(([k,v])=>`${k}: ${v}`).join('\n');
+  // Build structured Lovable/Claude prompt
+  const prompt=`Du bist ein erfahrener preisgekrönter Webdesigner. Baue eine vollständige, professionelle, höchsten Designansprüchen gerechtwerdende Website als sauberes HTML/CSS/JS — mobiloptimiert, ohne externe Frameworks außer Bunny Fonts (DSGVO-konform, nicht Google Fonts).
+
+## BRIEFING
+
+**Paket:** ${d['Paket']}
+**Kontakt:** ${d['Vorname']} ${d['Nachname']} | ${d['E-Mail']} | ${d['Telefon']}
+**Betrieb:** ${d['Betrieb']}
+**Branche:** ${d['Branche']}
+**Standort:** ${d['Ort']||'—'}
+**Bestehende URL:** ${d['Bestehende Website']}
+**Zielgruppe:** ${d['Zielgruppe']}
+**Alleinstellungsmerkmal:** ${d['USP']}
+**Kundenproblem:** ${d['Kundenproblem']}
+**Gewünschte Wirkung:** ${d['Stil']}
+**Farbwelt:** ${d['Farbe']}
+**Seitenbereiche:** ${d['Seiteninhalt']}
+**Kontaktkanäle:** ${d['Kontaktkanäle']}
+
+**Beschreibung:**
+${d['Beschreibung']}
+
+**Social Media:**
+Instagram: ${d['Instagram']}
+Facebook: ${d['Facebook']}
+Google Business: ${d['Google Business']}
+Sonstiges: ${d['Social Sonstiges']}
+
+**Stil-Inspiration:** ${d['Inspiration']}
+**Was die Seite nicht sein soll:** ${d['Nicht so']}
+**Weitere Hinweise:** ${d['Anmerkungen']}
+
+## TECHNISCHE ANFORDERUNGEN
+
+1. Vollständige, sofort einsatzfähige HTML-Datei
+2. Alle Sektionen aus dem Briefing einbauen
+3. Farbpalette exakt nach Briefing — konsistente CSS-Variablen
+4. Vollständig responsive, kein horizontales Scrollen
+5. Passende Bunny Fonts (fonts.bunny.net) zur gewünschten Wirkung — KEIN Google Fonts
+6. Kontaktformular mit name="kontakt" netlify netlify-honeypot="bot-field"
+7. Scroll-Animationen via IntersectionObserver
+8. Sticky Navigation mit Anker-Links
+9. Social-Media-Icons mit korrekten Links aus dem Briefing
+10. Kontaktbereich mit ALLEN gewählten Kanälen prominent einbauen
+11. Impressum-Sektion mit Platzhalter [IMPRESSUM WIRD NACHGEREICHT]
+12. Bildplatzhalter via placehold.co — mit Beschriftung was dort hinkommt
+13. Alles in einer einzigen HTML-Datei — kein Bootstrap, kein Tailwind
+
+## STIL-DIREKTIVE
+
+Professionell designt — kein Template-Look, keine KI-Klischees.
+Ton: ${d['Stil']}. Farbe: ${d['Farbe']}.
+Zielgruppe (${d['Zielgruppe']}) muss sich sofort angesprochen fühlen.
+USP prominent platzieren: ${d['USP']}
+Hauptproblem der Kunden lösen: ${d['Kundenproblem']}
+
+Gib ausschließlich den vollständigen HTML-Code aus. Kein Markdown, keine Erklärungen, keine Codeblöcke.`;
+
+  const body=`=== LOVABLE/CLAUDE PROMPT ===\n\n${prompt}\n\n=== ROHDATEN ===\n${Object.entries(d).map(([k,v])=>k+': '+v).join('\n')}`;
   try{
     await fetch('/',{
       method:'POST',
@@ -513,16 +597,4 @@ async function send(){
   window.scrollTo({top:0,behavior:'smooth'});
 }
 
-// Email obfuscation — prevent Cloudflare scrambling
-(function(){
-  const u='jan',d='seitenwertig',t='.de';
-  const addr=u+'@'+d+t;
-  const href='mailto:'+addr;
-  ['mail-hint','mail-done'].forEach(function(id){
-    const el=document.getElementById(id);
-    if(el){el.href=href;el.textContent=addr;}
-  });
-})();
-</script>
-</body>
-</html>
+// Email obfuscation — prevent Cloudflare s
