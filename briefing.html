@@ -597,4 +597,17 @@ Gib ausschließlich den vollständigen HTML-Code aus. Kein Markdown, keine Erkl�
   window.scrollTo({top:0,behavior:'smooth'});
 }
 
-// Email obfuscation — prevent Cloudflare s
+// Email obfuscation — mailto fallback if Cloudflare decode script is absent
+(function(){
+  var m='hallo@seitenwertig.de';
+  var h=document.getElementById('mail-hint');
+  var d=document.getElementById('mail-done');
+  if(h&&!h.getAttribute('href')){h.setAttribute('href','mailto:'+m);h.textContent=m;}
+  if(d&&!d.getAttribute('href')){d.setAttribute('href','mailto:'+m);}
+})();
+
+// Zielgruppe chips
+initChips('zg',4);
+</script>
+</body>
+</html>
