@@ -422,7 +422,7 @@ h1{font-family:var(--serif);font-size:clamp(1.5rem,5vw,2rem);font-weight:700;let
 
 </main>
 
-<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+<script>
 let pkg='A';
 let cur=1;
 
@@ -612,7 +612,7 @@ Gib ausschließlich den vollständigen HTML-Code aus. Kein Markdown, keine Erkl�
   window.scrollTo({top:0,behavior:'smooth'});
 }
 
-crambling
+// Email obfuscation
 (function(){
   const u='jan',d='seitenwertig',t='.de';
   const addr=u+'@'+d+t;
@@ -637,7 +637,7 @@ function lsRestore(){
   try{saved=JSON.parse(localStorage.getItem(LS_KEY));}catch(e){return;}
   if(!saved)return;
   if(!confirm('Du hast ein angefangenes Briefing — fortsetzen?')){localStorage.removeItem(LS_KEY);return;}
-  if(saved.pkg){var pkgEl=document.querySelector('.pkg[onclick*="''+saved.pkg+''"]');if(pkgEl)selPkg(pkgEl,saved.pkg);}
+  if(saved.pkg){selPkg(document.querySelector('.pkg[onclick*="\''+saved.pkg+'\'"') || document.querySelector('.pkg'),saved.pkg);}
   ['vorname','nachname','email','tel','betrieb','branche','ort','bsite','desc','usp','problem','fc','ig','fb','gb','so','bilder','insp','note','nicht'].forEach(function(id){
     var el=g(id);if(el&&saved[id])el.value=saved[id];
   });
