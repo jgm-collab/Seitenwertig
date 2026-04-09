@@ -6,595 +6,523 @@
 <title>Website-Briefing — SeitenWertig</title>
 <link rel="icon" type="image/svg+xml" href="/favicon.svg"/>
 <link rel="alternate icon" type="image/png" href="/favicon.png"/>
-<meta name="theme-color" content="#2DD4A8"/>
-<link rel="stylesheet" href="fonts.css"/>
+<meta name="robots" content="noindex"/>
+<link rel="stylesheet" href="/fonts.css"/>
 <style>
 :root{
-  --bg:#0F1117;--card:#161821;--light:#1C1E2A;
-  --text:#E8E9ED;--muted:#8B8D97;
-  --accent:#2DD4A8;--glow:rgba(45,212,168,0.15);
-  --border:rgba(255,255,255,0.06);--white:#fff;
+  --bg:#060810;--bg2:rgba(255,255,255,0.03);--bg3:rgba(255,255,255,0.06);
+  --border:rgba(255,255,255,0.07);--border-md:rgba(255,255,255,0.14);--border-hi:rgba(255,255,255,0.26);
+  --text:#E8E9ED;--muted:#8B8D97;--muted2:#4a4c57;
+  --accent:#2DD4A8;--accent-bg:rgba(45,212,168,0.08);--accent-bd:rgba(45,212,168,0.3);
+  --err:#e05c5c;--r:10px;--rs:8px;
   --serif:'Outfit',sans-serif;--sans:'DM Sans',sans-serif;
 }
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-html{scroll-behavior:smooth}
-body{background:var(--bg);color:var(--text);font-family:var(--sans);font-size:16px;line-height:1.6;-webkit-font-smoothing:antialiased;min-height:100vh}
-.app{max-width:720px;margin:0 auto;padding:40px 24px 80px}
+html{background:var(--bg);color:var(--text);font-family:var(--sans);font-size:16px;min-height:100vh;-webkit-font-smoothing:antialiased}
+body{display:flex;flex-direction:column;min-height:100vh}
 
-/* HEADER */
-.header{display:flex;justify-content:space-between;align-items:center;margin-bottom:40px}
-.brand{font-family:var(--serif);font-weight:700;font-size:1.1rem;color:var(--white)}
-.brand span{color:var(--accent)}
-.step-lbl{font-size:.75rem;font-weight:500;letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
+/* NAV */
+nav{display:flex;align-items:center;justify-content:space-between;padding:0 1.5rem;height:58px;border-bottom:1px solid var(--border);position:sticky;top:0;z-index:100;background:rgba(6,8,16,0.92);backdrop-filter:blur(20px)}
+.nlogo{display:flex;align-items:center;gap:10px;text-decoration:none;color:var(--text)}
+.nlogo-s{width:30px;height:30px;background:linear-gradient(135deg,var(--accent),#1a9e7a);border-radius:8px;display:flex;align-items:center;justify-content:center;font-family:var(--serif);font-weight:800;font-size:15px;color:#060810;box-shadow:0 0 16px rgba(45,212,168,0.25)}
+.nlogo-name{font-family:var(--serif);font-weight:700;font-size:17px;letter-spacing:-.02em}
+.nlogo-name span{color:var(--accent)}
+.nav-r{display:flex;align-items:center;gap:1.25rem}
+.nav-step{font-size:.74rem;color:var(--muted);letter-spacing:.04em}
+.nav-back{font-size:.82rem;color:var(--muted);text-decoration:none;transition:color .2s}
+.nav-back:hover{color:var(--accent)}
 
 /* PROGRESS */
-.bar{height:2px;background:var(--border);margin-bottom:48px;border-radius:2px}
-.fill{height:100%;background:var(--accent);border-radius:2px;transition:width .4s ease}
+.pbar{height:2px;background:var(--border);position:sticky;top:58px;z-index:99}
+.pfill{height:100%;background:linear-gradient(90deg,var(--accent),#1a9e7a);transition:width .45s cubic-bezier(.4,0,.2,1)}
 
-/* STEPS */
+/* MAIN */
+main{flex:1;padding:3rem 1.5rem 5rem;max-width:540px;margin:0 auto;width:100%}
+
+/* STEP */
 .step{display:none}
-.step.active{display:block;animation:up .35s ease both}
-@keyframes up{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:translateY(0)}}
-.eyebrow{font-size:.74rem;font-weight:500;letter-spacing:.12em;text-transform:uppercase;color:var(--accent);margin-bottom:12px;display:flex;align-items:center;gap:8px}
-.eyebrow::before{content:'';width:22px;height:1px;background:var(--accent);display:inline-block}
-h1{font-family:var(--serif);font-size:clamp(1.5rem,4vw,2.1rem);line-height:1.2;margin-bottom:8px;color:var(--white)}
-.sub{color:var(--muted);font-weight:300;margin-bottom:32px;font-size:.95rem}
+.step.on{display:block;animation:up .28s ease both}
+@keyframes up{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
+.eyebrow{font-size:.68rem;font-weight:500;letter-spacing:.13em;text-transform:uppercase;color:var(--muted);margin-bottom:.8rem;display:flex;align-items:center;gap:.5rem}
+.eyebrow::before{content:'';display:block;width:14px;height:1px;background:var(--accent);opacity:.5}
+h1{font-family:var(--serif);font-size:clamp(1.5rem,5vw,2rem);font-weight:700;letter-spacing:-.03em;line-height:1.1;margin-bottom:.5rem}
+.sub{font-size:.92rem;color:var(--muted);line-height:1.6;margin-bottom:2rem;font-weight:300}
+
+/* PACKAGES */
+.pkg-grid{display:grid;grid-template-columns:1fr 1fr;gap:.75rem;margin-bottom:2rem}
+@media(max-width:360px){.pkg-grid{grid-template-columns:1fr}}
+.pkg{border:1px solid var(--border);border-radius:var(--r);padding:1.125rem 1rem;cursor:pointer;background:var(--bg2);transition:border-color .2s,background .2s;user-select:none;position:relative}
+.pkg:hover{border-color:var(--border-md)}
+.pkg.on{border-color:var(--accent-bd);background:var(--accent-bg)}
+.pkg.on::after{content:'◆';position:absolute;top:.75rem;right:.875rem;font-size:.6rem;color:var(--accent)}
+.pkg-lbl{font-size:.67rem;font-weight:500;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-bottom:.3rem}
+.pkg-name{font-family:var(--serif);font-size:1rem;font-weight:700;letter-spacing:-.02em;margin-bottom:.2rem}
+.pkg-price{font-size:.8rem;color:var(--muted);font-weight:300}
+.pkg.on .pkg-price{color:var(--accent)}
 
 /* FIELDS */
-.field{margin-bottom:18px}
-label{display:block;font-size:.74rem;font-weight:500;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin-bottom:7px}
-.opt{font-size:.66rem;color:#555;font-style:italic;text-transform:none;letter-spacing:0;margin-left:6px}
-input[type=text],input[type=email],input[type=tel],input[type=url],textarea,select{
-  width:100%;background:rgba(255,255,255,0.04);border:1px solid var(--border);
-  color:var(--text);font-family:var(--sans);font-size:.95rem;
-  padding:12px 15px;outline:none;transition:border-color .2s;border-radius:8px}
-input:focus,textarea:focus,select:focus{border-color:var(--accent)}
-input::placeholder,textarea::placeholder{color:#444}
-textarea{resize:vertical;min-height:90px}
-select option{background:#1C1E2A}
-.row{display:grid;grid-template-columns:1fr 1fr;gap:14px}
-@media(max-width:500px){.row{grid-template-columns:1fr}}
-
-/* TILES */
-.tiles{display:grid;gap:10px;margin-bottom:20px}
-.col2{grid-template-columns:1fr 1fr}
-.col3{grid-template-columns:1fr 1fr 1fr}
-@media(max-width:500px){.col2,.col3{grid-template-columns:1fr 1fr}}
-.tile{border:1px solid var(--border);padding:14px 12px;cursor:pointer;transition:all .15s;background:rgba(255,255,255,0.02);user-select:none;text-align:center;border-radius:10px}
-.tile:hover{border-color:var(--accent)}
-.tile.selected{border-color:var(--accent);background:var(--glow)}
-.tile-icon{font-size:1.3rem;margin-bottom:5px;display:block}
-.tile-label{font-size:.82rem;font-weight:500;color:var(--text)}
-.tile-sub{font-size:.7rem;color:var(--muted);margin-top:2px}
+.f{margin-bottom:1.1rem}
+.f>label{display:block;font-size:.78rem;font-weight:500;color:var(--muted);margin-bottom:.4rem;letter-spacing:.01em}
+.req{color:var(--accent);font-size:.7rem;margin-left:1px}
+.f input,.f textarea,.f select{width:100%;background:var(--bg2);border:1px solid var(--border);border-radius:var(--rs);color:var(--text);font-size:.92rem;font-family:var(--sans);font-weight:300;padding:.75rem .9rem;outline:none;transition:border-color .2s,background .2s}
+.f input:hover,.f textarea:hover{border-color:var(--border-md)}
+.f input:focus,.f textarea:focus{border-color:var(--accent);background:var(--bg3);box-shadow:0 0 0 3px rgba(45,212,168,0.06)}
+.f textarea{resize:vertical;min-height:96px;line-height:1.6}
+.f input::placeholder,.f textarea::placeholder{color:var(--muted2)}
+.f-row{display:grid;grid-template-columns:1fr 1fr;gap:.875rem}
+@media(max-width:400px){.f-row{grid-template-columns:1fr}}
+.hint{font-size:.77rem;color:var(--muted);margin-top:.45rem;line-height:1.5;font-weight:300}
+.hint a{color:var(--accent)}
+.ferr{font-size:.77rem;color:var(--err);margin-top:.35rem;display:none}
+.ferr.on{display:block}
+.f input.err,.f textarea.err{border-color:rgba(224,92,92,.4)}
 
 /* CHIPS */
-.chips{display:flex;flex-wrap:wrap;gap:9px;margin-bottom:20px}
-.chip{border:1px solid var(--border);padding:7px 15px;font-size:.82rem;cursor:pointer;background:rgba(255,255,255,0.02);transition:all .15s;user-select:none;border-radius:6px;color:var(--muted)}
-.chip:hover{border-color:var(--accent);color:var(--text)}
-.chip.selected{border-color:var(--accent);background:var(--glow);color:var(--white);font-weight:500}
+.chips{display:flex;flex-wrap:wrap;gap:.4rem;margin-top:.3rem}
+.chip{padding:.42rem .85rem;border-radius:99px;border:1px solid var(--border);font-size:.8rem;cursor:pointer;color:var(--muted);background:transparent;transition:all .15s;user-select:none}
+.chip:hover{border-color:var(--border-md);color:var(--text)}
+.chip.on{border-color:var(--accent-bd);background:var(--accent-bg);color:var(--accent)}
+
+/* TILES */
+.tiles{display:grid;grid-template-columns:repeat(3,1fr);gap:.45rem}
+@media(max-width:360px){.tiles{grid-template-columns:repeat(2,1fr)}}
+.tile{padding:.6rem .5rem;border:1px solid var(--border);border-radius:var(--rs);text-align:center;cursor:pointer;font-size:.8rem;color:var(--muted);background:var(--bg2);transition:all .15s;user-select:none;line-height:1.4}
+.tile:hover{border-color:var(--border-md);color:var(--text)}
+.tile.on{border-color:var(--accent-bd);background:var(--accent-bg);color:var(--accent)}
+.tile-ico{font-size:1.1rem;display:block;margin-bottom:.25rem}
 
 /* SWATCHES */
-.swatches{display:flex;gap:12px;flex-wrap:wrap;margin-bottom:18px}
-.sw-wrap{text-align:center}
-.swatch{width:44px;height:44px;border-radius:50%;cursor:pointer;border:3px solid transparent;transition:all .15s;display:block}
-.swatch:hover{transform:scale(1.1)}
-.swatch.selected{border-color:var(--accent)}
-.sw-label{font-size:.68rem;color:var(--muted);margin-top:4px}
-
-/* UPLOAD */
-.upload-zone{border:2px dashed var(--border);background:rgba(255,255,255,0.02);padding:28px 20px;text-align:center;cursor:pointer;transition:border-color .2s;margin-bottom:14px;border-radius:12px}
-.upload-zone:hover,.upload-zone.dragover{border-color:var(--accent)}
-.upload-zone input[type=file]{display:none}
-.upload-icon{font-size:1.8rem;margin-bottom:8px;display:block}
-.upload-hint{font-size:.88rem;color:var(--muted)}
-.upload-hint strong{color:var(--text);border-bottom:1px solid var(--border)}
-.preview-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(90px,1fr));gap:8px;margin-bottom:14px}
-.preview-item{position:relative;aspect-ratio:1;overflow:hidden;border:1px solid var(--border);border-radius:8px}
-.preview-item img{width:100%;height:100%;object-fit:cover}
-.rm-btn{position:absolute;top:3px;right:3px;background:rgba(15,17,23,.85);color:#fff;border:none;width:20px;height:20px;cursor:pointer;font-size:.7rem;display:flex;align-items:center;justify-content:center;border-radius:50%}
-.upload-count{font-size:.76rem;color:var(--muted);margin-bottom:6px}
+.swatches{display:flex;flex-wrap:wrap;gap:.5rem;margin-bottom:.75rem}
+.sw{width:32px;height:32px;border-radius:50%;cursor:pointer;border:2px solid transparent;transition:all .2s;flex-shrink:0}
+.sw.on{border-color:var(--accent);box-shadow:0 0 0 3px rgba(45,212,168,0.2)}
 
 /* SOCIAL */
-.social-row{display:flex;align-items:center;gap:10px;margin-bottom:10px}
-.social-ico{font-size:1.2rem;width:26px;text-align:center;flex-shrink:0}
-.social-row input{margin-bottom:0;flex:1}
+.srow{display:flex;align-items:center;gap:.6rem;margin-bottom:.6rem}
+.slbl{font-size:.78rem;color:var(--muted);min-width:80px;flex-shrink:0}
+.srow input{flex:1;background:var(--bg2);border:1px solid var(--border);border-radius:var(--rs);color:var(--text);font-size:.875rem;font-family:var(--sans);font-weight:300;padding:.55rem .75rem;outline:none;transition:border-color .2s}
+.srow input:focus{border-color:var(--accent)}
+.srow input::placeholder{color:var(--muted2)}
 
-/* SECTION LABEL */
-.sec{font-size:.72rem;font-weight:500;letter-spacing:.12em;text-transform:uppercase;color:var(--accent);margin:24px 0 14px;display:flex;align-items:center;gap:10px}
-.sec::after{content:'';flex:1;height:1px;background:var(--border)}
+/* DIV */
+.div{height:1px;background:var(--border);margin:1.75rem 0}
 
-/* NAVIGATION */
-.nav{display:flex;gap:12px;margin-top:28px}
-.back{background:none;border:1px solid var(--border);color:var(--muted);font-family:var(--sans);font-size:.85rem;padding:11px 22px;cursor:pointer;border-radius:8px;transition:all .15s}
-.back:hover{border-color:var(--muted)}
-.next{background:var(--accent);border:none;color:#0F1117;font-family:var(--sans);font-size:.85rem;font-weight:600;letter-spacing:.06em;text-transform:uppercase;padding:12px 30px;cursor:pointer;border-radius:8px;transition:background .15s}
-.next:hover{background:#22B893}
+/* CONTACT BOX */
+.cbox{background:var(--accent-bg);border:1px solid var(--accent-bd);border-radius:var(--r);padding:1.25rem;margin-bottom:1.25rem}
+.cbox-lbl{font-size:.68rem;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--accent);margin-bottom:.75rem}
 
-/* RESULT */
-.thank-box{padding:28px;border-radius:14px;background:var(--card);border:1px solid var(--border);margin:24px 0}
-.ns-row{display:flex;gap:12px;align-items:flex-start;margin-bottom:12px}
-.ns-num{font-family:var(--serif);font-size:1.1rem;color:var(--accent);flex-shrink:0}
-.ns-text{font-size:.92rem;color:var(--muted)}
-.btn-restart{background:none;border:1px solid var(--border);color:var(--muted);font-family:var(--sans);font-size:.85rem;padding:11px 22px;cursor:pointer;border-radius:8px;margin-top:16px}
+/* BUTTONS */
+.btns{display:flex;gap:.75rem;margin-top:2rem}
+.btn{flex:1;padding:.875rem 1.5rem;background:linear-gradient(135deg,var(--accent),#1a9e7a);color:#060810;border:none;border-radius:var(--rs);font-family:var(--sans);font-size:.92rem;font-weight:700;cursor:pointer;transition:all .2s;position:relative;overflow:hidden}
+.btn::before{content:'';position:absolute;top:0;left:-100%;width:100%;height:100%;background:linear-gradient(90deg,transparent,rgba(255,255,255,0.15),transparent);transition:left .4s}
+.btn:hover::before{left:100%}
+.btn:hover{box-shadow:0 0 24px rgba(45,212,168,0.3);transform:translateY(-1px)}
+.btn:disabled{opacity:.4;cursor:not-allowed;transform:none}
+.btnb{padding:.875rem 1.1rem;background:transparent;border:1px solid var(--border);border-radius:var(--rs);color:var(--muted);font-family:var(--sans);font-size:.92rem;cursor:pointer;transition:all .2s}
+.btnb:hover{border-color:var(--border-md);color:var(--text)}
+
+/* TRUST */
+.trust{margin-top:1.5rem;text-align:center;font-size:.74rem;color:var(--muted2);letter-spacing:.03em}
+.trust span{margin:0 .4rem}
+
+/* SUCCESS */
+.done{display:none;text-align:center;padding:3rem 0 2rem}
+.done.on{display:block;animation:up .3s ease}
+.done-icon{display:inline-flex;align-items:center;justify-content:center;width:56px;height:56px;border-radius:50%;border:1px solid var(--accent-bd);background:var(--accent-bg);margin-bottom:1.5rem;box-shadow:0 0 24px rgba(45,212,168,0.15)}
+.done-icon svg{width:22px;height:22px;stroke:var(--accent);stroke-width:2;fill:none;stroke-linecap:round;stroke-linejoin:round}
+.done h2{font-family:var(--serif);font-size:1.75rem;font-weight:700;letter-spacing:-.03em;margin-bottom:.75rem}
+.done .sub{margin-bottom:2rem}
+.steps-list{text-align:left;border:1px solid var(--border);border-radius:var(--r);overflow:hidden;background:var(--bg2)}
+.nstep{display:flex;gap:1rem;padding:1rem 1.25rem;align-items:flex-start;border-bottom:1px solid var(--border)}
+.nstep:last-child{border-bottom:none}
+.nn{width:24px;height:24px;flex-shrink:0;margin-top:.05rem;border-radius:50%;background:var(--accent-bg);border:1px solid var(--accent-bd);display:flex;align-items:center;justify-content:center;font-size:.68rem;color:var(--accent);font-weight:600}
+.nt{font-size:.875rem;color:var(--muted);line-height:1.6;font-weight:300}
+.nt strong{color:var(--text);font-weight:500}
+.nt a{color:var(--accent);text-decoration:none}
 </style>
 </head>
 <body>
+
 <!-- Netlify Forms Detection -->
 <form name="briefing" netlify netlify-honeypot="bot-field" hidden>
   <input type="hidden" name="form-name" value="briefing"/>
   <input name="bot-field"/>
-  <input type="text" name="name"/>
+  <input type="text" name="vorname"/>
+  <input type="text" name="nachname"/>
   <input type="email" name="email"/>
   <input type="tel" name="telefon"/>
-  <input type="url" name="bilder"/>
   <textarea name="briefing"></textarea>
 </form>
 
-<div class="app">
+<nav>
+  <a class="nlogo" href="/">
+    <div class="nlogo-s">S</div>
+    <span class="nlogo-name">Seiten<span>Wertig</span></span>
+  </a>
+  <div class="nav-r">
+    <span class="nav-step" id="sc">Schritt 1 von 5</span>
+    <a class="nav-back" href="/">← Website</a>
+  </div>
+</nav>
+<div class="pbar"><div class="pfill" id="pf" style="width:20%"></div></div>
 
-<div class="header">
-  <span class="brand">Seiten<span>Wertig</span></span>
-  <span class="step-lbl" id="lbl">Schritt 1 von 10</span>
-</div>
-<div class="bar"><div class="fill" id="fill" style="width:10%"></div></div>
+<main>
 
-<!-- ══ 1: BETRIEB ══ -->
-<div class="step active" id="s1">
-  <p class="eyebrow">Los geht's</p>
-  <h1>Dein Betrieb.</h1>
-  <p class="sub">Ein paar Angaben — keine Romane nötig.</p>
-  <div class="field" style="margin-bottom:24px">
-    <label>Welches Paket passt zu dir?</label>
-    <div class="tiles col2" style="margin-bottom:0">
-      <div class="tile" onclick="solo(this,'paket')" data-v="Paket A — Redesign (€ 1.290): Domain & Hosting bereits vorhanden">
-        <span class="tile-icon">🎨</span>
-        <div class="tile-label">Paket A · Redesign</div>
-        <div class="tile-sub">€ 1.290 · Domain vorhanden</div>
-      </div>
-      <div class="tile" onclick="solo(this,'paket')" data-v="Paket B — Komplett (€ 1.590): Domain, Hosting, DNS, E-Mail plus Design & Entwicklung">
-        <span class="tile-icon">🚀</span>
-        <div class="tile-label">Paket B · Komplett</div>
-        <div class="tile-sub">€ 1.590 · Alles drin</div>
-      </div>
+<!-- ── SCHRITT 1: KONTAKT ── -->
+<div class="step on" id="s1">
+  <div class="eyebrow">Los geht's</div>
+  <h1>Kurz vorstellen.</h1>
+  <p class="sub">Damit ich deinen Entwurf zuschicken kann — dauert 2 Minuten.</p>
+
+  <div class="pkg-grid">
+    <div class="pkg on" onclick="selPkg(this,'A')">
+      <div class="pkg-lbl">Paket A</div>
+      <div class="pkg-name">Redesign</div>
+      <div class="pkg-price">€ 1.290 · Domain vorhanden</div>
+    </div>
+    <div class="pkg" onclick="selPkg(this,'B')">
+      <div class="pkg-lbl">Paket B</div>
+      <div class="pkg-name">Komplett</div>
+      <div class="pkg-price">€ 1.590 · Alles drin</div>
     </div>
   </div>
 
-  <div class="field"><label>Name des Betriebs</label><input type="text" id="s1-name" placeholder="z.B. Studio Sonnenschein"/></div>
-  <div class="field"><label>Was machst du?</label><input type="text" id="s1-branche" placeholder="z.B. EMS-Training, Physiotherapie, Friseur…"/></div>
-  <div class="row">
-    <div class="field"><label>Ort</label><input type="text" id="s1-ort" placeholder="z.B. Forchheim"/></div>
-    <div class="field"><label>Bestehende Website <span class="opt">falls vorhanden</span></label><input type="url" id="s1-url" placeholder="www.meineseite.de"/></div>
+  <div class="f-row">
+    <div class="f">
+      <label>Vorname <span class="req">✦</span></label>
+      <input id="vorname" type="text" placeholder="Max" autocomplete="given-name"/>
+      <div class="ferr" id="e-vorname">Pflichtfeld</div>
+    </div>
+    <div class="f">
+      <label>Nachname <span class="req">✦</span></label>
+      <input id="nachname" type="text" placeholder="Mustermann" autocomplete="family-name"/>
+      <div class="ferr" id="e-nachname">Pflichtfeld</div>
+    </div>
   </div>
-  <div class="nav"><button class="next" onclick="go(1,2)">Weiter →</button></div>
+  <div class="f">
+    <label>E-Mail <span class="req">✦</span></label>
+    <input id="email" type="email" placeholder="max@muster.de" autocomplete="email"/>
+    <div class="ferr" id="e-email">Bitte gültige E-Mail-Adresse eingeben</div>
+  </div>
+  <div class="f">
+    <label>Telefon <span class="req">✦</span></label>
+    <input id="tel" type="tel" placeholder="+49 176 …" autocomplete="tel"/>
+    <div class="ferr" id="e-tel">Pflichtfeld</div>
+    <div class="hint">Für Rückfragen zum Entwurf — kein Verkaufsgespräch.</div>
+  </div>
+
+  <div class="btns"><button class="btn" onclick="go(1,2)">Weiter →</button></div>
+  <div class="trust">DSGVO-konform<span>·</span>Deutsche Server<span>·</span>Kein Abo</div>
 </div>
 
-<!-- ══ 2: IMPRESSUM ══ -->
+<!-- ── SCHRITT 2: BETRIEB ── -->
 <div class="step" id="s2">
-  <p class="eyebrow">Rechtliches</p>
-  <h1>Angaben für das Impressum.</h1>
-  <p class="sub">Wird direkt ins Impressum eingebaut — bitte vollständig.</p>
+  <div class="eyebrow">Dein Betrieb</div>
+  <h1>Wer bist du?</h1>
+  <p class="sub">Ein paar Angaben zu deinem Betrieb — damit der Entwurf wirklich passt.</p>
 
-  <p class="sec">Inhaber / Firma</p>
-  <div class="row">
-    <div class="field"><label>Vollständiger Name</label><input type="text" id="s2-name" placeholder="Maria Mustermann"/></div>
-    <div class="field"><label>Firmenname <span class="opt">falls abweichend</span></label><input type="text" id="s2-firma" placeholder="Studio Sonnenschein GmbH"/></div>
+  <div class="f">
+    <label>Name des Betriebs <span class="req">✦</span></label>
+    <input id="betrieb" type="text" placeholder="z.B. Bäckerei Meier"/>
+    <div class="ferr" id="e-betrieb">Pflichtfeld</div>
   </div>
-
-  <p class="sec">Adresse</p>
-  <div class="field"><label>Straße & Hausnummer</label><input type="text" id="s2-str" placeholder="Musterstraße 12"/></div>
-  <div class="row">
-    <div class="field"><label>PLZ</label><input type="text" id="s2-plz" placeholder="91301"/></div>
-    <div class="field"><label>Ort</label><input type="text" id="s2-ort" placeholder="Forchheim"/></div>
+  <div class="f">
+    <label>Was machst du? <span class="req">✦</span></label>
+    <input id="branche" type="text" placeholder="z.B. EMS Training, Schreinerei, Kosmetikstudio …"/>
+    <div class="ferr" id="e-branche">Pflichtfeld</div>
   </div>
-
-  <p class="sec">Kontakt</p>
-  <div class="row">
-    <div class="field"><label>Telefon</label><input type="tel" id="s2-tel" placeholder="+49 9191 000000"/></div>
-    <div class="field"><label>E-Mail geschäftlich</label><input type="email" id="s2-email" placeholder="info@meinbetrieb.de"/></div>
-  </div>
-
-  <p class="sec">Steuerangaben</p>
-  <div class="row">
-    <div class="field"><label>USt-IdNr. <span class="opt">falls vorhanden</span></label><input type="text" id="s2-ust" placeholder="DE123456789"/></div>
-    <div class="field"><label>Steuernummer <span class="opt">alternativ</span></label><input type="text" id="s2-stnr" placeholder="217/123/45678"/></div>
-  </div>
-
-  <p class="sec">Handelsregister <span class="opt" style="text-transform:none;letter-spacing:0">nur GmbH, UG etc.</span></p>
-  <div class="row">
-    <div class="field"><label>Registergericht</label><input type="text" id="s2-gericht" placeholder="Amtsgericht Bamberg"/></div>
-    <div class="field"><label>Registernummer</label><input type="text" id="s2-hrb" placeholder="HRB 12345"/></div>
-  </div>
-
-  <div class="nav">
-    <button class="back" onclick="go(2,1)">← Zurück</button>
-    <button class="next" onclick="go(2,3)">Weiter →</button>
-  </div>
-</div>
-
-<!-- ══ 3: ZIELGRUPPE ══ -->
-<div class="step" id="s3">
-  <p class="eyebrow">Deine Kunden</p>
-  <h1>Wen willst du ansprechen?</h1>
-  <p class="sub">Mehrere möglich.</p>
-  <div class="tiles col2">
-    <div class="tile" onclick="multi(this,'zg')" data-v="Privatpersonen & Familien"><span class="tile-icon">👨‍👩‍👧</span><div class="tile-label">Privatpersonen</div></div>
-    <div class="tile" onclick="multi(this,'zg')" data-v="Frauen 25–50 Jahre"><span class="tile-icon">💪</span><div class="tile-label">Frauen 25–50</div></div>
-    <div class="tile" onclick="multi(this,'zg')" data-v="Sportler & Aktive"><span class="tile-icon">🏃</span><div class="tile-label">Sportler</div></div>
-    <div class="tile" onclick="multi(this,'zg')" data-v="Berufstätige & Manager"><span class="tile-icon">💼</span><div class="tile-label">Berufstätige</div></div>
-    <div class="tile" onclick="multi(this,'zg')" data-v="Senioren & Ältere"><span class="tile-icon">🌿</span><div class="tile-label">Senioren</div></div>
-    <div class="tile" onclick="multi(this,'zg')" data-v="Unternehmen & Teams (B2B)"><span class="tile-icon">🏢</span><div class="tile-label">Unternehmen</div></div>
-  </div>
-  <div class="nav">
-    <button class="back" onclick="go(3,2)">← Zurück</button>
-    <button class="next" onclick="go(3,4)">Weiter →</button>
-  </div>
-</div>
-
-<!-- ══ 4: TON ══ -->
-<div class="step" id="s4">
-  <p class="eyebrow">Ausstrahlung</p>
-  <h1>Wie soll die Seite wirken?</h1>
-  <p class="sub">Wähle bis zu 3.</p>
-  <div class="chips">
-    <div class="chip" onclick="chip(this,'ton',3)" data-v="vertrauenswürdig & seriös">Vertrauenswürdig</div>
-    <div class="chip" onclick="chip(this,'ton',3)" data-v="warm & einladend">Warm & einladend</div>
-    <div class="chip" onclick="chip(this,'ton',3)" data-v="modern & frisch">Modern & frisch</div>
-    <div class="chip" onclick="chip(this,'ton',3)" data-v="professionell & klar">Professionell & klar</div>
-    <div class="chip" onclick="chip(this,'ton',3)" data-v="energetisch & dynamisch">Energetisch</div>
-    <div class="chip" onclick="chip(this,'ton',3)" data-v="natürlich & entspannt">Natürlich</div>
-    <div class="chip" onclick="chip(this,'ton',3)" data-v="hochwertig & premium">Premium</div>
-    <div class="chip" onclick="chip(this,'ton',3)" data-v="lokal & persönlich">Lokal & persönlich</div>
-    <div class="chip" onclick="chip(this,'ton',3)" data-v="mutig & auffällig">Mutig & auffällig</div>
-    <div class="chip" onclick="chip(this,'ton',3)" data-v="minimalistisch & reduziert">Minimalistisch</div>
-  </div>
-  <div class="nav">
-    <button class="back" onclick="go(4,3)">← Zurück</button>
-    <button class="next" onclick="go(4,5)">Weiter →</button>
-  </div>
-</div>
-
-<!-- ══ 5: FARBEN ══ -->
-<div class="step" id="s5">
-  <p class="eyebrow">Design</p>
-  <h1>Welche Farben sprechen dich an?</h1>
-  <p class="sub">Wähle eine Hauptrichtung.</p>
-  <div class="swatches">
-    <div class="sw-wrap"><div class="swatch" style="background:#1a1714" onclick="sw(this,'farbe')" data-v="Dunkel & edel (Schwarz, Anthrazit, Creme)"></div><div class="sw-label">Edel</div></div>
-    <div class="sw-wrap"><div class="swatch" style="background:#f5f0e8;border:1px solid #333" onclick="sw(this,'farbe')" data-v="Hell & natürlich (Creme, Beige, Sand)"></div><div class="sw-label">Natürlich</div></div>
-    <div class="sw-wrap"><div class="swatch" style="background:#2c7a5a" onclick="sw(this,'farbe')" data-v="Grün & frisch (Wald, Mint, Sage)"></div><div class="sw-label">Grün</div></div>
-    <div class="sw-wrap"><div class="swatch" style="background:#1e4d8c" onclick="sw(this,'farbe')" data-v="Blau & vertrauenswürdig (Navy, Kobalt)"></div><div class="sw-label">Blau</div></div>
-    <div class="sw-wrap"><div class="swatch" style="background:#c8a96e" onclick="sw(this,'farbe')" data-v="Warm & golden (Ocker, Bernstein, Terrakotta)"></div><div class="sw-label">Warm</div></div>
-    <div class="sw-wrap"><div class="swatch" style="background:#9b4f8e" onclick="sw(this,'farbe')" data-v="Lila & feminin (Mauve, Rose, Lavendel)"></div><div class="sw-label">Lila</div></div>
-    <div class="sw-wrap"><div class="swatch" style="background:#c0392b" onclick="sw(this,'farbe')" data-v="Rot & kraftvoll (Rot, Koralle, Orange)"></div><div class="sw-label">Rot</div></div>
-    <div class="sw-wrap"><div class="swatch" style="background:linear-gradient(135deg,#e8e8e8,#fff);border:1px solid #333" onclick="sw(this,'farbe')" data-v="Neutral & minimalistisch (Weiß, Grau)"></div><div class="sw-label">Neutral</div></div>
-  </div>
-  <div class="field"><label>Oder frei beschreiben <span class="opt">überschreibt Auswahl</span></label><input type="text" id="s5-frei" placeholder="z.B. Dunkelgrün mit cremefarbenen Akzenten…"/></div>
-  <div class="nav">
-    <button class="back" onclick="go(5,4)">← Zurück</button>
-    <button class="next" onclick="go(5,6)">Weiter →</button>
-  </div>
-</div>
-
-<!-- ══ 6: SEITEN ══ -->
-<div class="step" id="s6">
-  <p class="eyebrow">Inhalte</p>
-  <h1>Was soll auf die Website?</h1>
-  <p class="sub">Alle gewünschten Bereiche auswählen.</p>
-  <div class="tiles col3">
-    <div class="tile" onclick="multi(this,'seiten')" data-v="Startseite mit Hero"><span class="tile-icon">🏠</span><div class="tile-label">Startseite</div></div>
-    <div class="tile" onclick="multi(this,'seiten')" data-v="Über mich / Über uns"><span class="tile-icon">👤</span><div class="tile-label">Über mich</div></div>
-    <div class="tile" onclick="multi(this,'seiten')" data-v="Leistungen & Angebote"><span class="tile-icon">✨</span><div class="tile-label">Leistungen</div></div>
-    <div class="tile" onclick="multi(this,'seiten')" data-v="Preisübersicht"><span class="tile-icon">💰</span><div class="tile-label">Preise</div></div>
-    <div class="tile" onclick="multi(this,'seiten')" data-v="Kundenstimmen & Bewertungen"><span class="tile-icon">⭐</span><div class="tile-label">Bewertungen</div></div>
-    <div class="tile" onclick="multi(this,'seiten')" data-v="Foto-Galerie"><span class="tile-icon">📸</span><div class="tile-label">Galerie</div></div>
-    <div class="tile" onclick="multi(this,'seiten')" data-v="Kontakt & Anfahrt"><span class="tile-icon">📍</span><div class="tile-label">Kontakt</div></div>
-    <div class="tile" onclick="multi(this,'seiten')" data-v="Online-Terminbuchung"><span class="tile-icon">📅</span><div class="tile-label">Terminbuchung</div></div>
-    <div class="tile" onclick="multi(this,'seiten')" data-v="Blog / News"><span class="tile-icon">📝</span><div class="tile-label">Blog</div></div>
-    <div class="tile" onclick="multi(this,'seiten')" data-v="FAQ"><span class="tile-icon">❓</span><div class="tile-label">FAQ</div></div>
-    <div class="tile" onclick="multi(this,'seiten')" data-v="Team-Vorstellung"><span class="tile-icon">👥</span><div class="tile-label">Team</div></div>
-    <div class="tile" onclick="multi(this,'seiten')" data-v="Impressum & Datenschutz"><span class="tile-icon">📋</span><div class="tile-label">Impressum</div></div>
-  </div>
-  <div class="nav">
-    <button class="back" onclick="go(6,5)">← Zurück</button>
-    <button class="next" onclick="go(6,7)">Weiter →</button>
-  </div>
-</div>
-
-<!-- ══ 7: BILDER ══ -->
-<div class="step" id="s7">
-  <p class="eyebrow">Bilder</p>
-  <h1>Lade deine Bilder hoch.</h1>
-  <p class="sub">Logo, Fotos vom Betrieb, Portraits — alles was auf die Seite soll.</p>
-
-  <p class="sec">Logo</p>
-  <div class="upload-zone" id="zone-logo" onclick="document.getElementById('inp-logo').click()"
-    ondragover="dragOver(event,'zone-logo')" ondragleave="dragLeave('zone-logo')" ondrop="dropFiles(event,'logo')">
-    <input type="file" id="inp-logo" accept="image/*" onchange="addFiles(this.files,'logo')"/>
-    <span class="upload-icon">🖼️</span>
-    <p class="upload-hint"><strong>Klicken</strong> oder Datei hierher ziehen</p>
-    <p class="upload-hint" style="font-size:.75rem;margin-top:4px">PNG mit transparentem Hintergrund bevorzugt</p>
-  </div>
-  <div class="preview-grid" id="prev-logo"></div>
-
-  <p class="sec">Fotos — Betrieb, Team, Atmosphäre</p>
-  <div class="upload-zone" id="zone-fotos" onclick="document.getElementById('inp-fotos').click()"
-    ondragover="dragOver(event,'zone-fotos')" ondragleave="dragLeave('zone-fotos')" ondrop="dropFiles(event,'fotos')">
-    <input type="file" id="inp-fotos" accept="image/*" multiple onchange="addFiles(this.files,'fotos')"/>
-    <span class="upload-icon">📷</span>
-    <p class="upload-hint"><strong>Klicken</strong> oder Dateien hierher ziehen</p>
-    <p class="upload-hint" style="font-size:.75rem;margin-top:4px">Mehrere Dateien gleichzeitig · JPG, PNG, WEBP</p>
-  </div>
-  <div class="upload-count" id="cnt-fotos"></div>
-  <div class="preview-grid" id="prev-fotos"></div>
-
-  <div class="nav">
-    <button class="back" onclick="go(7,6)">← Zurück</button>
-    <button class="next" onclick="go(7,8)">Weiter →</button>
-  </div>
-</div>
-
-<!-- ══ 8: SOCIAL MEDIA ══ -->
-<div class="step" id="s8">
-  <p class="eyebrow">Online-Präsenz</p>
-  <h1>Deine Social-Media-Kanäle.</h1>
-  <p class="sub">Nur ausfüllen was du wirklich nutzt.</p>
-  <div class="social-row"><span class="social-ico">📸</span><div class="field" style="flex:1;margin:0"><label>Instagram</label><input type="url" id="sm-ig" placeholder="https://instagram.com/deinname"/></div></div>
-  <div class="social-row"><span class="social-ico">👥</span><div class="field" style="flex:1;margin:0"><label>Facebook</label><input type="url" id="sm-fb" placeholder="https://facebook.com/deinname"/></div></div>
-  <div class="social-row"><span class="social-ico">🎵</span><div class="field" style="flex:1;margin:0"><label>TikTok</label><input type="url" id="sm-tt" placeholder="https://tiktok.com/@deinname"/></div></div>
-  <div class="social-row"><span class="social-ico">▶️</span><div class="field" style="flex:1;margin:0"><label>YouTube</label><input type="url" id="sm-yt" placeholder="https://youtube.com/@deinname"/></div></div>
-  <div class="social-row"><span class="social-ico">💼</span><div class="field" style="flex:1;margin:0"><label>LinkedIn</label><input type="url" id="sm-li" placeholder="https://linkedin.com/in/deinname"/></div></div>
-  <div class="social-row"><span class="social-ico">🗺️</span><div class="field" style="flex:1;margin:0"><label>Google Business</label><input type="url" id="sm-gb" placeholder="https://maps.google.com/…"/></div></div>
-  <div class="social-row"><span class="social-ico">💬</span><div class="field" style="flex:1;margin:0"><label>WhatsApp Business <span class="opt">Nummer</span></label><input type="tel" id="sm-wa" placeholder="+49 171 1234567"/></div></div>
-  <div class="nav">
-    <button class="back" onclick="go(8,7)">← Zurück</button>
-    <button class="next" onclick="go(8,9)">Weiter →</button>
-  </div>
-</div>
-
-<!-- ══ 9: USP ══ -->
-<div class="step" id="s9">
-  <p class="eyebrow">Dein Alleinstellungsmerkmal</p>
-  <h1>Was macht dich besonders?</h1>
-  <p class="sub">Das wird die Kernaussage deiner Seite. Ein Satz reicht.</p>
-  <div class="field"><label>Was macht dein Angebot einzigartig?</label><textarea id="s9-usp" placeholder="z.B. 20 Jahre Erfahrung, einziges EMS-Studio in der Region, max. 6 Kunden gleichzeitig…"></textarea></div>
-  <div class="field"><label>Welches Problem löst du für deine Kunden?</label><textarea id="s9-prob" placeholder="z.B. Zeitmangel beim Sport, Rückenschmerzen, Stress abbauen…" style="min-height:80px"></textarea></div>
-  <div class="nav">
-    <button class="back" onclick="go(9,8)">← Zurück</button>
-    <button class="next" onclick="go(9,10)">Weiter →</button>
-  </div>
-</div>
-
-<!-- ══ 10: EXTRAS ══ -->
-<div class="step" id="s10">
-  <p class="eyebrow">Fast geschafft</p>
-  <h1>Letzte Details.</h1>
-  <p class="sub">Damit ich dich erreichen kann.</p>
-  <div class="field"><label>Stil-Inspiration <span class="opt">Website die dir gefällt</span></label><input type="url" id="s10-inspo" placeholder="www.seite-die-mir-gefaellt.de"/></div>
-  <div class="field"><label>Was soll die Seite nicht sein?</label><input type="text" id="s10-nein" placeholder="z.B. nicht zu bunt, kein Englisch, keine Stock-Fotos…"/></div>
-  <p class="sec">Wie sollen Kunden dich kontaktieren?</p>
-  <p style="font-size:.85rem;color:var(--muted);margin-bottom:14px;margin-top:-8px">Wähle alle Kanäle die du aktiv bedienst — max. 4.</p>
-  <div class="tiles col3">
-    <div class="tile" onclick="chip(this,'kontakt',4)" data-v="WhatsApp"><span class="tile-icon">💬</span><div class="tile-label">WhatsApp</div><div class="tile-sub">Schnell & direkt</div></div>
-    <div class="tile" onclick="chip(this,'kontakt',4)" data-v="Telefon"><span class="tile-icon">📞</span><div class="tile-label">Telefon</div><div class="tile-sub">Direkt anrufen</div></div>
-    <div class="tile" onclick="chip(this,'kontakt',4)" data-v="E-Mail"><span class="tile-icon">📧</span><div class="tile-label">E-Mail</div><div class="tile-sub">Klassisch</div></div>
-    <div class="tile" onclick="chip(this,'kontakt',4)" data-v="Kontaktformular"><span class="tile-icon">📋</span><div class="tile-label">Formular</div><div class="tile-sub">Auf der Website</div></div>
-    <div class="tile" onclick="chip(this,'kontakt',4)" data-v="Instagram Direktnachricht"><span class="tile-icon">📸</span><div class="tile-label">Instagram DM</div><div class="tile-sub">Social Message</div></div>
-    <div class="tile" onclick="chip(this,'kontakt',4)" data-v="Online-Terminbuchung (Calendly o.ä.)"><span class="tile-icon">📅</span><div class="tile-label">Terminbuchung</div><div class="tile-sub">Calendly & Co.</div></div>
-  </div>
-
-  <div style="background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.08);border-radius:12px;padding:20px;margin:20px 0">
-    <p style="font-size:.75rem;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--accent);margin-bottom:6px">Logo & Bilder</p>
-    <p style="font-size:.82rem;color:var(--muted);margin-bottom:14px;line-height:1.6">Lade dein Logo und Fotos in Google Drive, Dropbox oder WeTransfer hoch und füge den Link hier ein. Alternativ schickst du die Dateien nach dem Briefing direkt per E-Mail.</p>
-    <div style="display:flex;flex-direction:column;gap:6px;margin-bottom:14px">
-      <div style="display:flex;align-items:center;gap:8px;font-size:.8rem;color:var(--muted)"><span style="color:var(--accent)">✓</span>Logo als <strong style="color:var(--text);font-weight:500">PNG mit transparentem Hintergrund</strong></div>
-      <div style="display:flex;align-items:center;gap:8px;font-size:.8rem;color:var(--muted)"><span style="color:var(--accent)">✓</span>Fotos mindestens <strong style="color:var(--text);font-weight:500">1200px breit</strong></div>
-      <div style="display:flex;align-items:center;gap:8px;font-size:.8rem;color:var(--muted)"><span style="color:var(--accent)">✓</span>Alles in <strong style="color:var(--text);font-weight:500">einem Ordner</strong> — nicht verstreut</div>
+  <div class="f-row">
+    <div class="f">
+      <label>Ort</label>
+      <input id="ort" type="text" placeholder="Forchheim"/>
     </div>
-    <div class="field" style="margin-bottom:0"><label>Link zu deinen Bildern <span class="opt">optional</span></label><input type="url" id="s10-bilder" placeholder="z.B. drive.google.com/... oder wetransfer.com/..."/></div>
+    <div class="f" id="bw">
+      <label>Bestehende Website</label>
+      <input id="bsite" type="url" placeholder="https://…"/>
+    </div>
+  </div>
+  <div class="f">
+    <label>Beschreibung <span class="req">✦</span></label>
+    <textarea id="desc" placeholder="Was machst du für wen — und was macht dich besonders? Ein paar Sätze reichen."></textarea>
+    <div class="ferr" id="e-desc">Bitte kurz beschreiben</div>
   </div>
 
-  <div style="background:rgba(45,212,168,0.04);border:1px solid rgba(45,212,168,0.15);border-radius:12px;padding:20px;margin:20px 0">
-    <p style="font-size:.75rem;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--accent);margin-bottom:14px">Deine Kontaktdaten — Pflichtfelder</p>
-    <div class="field"><label>Dein Name <span style="color:#e55;font-size:.8rem">*</span></label><input type="text" id="s10-kontakt-name" placeholder="Maria Mustermann"/></div>
-    <div class="field"><label>E-Mail <span style="color:#e55;font-size:.8rem">*</span></label><input type="email" id="s10-email" placeholder="deine@email.de"/></div>
-    <div class="field" style="margin-bottom:0"><label>Telefon <span style="color:#e55;font-size:.8rem">*</span></label><input type="tel" id="s10-telefon" placeholder="+49 171 1234567"/></div>
-  </div>
-  <div class="field"><label>Anmerkungen <span class="opt">alles was noch wichtig ist</span></label><textarea id="s10-notes" placeholder="Öffnungszeiten, besondere Wünsche, laufende Aktionen…" style="min-height:80px"></textarea></div>
-  <div class="nav">
-    <button class="back" onclick="go(10,9)">← Zurück</button>
-    <button class="next" onclick="submit()">Briefing absenden →</button>
+  <div class="btns">
+    <button class="btnb" onclick="go(2,1)">←</button>
+    <button class="btn" onclick="go(2,3)">Weiter →</button>
   </div>
 </div>
 
-<!-- ══ RESULT ══ -->
-<div class="step" id="s-result">
-  <p class="eyebrow">Fertig</p>
-  <h1>Danke — dein Briefing ist angekommen.</h1>
-  <p class="sub" style="font-size:1rem">Ich schaue mir deine Angaben an und schicke dir innerhalb von <strong style="color:var(--white)">24 Stunden</strong> einen ersten Entwurf zu — kostenlos und unverbindlich.</p>
-  <div class="thank-box">
-    <p style="font-size:.76rem;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--accent);margin-bottom:14px">Was passiert als nächstes</p>
-    <div class="ns-row"><span class="ns-num">1.</span><span class="ns-text">Ich prüfe deine Angaben und melde mich bei Rückfragen.</span></div>
-    <div class="ns-row"><span class="ns-num">2.</span><span class="ns-text">Falls noch nicht geschehen: Schick Logo & Fotos an <strong style="color:var(--accent)"><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="bdd7dcd3fdced8d4c9d8d3cad8cfc9d4da93d9d8">[email&#160;protected]</a></strong></span></div>
-    <div class="ns-row"><span class="ns-num">3.</span><span class="ns-text">Du bekommst einen ersten visuellen Entwurf — passend zu deinem Betrieb.</span></div>
-    <div class="ns-row"><span class="ns-num">4.</span><span class="ns-text">Wenn es gefällt, besprechen wir die nächsten Schritte. Kein Druck.</span></div>
+<!-- ── SCHRITT 3: DESIGN ── -->
+<div class="step" id="s3">
+  <div class="eyebrow">Design</div>
+  <h1>Wie soll es wirken?</h1>
+  <p class="sub">Dein Gefühl für den Auftritt — ich übersetze es ins Design.</p>
+
+  <div class="f">
+    <label>Stil</label>
+    <div class="chips" id="cs">
+      <div class="chip" data-v="Modern & minimalistisch">Modern & minimal</div>
+      <div class="chip" data-v="Warm & persönlich">Warm & persönlich</div>
+      <div class="chip" data-v="Professionell & seriös">Professionell</div>
+      <div class="chip" data-v="Frisch & verspielt">Frisch & verspielt</div>
+      <div class="chip" data-v="Dunkel & premium">Dunkel & premium</div>
+      <div class="chip" data-v="Klassisch & zeitlos">Klassisch</div>
+    </div>
   </div>
-  <form id="ff" name="briefing" netlify netlify-honeypot="bot-field" style="display:none" method="POST">
-    <input type="hidden" name="form-name" value="briefing"/>
-    <input type="hidden" name="briefing" id="ff-briefing"/>
-    <input type="email" name="email" id="ff-email"/>
-  </form>
-  <button class="btn-restart" onclick="restart()">Weiteres Briefing starten</button>
+  <div class="div"></div>
+  <div class="f">
+    <label>Farbwelt</label>
+    <div class="swatches" id="swatches">
+      <div class="sw" style="background:#1a1a2e" data-v="Dunkelblau / Nacht" title="Dunkelblau"></div>
+      <div class="sw" style="background:#2d6a4f" data-v="Waldgrün / Natur" title="Waldgrün"></div>
+      <div class="sw" style="background:#2DD4A8" data-v="Mint / Modern" title="Mint"></div>
+      <div class="sw" style="background:#c9a96e" data-v="Gold / Warm" title="Gold"></div>
+      <div class="sw" style="background:#c8454d" data-v="Rot / Energie" title="Rot"></div>
+      <div class="sw" style="background:#6c63ff" data-v="Violett / Kreativ" title="Violett"></div>
+      <div class="sw" style="background:#f8f9fa;border:1px solid rgba(255,255,255,.12)" data-v="Hell / Clean" title="Hell"></div>
+      <div class="sw" style="background:#111111" data-v="Schwarz / Premium" title="Schwarz"></div>
+    </div>
+    <input id="fc" type="text" placeholder="Oder eigene Farbe beschreiben (z.B. „Himmelblau, sehr hell")"/>
+  </div>
+  <div class="div"></div>
+  <div class="f">
+    <label>Seiteninhalt — was soll drauf?</label>
+    <div class="tiles" id="ti">
+      <div class="tile" data-v="Startseite"><span class="tile-ico">🏠</span>Start</div>
+      <div class="tile" data-v="Leistungen"><span class="tile-ico">⚙️</span>Leistungen</div>
+      <div class="tile" data-v="Über mich / Team"><span class="tile-ico">👤</span>Über mich</div>
+      <div class="tile" data-v="Referenzen / Portfolio"><span class="tile-ico">🖼️</span>Referenzen</div>
+      <div class="tile" data-v="Preise / Pakete"><span class="tile-ico">💶</span>Preise</div>
+      <div class="tile" data-v="Kontakt"><span class="tile-ico">📬</span>Kontakt</div>
+      <div class="tile" data-v="FAQ"><span class="tile-ico">❓</span>FAQ</div>
+      <div class="tile" data-v="Blog"><span class="tile-ico">📝</span>Blog</div>
+      <div class="tile" data-v="Terminbuchung"><span class="tile-ico">📅</span>Termine</div>
+    </div>
+  </div>
+
+  <div class="btns">
+    <button class="btnb" onclick="go(3,2)">←</button>
+    <button class="btn" onclick="go(3,4)">Weiter →</button>
+  </div>
 </div>
 
-</div>
-<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
-const TOTAL=10; let cur=1;
-const M={}; const S={}; const SV={};
-const UP={logo:[],fotos:[]};
+<!-- ── SCHRITT 4: DETAILS ── -->
+<div class="step" id="s4">
+  <div class="eyebrow">Details</div>
+  <h1>Feinheiten.</h1>
+  <p class="sub">Kurze letzte Fragen — macht den Unterschied.</p>
 
-function go(from,to){
-  cur=to;
-  document.querySelectorAll('.step').forEach(s=>s.classList.remove('active'));
-  document.getElementById(to==='result'?'s-result':`s${to}`).classList.add('active');
-  const pct=to==='result'?100:Math.round((to/TOTAL)*100);
-  document.getElementById('fill').style.width=pct+'%';
-  document.getElementById('lbl').textContent=to==='result'?'Fertig!':`Schritt ${to} von ${TOTAL}`;
+  <div class="f">
+    <label>Kontaktkanäle — wie sollen Kunden dich erreichen?</label>
+    <div class="chips" id="ck">
+      <div class="chip on" data-v="Kontaktformular">Formular</div>
+      <div class="chip" data-v="WhatsApp">WhatsApp</div>
+      <div class="chip" data-v="Telefon">Telefon</div>
+      <div class="chip" data-v="E-Mail">E-Mail</div>
+      <div class="chip" data-v="Terminbuchung (Calendly o.ä.)">Terminbuchung</div>
+      <div class="chip" data-v="Instagram DM">Instagram DM</div>
+    </div>
+  </div>
+  <div class="div"></div>
+  <div class="f">
+    <label>Social Media — nur was du wirklich nutzt</label>
+    <div class="srow"><span class="slbl">Instagram</span><input id="ig" type="text" placeholder="@username"/></div>
+    <div class="srow"><span class="slbl">Facebook</span><input id="fb" type="text" placeholder="URL oder Seitenname"/></div>
+    <div class="srow"><span class="slbl">Google Biz</span><input id="gb" type="text" placeholder="Name des Eintrags"/></div>
+    <div class="srow"><span class="slbl">Sonstiges</span><input id="so" type="text" placeholder="TikTok, LinkedIn, YouTube …"/></div>
+  </div>
+  <div class="div"></div>
+  <div class="f">
+    <label>Was soll die Seite nicht sein?</label>
+    <input id="nicht" type="text" placeholder="z.B. zu voll, zu verspielt, zu generisch …"/>
+  </div>
+
+  <div class="btns">
+    <button class="btnb" onclick="go(4,3)">←</button>
+    <button class="btn" onclick="go(4,5)">Weiter →</button>
+  </div>
+</div>
+
+<!-- ── SCHRITT 5: MATERIALIEN ── -->
+<div class="step" id="s5">
+  <div class="eyebrow">Materialien</div>
+  <h1>Logo & Fotos.</h1>
+  <p class="sub">Kein Upload nötig — ein Link reicht.</p>
+
+  <div class="f">
+    <label>Link zu Logo & Fotos</label>
+    <input id="bilder" type="url" placeholder="https://drive.google.com/…"/>
+    <div class="hint">
+      ✓ PNG-Logo mit transparentem Hintergrund &nbsp;·&nbsp; ✓ Fotos mind. 1.200 px &nbsp;·&nbsp; ✓ Alles in einem Ordner<br/>
+      Kein Link? Schick die Dateien nach dem Briefing an <a id="mail-hint">jan@seitenwertig.de</a>
+    </div>
+  </div>
+  <div class="div"></div>
+  <div class="f">
+    <label>Stil-Inspiration</label>
+    <input id="insp" type="url" placeholder="https://… (Website die dir gefällt)"/>
+  </div>
+  <div class="div"></div>
+  <div class="f">
+    <label>Anmerkungen</label>
+    <textarea id="note" placeholder="Fragen, Besonderheiten, Deadlines — alles was noch wichtig ist."></textarea>
+  </div>
+
+  <div class="btns">
+    <button class="btnb" onclick="go(5,4)">←</button>
+    <button class="btn" id="sbtn" onclick="send()">Briefing absenden →</button>
+  </div>
+  <div class="trust">DSGVO-konform<span>·</span>Deutsche Server<span>·</span>Kein Abo</div>
+</div>
+
+<!-- ── SUCCESS ── -->
+<div class="done" id="done">
+  <div class="done-icon">
+    <svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg>
+  </div>
+  <h2>Briefing angekommen.</h2>
+  <p class="sub">Du bekommst innerhalb von <strong style="color:var(--text)">24 Stunden</strong> einen Vorschau-Link — kostenlos und unverbindlich.</p>
+  <div class="steps-list">
+    <div class="nstep"><div class="nn">1</div><div class="nt">Ich prüfe deine Angaben und melde mich bei Rückfragen direkt bei dir.</div></div>
+    <div class="nstep"><div class="nn">2</div><div class="nt">Falls noch nicht geschehen — schick Logo & Fotos an <strong><a id="mail-done">jan@seitenwertig.de</a></strong></div></div>
+    <div class="nstep"><div class="nn">3</div><div class="nt">Du bekommst einen <strong>Vorschau-Link</strong> — die fertige Seite live im Browser. Kein Download, kein Code.</div></div>
+    <div class="nstep"><div class="nn">4</div><div class="nt">Feedback über das Feedback-Formular. Nach Freigabe & Anzahlung bekommst du alle Dateien.</div></div>
+  </div>
+  <div class="trust" style="margin-top:1.75rem">Erster Entwurf in 24h<span>·</span>Keine Verpflichtung<span>·</span>Ab € 1.290</div>
+</div>
+
+</main>
+
+<script>
+let pkg='A';
+
+function selPkg(el,p){
+  document.querySelectorAll('.pkg').forEach(c=>c.classList.remove('on'));
+  el.classList.add('on'); pkg=p;
+  document.getElementById('bw').style.display=p==='B'?'none':'';
+}
+
+// Chips — max selection
+function initChips(id,max){
+  document.getElementById(id).addEventListener('click',e=>{
+    const c=e.target.closest('.chip');if(!c)return;
+    if(c.classList.contains('on')){c.classList.remove('on');return;}
+    const sel=document.querySelectorAll('#'+id+' .chip.on');
+    if(max&&sel.length>=max)sel[0].classList.remove('on');
+    c.classList.add('on');
+  });
+}
+// Tiles — multi toggle
+document.getElementById('ti').addEventListener('click',e=>{
+  const t=e.target.closest('.tile');if(t)t.classList.toggle('on');
+});
+initChips('cs',3);
+initChips('ck',3);
+
+// Swatches
+document.getElementById('swatches').addEventListener('click',e=>{
+  const sw=e.target.closest('.sw');if(!sw)return;
+  document.querySelectorAll('.sw').forEach(s=>s.classList.remove('on'));
+  sw.classList.add('on');
+});
+
+// Helpers
+function g(id){return document.getElementById(id)}
+function chips(id){return[...document.querySelectorAll('#'+id+' .on')].map(x=>x.dataset.v).join(', ')}
+function tiles(id){return[...document.querySelectorAll('#'+id+' .on')].map(x=>x.dataset.v).join(', ')}
+function swVal(){const s=document.querySelector('.sw.on');return s?s.dataset.v:''}
+
+// Validation
+function setErr(id,show){
+  const e=g('e-'+id),i=g(id);
+  if(!e||!i)return;
+  e.classList.toggle('on',show);i.classList.toggle('err',show);
+}
+function valid(n){
+  if(n===1){
+    const v=g('vorname').value.trim(),na=g('nachname').value.trim(),
+          em=g('email').value.trim(),t=g('tel').value.trim();
+    const eo=/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(em);
+    setErr('vorname',!v);setErr('nachname',!na);setErr('email',!eo);setErr('tel',!t);
+    return v&&na&&eo&&t;
+  }
+  if(n===2){
+    const b=g('betrieb').value.trim(),br=g('branche').value.trim(),d=g('desc').value.trim();
+    setErr('betrieb',!b);setErr('branche',!br);setErr('desc',!d);
+    return b&&br&&d;
+  }
+  return true;
+}
+
+// Navigation
+function go(f,t){
+  if(t>f&&!valid(f))return;
+  g('s'+f).classList.remove('on');
+  g('s'+t).classList.add('on');
+  g('sc').textContent='Schritt '+t+' von 5';
+  g('pf').style.width=(t/5*100)+'%';
   window.scrollTo({top:0,behavior:'smooth'});
 }
 
-function multi(el,g){
-  if(!M[g])M[g]=new Set();
-  const v=el.dataset.v;
-  if(M[g].has(v)){M[g].delete(v);el.classList.remove('selected');}
-  else{M[g].add(v);el.classList.add('selected');}
-}
-function chip(el,g,max){
-  if(!M[g])M[g]=new Set();
-  const v=el.dataset.v;
-  if(M[g].has(v)){M[g].delete(v);el.classList.remove('selected');}
-  else{if(max&&M[g].size>=max)return;M[g].add(v);el.classList.add('selected');}
-}
-function sw(el,g){
-  document.querySelectorAll('.swatch').forEach(s=>s.classList.remove('selected'));
-  el.classList.add('selected'); SV[g]=el.dataset.v;
-}
-function solo(el,g){
-  // Single select — deselect others in same group
-  const group = el.closest('.tiles');
-  if(group) group.querySelectorAll('.tile').forEach(t=>t.classList.remove('selected'));
-  el.classList.add('selected');
-  SV[g]=el.dataset.v;
+// Submit
+async function send(){
+  const btn=g('sbtn');
+  btn.disabled=true;btn.textContent='Wird gesendet …';
+  const d={
+    'Paket':pkg==='A'?'A · Redesign (€ 1.290 zzgl. MwSt.)':'B · Komplett (€ 1.590 zzgl. MwSt.)',
+    'Vorname':g('vorname').value.trim(),
+    'Nachname':g('nachname').value.trim(),
+    'E-Mail':g('email').value.trim(),
+    'Telefon':g('tel').value.trim(),
+    'Betrieb':g('betrieb').value.trim(),
+    'Branche':g('branche').value.trim(),
+    'Ort':g('ort').value.trim(),
+    'Bestehende Website':g('bsite').value.trim()||'—',
+    'Beschreibung':g('desc').value.trim(),
+    'Stil':chips('cs')||'—',
+    'Farbe':swVal()||(g('fc').value.trim()||'—'),
+    'Seiteninhalt':tiles('ti')||'—',
+    'Kontaktkanäle':chips('ck')||'—',
+    'Nicht so':g('nicht').value.trim()||'—',
+    'Instagram':g('ig').value.trim()||'—',
+    'Facebook':g('fb').value.trim()||'—',
+    'Google Business':g('gb').value.trim()||'—',
+    'Social Sonstiges':g('so').value.trim()||'—',
+    'Bilder-Link':g('bilder').value.trim()||'—',
+    'Inspiration':g('insp').value.trim()||'—',
+    'Anmerkungen':g('note').value.trim()||'—',
+  };
+  const body=Object.entries(d).map(([k,v])=>`${k}: ${v}`).join('\n');
+  try{
+    await fetch('/',{
+      method:'POST',
+      headers:{'Content-Type':'application/x-www-form-urlencoded'},
+      body:new URLSearchParams({
+        'form-name':'briefing',
+        'vorname':d['Vorname'],
+        'nachname':d['Nachname'],
+        'email':d['E-Mail'],
+        'telefon':d['Telefon'],
+        'briefing':body
+      })
+    });
+  }catch(e){}
+  // Show success
+  g('s5').classList.remove('on');
+  g('done').classList.add('on');
+  window.scrollTo({top:0,behavior:'smooth'});
 }
 
-function addFiles(files,type){
-  [...files].forEach(f=>{
-    if(!f.type.startsWith('image/'))return;
-    const r=new FileReader();
-    r.onload=e=>{UP[type].push({name:f.name,data:e.target.result});renderPrev(type);};
-    r.readAsDataURL(f);
+// Email obfuscation — prevent Cloudflare scrambling
+(function(){
+  const u='jan',d='seitenwertig',t='.de';
+  const addr=u+'@'+d+t;
+  const href='mailto:'+addr;
+  ['mail-hint','mail-done'].forEach(function(id){
+    const el=document.getElementById(id);
+    if(el){el.href=href;el.textContent=addr;}
   });
-}
-function renderPrev(type){
-  const g=document.getElementById(`prev-${type}`);
-  g.innerHTML='';
-  UP[type].forEach((img,i)=>{
-    const d=document.createElement('div');
-    d.className='preview-item';
-    d.innerHTML=`<img src="${img.data}"/><button class="rm-btn" onclick="rmImg('${type}',${i})">×</button>`;
-    g.appendChild(d);
-  });
-  const c=document.getElementById(`cnt-${type}`);
-  if(c)c.textContent=UP[type].length?`${UP[type].length} Bild${UP[type].length>1?'er':''} ausgewählt`:'';
-}
-function rmImg(type,i){UP[type].splice(i,1);renderPrev(type);}
-function dragOver(e,id){e.preventDefault();document.getElementById(id).classList.add('dragover');}
-function dragLeave(id){document.getElementById(id).classList.remove('dragover');}
-function dropFiles(e,type){e.preventDefault();dragLeave(`zone-${type}`);addFiles(e.dataTransfer.files,type);}
-
-function v(id){const el=document.getElementById(id);return el?el.value.trim():'';}
-function mv(g){return M[g]&&M[g].size?[...M[g]].join(', '):'—';}
-
-function collectImpressum(){
-  const lines=[];
-  const firma=v('s2-firma'),name=v('s2-name'),str=v('s2-str'),plz=v('s2-plz'),ort=v('s2-ort');
-  const tel=v('s2-tel'),email=v('s2-email'),ust=v('s2-ust'),stnr=v('s2-stnr');
-  const gericht=v('s2-gericht'),hrb=v('s2-hrb');
-  if(firma)lines.push(`Firma: ${firma}`);
-  if(name)lines.push(`Inhaber: ${name}`);
-  if(str)lines.push(`Adresse: ${str}, ${plz} ${ort}`);
-  if(tel)lines.push(`Tel: ${tel}`);
-  if(email)lines.push(`E-Mail: ${email}`);
-  if(ust)lines.push(`USt-IdNr.: ${ust}`);
-  if(stnr)lines.push(`Steuernummer: ${stnr}`);
-  if(gericht&&hrb)lines.push(`Registergericht: ${gericht}, ${hrb}`);
-  return lines.join('\n')||'—';
-}
-function collectSocial(){
-  const map={Instagram:v('sm-ig'),Facebook:v('sm-fb'),TikTok:v('sm-tt'),YouTube:v('sm-yt'),LinkedIn:v('sm-li'),'Google Business':v('sm-gb'),WhatsApp:v('sm-wa')};
-  return Object.entries(map).filter(([,val])=>val).map(([k,val])=>`${k}: ${val}`).join('\n')||'—';
-}
-
-function buildPrompt(){
-  const farbe=v('s5-frei')||SV['farbe']||'—';
-  return `Du bist ein erfahrener Webdesigner. Baue eine vollständige, professionelle Website als sauberes HTML/CSS/JS — mobiloptimiert, ohne externe Frameworks außer Google Fonts.
-
-## BRIEFING
-
-**Paket:** ${SV['paket']||'—'}
-**Kontakt:** ${v('s10-kontakt-name')||'—'} | ${v('s10-email')||'—'} | ${v('s10-telefon')||'—'}
-**Bilder/Logo:** ${v('s10-bilder')||'Werden per E-Mail nachgereicht'}
-**Betrieb:** ${v('s1-name')||'—'}
-**Branche:** ${v('s1-branche')||'—'}
-**Standort:** ${v('s1-ort')||'—'}
-**Bestehende URL:** ${v('s1-url')||'—'}
-**Zielgruppe:** ${mv('zg')}
-**Gewünschte Wirkung:** ${mv('ton')}
-**Farbwelt:** ${farbe}
-**Seitenbereiche:** ${mv('seiten')}
-**Kontaktkanäle:** ${mv('kontakt')}
-**Alleinstellungsmerkmal:** ${v('s9-usp')||'—'}
-**Kundenproblem:** ${v('s9-prob')||'—'}
-
-**Social Media:**
-${collectSocial()}
-
-**Impressum:**
-${collectImpressum()}
-
-**Stil-Inspiration:** ${v('s10-inspo')||'—'}
-**Was die Seite nicht sein soll:** ${v('s10-nein')||'—'}
-**Weitere Hinweise:** ${v('s10-notes')||'—'}
-**Bilder:** ${UP.logo.length} Logo-Datei(en), ${UP.fotos.length} Foto(s) — separat übermittelt.
-
-## TECHNISCHE ANFORDERUNGEN
-
-1. Vollständige, sofort einsatzfähige HTML-Datei
-2. Alle Sektionen aus dem Briefing einbauen
-3. Farbpalette exakt nach Briefing — konsistente CSS-Variablen
-4. Vollständig responsive, kein horizontales Scrollen
-5. Passende Google Fonts zur gewünschten Wirkung
-6. Kontaktformular (Name, E-Mail, Nachricht, Senden)
-7. Scroll-Animationen via IntersectionObserver
-8. Sticky Navigation mit Anker-Links
-9. Social-Media-Icons mit korrekten Links aus dem Briefing
-10. Kontaktbereich mit ALLEN gewählten Kanälen prominent einbauen: ${mv('kontakt')}
-11. Impressum-Sektion mit exakten Daten
-11. Bildplatzhalter via placehold.co
-12. Alles in einer einzigen HTML-Datei — kein Bootstrap, kein Tailwind
-
-## STIL-DIREKTIVE
-
-Professionell designt — kein Template-Look, keine KI-Klischees.
-Ton: ${mv('ton')}. Farbe: ${farbe}.
-Zielgruppe (${mv('zg')}) muss sich sofort angesprochen fühlen.
-
-Gib ausschließlich den vollständigen HTML-Code aus.`;
-}
-
-function submit(){
-  const name = v('s10-kontakt-name');
-  const email = v('s10-email');
-  const tel = v('s10-telefon');
-  if(!name){alert('Bitte gib deinen Namen ein.');document.getElementById('s10-kontakt-name').focus();return;}
-  if(!email||!email.includes('@')){alert('Bitte gib eine gültige E-Mail-Adresse ein.');document.getElementById('s10-email').focus();return;}
-  if(!tel){alert('Bitte gib deine Telefonnummer ein.');document.getElementById('s10-telefon').focus();return;}
-  const prompt=buildPrompt();
-  document.getElementById('ff-briefing').value=prompt;
-  document.getElementById('ff-email').value=email;
-  fetch('/',{method:'POST',headers:{'Content-Type':'application/x-www-form-urlencoded'},body:new URLSearchParams({'form-name':'briefing',briefing:prompt,email:email,name:name,telefon:tel,bilder:v('s10-bilder')||'—'})}).catch(()=>{});
-  go(10,'result');
-}
-
-function restart(){
-  Object.keys(M).forEach(k=>delete M[k]);
-  Object.keys(S).forEach(k=>delete S[k]);
-  Object.keys(SV).forEach(k=>delete SV[k]);
-  UP.logo=[];UP.fotos=[];
-  document.querySelectorAll('.tile.selected,.chip.selected,.swatch.selected').forEach(e=>e.classList.remove('selected'));
-  document.querySelectorAll('input,textarea,select').forEach(e=>e.value='');
-  ['prev-logo','prev-fotos','cnt-fotos'].forEach(id=>{const el=document.getElementById(id);if(el)el.innerHTML='';});
-  go('result',1);
-}
-
-function submitToNetlify(formName, data) {
-  const body = new URLSearchPar
+})();
+</script>
+</body>
+</html>
