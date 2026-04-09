@@ -393,6 +393,12 @@ h1{font-family:var(--serif);font-size:clamp(1.5rem,5vw,2rem);font-weight:700;let
 
   <div class="btns">
     <button class="btnb" onclick="go(5,4)">←</button>
+    <div style="margin:.75rem 0">
+      <label class="consent-check" id="consent-brief-wrap" style="display:flex;align-items:flex-start;gap:8px;font-size:.8rem;color:var(--muted);cursor:pointer;line-height:1.55">
+        <input type="checkbox" id="consent-brief" style="margin-top:.15em;flex-shrink:0;width:16px;height:16px;accent-color:var(--accent);cursor:pointer"/>
+        <span>Ich habe die <a href="/rechtliches" target="_blank" rel="noopener" style="color:var(--accent)">Datenschutzerklärung</a> gelesen und stimme der Verarbeitung meiner Daten zu.</span>
+      </label>
+    </div>
     <button class="btn" id="sbtn" onclick="send()">Briefing absenden →</button>
   </div>
   <div class="trust">DSGVO-konform<span>·</span>Deutsche Server<span>·</span>Kein Abo</div>
@@ -489,6 +495,13 @@ function go(f,t){
 
 // Submit
 async function send(){
+  const consent=document.getElementById('consent-brief');
+  if(!consent.checked){
+    const wrap=document.getElementById('consent-brief-wrap');
+    wrap.style.color='#e05c5c';
+    consent.style.outline='2px solid #e05c5c';
+    consent.focus();return;
+  }
   const btn=g('sbtn');
   btn.disabled=true;btn.textContent='Wird gesendet …';
   const d={
@@ -592,22 +605,53 @@ Gib ausschließlich den vollständigen HTML-Code aus. Kein Markdown, keine Erkl�
     });
   }catch(e){}
   // Show success
+  lsClear();
   g('s5').classList.remove('on');
   g('done').classList.add('on');
   window.scrollTo({top:0,behavior:'smooth'});
 }
 
-// Email obfuscation — mailto fallback if Cloudflare decode script is absent
+crambling
 (function(){
-  var m='hallo@seitenwertig.de';
-  var h=document.getElementById('mail-hint');
-  var d=document.getElementById('mail-done');
-  if(h&&!h.getAttribute('href')){h.setAttribute('href','mailto:'+m);h.textContent=m;}
-  if(d&&!d.getAttribute('href')){d.setAttribute('href','mailto:'+m);}
+  const u='jan',d='seitenwertig',t='.de';
+  const addr=u+'@'+d+t;
+  const href='mailto:'+addr;
+  ['mail-hint','mail-done'].forEach(function(id){
+    const el=document.getElementById(id);
+    if(el){el.href=href;el.textContent=addr;}
+  });
 })();
 
-// Zielgruppe chips
-initChips('zg',4);
+// LocalStorage Autosave
+const LS_KEY='sw_briefing_v2';
+let cur=1;
+function lsSave(){
+  const obj={_step:cur,pkg};
+  ['vorname','nachname','email','tel','betrieb','branche','ort','bsite','desc','usp','problem','fc','ig','fb','gb','so','bilder','insp','note','nicht'].forEach(function(id){
+    var el=g(id);if(el)obj[id]=el.value;
+  });
+  try{localStorage.setItem(LS_KEY,JSON.stringify(obj));}catch(e){}
+}
+function lsRestore(){
+  var saved;
+  try{saved=JSON.parse(localStorage.getItem(LS_KEY));}catch(e){return;}
+  if(!saved)return;
+  if(!confirm('Du hast ein angefangenes Briefing — fortsetzen?')){localStorage.removeItem(LS_KEY);return;}
+  if(saved.pkg){var pkgEl=document.querySelector('.pkg[onclick*="''+saved.pkg+''"]');if(pkgEl)selPkg(pkgEl,saved.pkg);}
+  ['vorname','nachname','email','tel','betrieb','branche','ort','bsite','desc','usp','problem','fc','ig','fb','gb','so','bilder','insp','note','nicht'].forEach(function(id){
+    var el=g(id);if(el&&saved[id])el.value=saved[id];
+  });
+  if(saved._step&&saved._step>1&&saved._step<=5){
+    g('s'+1).classList.remove('on');
+    g('s'+saved._step).classList.add('on');
+    cur=saved._step;
+    g('sc').textContent='Schritt '+cur+' von 5';
+    g('pf').style.width=(cur/5*100)+'%';
+  }
+}
+function lsClear(){try{localStorage.removeItem(LS_KEY);}catch(e){}}
+document.querySelectorAll('input,textarea').forEach(function(el){el.addEventListener('input',lsSave);});
+window.addEventListener('load',lsRestore);
 </script>
 </body>
 </html>

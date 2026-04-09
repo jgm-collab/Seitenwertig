@@ -1,9 +1,10 @@
 # SeitenWertig — seitenwertig.de
-# Webdesign & KI-Automation Forchheim
 
 User-agent: *
 Allow: /
 Disallow: /feedback.html
+Disallow: /api/
+Disallow: /cdn-cgi/
 
 # AI Crawlers — explizit erlaubt
 User-agent: GPTBot
@@ -45,4 +46,4 @@ Allow: /
 User-agent: cohere-ai
 Allow: /
 
-Sitemap: https://www.seitenwertig.de/sitemap.xml
+Sitemap: https://seitenwertig.de/sitemap.xml

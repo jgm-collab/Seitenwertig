@@ -637,6 +637,15 @@ footer{position:relative;z-index:2;border-top:1px solid var(--border);padding:48
   50%{transform:translateY(-4px) rotate(0.3deg)}
 }
 
+
+/* DSGVO Consent */
+.consent-wrap{margin:1rem 0}
+.consent-check{display:flex;align-items:flex-start;gap:8px;font-size:.8rem;color:var(--muted);cursor:pointer;line-height:1.55}
+.consent-check input[type="checkbox"]{margin-top:.15em;flex-shrink:0;width:16px;height:16px;accent-color:var(--accent);cursor:pointer}
+.consent-check a{color:var(--accent);text-decoration:underline}
+.consent-err{color:#e05c5c!important}
+.consent-err input{outline:2px solid #e05c5c!important;outline-offset:2px}
+
 /* CUSTOM CURSOR */
 *{cursor:none}
 .cursor-dot{
@@ -968,6 +977,12 @@ footer{position:relative;z-index:2;border-top:1px solid var(--border);padding:48
           <div><label class="klbl">E-Mail</label><input type="email" name="email" class="kinp" placeholder="deine@email.de" required/></div>
         </div>
         <div style="margin-bottom:20px"><label class="klbl">Nachricht</label><textarea name="nachricht" class="kinp" rows="4" placeholder="Deine Frage oder was du dir vorstellst…" required style="resize:vertical"></textarea></div>
+        <div class="consent-wrap">
+          <label class="consent-check" id="consent-kontakt-wrap">
+            <input type="checkbox" name="datenschutz" id="consent-kontakt"/>
+            <span>Ich habe die <a href="/rechtliches" target="_blank" rel="noopener">Datenschutzerklärung</a> gelesen und stimme der Verarbeitung meiner Daten zu.</span>
+          </label>
+        </div>
         <button type="submit" class="btn-glow" style="font-size:15px;border:none;cursor:pointer;width:auto">Nachricht senden →</button>
         <p style="font-size:12px;color:var(--muted);margin-top:12px">Antwort innerhalb von 24 Stunden · Nur per E-Mail</p>
       </form>
@@ -1126,6 +1141,11 @@ function cbClose(){
 }
 function cbSubmit(e){
   e.preventDefault();
+  const consent=document.getElementById('consent-cb');
+  if(!consent.checked){
+    document.getElementById('consent-cb-wrap').classList.add('consent-err');
+    consent.focus();return;
+  }
   const data=new URLSearchParams({'form-name':'callback'});
   new FormData(e.target).forEach((v,k)=>data.append(k,v));
   fetch('/',{method:'POST',headers:{'Content-Type':'application/x-www-form-urlencoded'},body:data.toString()}).catch(()=>{});
@@ -1142,6 +1162,11 @@ document.querySelectorAll('.cb-btn,.cb-close,.cb-submit').forEach(el=>{
 // Contact form
 function sendKontakt(e){
   e.preventDefault();
+  const consent=document.getElementById('consent-kontakt');
+  if(!consent.checked){
+    document.getElementById('consent-kontakt-wrap').classList.add('consent-err');
+    consent.focus();return;
+  }
   const form=e.target,data=new URLSearchParams({'form-name':'kontakt'});
   new FormData(form).forEach((v,k)=>data.append(k,v));
   fetch('/',{method:'POST',headers:{'Content-Type':'application/x-www-form-urlencoded'},body:data.toString()}).catch(()=>{});
@@ -1181,6 +1206,12 @@ function sendKontakt(e){
       <div class="cb-field">
         <label class="cb-label-txt">Kurze Nachricht <span style="font-size:.65rem;color:#555;text-transform:none;letter-spacing:0">optional</span></label>
         <textarea name="nachricht" class="cb-inp" rows="2" placeholder="z.B. Wunschzeit oder kurze Info…" style="resize:none"></textarea>
+      </div>
+      <div class="consent-wrap" style="margin:.5rem 0">
+        <label class="consent-check" id="consent-cb-wrap">
+          <input type="checkbox" name="datenschutz" id="consent-cb"/>
+          <span>Ich stimme der <a href="/rechtliches" target="_blank" rel="noopener">Datenschutzerklärung</a> zu.</span>
+        </label>
       </div>
       <button type="submit" class="cb-submit">Rückruf anfordern →</button>
     </form>
