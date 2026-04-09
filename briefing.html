@@ -424,6 +424,7 @@ h1{font-family:var(--serif);font-size:clamp(1.5rem,5vw,2rem);font-weight:700;let
 
 <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
 let pkg='A';
+let cur=1;
 
 function selPkg(el,p){
   document.querySelectorAll('.pkg').forEach(c=>c.classList.remove('on'));
@@ -624,7 +625,6 @@ crambling
 
 // LocalStorage Autosave
 const LS_KEY='sw_briefing_v2';
-let cur=1;
 function lsSave(){
   const obj={_step:cur,pkg};
   ['vorname','nachname','email','tel','betrieb','branche','ort','bsite','desc','usp','problem','fc','ig','fb','gb','so','bilder','insp','note','nicht'].forEach(function(id){
