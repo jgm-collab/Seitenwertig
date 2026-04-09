@@ -426,6 +426,21 @@ h1{font-family:var(--serif);font-size:clamp(1.5rem,5vw,2rem);font-weight:700;let
 let pkg='A';
 let cur=1;
 
+// Pre-select package from URL param ?paket=A or ?paket=B
+(function(){
+  const p=new URLSearchParams(window.location.search).get('paket');
+  if(p==='A'||p==='B'){
+    document.addEventListener('DOMContentLoaded',function(){
+      const els=document.querySelectorAll('.pkg');
+      els.forEach(function(el){
+        if(el.getAttribute('onclick')&&el.getAttribute('onclick').indexOf("'"+p+"'")>-1){
+          selPkg(el,p);
+        }
+      });
+    });
+  }
+})();
+
 function selPkg(el,p){
   document.querySelectorAll('.pkg').forEach(c=>c.classList.remove('on'));
   el.classList.add('on'); pkg=p;
