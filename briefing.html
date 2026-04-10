@@ -150,6 +150,9 @@ h1{font-family:var(--serif);font-size:clamp(1.5rem,5vw,2rem);font-weight:700;let
   <input type="text" name="nachname"/>
   <input type="email" name="email"/>
   <input type="tel" name="telefon"/>
+  <input type="text" name="linkedin"/>
+  <input type="text" name="xtwitter"/>
+  <input type="text" name="xing"/>
   <textarea name="briefing"></textarea>
 </form>
 
@@ -351,8 +354,11 @@ h1{font-family:var(--serif);font-size:clamp(1.5rem,5vw,2rem);font-weight:700;let
     <label>Social Media — nur was du wirklich nutzt</label>
     <div class="srow"><span class="slbl">Instagram</span><input id="ig" type="text" placeholder="@username"/></div>
     <div class="srow"><span class="slbl">Facebook</span><input id="fb" type="text" placeholder="URL oder Seitenname"/></div>
+    <div class="srow"><span class="slbl">LinkedIn</span><input id="li" type="text" placeholder="linkedin.com/in/deinname"/></div>
+    <div class="srow"><span class="slbl">X / Twitter</span><input id="xtw" type="text" placeholder="@username"/></div>
+    <div class="srow"><span class="slbl">Xing</span><input id="xi" type="text" placeholder="xing.com/profile/deinname"/></div>
     <div class="srow"><span class="slbl">Google Biz</span><input id="gb" type="text" placeholder="Name des Eintrags"/></div>
-    <div class="srow"><span class="slbl">Sonstiges</span><input id="so" type="text" placeholder="TikTok, LinkedIn, YouTube …"/></div>
+    <div class="srow"><span class="slbl">Sonstiges</span><input id="so" type="text" placeholder="TikTok, YouTube, WhatsApp …"/></div>
   </div>
   <div class="div"></div>
   <div class="f">
@@ -541,6 +547,9 @@ async function send(){
     'Nicht so':g('nicht').value.trim()||'—',
     'Instagram':g('ig').value.trim()||'—',
     'Facebook':g('fb').value.trim()||'—',
+    'LinkedIn':g('li').value.trim()||'—',
+    'X / Twitter':g('xtwitter').value.trim()||'—',
+    'Xing':g('xing').value.trim()||'—',
     'Google Business':g('gb').value.trim()||'—',
     'Social Sonstiges':g('so').value.trim()||'—',
     'Bilder-Link':g('bilder').value.trim()||'—',
@@ -572,6 +581,9 @@ ${d['Beschreibung']}
 **Social Media:**
 Instagram: ${d['Instagram']}
 Facebook: ${d['Facebook']}
+LinkedIn: ${d['LinkedIn']}
+X / Twitter: ${d['X / Twitter']}
+Xing: ${d['Xing']}
 Google Business: ${d['Google Business']}
 Sonstiges: ${d['Social Sonstiges']}
 
@@ -605,7 +617,11 @@ Hauptproblem der Kunden lösen: ${d['Kundenproblem']}
 
 Gib ausschließlich den vollständigen HTML-Code aus. Kein Markdown, keine Erklärungen, keine Codeblöcke.`;
 
-  const body=`=== LOVABLE/CLAUDE PROMPT ===\n\n${prompt}\n\n=== ROHDATEN ===\n${Object.entries(d).map(([k,v])=>k+': '+v).join('\n')}`;
+  // Sanitize for JSON safety: remove quotes and control chars
+  const sanitize = s => String(s||'').replace(/"/g,"'").replace(/\\/g,'/').replace(/[\r\n\t]/g,' ').replace(/[\u0000-\u001F]/g,' ').trim();
+  const safePrompt = sanitize(prompt);
+  const rohdaten = Object.entries(d).map(([k,v])=>sanitize(k)+': '+sanitize(v)).join(' | ');
+  const body = '=== BRIEFING === ' + safePrompt + ' === ROHDATEN === ' + rohdaten;
   try{
     await fetch('/',{
       method:'POST',
