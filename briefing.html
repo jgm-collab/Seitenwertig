@@ -617,11 +617,16 @@ Hauptproblem der Kunden lösen: ${d['Kundenproblem']}
 
 Gib ausschließlich den vollständigen HTML-Code aus. Kein Markdown, keine Erklärungen, keine Codeblöcke.`;
 
-  // Sanitize for JSON safety: remove quotes and control chars
-  const sanitize = s => String(s||'').replace(/"/g,"'").replace(/\\/g,'/').replace(/[\r\n\t]/g,' ').replace(/[\u0000-\u001F]/g,' ').trim();
+  // Sanitize for JSON safety
+  const sanitize = s => String(s||'')
+    .replace(/[\u0000-\u001F\u007F]/g,' ')
+    .replace(/"/g,"'")
+    .replace(/\\/g,' ')
+    .replace(/\r/g,' ').replace(/\n/g,' ').replace(/\t/g,' ')
+    .trim();
   const safePrompt = sanitize(prompt);
   const rohdaten = Object.entries(d).map(([k,v])=>sanitize(k)+': '+sanitize(v)).join(' | ');
-  const body = '=== BRIEFING === ' + safePrompt + ' === ROHDATEN === ' + rohdaten;
+  const body = 'BRIEFING: ' + safePrompt + ' ROHDATEN: ' + rohdaten;
   try{
     await fetch('/',{
       method:'POST',
