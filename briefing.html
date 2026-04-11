@@ -394,15 +394,20 @@ h1{font-family:var(--serif);font-size:clamp(1.5rem,5vw,2rem);font-weight:700;let
     <textarea id="note" placeholder="Fragen, Besonderheiten, Deadlines — alles was noch wichtig ist."></textarea>
   </div>
 
-  <div class="btns">
-    <button class="btnb" onclick="go(5,4)">←</button>
-    <div style="margin:.75rem 0">
-      <label class="consent-check" id="consent-brief-wrap" style="display:flex;align-items:flex-start;gap:8px;font-size:.8rem;color:var(--muted);cursor:pointer;line-height:1.55">
-        <input type="checkbox" id="consent-brief" style="margin-top:.15em;flex-shrink:0;width:16px;height:16px;accent-color:var(--accent);cursor:pointer"/>
+  <div style="margin-top:2rem">
+    <div style="margin-bottom:1rem">
+      <label style="display:flex;align-items:flex-start;gap:10px;font-size:.85rem;color:var(--muted);cursor:pointer;line-height:1.6">
+        <input type="checkbox" id="consent-brief" style="margin-top:.2em;flex-shrink:0;width:16px;height:16px;accent-color:var(--accent);cursor:pointer"/>
         <span>Ich habe die <a href="/rechtliches" target="_blank" rel="noopener" style="color:var(--accent)">Datenschutzerklärung</a> gelesen und stimme der Verarbeitung meiner Daten zu.</span>
       </label>
     </div>
-    <button class="btn" id="sbtn" onclick="send()">Briefing absenden →</button>
+    <div class="btns">
+      <button class="btnb" onclick="go(5,4)">←</button>
+      <button class="btn" id="sbtn" onclick="send()" style="flex:3;font-size:1rem;padding:1rem 2rem">
+        <span id="sbtn-label">Briefing absenden →</span>
+        <span id="sbtn-loading" style="display:none">Wird gesendet…</span>
+      </button>
+    </div>
   </div>
   <div class="trust">DSGVO-konform<span>·</span>EU-Datenschutz<span>·</span>Kein Abo</div>
 </div>
@@ -416,7 +421,7 @@ h1{font-family:var(--serif);font-size:clamp(1.5rem,5vw,2rem);font-weight:700;let
   <p class="sub">Du bekommst innerhalb von <strong style="color:var(--text)">24 Stunden</strong> einen Vorschau-Link — kostenlos und unverbindlich.</p>
   <div class="steps-list">
     <div class="nstep"><div class="nn">1</div><div class="nt">Ich prüfe deine Angaben und melde mich bei Rückfragen direkt bei dir.</div></div>
-    <div class="nstep"><div class="nn">2</div><div class="nt">Falls noch nicht geschehen — schick Logo & Fotos an <strong><a id="mail-done"><span class="__cf_email__" data-cfemail="cda7aca38dbea8a4b9a8a3baa8bfb9a4aae3a9a8">[email&#160;protected]</span></a></strong></div></div>
+    <div class="nstep"><div class="nn">2</div><div class="nt">Falls noch nicht geschehen — schick Logo & Fotos an <strong><a href="mailto:jan@seitenwertig.de" style="color:var(--accent)">jan@seitenwertig.de</a></strong></div></div>
     <div class="nstep"><div class="nn">3</div><div class="nt">Du bekommst einen <strong>Vorschau-Link</strong> — die fertige Seite live im Browser. Kein Download, kein Code.</div></div>
     <div class="nstep"><div class="nn">4</div><div class="nt">Feedback über das Feedback-Formular. Nach Freigabe & Anzahlung bekommst du alle Dateien.</div></div>
   </div>
@@ -511,7 +516,7 @@ function go(f,t){
   g('sc').textContent='Schritt '+t+' von 10';
   const pf=document.getElementById('pf');
   if(pf){pf.style.width=(t/10*100)+'%';pf.setAttribute('aria-valuenow',t);}
-  g('pf').style.width=(t/5*100)+'%';
+  // progress already updated above
   window.scrollTo({top:0,behavior:'smooth'});
 }
 
@@ -519,13 +524,11 @@ function go(f,t){
 async function send(){
   const consent=document.getElementById('consent-brief');
   if(!consent.checked){
-    const wrap=document.getElementById('consent-brief-wrap');
-    wrap.style.color='#e05c5c';
     consent.style.outline='2px solid #e05c5c';
+    consent.style.accentColor='#e05c5c';
     consent.focus();return;
   }
-  const btn=g('sbtn');
-  btn.disabled=true;btn.textContent='Wird gesendet …';
+  // loading state handled above
   const d={
     'Paket':pkg==='A'?'A · Redesign (€ 1.290 zzgl. MwSt.)':'B · Komplett (€ 1.590 zzgl. MwSt.)',
     'Vorname':g('vorname').value.trim(),
@@ -638,6 +641,13 @@ async function send(){
   const safePrompt = sanitize(prompt);
   const rohdaten = Object.entries(d).map(([k,v])=>sanitize(k)+': '+sanitize(v)).join(' | ');
   const body = 'BRIEFING: ' + safePrompt + ' ROHDATEN: ' + rohdaten;
+  // Loading state
+  const sbtn=document.getElementById('sbtn');
+  const slbl=document.getElementById('sbtn-label');
+  const sload=document.getElementById('sbtn-loading');
+  if(sbtn)sbtn.disabled=true;
+  if(slbl)slbl.style.display='none';
+  if(sload)sload.style.display='';
   try{
     await fetch('/',{
       method:'POST',
@@ -697,10 +707,3 @@ function lsRestore(){
     if(pf2){pf2.style.width=(cur/10*100)+'%';pf2.setAttribute('aria-valuenow',cur);}
     g('pf').style.width=(cur/5*100)+'%';
   }
-}
-function lsClear(){try{localStorage.removeItem(LS_KEY);}catch(e){}}
-document.querySelectorAll('input,textarea').forEach(function(el){el.addEventListener('input',lsSave);});
-window.addEventListener('load',lsRestore);
-</script>
-</body>
-</html>
