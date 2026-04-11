@@ -669,6 +669,10 @@ footer{position:relative;z-index:2;border-top:1px solid var(--border);padding:48
 .cursor-ring.click{width:28px;height:28px;border-color:var(--white)}
 @media(hover:none){.cursor-dot,.cursor-ring{display:none}*{cursor:auto}}
 
+
+.ferr{display:block;font-size:12px;color:#ff6b6b;margin-top:4px;min-height:16px}
+.kinp.err{border-color:#ff6b6b!important}
+
 /* GRAD */
 .grad-anim{background:linear-gradient(135deg,var(--accent) 0%,#a8eddf 30%,var(--accent2) 50%,#38f9d7 70%,var(--accent) 100%);background-size:300% 300%;-webkit-background-clip:text;-webkit-text-fill-color:transparent;animation:shimmer-text 4s ease infinite}
 </style>
@@ -770,7 +774,7 @@ footer{position:relative;z-index:2;border-top:1px solid var(--border);padding:48
         </div>
       </div>
       <div class="badge badge-2">
-        <span class="badge-dot"></span>DSGVO-konform · Deutsche Server
+        <span class="badge-dot"></span>DSGVO-konform · EU-Datenschutz
       </div>
     </div>
   </div>
@@ -968,22 +972,43 @@ footer{position:relative;z-index:2;border-top:1px solid var(--border);padding:48
       <div class="stag" style="margin-bottom:20px;display:inline-flex"><div class="stag-dot"></div>Kontakt</div>
       <h2 style="margin-bottom:8px">Erst eine Frage?</h2>
       <p style="font-size:15px;color:var(--muted);margin-bottom:28px;font-weight:300">Kein Problem — ich antworte innerhalb von 24 Stunden.<br>
-      Oder direkt per E-Mail: <a href="#" onclick="this.href='mailto:jan@seitenwertig.de';return true" style="color:var(--accent);font-weight:500">jan&#64;seitenwertig.de</a></p>
-      <form name="kontakt" netlify netlify-honeypot="bot-field" onsubmit="sendKontakt(event)">
+      Oder direkt per E-Mail: <a href="mailto:jan@seitenwertig.de" style="color:var(--accent);font-weight:500">jan&#64;seitenwertig.de</a></p>
+      <form name="kontakt" netlify netlify-honeypot="bot-field" novalidate onsubmit="sendKontakt(event)">
         <input type="hidden" name="form-name" value="kontakt"/>
         <p style="display:none"><input name="bot-field"/></p>
         <div class="kgrid">
-          <div><label class="klbl">Name</label><input type="text" name="name" class="kinp" placeholder="Maria Mustermann" required/></div>
-          <div><label class="klbl">E-Mail</label><input type="email" name="email" class="kinp" placeholder="deine@email.de" required/></div>
+          <div>
+            <label class="klbl" for="kname">Name</label>
+            <input type="text" id="kname" name="name" class="kinp" placeholder="Maria Mustermann"
+              autocomplete="name" required aria-required="true" aria-describedby="kname-err"/>
+            <span id="kname-err" role="alert" aria-live="polite" class="ferr"></span>
+          </div>
+          <div>
+            <label class="klbl" for="kemail">E-Mail</label>
+            <input type="email" id="kemail" name="email" class="kinp" placeholder="deine@email.de"
+              autocomplete="email" inputmode="email" required aria-required="true" aria-describedby="kemail-err"/>
+            <span id="kemail-err" role="alert" aria-live="polite" class="ferr"></span>
+          </div>
         </div>
-        <div style="margin-bottom:20px"><label class="klbl">Nachricht</label><textarea name="nachricht" class="kinp" rows="4" placeholder="Deine Frage oder was du dir vorstellst…" required style="resize:vertical"></textarea></div>
-        <div class="consent-wrap">
-          <label class="consent-check" id="consent-kontakt-wrap">
-            <input type="checkbox" name="datenschutz" id="consent-kontakt"/>
-            <span>Ich habe die <a href="/rechtliches" target="_blank" rel="noopener">Datenschutzerklärung</a> gelesen und stimme der Verarbeitung meiner Daten zu.</span>
+        <div style="margin-bottom:16px">
+          <label class="klbl" for="knachricht">Nachricht</label>
+          <textarea id="knachricht" name="nachricht" class="kinp" rows="4"
+            placeholder="Deine Frage oder was du dir vorstellst…"
+            required aria-required="true" aria-describedby="knachricht-err"
+            style="resize:vertical"></textarea>
+          <span id="knachricht-err" role="alert" aria-live="polite" class="ferr"></span>
+        </div>
+        <div style="margin-bottom:20px">
+          <label style="display:flex;align-items:flex-start;gap:10px;cursor:pointer;font-size:13px;color:var(--muted)">
+            <input type="checkbox" id="kdsgvo" name="datenschutz" aria-required="true" aria-describedby="kdsgvo-err" style="margin-top:2px;flex-shrink:0"/>
+            <span>Ich habe die <a href="/rechtliches" target="_blank" rel="noopener" style="color:var(--accent)">Datenschutzerklärung</a> gelesen und stimme der Verarbeitung meiner Daten zu.</span>
           </label>
+          <span id="kdsgvo-err" role="alert" aria-live="polite" class="ferr"></span>
         </div>
-        <button type="submit" class="btn-glow" style="font-size:15px;border:none;cursor:pointer;width:auto">Nachricht senden →</button>
+        <button type="submit" id="ksubmit" class="btn-glow" style="font-size:15px;border:none;cursor:pointer;width:auto">
+          <span id="kbtn-label">Nachricht senden →</span>
+          <span id="kbtn-loading" style="display:none">Wird gesendet…</span>
+        </button>
         <p style="font-size:12px;color:var(--muted);margin-top:12px">Antwort innerhalb von 24 Stunden · Nur per E-Mail</p>
       </form>
       <div id="ksuccess" style="display:none;margin-top:24px;padding:20px;border-radius:12px;background:rgba(45,212,168,0.07);border:1px solid rgba(45,212,168,0.2);text-align:center">
@@ -1041,7 +1066,7 @@ footer{position:relative;z-index:2;border-top:1px solid var(--border);padding:48
     <div>
       <div class="nbrand"><div class="nlogo">S</div><div class="nname" style="font-size:17px">Seiten<span>Wertig</span></div></div>
       <p style="font-size:13px;color:var(--muted);margin-top:8px">Webdesign & KI-Automation · Forchheim · Bamberg · Erlangen · Franken</p>
-      <a href="#" onclick="this.href='mailto:jan@seitenwertig.de';return true" style="font-size:13px;color:var(--accent);margin-top:6px;display:inline-block">jan&#64;seitenwertig.de</a>
+      <a href="mailto:jan@seitenwertig.de" style="font-size:13px;color:var(--accent);margin-top:6px;display:inline-block">jan&#64;seitenwertig.de</a>
     </div>
     <div class="flinks">
       <a href="/agb.html">AGB</a>
@@ -1092,6 +1117,12 @@ function faq(btn){
 
 
 
+
+// ESC closes callback widget
+document.addEventListener('keydown',e=>{
+  if(e.key==='Escape'&&document.getElementById('cb-modal').classList.contains('open'))cbClose();
+});
+
 // Wave text — split into letters with stagger
 function waveify(id) {
   const el = document.getElementById(id);
@@ -1132,12 +1163,15 @@ document.addEventListener('mouseup',()=>{cdot.classList.remove('click');cring.cl
 function cbToggle(){
   const m=document.getElementById('cb-modal');
   const o=document.getElementById('cb-overlay');
+  const btn=document.getElementById('cb-btn');
   m.classList.toggle('open');
   o.classList.toggle('open');
 }
 function cbClose(){
   document.getElementById('cb-modal').classList.remove('open');
+  document.getElementById('cb-modal').setAttribute('aria-hidden','true');
   document.getElementById('cb-overlay').classList.remove('open');
+  const cbBtn=document.getElementById('cb-btn');if(cbBtn){cbBtn.setAttribute('aria-expanded','false');cbBtn.focus();}
 }
 function cbSubmit(e){
   e.preventDefault();
@@ -1176,7 +1210,10 @@ function sendKontakt(e){
 </script>
 
 <!-- CALLBACK BUTTON -->
-<button class="cb-btn" onclick="cbToggle()" id="cb-btn" aria-label="Rückruf anfordern">
+<button class="cb-btn" onclick="cbToggle()" id="cb-btn"
+  aria-label="Rückruf anfordern"
+  aria-expanded="false"
+  aria-controls="cb-modal">
   <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
     <path d="M6.6 10.8c1.4 2.8 3.8 5.1 6.6 6.6l2.2-2.2c.3-.3.7-.4 1-.2 1.1.4 2.3.6 3.6.6.6 0 1 .4 1 1V20c0 .6-.4 1-1 1-9.4 0-17-7.6-17-17 0-.6.4-1 1-1h3.5c.6 0 1 .4 1 1 0 1.3.2 2.5.6 3.6.1.3 0 .7-.2 1L6.6 10.8z"/>
   </svg>
@@ -1184,24 +1221,30 @@ function sendKontakt(e){
 <div class="cb-label">Rückruf anfordern</div>
 
 <div class="cb-overlay" id="cb-overlay" onclick="cbClose()"></div>
-<div class="cb-modal" id="cb-modal">
-  <button class="cb-close" onclick="cbClose()">✕</button>
-  <div class="cb-title">Rückruf anfordern</div>
+<div class="cb-modal" id="cb-modal"
+  role="dialog"
+  aria-modal="true"
+  aria-labelledby="callback-title"
+  aria-hidden="true">
+  <button class="cb-close" onclick="cbClose()" aria-label="Rückruf-Formular schließen">
+    <span aria-hidden="true">✕</span>
+  </button>
+  <div class="cb-title" id="callback-title">Rückruf anfordern</div>
   <div class="cb-sub">Ich melde mich werktags innerhalb von 2 Stunden.</div>
   <div id="cb-form-wrap">
     <form onsubmit="cbSubmit(event)">
       <input type="hidden" name="form-name" value="callback"/>
       <div class="cb-field">
         <label class="cb-label-txt">Name</label>
-        <input type="text" name="name" class="cb-inp" placeholder="Maria Mustermann" required/>
+        <input type="text" name="name" id="cb-name" class="cb-inp" placeholder="Maria Mustermann" autocomplete="name" required aria-required="true"/>
       </div>
       <div class="cb-field">
         <label class="cb-label-txt">Telefon</label>
-        <input type="tel" name="telefon" class="cb-inp" placeholder="+49 171 1234567" required/>
+        <input type="tel" name="telefon" id="cb-tel" class="cb-inp" placeholder="+49 171 1234567" autocomplete="tel" inputmode="tel" required aria-required="true"/>
       </div>
       <div class="cb-field">
         <label class="cb-label-txt">E-Mail <span style="font-size:.65rem;color:#555;text-transform:none;letter-spacing:0">optional</span></label>
-        <input type="email" name="email" class="cb-inp" placeholder="deine@email.de"/>
+        <input type="email" name="email" id="cb-email" class="cb-inp" placeholder="deine@email.de" autocomplete="email" inputmode="email"/>
       </div>
       <div class="cb-field">
         <label class="cb-label-txt">Kurze Nachricht <span style="font-size:.65rem;color:#555;text-transform:none;letter-spacing:0">optional</span></label>
