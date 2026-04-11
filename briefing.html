@@ -33,7 +33,7 @@ nav{display:flex;align-items:center;justify-content:space-between;padding:0 1.5r
 .nav-back:hover{color:var(--accent)}
 
 /* PROGRESS */
-.pbar{height:2px;background:var(--border);position:sticky;top:58px;z-index:99}
+.pbar{height:4px;background:var(--border);position:sticky;top:58px;z-index:99}
 .pfill{height:100%;background:linear-gradient(90deg,var(--accent),#1a9e7a);transition:width .45s cubic-bezier(.4,0,.2,1)}
 
 /* MAIN */
@@ -162,11 +162,11 @@ h1{font-family:var(--serif);font-size:clamp(1.5rem,5vw,2rem);font-weight:700;let
     <span class="nlogo-name">Seiten<span>Wertig</span></span>
   </a>
   <div class="nav-r">
-    <span class="nav-step" id="sc">Schritt 1 von 5</span>
+    <span class="nav-step" id="sc">Schritt 1 von 10</span>
     <a class="nav-back" href="/">← Website</a>
   </div>
 </nav>
-<div class="pbar"><div class="pfill" id="pf" style="width:20%"></div></div>
+<div class="pbar"><div class="pfill" id="pf" style="width:20%" role="progressbar" aria-valuenow="1" aria-valuemin="1" aria-valuemax="10"></div></div>
 
 <main>
 
@@ -214,7 +214,7 @@ h1{font-family:var(--serif);font-size:clamp(1.5rem,5vw,2rem);font-weight:700;let
   </div>
 
   <div class="btns"><button class="btn" onclick="go(1,2)">Weiter →</button></div>
-  <div class="trust">DSGVO-konform<span>·</span>Deutsche Server<span>·</span>Kein Abo</div>
+  <div class="trust">DSGVO-konform<span>·</span>EU-Datenschutz<span>·</span>Kein Abo</div>
 </div>
 
 <!-- ── SCHRITT 2: BETRIEB ── -->
@@ -379,12 +379,9 @@ h1{font-family:var(--serif);font-size:clamp(1.5rem,5vw,2rem);font-weight:700;let
   <p class="sub">Kein Upload nötig — ein Link reicht.</p>
 
   <div class="f">
-    <label>Link zu Logo & Fotos</label>
-    <input id="bilder" type="url" placeholder="https://drive.google.com/…"/>
-    <div class="hint">
-      ✓ PNG-Logo mit transparentem Hintergrund &nbsp;·&nbsp; ✓ Fotos mind. 1.200 px &nbsp;·&nbsp; ✓ Alles in einem Ordner<br/>
-      Kein Link? Schick die Dateien nach dem Briefing an <a id="mail-hint"><span class="__cf_email__" data-cfemail="f79d9699b784929e839299809285839e90d99392">[email&#160;protected]</span></a>
-    </div>
+    <p style="font-size:.88rem;color:var(--muted);line-height:1.7;padding:14px 16px;background:rgba(45,212,168,0.06);border:1px solid rgba(45,212,168,0.15);border-radius:10px">
+      Bilder hast du bereits in Schritt 7 hochgeladen. Falls noch Dateien fehlen, schick sie nach dem Briefing an <a href="mailto:jan@seitenwertig.de" style="color:var(--accent)">jan@seitenwertig.de</a>.
+    </p>
   </div>
   <div class="div"></div>
   <div class="f">
@@ -407,7 +404,7 @@ h1{font-family:var(--serif);font-size:clamp(1.5rem,5vw,2rem);font-weight:700;let
     </div>
     <button class="btn" id="sbtn" onclick="send()">Briefing absenden →</button>
   </div>
-  <div class="trust">DSGVO-konform<span>·</span>Deutsche Server<span>·</span>Kein Abo</div>
+  <div class="trust">DSGVO-konform<span>·</span>EU-Datenschutz<span>·</span>Kein Abo</div>
 </div>
 
 <!-- ── SUCCESS ── -->
@@ -511,7 +508,9 @@ function go(f,t){
   if(t>f&&!valid(f))return;
   g('s'+f).classList.remove('on');
   g('s'+t).classList.add('on');
-  g('sc').textContent='Schritt '+t+' von 5';
+  g('sc').textContent='Schritt '+t+' von 10';
+  const pf=document.getElementById('pf');
+  if(pf){pf.style.width=(t/10*100)+'%';pf.setAttribute('aria-valuenow',t);}
   g('pf').style.width=(t/5*100)+'%';
   window.scrollTo({top:0,behavior:'smooth'});
 }
@@ -558,65 +557,76 @@ async function send(){
     'Anmerkungen':g('note').value.trim()||'—',
   };
   // Build structured Lovable/Claude prompt
-  const prompt=`Du bist ein erfahrener preisgekrönter Webdesigner. Baue eine vollständige, professionelle, höchsten Designansprüchen gerechtwerdende Website als sauberes HTML/CSS/JS — mobiloptimiert, ohne externe Frameworks außer Bunny Fonts (DSGVO-konform, nicht Google Fonts).
-
-## BRIEFING
-
-**Paket:** ${d['Paket']}
-**Kontakt:** ${d['Vorname']} ${d['Nachname']} | ${d['E-Mail']} | ${d['Telefon']}
-**Betrieb:** ${d['Betrieb']}
-**Branche:** ${d['Branche']}
-**Standort:** ${d['Ort']||'—'}
-**Bestehende URL:** ${d['Bestehende Website']}
-**Zielgruppe:** ${d['Zielgruppe']}
-**Alleinstellungsmerkmal:** ${d['USP']}
-**Kundenproblem:** ${d['Kundenproblem']}
-**Gewünschte Wirkung:** ${d['Stil']}
-**Farbwelt:** ${d['Farbe']}
-**Seitenbereiche:** ${d['Seiteninhalt']}
-**Kontaktkanäle:** ${d['Kontaktkanäle']}
-
-**Beschreibung:**
-${d['Beschreibung']}
-
-**Social Media:**
-Instagram: ${d['Instagram']}
-Facebook: ${d['Facebook']}
-LinkedIn: ${d['LinkedIn']}
-X / Twitter: ${d['X / Twitter']}
-Xing: ${d['Xing']}
-Google Business: ${d['Google Business']}
-Sonstiges: ${d['Social Sonstiges']}
-
-**Stil-Inspiration:** ${d['Inspiration']}
-**Was die Seite nicht sein soll:** ${d['Nicht so']}
-**Weitere Hinweise:** ${d['Anmerkungen']}
-
-## TECHNISCHE ANFORDERUNGEN
-
-1. Vollständige, sofort einsatzfähige HTML-Datei
-2. Alle Sektionen aus dem Briefing einbauen
-3. Farbpalette exakt nach Briefing — konsistente CSS-Variablen
-4. Vollständig responsive, kein horizontales Scrollen
-5. Passende Bunny Fonts (fonts.bunny.net) zur gewünschten Wirkung — KEIN Google Fonts
-6. Kontaktformular mit name="kontakt" netlify netlify-honeypot="bot-field"
-7. Scroll-Animationen via IntersectionObserver
-8. Sticky Navigation mit Anker-Links
-9. Social-Media-Icons mit korrekten Links aus dem Briefing
-10. Kontaktbereich mit ALLEN gewählten Kanälen prominent einbauen
-11. Impressum-Sektion mit Platzhalter [IMPRESSUM WIRD NACHGEREICHT]
-12. Bildplatzhalter via placehold.co — mit Beschriftung was dort hinkommt
-13. Alles in einer einzigen HTML-Datei — kein Bootstrap, kein Tailwind
-
-## STIL-DIREKTIVE
-
-Professionell designt — kein Template-Look, keine KI-Klischees.
-Ton: ${d['Stil']}. Farbe: ${d['Farbe']}.
-Zielgruppe (${d['Zielgruppe']}) muss sich sofort angesprochen fühlen.
-USP prominent platzieren: ${d['USP']}
-Hauptproblem der Kunden lösen: ${d['Kundenproblem']}
-
-Gib ausschließlich den vollständigen HTML-Code aus. Kein Markdown, keine Erklärungen, keine Codeblöcke.`;
+  // Social media — only non-empty
+  const socialLines = [
+    d['Instagram'] && d['Instagram'] !== '—' ? 'Instagram: ' + d['Instagram'] : '',
+    d['Facebook'] && d['Facebook'] !== '—' ? 'Facebook: ' + d['Facebook'] : '',
+    d['LinkedIn'] && d['LinkedIn'] !== '—' ? 'LinkedIn: ' + d['LinkedIn'] : '',
+    d['X / Twitter'] && d['X / Twitter'] !== '—' ? 'X/Twitter: ' + d['X / Twitter'] : '',
+    d['Xing'] && d['Xing'] !== '—' ? 'Xing: ' + d['Xing'] : '',
+    d['Google Business'] && d['Google Business'] !== '—' ? 'Google Business: ' + d['Google Business'] : '',
+    d['Social Sonstiges'] && d['Social Sonstiges'] !== '—' ? 'Sonstiges: ' + d['Social Sonstiges'] : '',
+  ].filter(Boolean).join('\n') || 'Keine Links vorhanden';
+  const bereicheList = (d['Seiteninhalt']||'').split(',').map(s => '- ' + s.trim()).join('\n');
+  const prompt = [
+    'Du bist ein erfahrener preisgekrönter Webdesigner. Baue eine vollständige, professionelle, höchsten Designansprüchen gerechtwerdende Website als sauberes HTML/CSS/JS — mobiloptimiert, ohne externe Frameworks außer Bunny Fonts (DSGVO-konform, nicht Google Fonts).',
+    '',
+    '## AUFTRAGGEBER',
+    '- Name: ' + d['Vorname'] + ' ' + d['Nachname'],
+    '- E-Mail: ' + d['E-Mail'],
+    '- Telefon: ' + d['Telefon'],
+    '- Paket: ' + d['Paket'],
+    '',
+    '## BRIEFING',
+    '',
+    '**Betrieb:** ' + d['Betrieb'],
+    '**Branche:** ' + d['Branche'],
+    '**Standort:** ' + (d['Ort']||'—'),
+    d['Bestehende Website'] && d['Bestehende Website'] !== '—' ? '**Bestehende Website:** ' + d['Bestehende Website'] : '',
+    '',
+    '**USP:** ' + d['USP'],
+    '**Kundenproblem:** ' + d['Kundenproblem'],
+    '**Gewünschte Wirkung:** ' + d['Stil'],
+    '**Farbwelt:** ' + d['Farbe'],
+    '',
+    '**Seitenbereiche:**',
+    bereicheList,
+    '',
+    '**Kontaktkanäle:** ' + d['Kontaktkanäle'],
+    '',
+    '**Beschreibung:**',
+    d['Beschreibung'],
+    '',
+    '**Social Media:** ' + socialLines,
+    '',
+    '**Stil-Direktive:**',
+    (d['Stil']||'') + '. Die Seite soll ' + (d['Stil']||'professionell') + ' wirken.' +
+      (d['Nicht so'] && d['Nicht so'] !== '—' ? ' Nicht so: ' + d['Nicht so'] + '.' : '') +
+      (d['Anmerkungen'] && d['Anmerkungen'] !== '—' ? ' Hinweise: ' + d['Anmerkungen'] : ''),
+    '',
+    '## TECHNISCHE ANFORDERUNGEN',
+    '',
+    '1. Vollständige, sofort einsatzfähige HTML-Datei (alles in einer Datei)',
+    '2. Alle genannten Seitenbereiche als Sektionen mit Sticky-Navigation und Anker-Links',
+    '3. Exakte Farbpalette nach Briefing mit konsistenten CSS-Variablen',
+    '4. Vollständig responsive, kein horizontales Scrollen',
+    '5. Bunny Fonts einbinden (fonts.bunny.net) — wähle passende, elegante Schriften zur gewünschten Wirkung',
+    '6. Kontaktformular mit name="kontakt" und Netlify-Attributen: netlify netlify-honeypot="bot-field"',
+    '7. Sanfte Scroll-Animationen mit IntersectionObserver',
+    '8. Sticky Navigation mit smooth Scroll zu den Ankern',
+    '9. Kontaktbereich mit allen gewählten Kanälen prominent einbauen',
+    '10. Impressum-Sektion mit Platzhalter: [IMPRESSUM WIRD NACHGEREICHT]',
+    '11. Bildplatzhalter mit placehold.co inklusive sinnvoller Beschriftung',
+    '12. Kein Bootstrap, kein Tailwind, keine externen Frameworks außer Bunny Fonts',
+    '',
+    '**Wichtige Hinweise:**',
+    '- USP "' + d['USP'] + '" und Kundenproblem "' + d['Kundenproblem'] + '" prominent herausstellen.',
+    '- Ton: ' + d['Stil'] + '. Design: professionell, kein Template-Look, keine KI-Klischees.',
+    '- Zielgruppe: ' + d['Zielgruppe'] + ' muss sich sofort angesprochen fühlen.',
+    '',
+    'Gib ausschließlich den vollständigen HTML-Code aus.',
+    'Keine Erklärungen, kein Markdown, keine Codeblöcke, kein ```html – nur der pure HTML-Code.',
+  ].filter(line => line !== null && line !== undefined).join('\n');
 
   // Sanitize for JSON safety
   const sanitize = s => String(s||'')
@@ -682,7 +692,9 @@ function lsRestore(){
     g('s'+1).classList.remove('on');
     g('s'+saved._step).classList.add('on');
     cur=saved._step;
-    g('sc').textContent='Schritt '+cur+' von 5';
+    g('sc').textContent='Schritt '+cur+' von 10';
+    const pf2=document.getElementById('pf');
+    if(pf2){pf2.style.width=(cur/10*100)+'%';pf2.setAttribute('aria-valuenow',cur);}
     g('pf').style.width=(cur/5*100)+'%';
   }
 }
