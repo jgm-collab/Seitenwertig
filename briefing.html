@@ -166,7 +166,7 @@ h1{font-family:var(--serif);font-size:clamp(1.5rem,5vw,2rem);font-weight:700;let
     <a class="nav-back" href="/">← Website</a>
   </div>
 </nav>
-<div class="pbar"><div class="pfill" id="pf" style="width:20%" role="progressbar" aria-valuenow="1" aria-valuemin="1" aria-valuemax="10"></div></div>
+<div class="pbar"><div class="pfill" id="pf" style="width:20%" role="progressbar" aria-valuenow="1" aria-valuemin="1" aria-valuemax="5"></div></div>
 
 <main>
 
@@ -380,7 +380,7 @@ h1{font-family:var(--serif);font-size:clamp(1.5rem,5vw,2rem);font-weight:700;let
 
   <div class="f">
     <p style="font-size:.88rem;color:var(--muted);line-height:1.7;padding:14px 16px;background:rgba(45,212,168,0.06);border:1px solid rgba(45,212,168,0.15);border-radius:10px">
-      Bilder hast du bereits in Schritt 7 hochgeladen. Falls noch Dateien fehlen, schick sie nach dem Briefing an <a href="/cdn-cgi/l/email-protection#b9d3d8d7f9cadcd0cddcd7cedccbcdd0de97dddc" style="color:var(--accent)"><span class="__cf_email__" data-cfemail="1d777c735d6e78746978736a786f69747a337978">[email&#160;protected]</span></a>.
+      Bilder hast du bereits in Schritt 7 hochgeladen. Falls noch Dateien fehlen, schick sie nach dem Briefing an <a href="mailto:jan@seitenwertig.de" style="color:var(--accent)">jan@seitenwertig.de</a>.
     </p>
   </div>
   <div class="div"></div>
@@ -421,7 +421,7 @@ h1{font-family:var(--serif);font-size:clamp(1.5rem,5vw,2rem);font-weight:700;let
   <p class="sub">Du bekommst innerhalb von <strong style="color:var(--text)">24 Stunden</strong> einen Vorschau-Link — kostenlos und unverbindlich.</p>
   <div class="steps-list">
     <div class="nstep"><div class="nn">1</div><div class="nt">Ich prüfe deine Angaben und melde mich bei Rückfragen direkt bei dir.</div></div>
-    <div class="nstep"><div class="nn">2</div><div class="nt">Falls noch nicht geschehen — schick Logo & Fotos an <strong><a href="/cdn-cgi/l/email-protection#f19b909fb182949885949f869483859896df9594" style="color:var(--accent)"><span class="__cf_email__" data-cfemail="305a515e7043555944555e4755424459571e5455">[email&#160;protected]</span></a></strong></div></div>
+    <div class="nstep"><div class="nn">2</div><div class="nt">Falls noch nicht geschehen — schick Logo & Fotos an <strong><a href="mailto:jan@seitenwertig.de" style="color:var(--accent)">jan@seitenwertig.de</a></strong></div></div>
     <div class="nstep"><div class="nn">3</div><div class="nt">Du bekommst einen <strong>Vorschau-Link</strong> — die fertige Seite live im Browser. Kein Download, kein Code.</div></div>
     <div class="nstep"><div class="nn">4</div><div class="nt">Feedback über das Feedback-Formular. Nach Freigabe & Anzahlung bekommst du alle Dateien.</div></div>
   </div>
@@ -430,7 +430,7 @@ h1{font-family:var(--serif);font-size:clamp(1.5rem,5vw,2rem);font-weight:700;let
 
 </main>
 
-<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+<script>
 let pkg='A';
 let cur=1;
 
@@ -513,9 +513,9 @@ function go(f,t){
   if(t>f&&!valid(f))return;
   g('s'+f).classList.remove('on');
   g('s'+t).classList.add('on');
-  g('sc').textContent='Schritt '+t+' von 10';
+  g('sc').textContent='Schritt '+t+' von 5';
   const pf=document.getElementById('pf');
-  if(pf){pf.style.width=(t/10*100)+'%';pf.setAttribute('aria-valuenow',t);}
+  if(pf){pf.style.width=(t/5*100)+'%';pf.setAttribute('aria-valuenow',t);}
   // progress already updated above
   window.scrollTo({top:0,behavior:'smooth'});
 }

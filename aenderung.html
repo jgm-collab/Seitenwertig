@@ -175,6 +175,7 @@ select option{background:#1C1E2A}
   <p class="eyebrow">Änderungsauftrag</p>
   <h1>Um welche Website geht es?</h1>
   <p class="sub">Damit ich direkt weiß womit ich arbeite.</p>
+  <div style="margin:1rem 0;padding:.75rem 1rem;background:rgba(45,212,168,0.07);border:1px solid rgba(45,212,168,0.2);border-radius:10px;font-size:.85rem;color:var(--muted);line-height:1.6"><strong style="color:var(--accent)">Nur für Bestandskunden.</strong> Der Änderungsauftrag steht ausschließlich Kunden zur Verfügung, deren Website von SeitenWertig erstellt wurde.</div>
 
   <div class="price-badge">
     <div class="amount">€ 79</div>
@@ -263,7 +264,7 @@ select option{background:#1C1E2A}
     <div style="margin-top:20px;padding-top:16px;border-top:1px solid var(--border)">
       <p style="font-size:.78rem;color:var(--muted)">
         Rechnung wird von <strong style="color:var(--text)">Mandy Mazur</strong> per E-Mail zugestellt.
-        Umsetzung startet nach Zahlungseingang. · Fragen: <a href="mailto:jan@seitenwertig.de" style="color:var(--accent)">jan@seitenwertig.de</a>
+        Umsetzung startet nach Zahlungseingang. · Fragen: <a href="/cdn-cgi/l/email-protection#214b404f6152444855444f5644535548460f4544" style="color:var(--accent)"><span class="__cf_email__" data-cfemail="dfb5beb19facbab6abbab1a8baadabb6b8f1bbba">[email&#160;protected]</span></a>
       </p>
     </div>
   </div>
@@ -318,7 +319,7 @@ select option{background:#1C1E2A}
 </div>
 
 </div>
-<script>
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
 function submitToNetlify(formName, data) {
   const body = new URLSearchParams({ 'form-name': formName, ...data });
   return fetch('/', {
@@ -445,13 +446,4 @@ function submit(){
 }
 
 function cp(){
-  navigator.clipboard.writeText(document.getElementById('prompt-out').textContent).then(()=>{
-    const el=document.getElementById('copied');
-    el.style.display='block';
-    setTimeout(()=>el.style.display='none',2500);
-  });
-}
-
-function restart(){
-  changes=[];cnt=0;urgency='';
-  document.getElementById('chan
+  navigator.clipboard.writeText(document.getElementById('prompt-out').
