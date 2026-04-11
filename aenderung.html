@@ -159,6 +159,7 @@ select option{background:#1C1E2A}
   <input name="bot-field"/>
   <input type="email" name="email"/>
   <textarea name="auftrag"></textarea>
+  <textarea name="prompt_intern"></textarea>
 </form>
 
 <div class="app">
@@ -262,7 +263,7 @@ select option{background:#1C1E2A}
     <div style="margin-top:20px;padding-top:16px;border-top:1px solid var(--border)">
       <p style="font-size:.78rem;color:var(--muted)">
         Rechnung wird von <strong style="color:var(--text)">Mandy Mazur</strong> per E-Mail zugestellt.
-        Umsetzung startet nach Zahlungseingang. · Fragen: <a href="/cdn-cgi/l/email-protection#e58f848ba596808c91808b928097918c82cb8180" style="color:var(--accent)"><span class="__cf_email__" data-cfemail="5e343f301e2d3b372a3b30293b2c2a3739703a3b">[email&#160;protected]</span></a>
+        Umsetzung startet nach Zahlungseingang. · Fragen: <a href="mailto:jan@seitenwertig.de" style="color:var(--accent)">jan@seitenwertig.de</a>
       </p>
     </div>
   </div>
@@ -317,7 +318,7 @@ select option{background:#1C1E2A}
 </div>
 
 </div>
-<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js">
+<script>
 function submitToNetlify(formName, data) {
   const body = new URLSearchParams({ 'form-name': formName, ...data });
   return fetch('/', {
@@ -437,7 +438,8 @@ function submit(){
   document.getElementById('ff-email').value=v('s1-email');
   submitToNetlify('aenderung', {
     auftrag: document.getElementById('ff-auftrag').value,
-    email: document.getElementById('ff-email').value
+    email: document.getElementById('ff-email').value,
+    prompt_intern: prompt
   });
   go(3,'result');
 }
