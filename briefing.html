@@ -555,7 +555,7 @@ async function send(){
     'Xing':g('xi').value.trim()||'—',
     'Google Business':g('gb').value.trim()||'—',
     'Social Sonstiges':g('so').value.trim()||'—',
-    'Bilder-Link':g('bilder').value.trim()||'—',
+    'Bilder-Link':(g('bilder')?g('bilder').value.trim():'')||'—',
     'Inspiration':g('insp').value.trim()||'—',
     'Anmerkungen':g('note').value.trim()||'—',
   };
@@ -689,6 +689,7 @@ async function send(){
 
 // LocalStorage Autosave
 const LS_KEY='sw_briefing_v2';
+function lsClear(){try{localStorage.removeItem(LS_KEY);}catch(e){}}
 function lsSave(){
   const obj={_step:cur,pkg};
   ['vorname','nachname','email','tel','betrieb','branche','ort','bsite','desc','usp','problem','fc','ig','fb','gb','so','bilder','insp','note','nicht'].forEach(function(id){
