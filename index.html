@@ -972,7 +972,7 @@ footer{position:relative;z-index:2;border-top:1px solid var(--border);padding:48
       <div class="stag" style="margin-bottom:20px;display:inline-flex"><div class="stag-dot"></div>Kontakt</div>
       <h2 style="margin-bottom:8px">Erst eine Frage?</h2>
       <p style="font-size:15px;color:var(--muted);margin-bottom:28px;font-weight:300">Kein Problem — ich antworte innerhalb von 24 Stunden.<br>
-      Oder direkt per E-Mail: <a href="mailto:jan@seitenwertig.de" style="color:var(--accent);font-weight:500">jan&#64;seitenwertig.de</a></p>
+      Oder direkt per E-Mail: <a href="#" onclick="this.href='mailto:jan@seitenwertig.de';return true;" style="color:var(--accent)">jan&#64;seitenwertig.de</a></p>
       <form name="kontakt" netlify netlify-honeypot="bot-field" novalidate onsubmit="sendKontakt(event)">
         <input type="hidden" name="form-name" value="kontakt"/>
         <p style="display:none"><input name="bot-field"/></p>
@@ -1066,7 +1066,7 @@ footer{position:relative;z-index:2;border-top:1px solid var(--border);padding:48
     <div>
       <div class="nbrand"><div class="nlogo">S</div><div class="nname" style="font-size:17px">Seiten<span>Wertig</span></div></div>
       <p style="font-size:13px;color:var(--muted);margin-top:8px">Webdesign & KI-Automation · Forchheim · Bamberg · Erlangen · Franken</p>
-      <a href="mailto:jan@seitenwertig.de" style="font-size:13px;color:var(--accent);margin-top:6px;display:inline-block">jan&#64;seitenwertig.de</a>
+      <a href="#" onclick="this.href='mailto:jan@seitenwertig.de';return true;" style="color:var(--accent)">jan&#64;seitenwertig.de</a>
     </div>
     <div class="flinks">
       <a href="/agb.html">AGB</a>
@@ -1260,11 +1260,4 @@ function sendKontakt(e){
     </form>
   </div>
   <div id="cb-success" style="display:none" class="cb-success">
-    <span>📞</span>
-    <p>Danke — ich melde mich!</p>
-    <div style="font-size:13px;color:var(--muted);margin-top:6px">Werktags innerhalb von 2 Stunden.</div>
-  </div>
-</div>
-
-</body>
-</html>
+    <s

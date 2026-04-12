@@ -380,7 +380,7 @@ h1{font-family:var(--serif);font-size:clamp(1.5rem,5vw,2rem);font-weight:700;let
 
   <div class="f">
     <p style="font-size:.88rem;color:var(--muted);line-height:1.7;padding:14px 16px;background:rgba(45,212,168,0.06);border:1px solid rgba(45,212,168,0.15);border-radius:10px">
-      Bilder hast du bereits in Schritt 7 hochgeladen. Falls noch Dateien fehlen, schick sie nach dem Briefing an <a href="mailto:jan@seitenwertig.de" style="color:var(--accent)">jan@seitenwertig.de</a>.
+      Bilder hast du bereits in Schritt 7 hochgeladen. Falls noch Dateien fehlen, schick sie nach dem Briefing an <a href="#" onclick="this.href='mailto:jan@seitenwertig.de';return true;" style="color:var(--accent)">jan&#64;seitenwertig.de</a>.
     </p>
   </div>
   <div class="div"></div>
@@ -421,7 +421,7 @@ h1{font-family:var(--serif);font-size:clamp(1.5rem,5vw,2rem);font-weight:700;let
   <p class="sub">Du bekommst innerhalb von <strong style="color:var(--text)">24 Stunden</strong> einen Vorschau-Link — kostenlos und unverbindlich.</p>
   <div class="steps-list">
     <div class="nstep"><div class="nn">1</div><div class="nt">Ich prüfe deine Angaben und melde mich bei Rückfragen direkt bei dir.</div></div>
-    <div class="nstep"><div class="nn">2</div><div class="nt">Falls noch nicht geschehen — schick Logo & Fotos an <strong><a href="mailto:jan@seitenwertig.de" style="color:var(--accent)">jan@seitenwertig.de</a></strong></div></div>
+    <div class="nstep"><div class="nn">2</div><div class="nt">Falls noch nicht geschehen — schick Logo & Fotos an <strong><a href="#" onclick="this.href='mailto:jan@seitenwertig.de';return true;" style="color:var(--accent)">jan&#64;seitenwertig.de</a></strong></div></div>
     <div class="nstep"><div class="nn">3</div><div class="nt">Du bekommst einen <strong>Vorschau-Link</strong> — die fertige Seite live im Browser. Kein Download, kein Code.</div></div>
     <div class="nstep"><div class="nn">4</div><div class="nt">Feedback über das Feedback-Formular. Nach Freigabe & Anzahlung bekommst du alle Dateien.</div></div>
   </div>
@@ -700,8 +700,4 @@ function lsRestore(){
   var saved;
   try{saved=JSON.parse(localStorage.getItem(LS_KEY));}catch(e){return;}
   if(!saved)return;
-  if(!confirm('Du hast ein angefangenes Briefing — fortsetzen?')){localStorage.removeItem(LS_KEY);return;}
-  if(saved.pkg){selPkg(document.querySelector('.pkg[onclick*="\''+saved.pkg+'\'"') || document.querySelector('.pkg'),saved.pkg);}
-  ['vorname','nachname','email','tel','betrieb','branche','ort','bsite','desc','usp','problem','fc','ig','fb','gb','so','bilder','insp','note','nicht'].forEach(function(id){
-    var el=g(id);if(el&&saved[id])el.value=saved[id];
-  });
+  if(!confirm('Du hast ein angefangenes Briefing — fortsetzen?')){localStorage.removeItem(LS
