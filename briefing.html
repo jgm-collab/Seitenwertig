@@ -162,7 +162,7 @@ h1{font-family:var(--serif);font-size:clamp(1.5rem,5vw,2rem);font-weight:700;let
     <span class="nlogo-name">Seiten<span>Wertig</span></span>
   </a>
   <div class="nav-r">
-    <span class="nav-step" id="sc">Schritt 1 von 10</span>
+    <span class="nav-step" id="sc">Schritt 1 von 5</span>
     <a class="nav-back" href="/">← Website</a>
   </div>
 </nav>
@@ -551,8 +551,8 @@ async function send(){
     'Instagram':g('ig').value.trim()||'—',
     'Facebook':g('fb').value.trim()||'—',
     'LinkedIn':g('li').value.trim()||'—',
-    'X / Twitter':g('xtwitter').value.trim()||'—',
-    'Xing':g('xing').value.trim()||'—',
+    'X / Twitter':g('xtw').value.trim()||'—',
+    'Xing':g('xi').value.trim()||'—',
     'Google Business':g('gb').value.trim()||'—',
     'Social Sonstiges':g('so').value.trim()||'—',
     'Bilder-Link':g('bilder').value.trim()||'—',
@@ -700,4 +700,33 @@ function lsRestore(){
   var saved;
   try{saved=JSON.parse(localStorage.getItem(LS_KEY));}catch(e){return;}
   if(!saved)return;
-  if(!confirm('Du hast ein angefangenes Briefing — fortsetzen?')){localStorage.removeItem(LS
+  if(!confirm('Du hast ein angefangenes Briefing — fortsetzen?')){localStorage.removeItem(LS_KEY);return;}
+  ['vorname','nachname','email','tel','betrieb','branche','ort','bsite','desc','usp','problem','fc','ig','fb','gb','so','bilder','insp','note','nicht'].forEach(function(id){
+    var el=g(id);if(el&&saved[id]!==undefined)el.value=saved[id];
+  });
+  if(saved.pkg&&(saved.pkg==='A'||saved.pkg==='B')){
+    var pkgEls=document.querySelectorAll('.pkg');
+    pkgEls.forEach(function(el){
+      if(el.getAttribute('onclick')&&el.getAttribute('onclick').indexOf("'"+saved.pkg+"'")>-1){
+        selPkg(el,saved.pkg);
+      }
+    });
+  }
+  if(saved._step&&saved._step>1){
+    g('s1').classList.remove('on');
+    cur=saved._step;
+    g('s'+cur).classList.add('on');
+    g('sc').textContent='Schritt '+cur+' von 5';
+    var pf=document.getElementById('pf');
+    if(pf){pf.style.width=(cur/5*100)+'%';pf.setAttribute('aria-valuenow',cur);}
+  }
+}
+lsRestore();
+
+// Autosave on input change
+document.querySelectorAll('input,textarea').forEach(function(el){
+  el.addEventListener('input',lsSave);
+});
+</script>
+</body>
+</html>
