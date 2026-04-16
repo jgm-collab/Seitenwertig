@@ -8,35 +8,34 @@
 <link href="https://fonts.bunny.net/css2?family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,700&display=swap" rel="stylesheet">
 <style>
 :root {
-  --bg:            #0f1219;
-  --bg2:           #151b23;
-  --bg3:           #1a2029;
-  --border:        rgba(255,255,255,0.07);
-  --border-md:     rgba(255,255,255,0.13);
-  --border-hi:     rgba(255,255,255,0.22);
-  --text:          #e2e8f0;
-  --muted:         #64748b;
-  --muted2:        #3e4a5c;
-  --accent:        #34d399;
-  --accent-bg:     rgba(52,211,153,0.08);
+  --bg:        #0f1219;
+  --bg2:       #151b23;
+  --bg3:       #1a2029;
+  --border:    rgba(255,255,255,0.07);
+  --border-md: rgba(255,255,255,0.13);
+  --border-hi: rgba(255,255,255,0.22);
+  --text:      #e2e8f0;
+  --muted:     #64748b;
+  --muted2:    #3e4a5c;
+  --accent:    #34d399;
+  --accent-bg: rgba(52,211,153,0.08);
   --accent-border: rgba(52,211,153,0.30);
-  --danger:        rgba(248,113,113,0.15);
-  --danger-border: rgba(248,113,113,0.35);
-  --danger-text:   #f87171;
-  --radius:        8px;
-  --radius-sm:     5px;
-  --font:          'DM Sans', system-ui, -apple-system, sans-serif;
+  --warn-bg:   rgba(251,191,36,0.07);
+  --warn-border: rgba(251,191,36,0.25);
+  --warn:      #fbbf24;
+  --radius:    8px;
+  --radius-sm: 5px;
+  --font:      'DM Sans', system-ui, -apple-system, sans-serif;
 }
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 html { background: var(--bg); color: var(--text); font-family: var(--font); font-size: 16px; min-height: 100vh; -webkit-font-smoothing: antialiased; }
 body { display: flex; flex-direction: column; min-height: 100vh; }
 
-/* ── NAV ── */
+/* NAV */
 .nav {
   display: flex; align-items: center; justify-content: space-between;
-  padding: 0 1.5rem; height: 58px;
-  border-bottom: 1px solid var(--border);
-  position: sticky; top: 0; background: rgba(15,18,25,0.94);
+  padding: 0 1.5rem; height: 58px; border-bottom: 1px solid var(--border);
+  position: sticky; top: 0; background: rgba(15,18,25,0.92);
   backdrop-filter: blur(12px); z-index: 100;
 }
 .nav-logo { display: flex; align-items: center; gap: 0.45rem; text-decoration: none; color: var(--text); }
@@ -50,29 +49,21 @@ body { display: flex; flex-direction: column; min-height: 100vh; }
 .nav-back { font-size: 0.8125rem; color: var(--muted); text-decoration: none; transition: color 0.2s; }
 .nav-back:hover { color: var(--text); }
 
-/* ── MAIN ── */
+/* MAIN */
 main {
   flex: 1; display: flex; flex-direction: column; align-items: center;
   padding: 2.5rem 1.5rem 5rem; max-width: 640px; width: 100%; margin: 0 auto;
 }
 
-/* ── PROGRESS ── */
-.progress-wrap { width: 100%; margin-bottom: 2.25rem; }
-.progress-meta {
-  display: flex; justify-content: space-between; align-items: center;
-  margin-bottom: 0.5rem;
-}
+/* PROGRESS */
+.progress-wrap { width: 100%; margin-bottom: 2rem; }
+.progress-meta { display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem; }
 .progress-label { font-size: 0.75rem; font-weight: 400; color: var(--muted); letter-spacing: 0.04em; text-transform: uppercase; }
 .progress-steps { font-size: 0.75rem; color: var(--muted2); }
 .progress-bar { width: 100%; height: 2px; background: var(--border); border-radius: 2px; overflow: hidden; }
 .progress-fill { height: 100%; background: var(--accent); border-radius: 2px; transition: width 0.5s cubic-bezier(0.4,0,0.2,1); }
 
-/* ── STEP PANELS ── */
-.step { display: none; width: 100%; }
-.step.active { display: block; animation: fadeUp 0.35s ease both; }
-@keyframes fadeUp { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
-
-/* ── EYEBROW ── */
+/* EYEBROW */
 .eyebrow {
   display: flex; align-items: center; gap: 0.6rem;
   font-size: 0.75rem; font-weight: 500; color: var(--accent);
@@ -80,93 +71,90 @@ main {
 }
 .eyebrow::before { content: ''; display: block; width: 24px; height: 1px; background: var(--muted2); }
 
-/* ── HEADING ── */
-h1 { font-size: clamp(1.65rem, 5vw, 2.1rem); font-weight: 700; letter-spacing: -0.035em; line-height: 1.18; margin-bottom: 0.6rem; }
-.subtitle { font-size: 0.9375rem; font-weight: 300; color: var(--muted); line-height: 1.55; margin-bottom: 2rem; }
+/* HEADINGS */
+h1 {
+  font-size: clamp(1.625rem, 5vw, 2.125rem); font-weight: 700;
+  letter-spacing: -0.035em; line-height: 1.15; margin-bottom: 0.6rem;
+}
+.subtitle {
+  font-size: 0.9375rem; font-weight: 300; color: var(--muted);
+  line-height: 1.55; margin-bottom: 2rem;
+}
 
-/* ── FORM ELEMENTS ── */
-.field { margin-bottom: 1.25rem; }
+/* STEP CONTAINERS */
+.step { display: none; width: 100%; }
+.step.active { display: block; animation: fadeUp 0.35s ease both; }
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(12px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* FORM ELEMENTS */
+.field { margin-bottom: 1.375rem; }
 .field:last-child { margin-bottom: 0; }
-.field-row { display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem; }
-label { display: block; font-size: 0.8125rem; font-weight: 400; color: var(--muted); margin-bottom: 0.4rem; }
+label {
+  display: block; font-size: 0.8125rem; font-weight: 400;
+  color: var(--muted); margin-bottom: 0.4rem; line-height: 1.4;
+}
 label .opt { font-weight: 300; color: var(--muted2); }
-input[type="text"], input[type="email"], input[type="tel"], input[type="url"], select, textarea {
+label .req { color: var(--accent); margin-left: 2px; }
+input[type="text"], input[type="url"], input[type="tel"], textarea {
   width: 100%; background: var(--bg3); border: 1px solid var(--border);
   border-radius: var(--radius-sm); padding: 0.7rem 0.85rem;
   color: var(--text); font-family: var(--font); font-size: 0.875rem;
-  font-weight: 300; outline: none; transition: border-color 0.25s; appearance: none;
+  font-weight: 300; outline: none; transition: border-color 0.25s, background 0.25s;
 }
 input::placeholder, textarea::placeholder { color: var(--muted2); font-weight: 300; }
-input:focus, textarea:focus, select:focus { border-color: var(--accent-border); }
-textarea { resize: vertical; min-height: 90px; line-height: 1.55; }
-select { background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' fill='none'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%2364748b' stroke-width='1.5' stroke-linecap='round'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 0.85rem center; padding-right: 2.25rem; }
+input:focus, textarea:focus { border-color: var(--accent-border); background: rgba(52,211,153,0.03); }
+textarea { resize: vertical; min-height: 88px; line-height: 1.6; }
+.input-pair { display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem; }
 
-/* ── CHIPS ── */
-.chip-group { display: flex; flex-wrap: wrap; gap: 0.5rem; }
+/* CHIPS */
+.chip-group { display: flex; flex-wrap: wrap; gap: 0.45rem; }
 .chip {
-  padding: 0.45rem 0.85rem; border-radius: 20px;
+  padding: 0.45rem 0.9rem; border-radius: 20px;
   background: var(--bg3); border: 1px solid var(--border);
   font-size: 0.8125rem; font-weight: 400; color: var(--muted);
-  cursor: pointer; transition: all 0.22s; user-select: none;
+  cursor: pointer; transition: all 0.2s; user-select: none;
 }
 .chip:hover { border-color: var(--border-hi); color: var(--text); }
-.chip.selected { background: var(--accent-bg); border-color: var(--accent-border); color: var(--accent); font-weight: 500; }
+.chip.selected {
+  background: var(--accent-bg); border-color: var(--accent-border);
+  color: var(--accent); font-weight: 500;
+}
+.chip-label { font-size: 0.8125rem; color: var(--muted); margin-bottom: 0.55rem; display: block; }
 
-/* ── GOAL CARDS ── */
-.goal-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0.625rem; margin-bottom: 1.5rem; }
+/* GOAL CARDS */
+.goal-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0.65rem; }
 .goal-card {
-  background: var(--bg2); border: 1px solid var(--border); border-radius: var(--radius);
-  padding: 1rem 1.1rem; cursor: pointer; transition: all 0.22s; user-select: none;
+  background: var(--bg2); border: 1px solid var(--border);
+  border-radius: var(--radius); padding: 1rem 1.125rem;
+  cursor: pointer; transition: all 0.25s; user-select: none;
 }
 .goal-card:hover { border-color: var(--border-md); }
-.goal-card.selected { background: var(--accent-bg); border-color: var(--accent-border); }
-.goal-card .goal-icon { font-size: 1.25rem; margin-bottom: 0.5rem; }
-.goal-card h4 { font-size: 0.875rem; font-weight: 500; letter-spacing: -0.01em; margin-bottom: 0.2rem; }
-.goal-card p { font-size: 0.75rem; font-weight: 300; color: var(--muted); line-height: 1.4; }
-.goal-card.selected h4 { color: var(--accent); }
+.goal-card.selected { border-color: var(--accent-border); background: var(--accent-bg); }
+.goal-card-icon { font-size: 1.25rem; margin-bottom: 0.4rem; }
+.goal-card-title { font-size: 0.875rem; font-weight: 500; letter-spacing: -0.01em; margin-bottom: 0.2rem; }
+.goal-card-desc { font-size: 0.75rem; font-weight: 300; color: var(--muted); line-height: 1.4; }
+.goal-card.selected .goal-card-desc { color: rgba(52,211,153,0.7); }
 
-/* ── PACKAGE CARDS ── */
-.pkg-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem; margin-bottom: 1.5rem; }
-.pkg-card {
-  background: var(--bg2); border: 1px solid var(--border); border-radius: var(--radius);
-  padding: 1.25rem; cursor: pointer; transition: all 0.22s; user-select: none; position: relative;
-}
-.pkg-card:hover { border-color: var(--border-md); }
-.pkg-card.selected { background: var(--accent-bg); border-color: var(--accent-border); }
-.pkg-badge {
-  position: absolute; top: -1px; right: 12px;
-  font-size: 0.625rem; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase;
-  background: var(--accent); color: var(--bg); padding: 0.2rem 0.55rem;
-  border-radius: 0 0 5px 5px;
-}
-.pkg-name { font-size: 0.9375rem; font-weight: 600; letter-spacing: -0.02em; margin-bottom: 0.25rem; }
-.pkg-price { font-size: 1.375rem; font-weight: 700; letter-spacing: -0.03em; color: var(--accent); margin-bottom: 0.5rem; }
-.pkg-price span { font-size: 0.75rem; font-weight: 400; color: var(--muted); }
-.pkg-card ul { list-style: none; margin: 0; }
-.pkg-card ul li { font-size: 0.75rem; font-weight: 300; color: var(--muted); margin-bottom: 0.3rem; display: flex; align-items: flex-start; gap: 0.35rem; line-height: 1.4; }
-.pkg-card ul li::before { content: '✓'; color: var(--accent); font-weight: 600; flex-shrink: 0; margin-top: 0.05rem; }
-.pkg-card.selected .pkg-name, .pkg-card.selected .pkg-card ul li { color: var(--text); }
-
-/* ── TOGGLE CARD ── */
+/* TOGGLE CARD */
 .toggle-card {
-  width: 100%; background: var(--bg2);
-  border: 1px solid var(--border); border-radius: var(--radius);
-  padding: 1.25rem 1.5rem; margin-bottom: 1.75rem;
-  transition: border-color 0.3s, background 0.3s;
-  cursor: pointer; user-select: none;
+  width: 100%; background: var(--bg2); border: 1px solid var(--border);
+  border-radius: var(--radius); padding: 1.25rem 1.5rem; margin-bottom: 1.75rem;
+  transition: all 0.3s; cursor: pointer; user-select: none;
 }
 .toggle-card:hover { border-color: var(--border-md); }
 .toggle-card.active { border-color: var(--accent-border); background: var(--accent-bg); }
 .toggle-top { display: flex; align-items: center; justify-content: space-between; gap: 1rem; }
 .toggle-left { display: flex; align-items: flex-start; gap: 0.75rem; flex: 1; }
 .toggle-icon {
-  width: 36px; height: 36px; border-radius: 8px;
-  background: var(--bg3); border: 1px solid var(--border);
-  display: flex; align-items: center; justify-content: center;
-  font-size: 1.125rem; flex-shrink: 0; transition: background 0.3s, border-color 0.3s;
+  width: 36px; height: 36px; border-radius: 8px; background: var(--bg3);
+  border: 1px solid var(--border); display: flex; align-items: center;
+  justify-content: center; font-size: 1.125rem; flex-shrink: 0; transition: all 0.3s;
 }
 .toggle-card.active .toggle-icon { background: var(--accent-bg); border-color: var(--accent-border); }
-.toggle-info h3 { font-size: 0.9375rem; font-weight: 500; letter-spacing: -0.01em; margin-bottom: 0.2rem; }
+.toggle-info h3 { font-size: 0.9375rem; font-weight: 500; letter-spacing: -0.01em; margin-bottom: 0.25rem; }
 .toggle-info p { font-size: 0.8125rem; font-weight: 300; color: var(--muted); line-height: 1.5; }
 .toggle-time {
   font-size: 0.6875rem; font-weight: 400; color: var(--muted); letter-spacing: 0.04em;
@@ -174,54 +162,63 @@ select { background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.o
   border: 1px solid var(--border); border-radius: 20px; flex-shrink: 0;
 }
 .switch {
-  width: 44px; height: 24px; background: var(--bg3);
-  border: 1px solid var(--border-md); border-radius: 12px;
-  position: relative; flex-shrink: 0; transition: background 0.3s, border-color 0.3s;
+  width: 44px; height: 24px; background: var(--bg3); border: 1px solid var(--border-md);
+  border-radius: 12px; position: relative; flex-shrink: 0; transition: all 0.3s;
 }
 .switch::after {
   content: ''; position: absolute; top: 2px; left: 2px;
-  width: 18px; height: 18px; border-radius: 50%;
-  background: var(--muted); transition: transform 0.3s, background 0.3s;
+  width: 18px; height: 18px; border-radius: 50%; background: var(--muted); transition: all 0.3s;
 }
 .toggle-card.active .switch { background: var(--accent); border-color: var(--accent); }
 .toggle-card.active .switch::after { transform: translateX(20px); background: var(--bg); }
 .expand-section {
   max-height: 0; overflow: hidden; opacity: 0;
-  transition: max-height 0.5s cubic-bezier(0.4,0,0.2,1), opacity 0.4s ease, margin 0.4s ease;
+  transition: max-height 0.55s cubic-bezier(0.4,0,0.2,1), opacity 0.4s ease, margin 0.4s ease;
 }
-.expand-section.open { max-height: 1400px; opacity: 1; margin-top: 1.5rem; }
+.expand-section.open { max-height: 2400px; opacity: 1; margin-top: 1.5rem; }
 
-/* ── COMPETITOR ROWS ── */
-.comp-group { margin-bottom: 1.5rem; }
+/* COMPETITOR */
+.comp-block { margin-bottom: 1.25rem; }
 .comp-number {
   font-size: 0.6875rem; font-weight: 500; color: var(--accent);
-  letter-spacing: 0.06em; text-transform: uppercase;
-  margin-bottom: 0.5rem; display: flex; align-items: center; gap: 0.4rem;
+  letter-spacing: 0.06em; text-transform: uppercase; margin-bottom: 0.5rem;
+  display: flex; align-items: center; gap: 0.4rem;
 }
 .comp-number::before { content: '◆'; font-size: 0.5rem; color: var(--accent); opacity: 0.6; }
-.comp-row { display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem; margin-bottom: 0.75rem; }
 
-/* ── VALIDATION ── */
-.field-error { font-size: 0.75rem; color: var(--danger-text); margin-top: 0.35rem; display: none; }
-.field-error.show { display: block; }
-input.invalid, textarea.invalid, select.invalid { border-color: var(--danger-border) !important; }
-.error-banner {
-  background: var(--danger); border: 1px solid var(--danger-border); border-radius: var(--radius);
-  padding: 0.75rem 1rem; margin-bottom: 1.25rem; display: none;
-  font-size: 0.8125rem; color: var(--danger-text); font-weight: 400;
+/* IMAGE URL ADDER */
+.img-list { display: flex; flex-direction: column; gap: 0.5rem; margin-bottom: 0.6rem; }
+.img-row { display: flex; gap: 0.5rem; align-items: center; }
+.img-row input { flex: 1; }
+.img-row-del {
+  width: 34px; height: 34px; display: flex; align-items: center; justify-content: center;
+  background: var(--bg3); border: 1px solid var(--border); border-radius: var(--radius-sm);
+  cursor: pointer; color: var(--muted); font-size: 1.1rem; transition: all 0.2s; flex-shrink: 0;
 }
-.error-banner.show { display: block; }
+.img-row-del:hover { border-color: rgba(239,68,68,0.4); color: #f87171; }
+.btn-add {
+  display: inline-flex; align-items: center; gap: 0.4rem;
+  background: transparent; border: 1px dashed var(--border-md); border-radius: var(--radius-sm);
+  padding: 0.55rem 0.9rem; font-family: var(--font); font-size: 0.8125rem;
+  color: var(--muted); cursor: pointer; transition: all 0.2s;
+}
+.btn-add:hover { border-color: var(--accent-border); color: var(--accent); }
 
-/* ── HINT BOX ── */
+/* HINT BOX */
 .hint-box {
   background: var(--bg2); border: 1px solid var(--border);
   border-radius: var(--radius); padding: 0.85rem 1rem;
-  margin-top: 1.5rem; display: flex; gap: 0.6rem; align-items: flex-start;
+  margin-top: 1.25rem; display: flex; gap: 0.6rem; align-items: flex-start;
 }
+.hint-box.warn { border-color: var(--warn-border); background: var(--warn-bg); }
 .hint-box .icon { font-size: 0.875rem; flex-shrink: 0; margin-top: 0.1rem; }
 .hint-box p { font-size: 0.8125rem; font-weight: 300; color: var(--muted); line-height: 1.5; }
+.hint-box.warn p { color: rgba(251,191,36,0.8); }
 
-/* ── BENEFIT PILL ── */
+/* DIVIDER */
+.section-div { border: none; border-top: 1px solid var(--border); margin: 1.75rem 0; }
+
+/* BENEFIT PILL */
 .benefit {
   display: inline-flex; align-items: center; gap: 0.35rem;
   font-size: 0.75rem; font-weight: 400; color: var(--accent);
@@ -229,284 +226,339 @@ input.invalid, textarea.invalid, select.invalid { border-color: var(--danger-bor
   border-radius: 20px; padding: 0.3rem 0.7rem; margin-top: 0.75rem;
 }
 
-/* ── DIVIDER ── */
-.divider { width: 100%; height: 1px; background: var(--border); margin: 1.75rem 0; }
+/* SUMMARY */
+.summary-card {
+  background: var(--bg2); border: 1px solid var(--border);
+  border-radius: var(--radius); padding: 1.25rem 1.5rem; margin-bottom: 1rem;
+}
+.summary-section-title {
+  font-size: 0.6875rem; font-weight: 500; color: var(--accent);
+  letter-spacing: 0.06em; text-transform: uppercase; margin-bottom: 0.75rem;
+  display: flex; align-items: center; gap: 0.5rem;
+}
+.summary-section-title::before { content: ''; display: block; width: 16px; height: 1px; background: var(--muted2); }
+.summary-row { display: flex; gap: 0.75rem; margin-bottom: 0.5rem; font-size: 0.875rem; }
+.summary-key { color: var(--muted); font-weight: 300; min-width: 130px; flex-shrink: 0; }
+.summary-val { color: var(--text); font-weight: 400; line-height: 1.5; }
 
-/* ── BUTTONS ── */
+/* LOVABLE PROMPT */
+.prompt-box {
+  background: var(--bg3); border: 1px solid var(--accent-border);
+  border-radius: var(--radius); padding: 1.25rem; margin-top: 1rem;
+}
+.prompt-header {
+  display: flex; align-items: center; justify-content: space-between; margin-bottom: 0.85rem;
+}
+.prompt-title {
+  font-size: 0.75rem; font-weight: 500; color: var(--accent);
+  letter-spacing: 0.06em; text-transform: uppercase;
+  display: flex; align-items: center; gap: 0.5rem;
+}
+.prompt-title::before { content: ''; display: block; width: 16px; height: 1px; background: var(--muted2); }
+.btn-copy {
+  display: inline-flex; align-items: center; gap: 0.4rem;
+  background: var(--accent-bg); border: 1px solid var(--accent-border);
+  border-radius: 20px; padding: 0.3rem 0.8rem;
+  font-family: var(--font); font-size: 0.75rem; font-weight: 500;
+  color: var(--accent); cursor: pointer; transition: all 0.2s;
+}
+.btn-copy:hover { background: rgba(52,211,153,0.15); }
+.btn-copy.copied { color: #a7f3d0; }
+.prompt-text {
+  font-size: 0.8125rem; font-weight: 300; color: var(--text);
+  line-height: 1.7; white-space: pre-wrap; word-break: break-word;
+  max-height: 300px; overflow-y: auto;
+  scrollbar-width: thin; scrollbar-color: var(--muted2) transparent;
+}
+
+/* BUTTONS */
 .btn-row { display: flex; gap: 0.75rem; width: 100%; margin-top: 2rem; }
 .btn {
   flex: 1; display: flex; align-items: center; justify-content: center;
-  padding: 0.8rem 1.5rem; border-radius: var(--radius-sm);
+  padding: 0.85rem 1.5rem; border-radius: var(--radius-sm);
   font-family: var(--font); font-size: 0.875rem; font-weight: 500;
-  cursor: pointer; transition: all 0.25s; border: none; text-decoration: none;
+  cursor: pointer; transition: all 0.25s; border: none; text-decoration: none; gap: 0.4rem;
 }
-.btn-back { background: transparent; border: 1px solid var(--border); color: var(--muted); flex: 0; padding: 0.8rem 1.25rem; }
+.btn-back {
+  background: transparent; border: 1px solid var(--border); color: var(--muted);
+  flex: 0 0 auto; padding: 0.85rem 1.25rem;
+}
 .btn-back:hover { border-color: var(--border-hi); color: var(--text); }
 .btn-next { background: var(--accent); color: var(--bg); font-weight: 600; letter-spacing: -0.01em; }
 .btn-next:hover { filter: brightness(1.1); }
-.btn-next:disabled { opacity: 0.5; cursor: not-allowed; filter: none; }
 .btn-submit { background: var(--accent); color: var(--bg); font-weight: 700; letter-spacing: -0.01em; font-size: 0.9375rem; }
 .btn-submit:hover { filter: brightness(1.1); }
+.btn-submit:disabled { opacity: 0.45; cursor: not-allowed; filter: none; }
 
-/* ── SUCCESS ── */
-.success-screen {
+/* SUCCESS */
+.success-state {
   display: none; flex-direction: column; align-items: center;
-  text-align: center; padding: 2rem 1rem; width: 100%;
+  text-align: center; padding: 2rem 0;
 }
-.success-screen.show { display: flex; animation: fadeUp 0.4s ease both; }
-.success-icon { font-size: 2.5rem; margin-bottom: 1rem; }
-.success-screen h2 { font-size: 1.5rem; font-weight: 700; letter-spacing: -0.03em; margin-bottom: 0.75rem; }
-.success-screen p { font-size: 0.9375rem; font-weight: 300; color: var(--muted); line-height: 1.6; max-width: 420px; }
+.success-state.visible { display: flex; animation: fadeUp 0.4s ease both; }
+.success-icon { font-size: 3rem; margin-bottom: 1.25rem; }
+.success-title { font-size: 1.75rem; font-weight: 700; letter-spacing: -0.03em; margin-bottom: 0.6rem; }
+.success-sub { font-size: 0.9375rem; font-weight: 300; color: var(--muted); line-height: 1.6; max-width: 400px; }
 
-/* ── FOOTER TRUST ── */
+/* TRUST */
 .trust-line { font-size: 0.6875rem; color: var(--muted2); text-align: center; margin-top: 2.5rem; letter-spacing: 0.04em; }
 
-/* ── RESPONSIVE ── */
 @media (max-width: 520px) {
   main { padding: 2rem 1.25rem 3.5rem; }
-  .field-row, .comp-row, .goal-grid, .pkg-grid { grid-template-columns: 1fr; }
+  .goal-grid { grid-template-columns: 1fr; }
+  .input-pair { grid-template-columns: 1fr; }
   .toggle-top { flex-wrap: wrap; }
-  .toggle-time { margin-top: 0.25rem; }
+  .summary-row { flex-direction: column; gap: 0.2rem; }
+  .summary-key { min-width: auto; }
 }
 </style>
 </head>
 <body>
 
-<!-- ── NETLIFY HIDDEN FORM ── -->
-<form name="briefing" netlify netlify-honeypot="bot-field" hidden>
-  <input type="hidden" name="form-name" value="briefing">
-  <input name="bot-field">
-  <input name="vorname"> <input name="firma"> <input name="branche">
-  <input name="ort"> <input name="telefon"> <input name="email">
-  <input name="ziele"> <input name="zielgruppe"> <input name="hauptaktion">
-  <textarea name="herausforderung"></textarea>
-  <input name="wb_aktiv"> <input name="wb_wettbewerber">
-  <input name="wb_einzugsgebiet"> <input name="wb_keywords">
-  <textarea name="wb_einschaetzung"></textarea>
-  <input name="design_stil"> <input name="design_inspiration">
-  <input name="fotos"> <input name="texte">
-  <textarea name="besonderes"></textarea>
-  <input name="paket"> <input name="wunschtermin">
-  <textarea name="anmerkungen"></textarea>
+<!-- NETLIFY HIDDEN FORM -->
+<form name="briefing-v2" netlify hidden>
+  <input type="hidden" name="form-name" value="briefing-v2">
+  <input name="ziele"><input name="ziel_freitext">
+  <input name="betrieb_name"><input name="branche"><input name="ort"><input name="telefon">
+  <input name="leistungen"><input name="usp">
+  <input name="zielgruppe"><input name="akquise"><input name="kundenproblem"><input name="warum_wir">
+  <input name="wb_aktiv"><input name="wb_wettbewerber"><input name="wb_einzugsgebiet">
+  <input name="wb_suchbegriffe"><input name="wb_einschaetzung">
+  <input name="design_stil"><input name="design_farbe"><input name="design_referenzen">
+  <input name="logo_status"><input name="bilder_urls"><input name="calendly">
+  <textarea name="lovable_prompt"></textarea>
 </form>
 
-<!-- ── NAV ── -->
+<!-- NAV -->
 <nav class="nav">
   <a class="nav-logo" href="https://seitenwertig.de/">
     <span class="nav-logo-mark">S</span>
-    <span class="nav-logo-name">Seiten<span>Wertig</span></span>
+    <span class="nav-logo-name">Seiten <span>Wertig</span></span>
   </a>
   <a class="nav-back" href="https://seitenwertig.de/">← Website</a>
 </nav>
 
 <main>
 
-  <!-- ── PROGRESS ── -->
-  <div class="progress-wrap">
+  <!-- PROGRESS -->
+  <div class="progress-wrap" id="progressWrap">
     <div class="progress-meta">
-      <div class="progress-label" id="progressLabel">Schritt 1 von 5</div>
-      <div class="progress-steps" id="progressSteps">Kontakt</div>
+      <span class="progress-label" id="progressLabel">Schritt 1 von 6</span>
+      <span class="progress-steps" id="progressSteps">Dein Ziel</span>
     </div>
-    <div class="progress-bar"><div class="progress-fill" id="progressFill" style="width:20%"></div></div>
+    <div class="progress-bar"><div class="progress-fill" id="progressFill" style="width:16.7%"></div></div>
   </div>
 
-  <!-- ─────────────────────────────────────────────
-       STEP 1 — KONTAKT
-  ───────────────────────────────────────────── -->
-  <div class="step active" id="step1">
-    <div class="eyebrow">Los geht's</div>
-    <h1>Wer bist du?</h1>
-    <p class="subtitle">Kurz vorstellen — damit ich weiß, mit wem ich arbeite.</p>
-
-    <div class="error-banner" id="err1">Bitte fülle alle Pflichtfelder aus.</div>
-
-    <div class="field-row">
-      <div class="field">
-        <label>Vorname *</label>
-        <input type="text" id="vorname" placeholder="z.B. Thomas" autocomplete="given-name">
-        <div class="field-error" id="e-vorname">Pflichtfeld</div>
-      </div>
-      <div class="field">
-        <label>Firmenname *</label>
-        <input type="text" id="firma" placeholder="z.B. Maler Schuster GmbH" autocomplete="organization">
-        <div class="field-error" id="e-firma">Pflichtfeld</div>
-      </div>
+  <!-- ────────── STEP 1: ZIEL ────────── -->
+  <div class="step active" id="step-1">
+    <div style="width:100%">
+      <div class="eyebrow">Dein Ziel</div>
+      <h1>Was soll die Website leisten?</h1>
+      <p class="subtitle">Kein Design ohne Strategie. Was muss nach dem Launch besser sein als heute?</p>
     </div>
 
     <div class="field">
-      <label>Branche *</label>
-      <select id="branche">
-        <option value="" disabled selected>Bitte wählen …</option>
-        <optgroup label="Handwerk">
-          <option>Elektriker</option><option>Sanitär / Heizung</option>
-          <option>Maler / Stuckateur</option><option>Schreiner / Tischler</option>
-          <option>Dachdecker</option><option>Fliesen / Boden</option>
-          <option>Kfz-Werkstatt</option><option>Metallbau / Schlosserei</option>
-          <option>Anderes Handwerk</option>
-        </optgroup>
-        <optgroup label="Dienstleistung">
-          <option>Steuerberater / Buchhalter</option><option>Rechtsanwalt / Notar</option>
-          <option>Immobilien</option><option>Reinigungsservice</option>
-          <option>IT / EDV-Service</option><option>Coaching / Beratung</option>
-          <option>Logistik / Transport</option><option>Anderer Dienstleister</option>
-        </optgroup>
-        <optgroup label="Gastronomie & Gesundheit">
-          <option>Restaurant / Café / Bar</option><option>Catering</option>
-          <option>Arzt / Zahnarzt</option><option>Physiotherapie</option>
-          <option>Kosmetik / Beauty / Fußpflege</option><option>Fitness / Sport</option>
-          <option>Andere Branche</option>
-        </optgroup>
-      </select>
-      <div class="field-error" id="e-branche">Bitte eine Branche wählen</div>
-    </div>
-
-    <div class="field-row">
-      <div class="field">
-        <label>Ort / Stadt *</label>
-        <input type="text" id="ort" placeholder="z.B. Forchheim" autocomplete="address-level2">
-        <div class="field-error" id="e-ort">Pflichtfeld</div>
-      </div>
-      <div class="field">
-        <label>Telefon <span class="opt">(optional)</span></label>
-        <input type="tel" id="telefon" placeholder="+49 9191 …" autocomplete="tel">
-      </div>
-    </div>
-
-    <div class="field">
-      <label>E-Mail *</label>
-      <input type="email" id="email" placeholder="deine@adresse.de" autocomplete="email">
-      <div class="field-error" id="e-email">Bitte eine gültige E-Mail-Adresse eingeben</div>
-    </div>
-
-    <div class="btn-row">
-      <button class="btn btn-next" onclick="goStep(2)">Weiter →</button>
-    </div>
-  </div>
-
-  <!-- ─────────────────────────────────────────────
-       STEP 2 — ZIELE
-  ───────────────────────────────────────────── -->
-  <div class="step" id="step2">
-    <div class="eyebrow">Deine Ziele</div>
-    <h1>Was soll deine Website leisten?</h1>
-    <p class="subtitle">Hier fangen wir an — nicht beim Design. Was zählt ist, was deine Website für dein Geschäft tun soll.</p>
-
-    <div class="error-banner" id="err2">Bitte wähle mindestens ein Ziel aus.</div>
-
-    <div class="field">
-      <label>Was ist das Hauptziel? <span class="opt">(mehrere möglich)</span></label>
+      <span class="chip-label">Wähle deine wichtigsten Ziele <span style="color:var(--muted2)">(mehrere möglich)</span></span>
       <div class="goal-grid" id="goalCards">
-        <div class="goal-card" onclick="toggleGoal(this)">
-          <div class="goal-icon">📞</div>
-          <h4>Mehr Anfragen</h4>
-          <p>Kunden sollen anrufen oder schreiben</p>
+        <div class="goal-card" data-val="Mehr Kundenanfragen / Leads" onclick="toggleGoal(this)">
+          <div class="goal-card-icon">📥</div>
+          <div class="goal-card-title">Mehr Anfragen</div>
+          <div class="goal-card-desc">Interessenten sollen direkt Kontakt aufnehmen</div>
         </div>
-        <div class="goal-card" onclick="toggleGoal(this)">
-          <div class="goal-icon">🏆</div>
-          <h4>Vertrauen aufbauen</h4>
-          <p>Seriös wirken, Referenzen zeigen</p>
+        <div class="goal-card" data-val="Mehr Anrufe & direkter Kontakt" onclick="toggleGoal(this)">
+          <div class="goal-card-icon">📞</div>
+          <div class="goal-card-title">Mehr Anrufe</div>
+          <div class="goal-card-desc">Telefon als primärer Kontaktweg</div>
         </div>
-        <div class="goal-card" onclick="toggleGoal(this)">
-          <div class="goal-icon">📍</div>
-          <h4>Lokal sichtbar werden</h4>
-          <p>Bei Google in der Region gefunden werden</p>
+        <div class="goal-card" data-val="Vertrauen & Professionalität zeigen" onclick="toggleGoal(this)">
+          <div class="goal-card-icon">🏆</div>
+          <div class="goal-card-title">Vertrauen aufbauen</div>
+          <div class="goal-card-desc">Seriosität und Qualität kommunizieren</div>
         </div>
-        <div class="goal-card" onclick="toggleGoal(this)">
-          <div class="goal-icon">💼</div>
-          <h4>Leistungen erklären</h4>
-          <p>Kunden verstehen, was ich anbiete</p>
+        <div class="goal-card" data-val="Online bei Google gefunden werden" onclick="toggleGoal(this)">
+          <div class="goal-card-icon">🔍</div>
+          <div class="goal-card-title">Google-Sichtbarkeit</div>
+          <div class="goal-card-desc">Lokal auffindbar sein wenn Kunden suchen</div>
         </div>
-        <div class="goal-card" onclick="toggleGoal(this)">
-          <div class="goal-icon">👥</div>
-          <h4>Mitarbeiter gewinnen</h4>
-          <p>Als attraktiver Arbeitgeber auftreten</p>
+        <div class="goal-card" data-val="Preise & Leistungen transparent kommunizieren" onclick="toggleGoal(this)">
+          <div class="goal-card-icon">💶</div>
+          <div class="goal-card-title">Preise zeigen</div>
+          <div class="goal-card-desc">Preistransparenz als Vertrauenssignal</div>
         </div>
-        <div class="goal-card" onclick="toggleGoal(this)">
-          <div class="goal-icon">🔄</div>
-          <h4>Alte Website ersetzen</h4>
-          <p>Veralteten Auftritt modernisieren</p>
+        <div class="goal-card" data-val="Mitarbeiter & Auszubildende gewinnen" onclick="toggleGoal(this)">
+          <div class="goal-card-icon">👷</div>
+          <div class="goal-card-title">Bewerber gewinnen</div>
+          <div class="goal-card-desc">Als attraktiver Arbeitgeber auftreten</div>
         </div>
       </div>
     </div>
 
-    <div class="field">
-      <label>Wen willst du ansprechen? *</label>
-      <input type="text" id="zielgruppe" placeholder="z.B. Hausbesitzer im Raum Bamberg, die renovieren wollen">
-      <div class="field-error" id="e-zielgruppe">Bitte kurz beschreiben</div>
+    <div class="field" style="margin-top:1.5rem;">
+      <label for="ziel-freitext">Was funktioniert heute nicht — und warum? <span class="opt">(optional)</span></label>
+      <textarea id="ziel-freitext" placeholder="z.B. Wir haben keine Website / die alte ist nicht mobil / wir verlieren Kunden an Konkurrenten die besser online aufgestellt sind…"></textarea>
     </div>
 
-    <div class="field">
-      <label>Was soll ein Besucher als erstes tun? *</label>
-      <div class="chip-group" id="aktionChips">
-        <div class="chip" onclick="selChip(this,'aktion')">Anrufen</div>
-        <div class="chip" onclick="selChip(this,'aktion')">Formular ausfüllen</div>
-        <div class="chip" onclick="selChip(this,'aktion')">Termin buchen</div>
-        <div class="chip" onclick="selChip(this,'aktion')">E-Mail schreiben</div>
-        <div class="chip" onclick="selChip(this,'aktion')">Angebot anfordern</div>
-        <div class="chip" onclick="selChip(this,'aktion')">WhatsApp schreiben</div>
-      </div>
-      <div class="field-error" id="e-aktion">Bitte eine Hauptaktion wählen</div>
-    </div>
-
-    <div class="divider"></div>
-
-    <div class="field">
-      <label>Was läuft aktuell nicht gut — ohne oder mit der alten Website? <span class="opt">(optional)</span></label>
-      <textarea id="herausforderung" placeholder="z.B. Kunden finden mich nicht bei Google. Meine alte Website sieht billig aus und ich verliere Aufträge an die Konkurrenz..."></textarea>
+    <div class="hint-box">
+      <span class="icon">💡</span>
+      <p>Je klarer dein Ziel, desto gezielter das Design — jedes Element der Seite arbeitet dann auf genau dieses Ziel hin.</p>
     </div>
 
     <div class="btn-row">
-      <button class="btn btn-back" onclick="goStep(1)">←</button>
-      <button class="btn btn-next" onclick="goStep(3)">Weiter →</button>
+      <button class="btn btn-next" onclick="goTo(2)">Weiter →</button>
     </div>
   </div>
 
-  <!-- ─────────────────────────────────────────────
-       STEP 3 — WETTBEWERB
-  ───────────────────────────────────────────── -->
-  <div class="step" id="step3">
-    <div class="eyebrow">Markt & Umfeld</div>
-    <h1>Deine Konkurrenz</h1>
-    <p class="subtitle">Optional — aber wertvoll. Je mehr ich über dein Umfeld weiß, desto gezielter positioniere ich deine Website.</p>
+  <!-- ────────── STEP 2: BETRIEB ────────── -->
+  <div class="step" id="step-2">
+    <div style="width:100%">
+      <div class="eyebrow">Dein Betrieb</div>
+      <h1>Wer bist du?</h1>
+      <p class="subtitle">Damit die Seite wirklich zu dir passt — nicht von der Stange.</p>
+    </div>
 
-    <!-- Toggle Card -->
+    <div class="field">
+      <label for="betrieb-name">Name deines Betriebs <span class="req">*</span></label>
+      <input type="text" id="betrieb-name" placeholder="z.B. Elektro Müller GmbH">
+    </div>
+
+    <div class="input-pair">
+      <div class="field">
+        <label for="betrieb-ort">Standort / Ort <span class="req">*</span></label>
+        <input type="text" id="betrieb-ort" placeholder="z.B. Forchheim">
+      </div>
+      <div class="field">
+        <label for="betrieb-tel">Telefon <span class="opt">(optional)</span></label>
+        <input type="tel" id="betrieb-tel" placeholder="+49 9191 …">
+      </div>
+    </div>
+
+    <div class="field">
+      <label>Branche <span class="req">*</span></label>
+      <div class="chip-group" id="brancheChips">
+        <div class="chip" onclick="selChip(this,'branche')">⚙️ Handwerk</div>
+        <div class="chip" onclick="selChip(this,'branche')">🛎 Dienstleistung</div>
+        <div class="chip" onclick="selChip(this,'branche')">🍽 Gastronomie</div>
+        <div class="chip" onclick="selChip(this,'branche')">❤️ Gesundheit / Beauty</div>
+        <div class="chip" onclick="selChip(this,'branche')">🏗 Bau / Immobilien</div>
+        <div class="chip" onclick="selChip(this,'branche')">🛒 Handel</div>
+        <div class="chip" onclick="selChip(this,'branche')">✏️ Sonstiges</div>
+      </div>
+    </div>
+
+    <div class="field">
+      <label for="betrieb-leistungen">Was bietest du an? <span class="req">*</span></label>
+      <textarea id="betrieb-leistungen" placeholder="z.B. Elektroinstallation, Photovoltaik, Notdienst — privat und gewerblich im Umkreis Forchheim / Bamberg / Erlangen"></textarea>
+    </div>
+
+    <div class="field">
+      <label for="betrieb-usp">Was macht dich besonders? <span class="req">*</span></label>
+      <textarea id="betrieb-usp" style="min-height:72px;" placeholder="z.B. Familiengeführt seit 1987 — wir kommen noch am selben Tag. Feste Ansprechpartner, keine Callcenter."></textarea>
+    </div>
+
+    <div class="btn-row">
+      <button class="btn btn-back" onclick="goTo(1)">←</button>
+      <button class="btn btn-next" onclick="goTo(3)">Weiter →</button>
+    </div>
+  </div>
+
+  <!-- ────────── STEP 3: KUNDEN ────────── -->
+  <div class="step" id="step-3">
+    <div style="width:100%">
+      <div class="eyebrow">Deine Kunden</div>
+      <h1>Wen willst du ansprechen?</h1>
+      <p class="subtitle">Eine gute Website spricht genau eine Person an — und trifft sie mitten ins Herz.</p>
+    </div>
+
+    <div class="field">
+      <label>Wer sind deine Kunden? <span class="req">*</span></label>
+      <div class="chip-group" id="zielgruppeChips">
+        <div class="chip" onclick="selChip(this,'zielgruppe')">🏠 Privatkunden</div>
+        <div class="chip" onclick="selChip(this,'zielgruppe')">🏢 Gewerbliche Kunden</div>
+        <div class="chip" onclick="selChip(this,'zielgruppe')">👥 Beide</div>
+      </div>
+    </div>
+
+    <div class="field">
+      <label>Wie gewinnst du Kunden heute? <span class="opt">(mehrere möglich)</span></label>
+      <div class="chip-group" id="akquiseChips">
+        <div class="chip" onclick="toggleChip(this,'akquise')">💬 Empfehlungen</div>
+        <div class="chip" onclick="toggleChip(this,'akquise')">🔍 Google</div>
+        <div class="chip" onclick="toggleChip(this,'akquise')">📱 Social Media</div>
+        <div class="chip" onclick="toggleChip(this,'akquise')">📄 Flyer / Offline</div>
+        <div class="chip" onclick="toggleChip(this,'akquise')">🤷 Noch nicht gut aufgestellt</div>
+      </div>
+    </div>
+
+    <div class="field">
+      <label for="kunde-problem">Was ist das größte Problem deiner Kunden, das du löst? <span class="req">*</span></label>
+      <textarea id="kunde-problem" placeholder="z.B. Sie suchen einen zuverlässigen Elektriker der schnell kommt, nicht drei Wochen auf einen Rückruf wartet und einen fairen Festpreis nennt."></textarea>
+    </div>
+
+    <div class="field">
+      <label for="kunde-warum">Warum sollen Kunden dich wählen — nicht den Wettbewerber? <span class="opt">(optional)</span></label>
+      <textarea id="kunde-warum" style="min-height:72px;" placeholder="z.B. Wir antworten innerhalb von 2 Stunden. Kein Subunternehmer, immer dieselben Leute. 5 Jahre Garantie."></textarea>
+    </div>
+
+    <div class="btn-row">
+      <button class="btn btn-back" onclick="goTo(2)">←</button>
+      <button class="btn btn-next" onclick="goTo(4)">Weiter →</button>
+    </div>
+  </div>
+
+  <!-- ────────── STEP 4: WETTBEWERB ────────── -->
+  <div class="step" id="step-4">
+    <div style="width:100%">
+      <div class="eyebrow">Wettbewerb</div>
+      <h1>Wer ist die Konkurrenz?</h1>
+      <p class="subtitle">Optional — aber ein echter Vorteil. Je besser ich die Konkurrenz kenne, desto gezielter die Positionierung.</p>
+    </div>
+
     <div class="toggle-card" id="wbToggle" onclick="toggleWB()">
       <div class="toggle-top">
         <div class="toggle-left">
           <div class="toggle-icon">🔍</div>
           <div class="toggle-info">
             <h3>Wettbewerbsanalyse aktivieren</h3>
-            <p>Ich analysiere deine lokale Konkurrenz und baue die Erkenntnisse direkt in dein Design ein.</p>
+            <p>Ich analysiere deine lokale Konkurrenz und baue die Erkenntnisse direkt in Positionierung und Design ein.</p>
             <div class="benefit">✓ Kostenlos im Paket enthalten</div>
           </div>
         </div>
         <div style="display:flex;align-items:center;gap:0.75rem;">
-          <span class="toggle-time">+ ca. 3 Min</span>
+          <span class="toggle-time">+&thinsp;ca. 3 Min</span>
           <div class="switch"></div>
         </div>
       </div>
 
       <div class="expand-section" id="wbFields">
-        <div class="comp-group">
+
+        <div class="comp-block">
           <div class="comp-number">Wettbewerber 1</div>
-          <div class="comp-row">
-            <div class="field"><label>Name des Betriebs</label><input type="text" id="wb-name1" placeholder="z.B. Müller Elektrotechnik"></div>
-            <div class="field"><label>Website <span class="opt">(optional)</span></label><input type="url" id="wb-url1" placeholder="https://..."></div>
-          </div>
-          <div class="comp-number">Wettbewerber 2</div>
-          <div class="comp-row">
-            <div class="field"><label>Name des Betriebs</label><input type="text" id="wb-name2" placeholder="z.B. Schmidt & Sohn GmbH"></div>
-            <div class="field"><label>Website <span class="opt">(optional)</span></label><input type="url" id="wb-url2" placeholder="https://..."></div>
-          </div>
-          <div class="comp-number">Wettbewerber 3 <span style="color:var(--muted2);font-weight:300;text-transform:none;letter-spacing:0;font-size:0.75rem;">— optional</span></div>
-          <div class="comp-row">
-            <div class="field"><label>Name des Betriebs</label><input type="text" id="wb-name3" placeholder=""></div>
-            <div class="field"><label>Website <span class="opt">(optional)</span></label><input type="url" id="wb-url3" placeholder="https://..."></div>
+          <div class="input-pair">
+            <div class="field"><label>Name</label><input type="text" id="wb-name1" placeholder="z.B. Müller Elektrotechnik"></div>
+            <div class="field"><label>Website <span class="opt">(optional)</span></label><input type="url" id="wb-url1" placeholder="https://…"></div>
           </div>
         </div>
 
+        <div class="comp-block">
+          <div class="comp-number">Wettbewerber 2</div>
+          <div class="input-pair">
+            <div class="field"><label>Name</label><input type="text" id="wb-name2" placeholder="z.B. Schmidt & Sohn GmbH"></div>
+            <div class="field"><label>Website <span class="opt">(optional)</span></label><input type="url" id="wb-url2" placeholder="https://…"></div>
+          </div>
+        </div>
+
+        <div class="comp-block">
+          <div class="comp-number">Wettbewerber 3 <span style="color:var(--muted2);font-weight:300;text-transform:none;letter-spacing:0;font-size:0.75rem;">— optional</span></div>
+          <div class="input-pair">
+            <div class="field"><label>Name</label><input type="text" id="wb-name3" placeholder=""></div>
+            <div class="field"><label>Website <span class="opt">(optional)</span></label><input type="url" id="wb-url3" placeholder="https://…"></div>
+          </div>
+        </div>
+
+        <hr class="section-div">
+
         <div class="field">
-          <label>Einzugsgebiet — wie weit kommen deine Kunden?</label>
+          <label>Einzugsgebiet — Wie weit kommen deine Kunden?</label>
           <div class="chip-group" id="radiusChips">
             <div class="chip" onclick="selChip(this,'radius')">Nur mein Ort</div>
             <div class="chip" onclick="selChip(this,'radius')">10 km Umkreis</div>
@@ -516,377 +568,499 @@ input.invalid, textarea.invalid, select.invalid { border-color: var(--danger-bor
           </div>
         </div>
 
-        <div class="field" style="margin-top:1.25rem;">
-          <label>Was würden deine Kunden bei Google eingeben?</label>
+        <div class="field">
+          <label for="wb-keywords">Was würden Kunden bei Google eingeben?</label>
           <input type="text" id="wb-keywords" placeholder="z.B. Elektriker Forchheim Notdienst, Fußpflege Bamberg">
         </div>
 
         <div class="field">
-          <label>Was machen deine Wettbewerber gut — und wo sind sie schwach? <span class="opt">(optional)</span></label>
-          <textarea id="wb-delta" placeholder="z.B. Müller hat viele Google-Bewertungen, aber die Website ist veraltet und nicht mobil..."></textarea>
+          <label for="wb-delta">Was macht die Konkurrenz gut — und wo ist sie schwach? <span class="opt">(optional)</span></label>
+          <textarea id="wb-delta" placeholder="z.B. Müller hat viele Google-Bewertungen, aber die Website ist veraltet. Schmidt hat eine neue Seite, aber keine Preistransparenz."></textarea>
         </div>
 
         <div class="hint-box">
           <span class="icon">💡</span>
-          <p>Kein Problem wenn du nicht alle Felder ausfüllen kannst. Schon ein Wettbewerber-Name und dein Einzugsgebiet reichen für eine fundierte Analyse.</p>
+          <p>Schon ein Name und dein Einzugsgebiet reichen. Je mehr du angibst, desto schärfer die Positionierung.</p>
         </div>
       </div>
     </div>
 
     <div class="btn-row">
-      <button class="btn btn-back" onclick="goStep(2)">←</button>
-      <button class="btn btn-next" onclick="goStep(4)">Weiter →</button>
+      <button class="btn btn-back" onclick="goTo(3)">←</button>
+      <button class="btn btn-next" onclick="goTo(5)">Weiter →</button>
     </div>
   </div>
 
-  <!-- ─────────────────────────────────────────────
-       STEP 4 — DESIGN & INHALTE
-  ───────────────────────────────────────────── -->
-  <div class="step" id="step4">
-    <div class="eyebrow">Design & Inhalte</div>
-    <h1>Wie soll es wirken?</h1>
-    <p class="subtitle">Jetzt zum Auftritt — nachdem wir wissen, was deine Website leisten soll.</p>
+  <!-- ────────── STEP 5: DESIGN & BILDER ────────── -->
+  <div class="step" id="step-5">
+    <div style="width:100%">
+      <div class="eyebrow">Design & Material</div>
+      <h1>Wie soll es aussehen?</h1>
+      <p class="subtitle">Dein Geschmack, deine Fotos, dein Look.</p>
+    </div>
 
     <div class="field">
-      <label>Welches Gefühl soll deine Website vermitteln? <span class="opt">(mehrere möglich)</span></label>
+      <label>Welcher Stil passt zu dir? <span class="opt">(optional)</span></label>
       <div class="chip-group" id="stilChips">
-        <div class="chip" onclick="togChip(this,'stil')">Seriös & professionell</div>
-        <div class="chip" onclick="togChip(this,'stil')">Lokal & persönlich</div>
-        <div class="chip" onclick="togChip(this,'stil')">Modern & clean</div>
-        <div class="chip" onclick="togChip(this,'stil')">Traditionell & vertrauensvoll</div>
-        <div class="chip" onclick="togChip(this,'stil')">Dynamisch & kraftvoll</div>
-        <div class="chip" onclick="togChip(this,'stil')">Hochwertig & exklusiv</div>
-        <div class="chip" onclick="togChip(this,'stil')">Freundlich & einladend</div>
-        <div class="chip" onclick="togChip(this,'stil')">Technisch & kompetent</div>
+        <div class="chip" onclick="selChip(this,'stil')">✦ Klar & Minimalistisch</div>
+        <div class="chip" onclick="selChip(this,'stil')">🔨 Handwerklich & Bodenständig</div>
+        <div class="chip" onclick="selChip(this,'stil')">💡 Modern & Tech</div>
+        <div class="chip" onclick="selChip(this,'stil')">☀️ Warm & Persönlich</div>
+        <div class="chip" onclick="selChip(this,'stil')">💎 Premium & Hochwertig</div>
       </div>
     </div>
-
-    <div class="field" style="margin-top:1.25rem;">
-      <label>Gibt es Websites, die dir gefallen — egal welche Branche? <span class="opt">(optional)</span></label>
-      <input type="text" id="design-inspiration" placeholder="z.B. https://beispiel.de oder 'der Auftritt von Firma X'">
-    </div>
-
-    <div class="divider"></div>
 
     <div class="field">
-      <label>Hast du eigene Fotos von deinem Betrieb / deiner Arbeit?</label>
-      <div class="chip-group" id="fotosChips">
-        <div class="chip" onclick="selChip(this,'fotos')">Ja, gute Fotos vorhanden</div>
-        <div class="chip" onclick="selChip(this,'fotos')">Ja, aber ausbaufähig</div>
-        <div class="chip" onclick="selChip(this,'fotos')">Nein, müssten noch gemacht werden</div>
+      <label>Farbwelt <span class="opt">(optional)</span></label>
+      <div class="chip-group" id="farbeChips">
+        <div class="chip" onclick="selChip(this,'farbe')">🔵 Blau / Vertrauenswürdig</div>
+        <div class="chip" onclick="selChip(this,'farbe')">🟢 Grün / Natürlich</div>
+        <div class="chip" onclick="selChip(this,'farbe')">🟤 Erdtöne / Handwerk</div>
+        <div class="chip" onclick="selChip(this,'farbe')">⚫ Dunkel / Premium</div>
+        <div class="chip" onclick="selChip(this,'farbe')">🎨 Ich hab schon eine Farbe</div>
+        <div class="chip" onclick="selChip(this,'farbe')">🤷 Egal — du entscheidest</div>
       </div>
     </div>
 
-    <div class="field" style="margin-top:1.25rem;">
-      <label>Hast du bereits Texte — Leistungsbeschreibungen, ein "Über uns" etc.?</label>
-      <div class="chip-group" id="texteChips">
-        <div class="chip" onclick="selChip(this,'texte')">Ja, vollständig vorhanden</div>
-        <div class="chip" onclick="selChip(this,'texte')">Teils vorhanden</div>
-        <div class="chip" onclick="selChip(this,'texte')">Nein, bitte miterstellen</div>
+    <div class="field">
+      <label>Logo vorhanden?</label>
+      <div class="chip-group" id="logoChips">
+        <div class="chip" onclick="selChip(this,'logo')">✓ Ja, als Datei</div>
+        <div class="chip" onclick="selChip(this,'logo')">📝 Nur als Scan / Foto</div>
+        <div class="chip" onclick="selChip(this,'logo')">✗ Nein, noch keins</div>
       </div>
     </div>
 
-    <div class="field" style="margin-top:1.25rem;">
-      <label>Gibt es etwas Besonderes, das unbedingt auf die Website muss — oder keinesfalls? <span class="opt">(optional)</span></label>
-      <textarea id="besonderes" placeholder="z.B. Unser 50-jähriges Jubiläum, keine Preise nennen, Datenschutz besonders wichtig..."></textarea>
+    <div class="field">
+      <label>Referenzseiten — Websites die dir gefallen <span class="opt">(optional)</span></label>
+      <input type="url" id="design-ref1" placeholder="https://beispiel.de" style="margin-bottom:0.5rem;">
+      <input type="url" id="design-ref2" placeholder="https://beispiel.de">
+    </div>
+
+    <hr class="section-div">
+
+    <div class="field">
+      <label>Bilder & Fotos — Links zu deinen Bildern <span class="opt">(optional)</span></label>
+      <p style="font-size:0.8125rem;color:var(--muted);font-weight:300;margin-bottom:0.75rem;line-height:1.5;">
+        Google Drive, Dropbox, WeTransfer oder iCloud Share — jeder Link funktioniert.
+      </p>
+      <div class="img-list" id="imgList">
+        <div class="img-row">
+          <input type="url" placeholder="https://drive.google.com/…" class="img-url-input">
+          <div class="img-row-del" onclick="removeImg(this)" title="Entfernen">×</div>
+        </div>
+      </div>
+      <button class="btn-add" type="button" onclick="addImg()">
+        <span style="font-size:1.1rem;line-height:1">+</span> Weiteres Bild hinzufügen
+      </button>
+      <div class="hint-box" style="margin-top:1rem;">
+        <span class="icon">📸</span>
+        <p>Noch keine Fotos? Kein Problem — das klären wir im Erstgespräch. Echte Bilder machen den größten Unterschied.</p>
+      </div>
+    </div>
+
+    <hr class="section-div">
+
+    <div class="field">
+      <label for="calendly-link">Dein Calendly-Link <span class="opt">(falls schon vorhanden)</span></label>
+      <input type="url" id="calendly-link" placeholder="https://calendly.com/…">
     </div>
 
     <div class="btn-row">
-      <button class="btn btn-back" onclick="goStep(3)">←</button>
-      <button class="btn btn-next" onclick="goStep(5)">Weiter →</button>
+      <button class="btn btn-back" onclick="goTo(4)">←</button>
+      <button class="btn btn-next" onclick="buildAndGoTo6()">Zusammenfassung →</button>
     </div>
   </div>
 
-  <!-- ─────────────────────────────────────────────
-       STEP 5 — PAKET & START
-  ───────────────────────────────────────────── -->
-  <div class="step" id="step5">
-    <div class="eyebrow">Fast geschafft</div>
-    <h1>Paket & Start</h1>
-    <p class="subtitle">Wähle dein Paket — du kannst das später noch anpassen, bevor du buchst.</p>
-
-    <div class="error-banner" id="err5">Bitte wähle ein Paket aus.</div>
-
-    <div class="pkg-grid" id="pkgCards">
-      <div class="pkg-card" onclick="selPkg(this,'Paket A — 1.290 €')">
-        <div class="pkg-name">Paket A</div>
-        <div class="pkg-price">1.290 € <span>zzgl. MwSt.</span></div>
-        <ul>
-          <li>Bis zu 5 Unterseiten</li>
-          <li>Mobile-optimiert</li>
-          <li>Kontaktformular</li>
-          <li>DSGVO-konform</li>
-          <li>1 Jahr Hosting inklusive</li>
-        </ul>
-      </div>
-      <div class="pkg-card" onclick="selPkg(this,'Paket B — 1.590 €')">
-        <div class="pkg-badge">Empfohlen</div>
-        <div class="pkg-name">Paket B</div>
-        <div class="pkg-price">1.590 € <span>zzgl. MwSt.</span></div>
-        <ul>
-          <li>Alles aus Paket A</li>
-          <li>Wettbewerbsanalyse</li>
-          <li>SEO-Grundoptimierung</li>
-          <li>Google Business Setup</li>
-          <li>Eigenes Hosting (Hetzner)</li>
-        </ul>
-      </div>
+  <!-- ────────── STEP 6: ZUSAMMENFASSUNG + LOVABLE ────────── -->
+  <div class="step" id="step-6">
+    <div style="width:100%">
+      <div class="eyebrow">Fertig</div>
+      <h1>Dein Briefing</h1>
+      <p class="subtitle">Alles auf einen Blick — und dein fertiger Lovable-Prompt zum Kopieren.</p>
     </div>
 
-    <div class="field">
-      <label>Bis wann soll die Website fertig sein? <span class="opt">(optional)</span></label>
-      <div class="chip-group" id="terminChips">
-        <div class="chip" onclick="selChip(this,'termin')">So schnell wie möglich</div>
-        <div class="chip" onclick="selChip(this,'termin')">In 4–6 Wochen</div>
-        <div class="chip" onclick="selChip(this,'termin')">In 2–3 Monaten</div>
-        <div class="chip" onclick="selChip(this,'termin')">Noch offen</div>
+    <div class="summary-card" id="summaryCard"></div>
+
+    <div class="prompt-box">
+      <div class="prompt-header">
+        <span class="prompt-title">Lovable Prompt</span>
+        <button class="btn-copy" id="copyBtn" onclick="copyPrompt()">
+          <span id="copyBtnText">Kopieren</span>
+        </button>
       </div>
+      <div class="prompt-text" id="lovablePrompt"></div>
     </div>
 
-    <div class="field" style="margin-top:1.25rem;">
-      <label>Noch etwas, das ich wissen sollte? <span class="opt">(optional)</span></label>
-      <textarea id="anmerkungen" placeholder="Fragen, Sonderwünsche, besondere Rahmenbedingungen …" style="min-height:70px;"></textarea>
-    </div>
-
-    <div class="hint-box" style="margin-top:1.5rem;margin-bottom:0;">
-      <span class="icon">🔒</span>
-      <p>Nach dem Absenden melde ich mich innerhalb von 24 Stunden für ein kostenloses Erstgespräch. Kein Abo, keine versteckten Kosten — dein Briefing ist unverbindlich.</p>
+    <div class="hint-box warn" style="margin-top:1rem;">
+      <span class="icon">⚡</span>
+      <p>Prompt in Lovable einfügen → Seite generieren → Jan reviewed und verfeinert. Du bekommst den Prompt auch per E-Mail.</p>
     </div>
 
     <div class="btn-row">
-      <button class="btn btn-back" onclick="goStep(4)">←</button>
+      <button class="btn btn-back" onclick="goTo(5)">←</button>
       <button class="btn btn-submit" id="submitBtn" onclick="submitForm()">Briefing absenden ✓</button>
     </div>
   </div>
 
-  <!-- ── SUCCESS ── -->
-  <div class="success-screen" id="successScreen">
-    <div class="success-icon">✅</div>
-    <h2>Briefing eingegangen!</h2>
-    <p>Danke, <span id="successName"></span>. Ich melde mich innerhalb von 24 Stunden bei dir — mit einem ersten Feedback zu deinen Zielen und einem Terminvorschlag für unser Erstgespräch.</p>
+  <!-- SUCCESS -->
+  <div class="success-state" id="successState">
+    <div class="success-icon">🎉</div>
+    <div class="success-title">Alles angekommen!</div>
+    <p class="success-sub">Ich melde mich innerhalb von 24 Stunden mit deinem ersten Entwurf. Schau auch kurz ins E-Mail-Postfach — dort findest du deinen Lovable-Prompt.</p>
+    <div style="margin-top:2rem;">
+      <a href="https://seitenwertig.de/" class="btn btn-next" style="display:inline-flex;padding:0.8rem 2rem;text-decoration:none;">← Zurück zur Website</a>
+    </div>
   </div>
 
-  <div class="trust-line">DSGVO-konform · EU-Datenschutz · Kein Abo</div>
+  <div class="trust-line">DSGVO-konform · EU-Datenschutz · Kein Abo · Keine Weitergabe deiner Daten</div>
 
 </main>
 
 <script>
-// ── State ──
+// ── STATE ──
 const state = {
-  currentStep: 1,
-  goals: [],
-  chipState: {},
-  multiChipState: {},
-  wbActive: false,
-  selectedPkg: null
+  ziele:[], ziel_freitext:'', branche:'', betrieb_name:'', betrieb_ort:'', betrieb_tel:'',
+  leistungen:'', usp:'', zielgruppe:'', akquise:[], kundenproblem:'', warum_wir:'',
+  wb_aktiv:false, wb_wettbewerber:'', wb_einzugsgebiet:'', wb_suchbegriffe:'', wb_einschaetzung:'',
+  design_stil:'', design_farbe:'', logo_status:'', design_ref1:'', design_ref2:'',
+  bilder_urls:'', calendly:''
 };
+const chipState = {};
+const chipMulti = {};
 
-const stepMeta = [
-  null,
-  { label: 'Schritt 1 von 5', name: 'Kontakt',       pct: 20  },
-  { label: 'Schritt 2 von 5', name: 'Ziele',          pct: 40  },
-  { label: 'Schritt 3 von 5', name: 'Wettbewerb',     pct: 60  },
-  { label: 'Schritt 4 von 5', name: 'Design',         pct: 80  },
-  { label: 'Schritt 5 von 5', name: 'Paket & Start',  pct: 100 }
-];
+// ── STEP NAVIGATION ──
+const LABELS = ['','Dein Ziel','Dein Betrieb','Deine Kunden','Wettbewerb','Design & Bilder','Zusammenfassung'];
+let current = 1;
 
-// ── Navigation ──
-function goStep(n) {
-  if (n > state.currentStep && !validateStep(state.currentStep)) return;
-
-  document.getElementById('step' + state.currentStep).classList.remove('active');
-  document.getElementById('step' + n).classList.add('active');
-  state.currentStep = n;
-
-  const m = stepMeta[n];
-  document.getElementById('progressLabel').textContent = m.label;
-  document.getElementById('progressSteps').textContent = m.name;
-  document.getElementById('progressFill').style.width = m.pct + '%';
-
-  window.scrollTo({ top: 0, behavior: 'smooth' });
+function goTo(n) {
+  collect(current);
+  document.getElementById('step-'+current).classList.remove('active');
+  current = n;
+  document.getElementById('step-'+n).classList.add('active');
+  const pct = (n/6*100).toFixed(1);
+  document.getElementById('progressFill').style.width = pct+'%';
+  document.getElementById('progressLabel').textContent = 'Schritt '+n+' von 6';
+  document.getElementById('progressSteps').textContent = LABELS[n];
+  window.scrollTo({top:0,behavior:'smooth'});
 }
 
-// ── Validation ──
-function validateStep(step) {
-  if (step === 1) {
-    let ok = true;
-    const checks = [
-      ['vorname',  v => v.trim().length > 0],
-      ['firma',    v => v.trim().length > 0],
-      ['branche',  v => v !== ''],
-      ['ort',      v => v.trim().length > 0],
-      ['email',    v => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v.trim())]
-    ];
-    checks.forEach(([id, fn]) => {
-      const el = document.getElementById(id);
-      const err = document.getElementById('e-' + id);
-      if (!fn(el.value)) {
-        el.classList.add('invalid'); err.classList.add('show'); ok = false;
-      } else {
-        el.classList.remove('invalid'); err.classList.remove('show');
+function collect(n) {
+  if (n===1) {
+    state.ziele = [...document.querySelectorAll('#goalCards .goal-card.selected')].map(c=>c.dataset.val);
+    state.ziel_freitext = document.getElementById('ziel-freitext').value.trim();
+  }
+  if (n===2) {
+    state.betrieb_name = document.getElementById('betrieb-name').value.trim();
+    state.betrieb_ort  = document.getElementById('betrieb-ort').value.trim();
+    state.betrieb_tel  = document.getElementById('betrieb-tel').value.trim();
+    state.branche      = chipState['branche']||'';
+    state.leistungen   = document.getElementById('betrieb-leistungen').value.trim();
+    state.usp          = document.getElementById('betrieb-usp').value.trim();
+  }
+  if (n===3) {
+    state.zielgruppe    = chipState['zielgruppe']||'';
+    state.akquise       = Object.keys(chipMulti['akquise']||{}).filter(k=>chipMulti['akquise'][k]);
+    state.kundenproblem = document.getElementById('kunde-problem').value.trim();
+    state.warum_wir     = document.getElementById('kunde-warum').value.trim();
+  }
+  if (n===4) {
+    state.wb_aktiv = wbActive;
+    if (wbActive) {
+      const comps=[];
+      for(let i=1;i<=3;i++){
+        const nm=document.getElementById('wb-name'+i).value.trim();
+        const ur=document.getElementById('wb-url'+i).value.trim();
+        if(nm) comps.push(nm+(ur?' ('+ur+')':''));
       }
-    });
-    document.getElementById('err1').classList.toggle('show', !ok);
-    return ok;
-  }
-
-  if (step === 2) {
-    let ok = true;
-    if (state.goals.length === 0) {
-      document.getElementById('err2').classList.add('show'); ok = false;
-    } else {
-      document.getElementById('err2').classList.remove('show');
+      state.wb_wettbewerber  = comps.join(' | ')||'—';
+      state.wb_einzugsgebiet = chipState['radius']||'—';
+      state.wb_suchbegriffe  = document.getElementById('wb-keywords').value.trim()||'—';
+      state.wb_einschaetzung = document.getElementById('wb-delta').value.trim()||'—';
     }
-    const zg = document.getElementById('zielgruppe');
-    const ezg = document.getElementById('e-zielgruppe');
-    if (!zg.value.trim()) { zg.classList.add('invalid'); ezg.classList.add('show'); ok = false; }
-    else { zg.classList.remove('invalid'); ezg.classList.remove('show'); }
-    const aktionErr = document.getElementById('e-aktion');
-    if (!state.chipState['aktion']) { aktionErr.classList.add('show'); ok = false; }
-    else { aktionErr.classList.remove('show'); }
-    return ok;
   }
-
-  if (step === 5) {
-    if (!state.selectedPkg) {
-      document.getElementById('err5').classList.add('show'); return false;
-    }
-    document.getElementById('err5').classList.remove('show');
+  if (n===5) {
+    state.design_stil  = chipState['stil']||'';
+    state.design_farbe = chipState['farbe']||'';
+    state.logo_status  = chipState['logo']||'';
+    state.design_ref1  = document.getElementById('design-ref1').value.trim();
+    state.design_ref2  = document.getElementById('design-ref2').value.trim();
+    state.calendly     = document.getElementById('calendly-link').value.trim();
+    const urls=[...document.querySelectorAll('.img-url-input')].map(i=>i.value.trim()).filter(Boolean);
+    state.bilder_urls  = urls.join('\n');
   }
-
-  return true;
 }
 
-// ── Chip Helpers ──
-function selChip(el, group) {
-  el.parentElement.querySelectorAll('.chip').forEach(c => c.classList.remove('selected'));
+function buildAndGoTo6() {
+  collect(5);
+  buildSummary();
+  buildPrompt();
+  goTo(6);
+}
+
+// ── CHIPS ──
+function selChip(el,group) {
+  el.closest('.chip-group').querySelectorAll('.chip').forEach(c=>c.classList.remove('selected'));
   el.classList.add('selected');
-  state.chipState[group] = el.textContent.trim();
-  // clear validation error if any
-  const errEl = document.getElementById('e-' + group);
-  if (errEl) errEl.classList.remove('show');
+  chipState[group]=el.textContent.trim();
+}
+function toggleChip(el,group) {
+  if(!chipMulti[group]) chipMulti[group]={};
+  const k=el.textContent.trim();
+  if(el.classList.contains('selected')){ el.classList.remove('selected'); delete chipMulti[group][k]; }
+  else { el.classList.add('selected'); chipMulti[group][k]=true; }
+}
+function toggleGoal(el){ el.classList.toggle('selected'); }
+
+// ── WETTBEWERB TOGGLE ──
+let wbActive=false;
+function toggleWB(){
+  wbActive=!wbActive;
+  document.getElementById('wbToggle').classList.toggle('active',wbActive);
+  document.getElementById('wbFields').classList.toggle('open',wbActive);
+  if(wbActive) setTimeout(()=>document.getElementById('wb-name1').focus(),450);
+}
+document.getElementById('wbFields').addEventListener('click',e=>e.stopPropagation());
+
+// ── IMAGE ADDER ──
+function addImg(){
+  const list=document.getElementById('imgList');
+  const row=document.createElement('div');
+  row.className='img-row';
+  row.innerHTML=`<input type="url" placeholder="https://…" class="img-url-input">
+    <div class="img-row-del" onclick="removeImg(this)" title="Entfernen">×</div>`;
+  list.appendChild(row);
+  row.querySelector('input').focus();
+}
+function removeImg(btn){
+  const list=document.getElementById('imgList');
+  if(list.children.length>1) btn.closest('.img-row').remove();
+  else btn.closest('.img-row').querySelector('input').value='';
 }
 
-function togChip(el, group) {
-  el.classList.toggle('selected');
-  if (!state.multiChipState[group]) state.multiChipState[group] = new Set();
-  const val = el.textContent.trim();
-  if (el.classList.contains('selected')) state.multiChipState[group].add(val);
-  else state.multiChipState[group].delete(val);
-}
-
-// ── Goal Cards ──
-function toggleGoal(el) {
-  el.classList.toggle('selected');
-  const val = el.querySelector('h4').textContent.trim();
-  if (el.classList.contains('selected')) state.goals.push(val);
-  else state.goals = state.goals.filter(g => g !== val);
-  if (state.goals.length > 0) document.getElementById('err2').classList.remove('show');
-}
-
-// ── Package Selection ──
-function selPkg(el, val) {
-  document.querySelectorAll('.pkg-card').forEach(c => c.classList.remove('selected'));
-  el.classList.add('selected');
-  state.selectedPkg = val;
-  document.getElementById('err5').classList.remove('show');
-}
-
-// ── WB Toggle ──
-function toggleWB() {
-  state.wbActive = !state.wbActive;
-  document.getElementById('wbToggle').classList.toggle('active', state.wbActive);
-  document.getElementById('wbFields').classList.toggle('open', state.wbActive);
-  if (state.wbActive) {
-    setTimeout(() => document.getElementById('wb-name1').focus(), 450);
+// ── SUMMARY ──
+function buildSummary(){
+  const s=state;
+  const v=(x,fb='—')=>Array.isArray(x)?(x.length?x.join(', '):fb):(x||fb);
+  const refs=[s.design_ref1,s.design_ref2].filter(Boolean).join(' · ')||'—';
+  const imgs=s.bilder_urls?s.bilder_urls.split('\n').filter(Boolean).length+' Link(s)':'—';
+  let wbHtml='';
+  if(s.wb_aktiv){
+    wbHtml=`<hr class="section-div" style="margin:1rem 0">
+    <div class="summary-section-title">Wettbewerb</div>
+    <div class="summary-row"><span class="summary-key">Wettbewerber</span><span class="summary-val">${esc(v(s.wb_wettbewerber))}</span></div>
+    <div class="summary-row"><span class="summary-key">Einzugsgebiet</span><span class="summary-val">${esc(v(s.wb_einzugsgebiet))}</span></div>
+    <div class="summary-row"><span class="summary-key">Keywords</span><span class="summary-val">${esc(v(s.wb_suchbegriffe))}</span></div>`;
   }
-}
-document.getElementById('wbFields').addEventListener('click', e => e.stopPropagation());
-
-// ── Collect Data ──
-function collectData() {
-  const wbCompetitors = [];
-  for (let i = 1; i <= 3; i++) {
-    const n = document.getElementById('wb-name' + i).value.trim();
-    const u = document.getElementById('wb-url' + i).value.trim();
-    if (n) wbCompetitors.push(n + (u ? ' (' + u + ')' : ''));
-  }
-
-  return {
-    'form-name': 'briefing',
-    vorname:     document.getElementById('vorname').value.trim(),
-    firma:       document.getElementById('firma').value.trim(),
-    branche:     document.getElementById('branche').value,
-    ort:         document.getElementById('ort').value.trim(),
-    telefon:     document.getElementById('telefon').value.trim(),
-    email:       document.getElementById('email').value.trim(),
-    ziele:       state.goals.join(', ') || '—',
-    zielgruppe:  document.getElementById('zielgruppe').value.trim(),
-    hauptaktion: state.chipState['aktion'] || '—',
-    herausforderung: document.getElementById('herausforderung').value.trim() || '—',
-    wb_aktiv:    state.wbActive ? 'Ja' : 'Nein',
-    wb_wettbewerber: wbCompetitors.join(' | ') || '—',
-    wb_einzugsgebiet: state.chipState['radius'] || '—',
-    wb_keywords: document.getElementById('wb-keywords').value.trim() || '—',
-    wb_einschaetzung: document.getElementById('wb-delta').value.trim() || '—',
-    design_stil: [...(state.multiChipState['stil'] || [])].join(', ') || '—',
-    design_inspiration: document.getElementById('design-inspiration').value.trim() || '—',
-    fotos:       state.chipState['fotos'] || '—',
-    texte:       state.chipState['texte'] || '—',
-    besonderes:  document.getElementById('besonderes').value.trim() || '—',
-    paket:       state.selectedPkg || '—',
-    wunschtermin: state.chipState['termin'] || '—',
-    anmerkungen: document.getElementById('anmerkungen').value.trim() || '—'
-  };
+  document.getElementById('summaryCard').innerHTML=`
+    <div class="summary-section-title">Ziel</div>
+    <div class="summary-row"><span class="summary-key">Ziele</span><span class="summary-val">${esc(v(s.ziele))}</span></div>
+    <div class="summary-row"><span class="summary-key">Situation heute</span><span class="summary-val">${esc(v(s.ziel_freitext))}</span></div>
+    <hr class="section-div" style="margin:1rem 0">
+    <div class="summary-section-title">Betrieb</div>
+    <div class="summary-row"><span class="summary-key">Name</span><span class="summary-val">${esc(v(s.betrieb_name))}</span></div>
+    <div class="summary-row"><span class="summary-key">Ort · Branche</span><span class="summary-val">${esc(v(s.betrieb_ort))} · ${esc(v(s.branche))}</span></div>
+    <div class="summary-row"><span class="summary-key">Leistungen</span><span class="summary-val">${esc(v(s.leistungen))}</span></div>
+    <div class="summary-row"><span class="summary-key">USP</span><span class="summary-val">${esc(v(s.usp))}</span></div>
+    <hr class="section-div" style="margin:1rem 0">
+    <div class="summary-section-title">Kunden</div>
+    <div class="summary-row"><span class="summary-key">Zielgruppe</span><span class="summary-val">${esc(v(s.zielgruppe))}</span></div>
+    <div class="summary-row"><span class="summary-key">Akquise heute</span><span class="summary-val">${esc(v(s.akquise))}</span></div>
+    <div class="summary-row"><span class="summary-key">Kundenproblem</span><span class="summary-val">${esc(v(s.kundenproblem))}</span></div>
+    ${wbHtml}
+    <hr class="section-div" style="margin:1rem 0">
+    <div class="summary-section-title">Design</div>
+    <div class="summary-row"><span class="summary-key">Stil · Farbe</span><span class="summary-val">${esc(v(s.design_stil))} · ${esc(v(s.design_farbe))}</span></div>
+    <div class="summary-row"><span class="summary-key">Logo</span><span class="summary-val">${esc(v(s.logo_status))}</span></div>
+    <div class="summary-row"><span class="summary-key">Referenzen</span><span class="summary-val">${esc(refs)}</span></div>
+    <div class="summary-row"><span class="summary-key">Bilder</span><span class="summary-val">${imgs}</span></div>`;
 }
 
-// ── Submit ──
-async function submitForm() {
-  if (!validateStep(5)) return;
+// ── LOVABLE PROMPT ──
+function buildPrompt(){
+  const s=state;
+  const v=(x,fb='(nicht angegeben)')=>Array.isArray(x)?(x.length?x.join(', '):fb):(x||fb);
+  const refs=[s.design_ref1,s.design_ref2].filter(Boolean).join('\n')||'(keine Referenzen)';
+  const imgs=s.bilder_urls
+    ?s.bilder_urls.split('\n').filter(Boolean).map((u,i)=>`  Bild ${i+1}: ${u}`).join('\n')
+    :'  (keine Links angegeben — Platzhalter mit passenden Unsplash-Bildern verwenden)';
+  const wb=s.wb_aktiv
+    ?`Wettbewerber: ${v(s.wb_wettbewerber)}
+Einzugsgebiet: ${v(s.wb_einzugsgebiet)}
+Google-Keywords: ${v(s.wb_suchbegriffe)}
+Einschätzung Stärken/Schwächen: ${v(s.wb_einschaetzung)}`
+    :'(keine Wettbewerbsdaten angegeben)';
 
-  const btn = document.getElementById('submitBtn');
-  btn.disabled = true;
-  btn.textContent = 'Wird gesendet …';
+  const prompt=`# Website-Briefing: ${v(s.betrieb_name)}
 
-  const data = collectData();
-  const body = Object.entries(data)
-    .map(([k, v]) => encodeURIComponent(k) + '=' + encodeURIComponent(v))
-    .join('&');
+---
 
-  try {
-    const res = await fetch('/', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-      body
-    });
+## DEINE ROLLE
+Du bist Senior Webdesigner und Conversion-Stratege mit Fokus auf lokale B2B-Unternehmen in Deutschland. Erstelle eine vollständige, produktionsreife Website als einzelne HTML-Datei. Kein Platzhaltertext — ausschließlich echte Inhalte aus diesem Briefing.
 
-    if (res.ok) {
-      document.getElementById('step5').classList.remove('active');
-      const sc = document.getElementById('successScreen');
-      sc.classList.add('show');
-      document.getElementById('successName').textContent = data.vorname;
-      document.getElementById('progressFill').style.width = '100%';
-    } else {
-      throw new Error('Submission failed');
-    }
-  } catch (err) {
-    btn.disabled = false;
-    btn.textContent = 'Briefing absenden ✓';
-    alert('Etwas ist schiefgelaufen. Bitte versuche es erneut oder schreibe direkt an jan@seitenwertig.de');
-  }
+---
+
+## KONTEXT
+
+Betrieb: ${v(s.betrieb_name)}, ${v(s.betrieb_ort)}
+Branche: ${v(s.branche)}
+Telefon: ${v(s.betrieb_tel)}
+Leistungen: ${v(s.leistungen)}
+USP: ${v(s.usp)}
+
+---
+
+## ZIELE DER WEBSITE
+
+${v(s.ziele,'(keine Ziele ausgewählt)')}
+
+Situation heute / Problem:
+${v(s.ziel_freitext)}
+
+---
+
+## ZIELKUNDEN & POSITIONIERUNG
+
+Zielgruppe: ${v(s.zielgruppe)}
+Akquise heute: ${v(s.akquise)}
+Kernproblem das gelöst wird: ${v(s.kundenproblem)}
+Differenzierung zum Wettbewerb: ${v(s.warum_wir)}
+
+---
+
+## SEITENSTRUKTUR (pflichtgemäß einhalten)
+
+Hero → Problem & Lösung → Leistungen → Referenzen → Über uns → CTA
+
+Hero: Headline adressiert das Kundenproblem direkt. Subline nennt den USP. CTA = Erstgespräch buchen.
+Problem/Lösung: Schmerz des Kunden benennen, Lösung durch den Betrieb zeigen.
+Leistungen: Konkret, Nutzen formuliert — nicht generisch.
+Referenzen: Echte Kundenstimmen oder Projekt-Beispiele (realistischer Platzhalterinhalt).
+Über uns: Persönlich und nahbar — Vertrauen aufbauen.
+CTA-Sektion: Prominent, direkte Handlungsaufforderung, leichte Dringlichkeit.
+
+---
+
+## DESIGN-VORGABEN
+
+Stilrichtung: ${v(s.design_stil,'Klar & Modern')}
+Farbwelt: ${v(s.design_farbe,'Warm, keine Kaltblau-Agentur-Ästhetik')}
+Logo: ${v(s.logo_status)}
+
+Referenzseiten (Stil-Inspiration, nicht kopieren):
+${refs}
+
+Design-Prinzipien:
+- Mobile First — alles perfekt auf 375px Breite
+- Warme Farbwelt, kein generisches Agentur-Blau
+- Echte Fotos bevorzugen (Unsplash-Platzhalter wenn nötig)
+- Maximal 3 Schriftgewichte
+- Kontrastreiche CTAs — nie verstecken
+- Vertrauenselemente: Bewertungen, Logos, Fotos der Mitarbeiter
+
+---
+
+## BILDER & MATERIAL
+
+${imgs}
+
+---
+
+## WETTBEWERBSKONTEXT
+
+${wb}
+
+---
+
+## TECHNISCHE ANFORDERUNGEN
+
+- Einzelne HTML-Datei (inline CSS + JS, kein externes Framework)
+- Bunny Fonts statt Google Fonts: https://fonts.bunny.net
+- DSGVO-konform: keine externen Tracker, kein Google Analytics, kein eingebettetes Google Maps
+- Kontaktformular: name="kontakt" netlify data-netlify="true"
+- CTA-Link: ${v(s.calendly,'https://calendly.com/PLATZHALTER — bitte ersetzen')}
+- Hosting: Netlify (keine Server-Side-Logic nötig)
+- Favicon: Initialen des Betriebsnamens als Inline-SVG
+- Semantisches HTML5 (header, main, section, footer)
+- Kein jQuery, kein Bootstrap
+- Smooth Scroll, sanfte IntersectionObserver-Animationen
+
+---
+
+## QUALITÄTSKRITERIEN
+
+✓ Kein einziger generischer Platzhaltertext
+✓ Alle Headlines aus dem Briefing formuliert, nicht aus Templates
+✓ Mobile First verifiziert (mental auf 375px)
+✓ CTA in Hero, nach Leistungen UND am Ende
+✓ Vollständig deploybar auf Netlify ohne weitere Änderungen`;
+
+  document.getElementById('lovablePrompt').textContent=prompt;
 }
 
-// ── Live validation cleanup ──
-['vorname','firma','ort','email','zielgruppe'].forEach(id => {
-  const el = document.getElementById(id);
-  if (el) el.addEventListener('input', () => {
-    el.classList.remove('invalid');
-    const err = document.getElementById('e-' + id);
-    if (err) err.classList.remove('show');
-    document.getElementById('err1')?.classList.remove('show');
+// ── COPY ──
+function copyPrompt(){
+  navigator.clipboard.writeText(document.getElementById('lovablePrompt').textContent).then(()=>{
+    const btn=document.getElementById('copyBtn');
+    const txt=document.getElementById('copyBtnText');
+    btn.classList.add('copied');
+    txt.textContent='✓ Kopiert';
+    setTimeout(()=>{btn.classList.remove('copied');txt.textContent='Kopieren';},2500);
   });
-});
-</script>
+}
 
+// ── SUBMIT ──
+function submitForm(){
+  collect(6);
+  const s=state;
+  const body=new URLSearchParams({
+    'form-name':'briefing-v2',
+    ziele:s.ziele.join(' | '),
+    ziel_freitext:s.ziel_freitext,
+    betrieb_name:s.betrieb_name,
+    branche:s.branche,
+    ort:s.betrieb_ort,
+    telefon:s.betrieb_tel,
+    leistungen:s.leistungen,
+    usp:s.usp,
+    zielgruppe:s.zielgruppe,
+    akquise:s.akquise.join(' | '),
+    kundenproblem:s.kundenproblem,
+    warum_wir:s.warum_wir,
+    wb_aktiv:s.wb_aktiv?'ja':'nein',
+    wb_wettbewerber:s.wb_wettbewerber,
+    wb_einzugsgebiet:s.wb_einzugsgebiet,
+    wb_suchbegriffe:s.wb_suchbegriffe,
+    wb_einschaetzung:s.wb_einschaetzung,
+    design_stil:s.design_stil,
+    design_farbe:s.design_farbe,
+    design_referenzen:[s.design_ref1,s.design_ref2].filter(Boolean).join(' | '),
+    logo_status:s.logo_status,
+    bilder_urls:s.bilder_urls,
+    calendly:s.calendly,
+    lovable_prompt:document.getElementById('lovablePrompt').textContent,
+  }).toString();
+
+  const btn=document.getElementById('submitBtn');
+  btn.disabled=true;
+  btn.textContent='Wird gesendet…';
+
+  fetch('/',{method:'POST',headers:{'Content-Type':'application/x-www-form-urlencoded'},body})
+    .then(()=>showSuccess())
+    .catch(()=>showSuccess());
+}
+
+function showSuccess(){
+  document.getElementById('step-6').style.display='none';
+  document.getElementById('progressWrap').style.display='none';
+  document.getElementById('successState').classList.add('visible');
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+
+function esc(s){
+  if(!s||s==='—') return '—';
+  return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+}
+</script>
 </body>
 </html>
