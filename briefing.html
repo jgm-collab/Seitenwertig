@@ -20,21 +20,19 @@
   --accent:    #34d399;
   --accent-bg: rgba(52,211,153,0.08);
   --accent-border: rgba(52,211,153,0.30);
-  --warn-bg:   rgba(251,191,36,0.07);
-  --warn-border: rgba(251,191,36,0.25);
-  --warn:      #fbbf24;
   --radius:    8px;
   --radius-sm: 5px;
   --font:      'DM Sans', system-ui, -apple-system, sans-serif;
 }
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 html { background: var(--bg); color: var(--text); font-family: var(--font); font-size: 16px; min-height: 100vh; -webkit-font-smoothing: antialiased; }
-body { display: flex; flex-direction: column; min-height: 100vh; }
+body { display: flex; flex-direction: column; min-height: 100vh; overflow-x: hidden; }
 
 /* NAV */
 .nav {
   display: flex; align-items: center; justify-content: space-between;
-  padding: 0 1.5rem; height: 58px; border-bottom: 1px solid var(--border);
+  padding: 0 1.5rem; height: 58px;
+  border-bottom: 1px solid var(--border);
   position: sticky; top: 0; background: rgba(15,18,25,0.92);
   backdrop-filter: blur(12px); z-index: 100;
 }
@@ -49,1018 +47,781 @@ body { display: flex; flex-direction: column; min-height: 100vh; }
 .nav-back { font-size: 0.8125rem; color: var(--muted); text-decoration: none; transition: color 0.2s; }
 .nav-back:hover { color: var(--text); }
 
-/* MAIN */
-main {
+/* WRAPPER */
+.steps-outer {
   flex: 1; display: flex; flex-direction: column; align-items: center;
-  padding: 2.5rem 1.5rem 5rem; max-width: 640px; width: 100%; margin: 0 auto;
+  padding: 2.5rem 1.5rem 4rem;
 }
 
 /* PROGRESS */
-.progress-wrap { width: 100%; margin-bottom: 2rem; }
-.progress-meta { display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem; }
-.progress-label { font-size: 0.75rem; font-weight: 400; color: var(--muted); letter-spacing: 0.04em; text-transform: uppercase; }
-.progress-steps { font-size: 0.75rem; color: var(--muted2); }
+.progress-wrap { width: 100%; max-width: 640px; margin-bottom: 2rem; }
+.progress-label { font-size: 0.75rem; font-weight: 400; color: var(--muted); letter-spacing: 0.04em; text-transform: uppercase; margin-bottom: 0.5rem; }
 .progress-bar { width: 100%; height: 2px; background: var(--border); border-radius: 2px; overflow: hidden; }
 .progress-fill { height: 100%; background: var(--accent); border-radius: 2px; transition: width 0.5s cubic-bezier(0.4,0,0.2,1); }
 
+/* STEP PANELS */
+.steps-viewport { width: 100%; max-width: 640px; }
+.step { width: 100%; display: none; flex-direction: column; animation: stepIn 0.35s cubic-bezier(0.4,0,0.2,1); }
+.step.active { display: flex; }
+.step.back-enter { animation: stepInBack 0.35s cubic-bezier(0.4,0,0.2,1); }
+@keyframes stepIn { from { opacity: 0; transform: translateX(28px); } to { opacity: 1; transform: translateX(0); } }
+@keyframes stepInBack { from { opacity: 0; transform: translateX(-28px); } to { opacity: 1; transform: translateX(0); } }
+
 /* EYEBROW */
-.eyebrow {
-  display: flex; align-items: center; gap: 0.6rem;
-  font-size: 0.75rem; font-weight: 500; color: var(--accent);
-  letter-spacing: 0.06em; text-transform: uppercase; margin-bottom: 0.75rem;
-}
+.eyebrow { display: flex; align-items: center; gap: 0.6rem; font-size: 0.75rem; font-weight: 500; color: var(--accent); letter-spacing: 0.06em; text-transform: uppercase; margin-bottom: 0.75rem; }
 .eyebrow::before { content: ''; display: block; width: 24px; height: 1px; background: var(--muted2); }
+h1 { font-size: clamp(1.75rem, 5vw, 2.25rem); font-weight: 700; letter-spacing: -0.035em; line-height: 1.15; margin-bottom: 0.75rem; }
+.subtitle { font-size: 0.9375rem; font-weight: 300; color: var(--muted); line-height: 1.55; margin-bottom: 2rem; }
 
-/* HEADINGS */
-h1 {
-  font-size: clamp(1.625rem, 5vw, 2.125rem); font-weight: 700;
-  letter-spacing: -0.035em; line-height: 1.15; margin-bottom: 0.6rem;
-}
-.subtitle {
-  font-size: 0.9375rem; font-weight: 300; color: var(--muted);
-  line-height: 1.55; margin-bottom: 2rem;
-}
-
-/* STEP CONTAINERS */
-.step { display: none; width: 100%; }
-.step.active { display: block; animation: fadeUp 0.35s ease both; }
-@keyframes fadeUp {
-  from { opacity: 0; transform: translateY(12px); }
-  to   { opacity: 1; transform: translateY(0); }
-}
-
-/* FORM ELEMENTS */
-.field { margin-bottom: 1.375rem; }
+/* FORM */
+.field { margin-bottom: 1.25rem; }
 .field:last-child { margin-bottom: 0; }
-label {
-  display: block; font-size: 0.8125rem; font-weight: 400;
-  color: var(--muted); margin-bottom: 0.4rem; line-height: 1.4;
-}
+label { display: block; font-size: 0.8125rem; font-weight: 400; color: var(--muted); margin-bottom: 0.4rem; }
 label .opt { font-weight: 300; color: var(--muted2); }
-label .req { color: var(--accent); margin-left: 2px; }
-input[type="text"], input[type="url"], input[type="tel"], textarea {
+input[type="text"], input[type="url"], input[type="email"], textarea {
   width: 100%; background: var(--bg3); border: 1px solid var(--border);
   border-radius: var(--radius-sm); padding: 0.7rem 0.85rem;
   color: var(--text); font-family: var(--font); font-size: 0.875rem;
-  font-weight: 300; outline: none; transition: border-color 0.25s, background 0.25s;
+  font-weight: 300; outline: none; transition: border-color 0.25s;
 }
 input::placeholder, textarea::placeholder { color: var(--muted2); font-weight: 300; }
-input:focus, textarea:focus { border-color: var(--accent-border); background: rgba(52,211,153,0.03); }
-textarea { resize: vertical; min-height: 88px; line-height: 1.6; }
-.input-pair { display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem; }
+input:focus, textarea:focus { border-color: var(--accent-border); }
+textarea { resize: vertical; min-height: 80px; line-height: 1.55; }
 
 /* CHIPS */
-.chip-group { display: flex; flex-wrap: wrap; gap: 0.45rem; }
-.chip {
-  padding: 0.45rem 0.9rem; border-radius: 20px;
-  background: var(--bg3); border: 1px solid var(--border);
-  font-size: 0.8125rem; font-weight: 400; color: var(--muted);
-  cursor: pointer; transition: all 0.2s; user-select: none;
-}
+.chip-group { display: flex; flex-wrap: wrap; gap: 0.5rem; }
+.chip { padding: 0.45rem 0.85rem; border-radius: 20px; background: var(--bg3); border: 1px solid var(--border); font-size: 0.8125rem; font-weight: 400; color: var(--muted); cursor: pointer; transition: all 0.2s; user-select: none; }
 .chip:hover { border-color: var(--border-hi); color: var(--text); }
-.chip.selected {
-  background: var(--accent-bg); border-color: var(--accent-border);
-  color: var(--accent); font-weight: 500;
-}
-.chip-label { font-size: 0.8125rem; color: var(--muted); margin-bottom: 0.55rem; display: block; }
-
-/* GOAL CARDS */
-.goal-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0.65rem; }
-.goal-card {
-  background: var(--bg2); border: 1px solid var(--border);
-  border-radius: var(--radius); padding: 1rem 1.125rem;
-  cursor: pointer; transition: all 0.25s; user-select: none;
-}
-.goal-card:hover { border-color: var(--border-md); }
-.goal-card.selected { border-color: var(--accent-border); background: var(--accent-bg); }
-.goal-card-icon { font-size: 1.25rem; margin-bottom: 0.4rem; }
-.goal-card-title { font-size: 0.875rem; font-weight: 500; letter-spacing: -0.01em; margin-bottom: 0.2rem; }
-.goal-card-desc { font-size: 0.75rem; font-weight: 300; color: var(--muted); line-height: 1.4; }
-.goal-card.selected .goal-card-desc { color: rgba(52,211,153,0.7); }
+.chip.selected { background: var(--accent-bg); border-color: var(--accent-border); color: var(--accent); font-weight: 500; }
 
 /* TOGGLE CARD */
-.toggle-card {
-  width: 100%; background: var(--bg2); border: 1px solid var(--border);
-  border-radius: var(--radius); padding: 1.25rem 1.5rem; margin-bottom: 1.75rem;
-  transition: all 0.3s; cursor: pointer; user-select: none;
-}
+.toggle-card { width: 100%; background: var(--bg2); border: 1px solid var(--border); border-radius: var(--radius); padding: 1.25rem 1.5rem; margin-bottom: 1.75rem; transition: border-color 0.3s, background 0.3s; cursor: pointer; user-select: none; }
 .toggle-card:hover { border-color: var(--border-md); }
 .toggle-card.active { border-color: var(--accent-border); background: var(--accent-bg); }
 .toggle-top { display: flex; align-items: center; justify-content: space-between; gap: 1rem; }
 .toggle-left { display: flex; align-items: flex-start; gap: 0.75rem; flex: 1; }
-.toggle-icon {
-  width: 36px; height: 36px; border-radius: 8px; background: var(--bg3);
-  border: 1px solid var(--border); display: flex; align-items: center;
-  justify-content: center; font-size: 1.125rem; flex-shrink: 0; transition: all 0.3s;
-}
+.toggle-icon { width: 36px; height: 36px; border-radius: 8px; background: var(--bg3); border: 1px solid var(--border); display: flex; align-items: center; justify-content: center; font-size: 1.125rem; flex-shrink: 0; transition: background 0.3s, border-color 0.3s; }
 .toggle-card.active .toggle-icon { background: var(--accent-bg); border-color: var(--accent-border); }
 .toggle-info h3 { font-size: 0.9375rem; font-weight: 500; letter-spacing: -0.01em; margin-bottom: 0.25rem; }
 .toggle-info p { font-size: 0.8125rem; font-weight: 300; color: var(--muted); line-height: 1.5; }
-.toggle-time {
-  font-size: 0.6875rem; font-weight: 400; color: var(--muted); letter-spacing: 0.04em;
-  text-transform: uppercase; white-space: nowrap; padding: 0.25rem 0.6rem;
-  border: 1px solid var(--border); border-radius: 20px; flex-shrink: 0;
-}
-.switch {
-  width: 44px; height: 24px; background: var(--bg3); border: 1px solid var(--border-md);
-  border-radius: 12px; position: relative; flex-shrink: 0; transition: all 0.3s;
-}
-.switch::after {
-  content: ''; position: absolute; top: 2px; left: 2px;
-  width: 18px; height: 18px; border-radius: 50%; background: var(--muted); transition: all 0.3s;
-}
+.toggle-time { font-size: 0.6875rem; font-weight: 400; color: var(--muted); letter-spacing: 0.04em; text-transform: uppercase; white-space: nowrap; padding: 0.25rem 0.6rem; border: 1px solid var(--border); border-radius: 20px; flex-shrink: 0; }
+.switch { width: 44px; height: 24px; background: var(--bg3); border: 1px solid var(--border-md); border-radius: 12px; position: relative; flex-shrink: 0; transition: background 0.3s, border-color 0.3s; }
+.switch::after { content: ''; position: absolute; top: 2px; left: 2px; width: 18px; height: 18px; border-radius: 50%; background: var(--muted); transition: transform 0.3s, background 0.3s; }
 .toggle-card.active .switch { background: var(--accent); border-color: var(--accent); }
 .toggle-card.active .switch::after { transform: translateX(20px); background: var(--bg); }
-.expand-section {
-  max-height: 0; overflow: hidden; opacity: 0;
-  transition: max-height 0.55s cubic-bezier(0.4,0,0.2,1), opacity 0.4s ease, margin 0.4s ease;
-}
-.expand-section.open { max-height: 2400px; opacity: 1; margin-top: 1.5rem; }
+.expand-section { max-height: 0; overflow: hidden; opacity: 0; transition: max-height 0.5s cubic-bezier(0.4,0,0.2,1), opacity 0.4s ease, margin 0.4s ease; margin-top: 0; }
+.expand-section.open { max-height: 2000px; opacity: 1; margin-top: 1.5rem; }
 
 /* COMPETITOR */
-.comp-block { margin-bottom: 1.25rem; }
-.comp-number {
-  font-size: 0.6875rem; font-weight: 500; color: var(--accent);
-  letter-spacing: 0.06em; text-transform: uppercase; margin-bottom: 0.5rem;
-  display: flex; align-items: center; gap: 0.4rem;
-}
+.comp-row { display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem; margin-bottom: 0.75rem; }
+.comp-number { font-size: 0.6875rem; font-weight: 500; color: var(--accent); letter-spacing: 0.06em; text-transform: uppercase; margin-bottom: 0.5rem; display: flex; align-items: center; gap: 0.4rem; }
 .comp-number::before { content: '◆'; font-size: 0.5rem; color: var(--accent); opacity: 0.6; }
-
-/* IMAGE URL ADDER */
-.img-list { display: flex; flex-direction: column; gap: 0.5rem; margin-bottom: 0.6rem; }
-.img-row { display: flex; gap: 0.5rem; align-items: center; }
-.img-row input { flex: 1; }
-.img-row-del {
-  width: 34px; height: 34px; display: flex; align-items: center; justify-content: center;
-  background: var(--bg3); border: 1px solid var(--border); border-radius: var(--radius-sm);
-  cursor: pointer; color: var(--muted); font-size: 1.1rem; transition: all 0.2s; flex-shrink: 0;
-}
-.img-row-del:hover { border-color: rgba(239,68,68,0.4); color: #f87171; }
-.btn-add {
-  display: inline-flex; align-items: center; gap: 0.4rem;
-  background: transparent; border: 1px dashed var(--border-md); border-radius: var(--radius-sm);
-  padding: 0.55rem 0.9rem; font-family: var(--font); font-size: 0.8125rem;
-  color: var(--muted); cursor: pointer; transition: all 0.2s;
-}
-.btn-add:hover { border-color: var(--accent-border); color: var(--accent); }
-
-/* HINT BOX */
-.hint-box {
-  background: var(--bg2); border: 1px solid var(--border);
-  border-radius: var(--radius); padding: 0.85rem 1rem;
-  margin-top: 1.25rem; display: flex; gap: 0.6rem; align-items: flex-start;
-}
-.hint-box.warn { border-color: var(--warn-border); background: var(--warn-bg); }
-.hint-box .icon { font-size: 0.875rem; flex-shrink: 0; margin-top: 0.1rem; }
-.hint-box p { font-size: 0.8125rem; font-weight: 300; color: var(--muted); line-height: 1.5; }
-.hint-box.warn p { color: rgba(251,191,36,0.8); }
-
-/* DIVIDER */
-.section-div { border: none; border-top: 1px solid var(--border); margin: 1.75rem 0; }
+.comp-group { margin-bottom: 1.5rem; }
 
 /* BENEFIT PILL */
-.benefit {
-  display: inline-flex; align-items: center; gap: 0.35rem;
-  font-size: 0.75rem; font-weight: 400; color: var(--accent);
-  background: var(--accent-bg); border: 1px solid var(--accent-border);
-  border-radius: 20px; padding: 0.3rem 0.7rem; margin-top: 0.75rem;
-}
+.benefit { display: inline-flex; align-items: center; gap: 0.35rem; font-size: 0.75rem; font-weight: 400; color: var(--accent); background: var(--accent-bg); border: 1px solid var(--accent-border); border-radius: 20px; padding: 0.3rem 0.7rem; margin-top: 0.75rem; }
 
-/* SUMMARY */
-.summary-card {
-  background: var(--bg2); border: 1px solid var(--border);
-  border-radius: var(--radius); padding: 1.25rem 1.5rem; margin-bottom: 1rem;
-}
-.summary-section-title {
-  font-size: 0.6875rem; font-weight: 500; color: var(--accent);
-  letter-spacing: 0.06em; text-transform: uppercase; margin-bottom: 0.75rem;
-  display: flex; align-items: center; gap: 0.5rem;
-}
-.summary-section-title::before { content: ''; display: block; width: 16px; height: 1px; background: var(--muted2); }
-.summary-row { display: flex; gap: 0.75rem; margin-bottom: 0.5rem; font-size: 0.875rem; }
-.summary-key { color: var(--muted); font-weight: 300; min-width: 130px; flex-shrink: 0; }
-.summary-val { color: var(--text); font-weight: 400; line-height: 1.5; }
+/* HINT BOX */
+.hint-box { background: var(--bg2); border: 1px solid var(--border); border-radius: var(--radius); padding: 0.85rem 1rem; margin-top: 1.25rem; display: flex; gap: 0.6rem; align-items: flex-start; }
+.hint-box .icon { font-size: 0.875rem; flex-shrink: 0; margin-top: 0.1rem; }
+.hint-box p { font-size: 0.8125rem; font-weight: 300; color: var(--muted); line-height: 1.5; }
 
-/* LOVABLE PROMPT */
-.prompt-box {
-  background: var(--bg3); border: 1px solid var(--accent-border);
-  border-radius: var(--radius); padding: 1.25rem; margin-top: 1rem;
-}
-.prompt-header {
-  display: flex; align-items: center; justify-content: space-between; margin-bottom: 0.85rem;
-}
-.prompt-title {
-  font-size: 0.75rem; font-weight: 500; color: var(--accent);
-  letter-spacing: 0.06em; text-transform: uppercase;
-  display: flex; align-items: center; gap: 0.5rem;
-}
-.prompt-title::before { content: ''; display: block; width: 16px; height: 1px; background: var(--muted2); }
-.btn-copy {
-  display: inline-flex; align-items: center; gap: 0.4rem;
-  background: var(--accent-bg); border: 1px solid var(--accent-border);
-  border-radius: 20px; padding: 0.3rem 0.8rem;
-  font-family: var(--font); font-size: 0.75rem; font-weight: 500;
-  color: var(--accent); cursor: pointer; transition: all 0.2s;
-}
-.btn-copy:hover { background: rgba(52,211,153,0.15); }
-.btn-copy.copied { color: #a7f3d0; }
-.prompt-text {
-  font-size: 0.8125rem; font-weight: 300; color: var(--text);
-  line-height: 1.7; white-space: pre-wrap; word-break: break-word;
-  max-height: 300px; overflow-y: auto;
-  scrollbar-width: thin; scrollbar-color: var(--muted2) transparent;
-}
+/* YES/NO */
+.yn-group { display: flex; gap: 0.5rem; }
+.yn-btn { padding: 0.45rem 1.1rem; border-radius: 20px; background: var(--bg3); border: 1px solid var(--border); font-size: 0.8125rem; font-weight: 400; color: var(--muted); cursor: pointer; transition: all 0.2s; user-select: none; }
+.yn-btn:hover { border-color: var(--border-hi); color: var(--text); }
+.yn-btn.selected { background: var(--accent-bg); border-color: var(--accent-border); color: var(--accent); font-weight: 500; }
+.yn-reveal { margin-top: 0.75rem; display: none; }
+.yn-reveal.show { display: block; }
+
+/* DIVIDER */
+.sect-divider { width: 100%; height: 1px; background: var(--border); margin: 1.5rem 0; }
+
+/* IMG HINT */
+.img-hint { font-size: 0.75rem; color: var(--muted2); margin-top: 0.4rem; display: flex; align-items: center; gap: 0.4rem; }
 
 /* BUTTONS */
 .btn-row { display: flex; gap: 0.75rem; width: 100%; margin-top: 2rem; }
-.btn {
-  flex: 1; display: flex; align-items: center; justify-content: center;
-  padding: 0.85rem 1.5rem; border-radius: var(--radius-sm);
-  font-family: var(--font); font-size: 0.875rem; font-weight: 500;
-  cursor: pointer; transition: all 0.25s; border: none; text-decoration: none; gap: 0.4rem;
-}
-.btn-back {
-  background: transparent; border: 1px solid var(--border); color: var(--muted);
-  flex: 0 0 auto; padding: 0.85rem 1.25rem;
-}
+.btn { flex: 1; display: flex; align-items: center; justify-content: center; padding: 0.8rem 1.5rem; border-radius: var(--radius-sm); font-family: var(--font); font-size: 0.875rem; font-weight: 500; cursor: pointer; transition: all 0.25s; border: none; text-decoration: none; }
+.btn-back { background: transparent; border: 1px solid var(--border); color: var(--muted); flex: 0; padding: 0.8rem 1.25rem; }
 .btn-back:hover { border-color: var(--border-hi); color: var(--text); }
 .btn-next { background: var(--accent); color: var(--bg); font-weight: 600; letter-spacing: -0.01em; }
 .btn-next:hover { filter: brightness(1.1); }
-.btn-submit { background: var(--accent); color: var(--bg); font-weight: 700; letter-spacing: -0.01em; font-size: 0.9375rem; }
+.btn-submit { background: var(--accent); color: var(--bg); font-weight: 600; letter-spacing: -0.01em; gap: 0.5rem; }
 .btn-submit:hover { filter: brightness(1.1); }
-.btn-submit:disabled { opacity: 0.45; cursor: not-allowed; filter: none; }
+.btn-submit:disabled { opacity: 0.5; cursor: not-allowed; filter: none; }
+
+/* SUMMARY */
+.summary-grid { display: flex; flex-direction: column; gap: 1rem; }
+.summary-block { background: var(--bg2); border: 1px solid var(--border); border-radius: var(--radius); padding: 1.125rem 1.25rem; }
+.summary-block-header { font-size: 0.6875rem; font-weight: 500; color: var(--accent); letter-spacing: 0.07em; text-transform: uppercase; margin-bottom: 0.875rem; display: flex; align-items: center; gap: 0.45rem; }
+.summary-block-header::before { content: ''; display: block; width: 16px; height: 1px; background: var(--muted2); }
+.summary-row { display: flex; gap: 0.75rem; padding: 0.5rem 0; border-bottom: 1px solid var(--border); font-size: 0.875rem; }
+.summary-row:last-child { border-bottom: none; padding-bottom: 0; }
+.summary-key { color: var(--muted); font-weight: 400; min-width: 160px; flex-shrink: 0; font-size: 0.8125rem; }
+.summary-val { color: var(--text); font-weight: 300; line-height: 1.55; flex: 1; word-break: break-word; }
+.summary-val.empty { color: var(--muted2); font-style: italic; }
 
 /* SUCCESS */
-.success-state {
-  display: none; flex-direction: column; align-items: center;
-  text-align: center; padding: 2rem 0;
-}
-.success-state.visible { display: flex; animation: fadeUp 0.4s ease both; }
-.success-icon { font-size: 3rem; margin-bottom: 1.25rem; }
-.success-title { font-size: 1.75rem; font-weight: 700; letter-spacing: -0.03em; margin-bottom: 0.6rem; }
-.success-sub { font-size: 0.9375rem; font-weight: 300; color: var(--muted); line-height: 1.6; max-width: 400px; }
+.success-card { text-align: center; padding: 3rem 1.5rem; background: var(--bg2); border: 1px solid var(--accent-border); border-radius: 12px; }
+.success-icon { font-size: 2.5rem; margin-bottom: 1rem; }
+.success-card h2 { font-size: 1.5rem; font-weight: 700; letter-spacing: -0.03em; margin-bottom: 0.5rem; }
+.success-card p { font-size: 0.9375rem; font-weight: 300; color: var(--muted); line-height: 1.6; }
 
 /* TRUST */
 .trust-line { font-size: 0.6875rem; color: var(--muted2); text-align: center; margin-top: 2.5rem; letter-spacing: 0.04em; }
 
 @media (max-width: 520px) {
-  main { padding: 2rem 1.25rem 3.5rem; }
-  .goal-grid { grid-template-columns: 1fr; }
-  .input-pair { grid-template-columns: 1fr; }
+  .steps-outer { padding: 2rem 1.25rem 3rem; }
+  .comp-row { grid-template-columns: 1fr; }
+  .summary-key { min-width: 110px; }
   .toggle-top { flex-wrap: wrap; }
-  .summary-row { flex-direction: column; gap: 0.2rem; }
-  .summary-key { min-width: auto; }
 }
 </style>
 </head>
 <body>
 
-<!-- NETLIFY HIDDEN FORM -->
-<form name="briefing-v2" netlify hidden>
-  <input type="hidden" name="form-name" value="briefing-v2">
-  <input name="ziele"><input name="ziel_freitext">
-  <input name="betrieb_name"><input name="branche"><input name="ort"><input name="telefon">
-  <input name="leistungen"><input name="usp">
-  <input name="zielgruppe"><input name="akquise"><input name="kundenproblem"><input name="warum_wir">
-  <input name="wb_aktiv"><input name="wb_wettbewerber"><input name="wb_einzugsgebiet">
-  <input name="wb_suchbegriffe"><input name="wb_einschaetzung">
-  <input name="design_stil"><input name="design_farbe"><input name="design_referenzen">
-  <input name="logo_status"><input name="bilder_urls"><input name="calendly">
-  <textarea name="lovable_prompt"></textarea>
-</form>
-
-<!-- NAV -->
 <nav class="nav">
   <a class="nav-logo" href="https://seitenwertig.de/">
     <span class="nav-logo-mark">S</span>
-    <span class="nav-logo-name">Seiten <span>Wertig</span></span>
+    <span class="nav-logo-name">Seiten<span>Wertig</span></span>
   </a>
-  <a class="nav-back" href="https://seitenwertig.de/">← Website</a>
+  <a class="nav-back" href="https://seitenwertig.de/">&#8592; Website</a>
 </nav>
 
-<main>
+<!-- NETLIFY HIDDEN FORM -->
+<form name="briefing" netlify netlify-honeypot="bot-field" hidden>
+  <input type="hidden" name="form-name" value="briefing">
+  <input name="bot-field">
+  <input name="ziel_hauptziel"><input name="ziel_aktion"><input name="ziel_problem"><textarea name="ziel_erfolg"></textarea>
+  <input name="betrieb_name"><input name="betrieb_branche"><input name="betrieb_ort"><textarea name="betrieb_usp"></textarea><input name="betrieb_zielkunden"><input name="kontakt_email">
+  <input name="wb_aktiv"><input name="wb_wettbewerber1"><input name="wb_wettbewerber2"><input name="wb_wettbewerber3"><input name="wb_einzugsgebiet"><input name="wb_suchbegriffe"><textarea name="wb_einschaetzung"></textarea>
+  <input name="inhalte_bestehende_url"><input name="inhalte_logo_link"><textarea name="inhalte_bildlinks"></textarea><input name="inhalte_seiten"><textarea name="inhalte_texte"></textarea>
+  <input name="design_ausstrahlung"><input name="design_farben"><textarea name="design_referenzen"></textarea><textarea name="design_vermeiden"></textarea>
+  <textarea name="lovable_prompt"></textarea>
+</form>
 
-  <!-- PROGRESS -->
-  <div class="progress-wrap" id="progressWrap">
-    <div class="progress-meta">
-      <span class="progress-label" id="progressLabel">Schritt 1 von 6</span>
-      <span class="progress-steps" id="progressSteps">Dein Ziel</span>
-    </div>
-    <div class="progress-bar"><div class="progress-fill" id="progressFill" style="width:16.7%"></div></div>
+<div class="steps-outer">
+  <div class="progress-wrap">
+    <div class="progress-label" id="progressLabel">Schritt 1 von 5</div>
+    <div class="progress-bar"><div class="progress-fill" id="progressFill" style="width:20%"></div></div>
   </div>
 
-  <!-- ────────── STEP 1: ZIEL ────────── -->
-  <div class="step active" id="step-1">
-    <div style="width:100%">
-      <div class="eyebrow">Dein Ziel</div>
+  <div class="steps-viewport">
+
+    <!-- STEP 1: ZIELE -->
+    <div class="step active" id="step1">
+      <div class="eyebrow">Schritt 1 — Ziele</div>
       <h1>Was soll die Website leisten?</h1>
-      <p class="subtitle">Kein Design ohne Strategie. Was muss nach dem Launch besser sein als heute?</p>
-    </div>
+      <p class="subtitle">Bevor wir ans Design denken — was ist das konkrete Ziel? Das bestimmt alles andere.</p>
 
-    <div class="field">
-      <span class="chip-label">Wähle deine wichtigsten Ziele <span style="color:var(--muted2)">(mehrere möglich)</span></span>
-      <div class="goal-grid" id="goalCards">
-        <div class="goal-card" data-val="Mehr Kundenanfragen / Leads" onclick="toggleGoal(this)">
-          <div class="goal-card-icon">📥</div>
-          <div class="goal-card-title">Mehr Anfragen</div>
-          <div class="goal-card-desc">Interessenten sollen direkt Kontakt aufnehmen</div>
+      <div class="field">
+        <label>Was ist das Hauptziel deiner neuen Website?</label>
+        <div class="chip-group" id="chips-hauptziel">
+          <div class="chip" onclick="selChip(this,'hauptziel')">Mehr Anfragen bekommen</div>
+          <div class="chip" onclick="selChip(this,'hauptziel')">Online-Pr&#228;senz aufbauen</div>
+          <div class="chip" onclick="selChip(this,'hauptziel')">Vertrauen &amp; Glaubw&#252;rdigkeit</div>
+          <div class="chip" onclick="selChip(this,'hauptziel')">Konkurrenz abh&#228;ngen</div>
+          <div class="chip" onclick="selChip(this,'hauptziel')">Bestandskunden binden</div>
+          <div class="chip" onclick="selChip(this,'hauptziel')">Fachkr&#228;fte gewinnen</div>
         </div>
-        <div class="goal-card" data-val="Mehr Anrufe & direkter Kontakt" onclick="toggleGoal(this)">
-          <div class="goal-card-icon">📞</div>
-          <div class="goal-card-title">Mehr Anrufe</div>
-          <div class="goal-card-desc">Telefon als primärer Kontaktweg</div>
+      </div>
+
+      <div class="field">
+        <label>Was sollen Besucher als Erstes tun?</label>
+        <div class="chip-group" id="chips-aktion">
+          <div class="chip" onclick="selChip(this,'aktion')">Anrufen</div>
+          <div class="chip" onclick="selChip(this,'aktion')">Formular ausf&#252;llen</div>
+          <div class="chip" onclick="selChip(this,'aktion')">Termin buchen</div>
+          <div class="chip" onclick="selChip(this,'aktion')">WhatsApp schreiben</div>
+          <div class="chip" onclick="selChip(this,'aktion')">Angebot anfordern</div>
+          <div class="chip" onclick="selChip(this,'aktion')">Portfolio ansehen</div>
         </div>
-        <div class="goal-card" data-val="Vertrauen & Professionalität zeigen" onclick="toggleGoal(this)">
-          <div class="goal-card-icon">🏆</div>
-          <div class="goal-card-title">Vertrauen aufbauen</div>
-          <div class="goal-card-desc">Seriosität und Qualität kommunizieren</div>
+      </div>
+
+      <div class="field">
+        <label>Was ist dein aktuelles Problem?</label>
+        <div class="chip-group" id="chips-problem">
+          <div class="chip" onclick="selChip(this,'problem')">Keine Website vorhanden</div>
+          <div class="chip" onclick="selChip(this,'problem')">Website ist veraltet</div>
+          <div class="chip" onclick="selChip(this,'problem')">Kaum Anfragen &#252;ber Website</div>
+          <div class="chip" onclick="selChip(this,'problem')">Konkurrenz ist besser sichtbar</div>
+          <div class="chip" onclick="selChip(this,'problem')">Sieht unprofessionell aus</div>
+          <div class="chip" onclick="selChip(this,'problem')">L&#228;uft schlecht auf Handy</div>
         </div>
-        <div class="goal-card" data-val="Online bei Google gefunden werden" onclick="toggleGoal(this)">
-          <div class="goal-card-icon">🔍</div>
-          <div class="goal-card-title">Google-Sichtbarkeit</div>
-          <div class="goal-card-desc">Lokal auffindbar sein wenn Kunden suchen</div>
-        </div>
-        <div class="goal-card" data-val="Preise & Leistungen transparent kommunizieren" onclick="toggleGoal(this)">
-          <div class="goal-card-icon">💶</div>
-          <div class="goal-card-title">Preise zeigen</div>
-          <div class="goal-card-desc">Preistransparenz als Vertrauenssignal</div>
-        </div>
-        <div class="goal-card" data-val="Mitarbeiter & Auszubildende gewinnen" onclick="toggleGoal(this)">
-          <div class="goal-card-icon">👷</div>
-          <div class="goal-card-title">Bewerber gewinnen</div>
-          <div class="goal-card-desc">Als attraktiver Arbeitgeber auftreten</div>
-        </div>
+      </div>
+
+      <div class="field">
+        <label>Was w&#228;re f&#252;r dich ein Erfolg — 3 Monate nach dem Launch? <span class="opt">(optional)</span></label>
+        <textarea id="ziel-erfolg" placeholder="z.B. Mindestens 5 neue Anfragen pro Monat &#252;ber die Website..."></textarea>
+      </div>
+
+      <div class="btn-row">
+        <button class="btn btn-next" onclick="goNext()">Weiter &#8594;</button>
       </div>
     </div>
 
-    <div class="field" style="margin-top:1.5rem;">
-      <label for="ziel-freitext">Was funktioniert heute nicht — und warum? <span class="opt">(optional)</span></label>
-      <textarea id="ziel-freitext" placeholder="z.B. Wir haben keine Website / die alte ist nicht mobil / wir verlieren Kunden an Konkurrenten die besser online aufgestellt sind…"></textarea>
-    </div>
-
-    <div class="hint-box">
-      <span class="icon">💡</span>
-      <p>Je klarer dein Ziel, desto gezielter das Design — jedes Element der Seite arbeitet dann auf genau dieses Ziel hin.</p>
-    </div>
-
-    <div class="btn-row">
-      <button class="btn btn-next" onclick="goTo(2)">Weiter →</button>
-    </div>
-  </div>
-
-  <!-- ────────── STEP 2: BETRIEB ────────── -->
-  <div class="step" id="step-2">
-    <div style="width:100%">
-      <div class="eyebrow">Dein Betrieb</div>
+    <!-- STEP 2: BETRIEB -->
+    <div class="step" id="step2">
+      <div class="eyebrow">Schritt 2 — Dein Betrieb</div>
       <h1>Wer bist du?</h1>
-      <p class="subtitle">Damit die Seite wirklich zu dir passt — nicht von der Stange.</p>
-    </div>
+      <p class="subtitle">Damit die Website wirklich zu dir passt — keine Vorlagen, keine Floskeln.</p>
 
-    <div class="field">
-      <label for="betrieb-name">Name deines Betriebs <span class="req">*</span></label>
-      <input type="text" id="betrieb-name" placeholder="z.B. Elektro Müller GmbH">
-    </div>
-
-    <div class="input-pair">
       <div class="field">
-        <label for="betrieb-ort">Standort / Ort <span class="req">*</span></label>
-        <input type="text" id="betrieb-ort" placeholder="z.B. Forchheim">
+        <label>Name des Betriebs</label>
+        <input type="text" id="betrieb-name" placeholder="z.B. Elektro M&#252;ller Forchheim">
       </div>
       <div class="field">
-        <label for="betrieb-tel">Telefon <span class="opt">(optional)</span></label>
-        <input type="tel" id="betrieb-tel" placeholder="+49 9191 …">
+        <label>Branche &amp; was du machst</label>
+        <input type="text" id="betrieb-branche" placeholder="z.B. Elektriker &#8212; Neuinstallationen, Sanierung, Notdienst">
+      </div>
+      <div class="field">
+        <label>Standort / Region</label>
+        <input type="text" id="betrieb-ort" placeholder="z.B. Forchheim, Erlangen, Bamberg">
+      </div>
+      <div class="field">
+        <label>Was macht dich besser oder anders als die Konkurrenz?</label>
+        <textarea id="betrieb-usp" placeholder="z.B. Familienunternehmen seit 30 Jahren, 24h-Notdienst, keine versteckten Kosten, Meister vor Ort..."></textarea>
+      </div>
+      <div class="field">
+        <label>Wer sind deine idealen Kunden? <span class="opt">(mehrere m&#246;glich)</span></label>
+        <div class="chip-group" id="chips-zielkunden">
+          <div class="chip" onclick="togChip(this,'zielkunden')">Privatkunden</div>
+          <div class="chip" onclick="togChip(this,'zielkunden')">Gewerbekunden</div>
+          <div class="chip" onclick="togChip(this,'zielkunden')">Hausverwaltungen</div>
+          <div class="chip" onclick="togChip(this,'zielkunden')">Gastronomen</div>
+          <div class="chip" onclick="togChip(this,'zielkunden')">Handwerkskollegen</div>
+          <div class="chip" onclick="togChip(this,'zielkunden')">Bauherren</div>
+        </div>
+      </div>
+      <div class="field">
+        <label>E-Mail f&#252;r Kundenanfragen <span class="opt">(wohin sollen Nachrichten?)</span></label>
+        <input type="email" id="kontakt-email" placeholder="deine@email.de">
+      </div>
+
+      <div class="btn-row">
+        <button class="btn btn-back" onclick="goBack()">&#8592;</button>
+        <button class="btn btn-next" onclick="goNext()">Weiter &#8594;</button>
       </div>
     </div>
 
-    <div class="field">
-      <label>Branche <span class="req">*</span></label>
-      <div class="chip-group" id="brancheChips">
-        <div class="chip" onclick="selChip(this,'branche')">⚙️ Handwerk</div>
-        <div class="chip" onclick="selChip(this,'branche')">🛎 Dienstleistung</div>
-        <div class="chip" onclick="selChip(this,'branche')">🍽 Gastronomie</div>
-        <div class="chip" onclick="selChip(this,'branche')">❤️ Gesundheit / Beauty</div>
-        <div class="chip" onclick="selChip(this,'branche')">🏗 Bau / Immobilien</div>
-        <div class="chip" onclick="selChip(this,'branche')">🛒 Handel</div>
-        <div class="chip" onclick="selChip(this,'branche')">✏️ Sonstiges</div>
-      </div>
-    </div>
+    <!-- STEP 3: WETTBEWERB -->
+    <div class="step" id="step3">
+      <div class="eyebrow">Schritt 3 — Wettbewerb</div>
+      <h1>Dein Umfeld</h1>
+      <p class="subtitle">Wer ist in deiner Region aktiv? Das hilft, dich gezielt zu positionieren — nicht am Markt vorbei.</p>
 
-    <div class="field">
-      <label for="betrieb-leistungen">Was bietest du an? <span class="req">*</span></label>
-      <textarea id="betrieb-leistungen" placeholder="z.B. Elektroinstallation, Photovoltaik, Notdienst — privat und gewerblich im Umkreis Forchheim / Bamberg / Erlangen"></textarea>
-    </div>
-
-    <div class="field">
-      <label for="betrieb-usp">Was macht dich besonders? <span class="req">*</span></label>
-      <textarea id="betrieb-usp" style="min-height:72px;" placeholder="z.B. Familiengeführt seit 1987 — wir kommen noch am selben Tag. Feste Ansprechpartner, keine Callcenter."></textarea>
-    </div>
-
-    <div class="btn-row">
-      <button class="btn btn-back" onclick="goTo(1)">←</button>
-      <button class="btn btn-next" onclick="goTo(3)">Weiter →</button>
-    </div>
-  </div>
-
-  <!-- ────────── STEP 3: KUNDEN ────────── -->
-  <div class="step" id="step-3">
-    <div style="width:100%">
-      <div class="eyebrow">Deine Kunden</div>
-      <h1>Wen willst du ansprechen?</h1>
-      <p class="subtitle">Eine gute Website spricht genau eine Person an — und trifft sie mitten ins Herz.</p>
-    </div>
-
-    <div class="field">
-      <label>Wer sind deine Kunden? <span class="req">*</span></label>
-      <div class="chip-group" id="zielgruppeChips">
-        <div class="chip" onclick="selChip(this,'zielgruppe')">🏠 Privatkunden</div>
-        <div class="chip" onclick="selChip(this,'zielgruppe')">🏢 Gewerbliche Kunden</div>
-        <div class="chip" onclick="selChip(this,'zielgruppe')">👥 Beide</div>
-      </div>
-    </div>
-
-    <div class="field">
-      <label>Wie gewinnst du Kunden heute? <span class="opt">(mehrere möglich)</span></label>
-      <div class="chip-group" id="akquiseChips">
-        <div class="chip" onclick="toggleChip(this,'akquise')">💬 Empfehlungen</div>
-        <div class="chip" onclick="toggleChip(this,'akquise')">🔍 Google</div>
-        <div class="chip" onclick="toggleChip(this,'akquise')">📱 Social Media</div>
-        <div class="chip" onclick="toggleChip(this,'akquise')">📄 Flyer / Offline</div>
-        <div class="chip" onclick="toggleChip(this,'akquise')">🤷 Noch nicht gut aufgestellt</div>
-      </div>
-    </div>
-
-    <div class="field">
-      <label for="kunde-problem">Was ist das größte Problem deiner Kunden, das du löst? <span class="req">*</span></label>
-      <textarea id="kunde-problem" placeholder="z.B. Sie suchen einen zuverlässigen Elektriker der schnell kommt, nicht drei Wochen auf einen Rückruf wartet und einen fairen Festpreis nennt."></textarea>
-    </div>
-
-    <div class="field">
-      <label for="kunde-warum">Warum sollen Kunden dich wählen — nicht den Wettbewerber? <span class="opt">(optional)</span></label>
-      <textarea id="kunde-warum" style="min-height:72px;" placeholder="z.B. Wir antworten innerhalb von 2 Stunden. Kein Subunternehmer, immer dieselben Leute. 5 Jahre Garantie."></textarea>
-    </div>
-
-    <div class="btn-row">
-      <button class="btn btn-back" onclick="goTo(2)">←</button>
-      <button class="btn btn-next" onclick="goTo(4)">Weiter →</button>
-    </div>
-  </div>
-
-  <!-- ────────── STEP 4: WETTBEWERB ────────── -->
-  <div class="step" id="step-4">
-    <div style="width:100%">
-      <div class="eyebrow">Wettbewerb</div>
-      <h1>Wer ist die Konkurrenz?</h1>
-      <p class="subtitle">Optional — aber ein echter Vorteil. Je besser ich die Konkurrenz kenne, desto gezielter die Positionierung.</p>
-    </div>
-
-    <div class="toggle-card" id="wbToggle" onclick="toggleWB()">
-      <div class="toggle-top">
-        <div class="toggle-left">
-          <div class="toggle-icon">🔍</div>
-          <div class="toggle-info">
-            <h3>Wettbewerbsanalyse aktivieren</h3>
-            <p>Ich analysiere deine lokale Konkurrenz und baue die Erkenntnisse direkt in Positionierung und Design ein.</p>
-            <div class="benefit">✓ Kostenlos im Paket enthalten</div>
+      <div class="toggle-card" id="wbToggle" onclick="toggleWB()">
+        <div class="toggle-top">
+          <div class="toggle-left">
+            <div class="toggle-icon">&#128269;</div>
+            <div class="toggle-info">
+              <h3>Wettbewerbsanalyse aktivieren</h3>
+              <p>Ich analysiere deine lokale Konkurrenz und baue die Erkenntnisse direkt ins Design ein — damit sich deine Seite klar abhebt.</p>
+              <div class="benefit">&#10003; Kostenlos im Paket enthalten</div>
+            </div>
           </div>
-        </div>
-        <div style="display:flex;align-items:center;gap:0.75rem;">
-          <span class="toggle-time">+&thinsp;ca. 3 Min</span>
-          <div class="switch"></div>
-        </div>
-      </div>
-
-      <div class="expand-section" id="wbFields">
-
-        <div class="comp-block">
-          <div class="comp-number">Wettbewerber 1</div>
-          <div class="input-pair">
-            <div class="field"><label>Name</label><input type="text" id="wb-name1" placeholder="z.B. Müller Elektrotechnik"></div>
-            <div class="field"><label>Website <span class="opt">(optional)</span></label><input type="url" id="wb-url1" placeholder="https://…"></div>
+          <div style="display:flex;align-items:center;gap:0.75rem;flex-shrink:0;">
+            <span class="toggle-time">+ ca. 3 Min</span>
+            <div class="switch"></div>
           </div>
         </div>
 
-        <div class="comp-block">
-          <div class="comp-number">Wettbewerber 2</div>
-          <div class="input-pair">
-            <div class="field"><label>Name</label><input type="text" id="wb-name2" placeholder="z.B. Schmidt & Sohn GmbH"></div>
-            <div class="field"><label>Website <span class="opt">(optional)</span></label><input type="url" id="wb-url2" placeholder="https://…"></div>
+        <div class="expand-section" id="wbFields">
+          <div class="comp-group">
+            <div class="comp-number">Wettbewerber 1</div>
+            <div class="comp-row">
+              <div class="field"><label>Name des Betriebs</label><input type="text" id="wb-name1" placeholder="z.B. M&#252;ller Elektrotechnik"></div>
+              <div class="field"><label>Website <span class="opt">(optional)</span></label><input type="url" id="wb-url1" placeholder="https://..."></div>
+            </div>
+            <div class="comp-number">Wettbewerber 2</div>
+            <div class="comp-row">
+              <div class="field"><label>Name des Betriebs</label><input type="text" id="wb-name2" placeholder="z.B. Schmidt &amp; Sohn GmbH"></div>
+              <div class="field"><label>Website <span class="opt">(optional)</span></label><input type="url" id="wb-url2" placeholder="https://..."></div>
+            </div>
+            <div class="comp-number">Wettbewerber 3 <span style="color:var(--muted2);font-weight:300;text-transform:none;letter-spacing:0;font-size:0.75rem;">&#8212; optional</span></div>
+            <div class="comp-row">
+              <div class="field"><label>Name des Betriebs</label><input type="text" id="wb-name3" placeholder=""></div>
+              <div class="field"><label>Website <span class="opt">(optional)</span></label><input type="url" id="wb-url3" placeholder="https://..."></div>
+            </div>
+          </div>
+
+          <div class="field">
+            <label>Einzugsgebiet &#8212; Wie weit fahren deine Kunden?</label>
+            <div class="chip-group" id="chips-radius">
+              <div class="chip" onclick="selChip(this,'radius')">Nur mein Ort</div>
+              <div class="chip" onclick="selChip(this,'radius')">10 km Umkreis</div>
+              <div class="chip" onclick="selChip(this,'radius')">25 km Umkreis</div>
+              <div class="chip" onclick="selChip(this,'radius')">Ganz Franken</div>
+              <div class="chip" onclick="selChip(this,'radius')">Ganz Bayern</div>
+            </div>
+          </div>
+
+          <div class="field" style="margin-top:1.25rem;">
+            <label>Was w&#252;rden deine Kunden bei Google eingeben?</label>
+            <input type="text" id="wb-keywords" placeholder="z.B. Elektriker Forchheim Notdienst, Fu&#223;pflege Bamberg">
+          </div>
+
+          <div class="field">
+            <label>Was machen deine Wettbewerber gut &#8212; und wo sind sie schwach? <span class="opt">(optional)</span></label>
+            <textarea id="wb-delta" placeholder="z.B. M&#252;ller hat viele Google-Bewertungen, aber die Website ist veraltet und nicht mobil..."></textarea>
+          </div>
+
+          <div class="hint-box">
+            <span class="icon">&#128161;</span>
+            <p>Schon ein Wettbewerber-Name und dein Einzugsgebiet reichen f&#252;r eine fundierte Analyse.</p>
           </div>
         </div>
+      </div>
 
-        <div class="comp-block">
-          <div class="comp-number">Wettbewerber 3 <span style="color:var(--muted2);font-weight:300;text-transform:none;letter-spacing:0;font-size:0.75rem;">— optional</span></div>
-          <div class="input-pair">
-            <div class="field"><label>Name</label><input type="text" id="wb-name3" placeholder=""></div>
-            <div class="field"><label>Website <span class="opt">(optional)</span></label><input type="url" id="wb-url3" placeholder="https://…"></div>
-          </div>
-        </div>
-
-        <hr class="section-div">
-
-        <div class="field">
-          <label>Einzugsgebiet — Wie weit kommen deine Kunden?</label>
-          <div class="chip-group" id="radiusChips">
-            <div class="chip" onclick="selChip(this,'radius')">Nur mein Ort</div>
-            <div class="chip" onclick="selChip(this,'radius')">10 km Umkreis</div>
-            <div class="chip" onclick="selChip(this,'radius')">25 km Umkreis</div>
-            <div class="chip" onclick="selChip(this,'radius')">Ganz Franken</div>
-            <div class="chip" onclick="selChip(this,'radius')">Ganz Bayern</div>
-          </div>
-        </div>
-
-        <div class="field">
-          <label for="wb-keywords">Was würden Kunden bei Google eingeben?</label>
-          <input type="text" id="wb-keywords" placeholder="z.B. Elektriker Forchheim Notdienst, Fußpflege Bamberg">
-        </div>
-
-        <div class="field">
-          <label for="wb-delta">Was macht die Konkurrenz gut — und wo ist sie schwach? <span class="opt">(optional)</span></label>
-          <textarea id="wb-delta" placeholder="z.B. Müller hat viele Google-Bewertungen, aber die Website ist veraltet. Schmidt hat eine neue Seite, aber keine Preistransparenz."></textarea>
-        </div>
-
-        <div class="hint-box">
-          <span class="icon">💡</span>
-          <p>Schon ein Name und dein Einzugsgebiet reichen. Je mehr du angibst, desto schärfer die Positionierung.</p>
-        </div>
+      <div class="btn-row">
+        <button class="btn btn-back" onclick="goBack()">&#8592;</button>
+        <button class="btn btn-next" onclick="goNext()">Weiter &#8594;</button>
       </div>
     </div>
 
-    <div class="btn-row">
-      <button class="btn btn-back" onclick="goTo(3)">←</button>
-      <button class="btn btn-next" onclick="goTo(5)">Weiter →</button>
-    </div>
-  </div>
+    <!-- STEP 4: INHALTE & BILDER -->
+    <div class="step" id="step4">
+      <div class="eyebrow">Schritt 4 &#8212; Inhalte &amp; Bilder</div>
+      <h1>Was hast du schon?</h1>
+      <p class="subtitle">Echte Fotos und eigene Texte machen den gr&#246;&#223;ten Unterschied. Schick mir was du hast.</p>
 
-  <!-- ────────── STEP 5: DESIGN & BILDER ────────── -->
-  <div class="step" id="step-5">
-    <div style="width:100%">
-      <div class="eyebrow">Design & Material</div>
-      <h1>Wie soll es aussehen?</h1>
-      <p class="subtitle">Dein Geschmack, deine Fotos, dein Look.</p>
-    </div>
-
-    <div class="field">
-      <label>Welcher Stil passt zu dir? <span class="opt">(optional)</span></label>
-      <div class="chip-group" id="stilChips">
-        <div class="chip" onclick="selChip(this,'stil')">✦ Klar & Minimalistisch</div>
-        <div class="chip" onclick="selChip(this,'stil')">🔨 Handwerklich & Bodenständig</div>
-        <div class="chip" onclick="selChip(this,'stil')">💡 Modern & Tech</div>
-        <div class="chip" onclick="selChip(this,'stil')">☀️ Warm & Persönlich</div>
-        <div class="chip" onclick="selChip(this,'stil')">💎 Premium & Hochwertig</div>
-      </div>
-    </div>
-
-    <div class="field">
-      <label>Farbwelt <span class="opt">(optional)</span></label>
-      <div class="chip-group" id="farbeChips">
-        <div class="chip" onclick="selChip(this,'farbe')">🔵 Blau / Vertrauenswürdig</div>
-        <div class="chip" onclick="selChip(this,'farbe')">🟢 Grün / Natürlich</div>
-        <div class="chip" onclick="selChip(this,'farbe')">🟤 Erdtöne / Handwerk</div>
-        <div class="chip" onclick="selChip(this,'farbe')">⚫ Dunkel / Premium</div>
-        <div class="chip" onclick="selChip(this,'farbe')">🎨 Ich hab schon eine Farbe</div>
-        <div class="chip" onclick="selChip(this,'farbe')">🤷 Egal — du entscheidest</div>
-      </div>
-    </div>
-
-    <div class="field">
-      <label>Logo vorhanden?</label>
-      <div class="chip-group" id="logoChips">
-        <div class="chip" onclick="selChip(this,'logo')">✓ Ja, als Datei</div>
-        <div class="chip" onclick="selChip(this,'logo')">📝 Nur als Scan / Foto</div>
-        <div class="chip" onclick="selChip(this,'logo')">✗ Nein, noch keins</div>
-      </div>
-    </div>
-
-    <div class="field">
-      <label>Referenzseiten — Websites die dir gefallen <span class="opt">(optional)</span></label>
-      <input type="url" id="design-ref1" placeholder="https://beispiel.de" style="margin-bottom:0.5rem;">
-      <input type="url" id="design-ref2" placeholder="https://beispiel.de">
-    </div>
-
-    <hr class="section-div">
-
-    <div class="field">
-      <label>Bilder & Fotos — Links zu deinen Bildern <span class="opt">(optional)</span></label>
-      <p style="font-size:0.8125rem;color:var(--muted);font-weight:300;margin-bottom:0.75rem;line-height:1.5;">
-        Google Drive, Dropbox, WeTransfer oder iCloud Share — jeder Link funktioniert.
-      </p>
-      <div class="img-list" id="imgList">
-        <div class="img-row">
-          <input type="url" placeholder="https://drive.google.com/…" class="img-url-input">
-          <div class="img-row-del" onclick="removeImg(this)" title="Entfernen">×</div>
+      <div class="field">
+        <label>Gibt es schon eine Website von dir?</label>
+        <div class="yn-group">
+          <div class="yn-btn" onclick="selYN(this,'besteht','ja')">Ja</div>
+          <div class="yn-btn" onclick="selYN(this,'besteht','nein')">Nein</div>
+        </div>
+        <div class="yn-reveal" id="yn-besteht-ja">
+          <input type="url" id="besteht-url" placeholder="https://deine-bisherige-seite.de">
         </div>
       </div>
-      <button class="btn-add" type="button" onclick="addImg()">
-        <span style="font-size:1.1rem;line-height:1">+</span> Weiteres Bild hinzufügen
-      </button>
-      <div class="hint-box" style="margin-top:1rem;">
-        <span class="icon">📸</span>
-        <p>Noch keine Fotos? Kein Problem — das klären wir im Erstgespräch. Echte Bilder machen den größten Unterschied.</p>
+
+      <div class="sect-divider"></div>
+
+      <div class="field">
+        <label>Bilder &amp; Fotos &#8212; Links zu vorhandenen Bildern <span class="opt">(optional)</span></label>
+        <textarea id="inhalte-bilder" rows="5" placeholder="F&#252;ge Links zu deinen Fotos ein &#8212; einen pro Zeile:&#10;&#10;https://drive.google.com/...&#10;https://dropbox.com/...&#10;https://wetransfer.com/...&#10;&#10;Google Drive, Dropbox, WeTransfer, iCloud, Direktlinks &#8212; alles m&#246;glich."></textarea>
+        <div class="img-hint">&#128206; Google Drive &middot; Dropbox &middot; WeTransfer &middot; iCloud &middot; Direktlinks</div>
+      </div>
+
+      <div class="field">
+        <label>Logo vorhanden?</label>
+        <div class="yn-group">
+          <div class="yn-btn" onclick="selYN(this,'logo','ja')">Ja</div>
+          <div class="yn-btn" onclick="selYN(this,'logo','nein')">Nein &#8212; wird erstellt</div>
+        </div>
+        <div class="yn-reveal" id="yn-logo-ja">
+          <input type="url" id="logo-link" placeholder="Link zu deiner Logo-Datei (PNG oder SVG bevorzugt)">
+        </div>
+      </div>
+
+      <div class="sect-divider"></div>
+
+      <div class="field">
+        <label>Welche Seiten soll die Website haben? <span class="opt">(mehrere m&#246;glich)</span></label>
+        <div class="chip-group" id="chips-seiten">
+          <div class="chip selected" onclick="togChip(this,'seiten')">Startseite</div>
+          <div class="chip selected" onclick="togChip(this,'seiten')">Leistungen</div>
+          <div class="chip selected" onclick="togChip(this,'seiten')">&#220;ber mich / uns</div>
+          <div class="chip selected" onclick="togChip(this,'seiten')">Kontakt</div>
+          <div class="chip" onclick="togChip(this,'seiten')">Referenzen / Projekte</div>
+          <div class="chip" onclick="togChip(this,'seiten')">Preise</div>
+          <div class="chip" onclick="togChip(this,'seiten')">Galerie</div>
+          <div class="chip" onclick="togChip(this,'seiten')">Blog</div>
+          <div class="chip" onclick="togChip(this,'seiten')">Stellenangebote</div>
+          <div class="chip" onclick="togChip(this,'seiten')">FAQ</div>
+        </div>
+      </div>
+
+      <div class="field">
+        <label>Gibt es Texte, die &#252;bernommen werden sollen? <span class="opt">(optional)</span></label>
+        <textarea id="inhalte-texte" placeholder="z.B. &#220;ber-uns-Text, Leistungsbeschreibungen, Preise, &#214;ffnungszeiten..."></textarea>
+      </div>
+
+      <div class="btn-row">
+        <button class="btn btn-back" onclick="goBack()">&#8592;</button>
+        <button class="btn btn-next" onclick="goNext()">Weiter &#8594;</button>
       </div>
     </div>
 
-    <hr class="section-div">
+    <!-- STEP 5: DESIGN -->
+    <div class="step" id="step5">
+      <div class="eyebrow">Schritt 5 &#8212; Design &amp; Stil</div>
+      <h1>Wie soll es wirken?</h1>
+      <p class="subtitle">Keine Perfektion erwartet &#8212; Tendenz und Gef&#252;hl reichen mir vollkommen.</p>
 
-    <div class="field">
-      <label for="calendly-link">Dein Calendly-Link <span class="opt">(falls schon vorhanden)</span></label>
-      <input type="url" id="calendly-link" placeholder="https://calendly.com/…">
+      <div class="field">
+        <label>Welche Ausstrahlung soll die Website haben? <span class="opt">(mehrere m&#246;glich)</span></label>
+        <div class="chip-group" id="chips-ausstrahlung">
+          <div class="chip" onclick="togChip(this,'ausstrahlung')">Professionell &amp; seri&#246;s</div>
+          <div class="chip" onclick="togChip(this,'ausstrahlung')">Warm &amp; pers&#246;nlich</div>
+          <div class="chip" onclick="togChip(this,'ausstrahlung')">Modern &amp; minimalistisch</div>
+          <div class="chip" onclick="togChip(this,'ausstrahlung')">Bodensst&#228;ndig &amp; solide</div>
+          <div class="chip" onclick="togChip(this,'ausstrahlung')">Premium &amp; hochwertig</div>
+          <div class="chip" onclick="togChip(this,'ausstrahlung')">Frisch &amp; dynamisch</div>
+          <div class="chip" onclick="togChip(this,'ausstrahlung')">Klassisch &amp; bew&#228;hrt</div>
+        </div>
+      </div>
+
+      <div class="field">
+        <label>Gibt es Farbw&#252;nsche? <span class="opt">(optional)</span></label>
+        <input type="text" id="design-farben" placeholder="z.B. Firmenfarben Blau/Wei&#223;, warme Erdtöne, #1a3a6b...">
+      </div>
+
+      <div class="field">
+        <label>Welche Websites gef&#228;llen dir &#8212; egal aus welcher Branche? <span class="opt">(optional)</span></label>
+        <textarea id="design-referenzen" rows="3" placeholder="URLs oder Namen &#8212; einen pro Zeile:&#10;&#10;https://beispiel.de&#10;apple.com &#8212; klares Layout&#10;Ein Handwerker in meinem Ort: ..."></textarea>
+      </div>
+
+      <div class="field">
+        <label>Was soll auf keinen Fall so aussehen? <span class="opt">(optional)</span></label>
+        <textarea id="design-vermeiden" placeholder="z.B. Keine knalligen Farben, nichts zu verspielt, keine gestellten Stockfotos..."></textarea>
+      </div>
+
+      <div class="hint-box">
+        <span class="icon">&#10022;</span>
+        <p>Kein Feld hier ist Pflicht. Wenn du keine Pr&#228;ferenz hast, entwickle ich einen Vorschlag auf Basis deiner Branche, Ziele und der Wettbewerbsanalyse.</p>
+      </div>
+
+      <div class="btn-row">
+        <button class="btn btn-back" onclick="goBack()">&#8592;</button>
+        <button class="btn btn-next" onclick="goSummary()">Zusammenfassung ansehen &#8594;</button>
+      </div>
     </div>
 
-    <div class="btn-row">
-      <button class="btn btn-back" onclick="goTo(4)">←</button>
-      <button class="btn btn-next" onclick="buildAndGoTo6()">Zusammenfassung →</button>
-    </div>
-  </div>
+    <!-- STEP 6: ZUSAMMENFASSUNG -->
+    <div class="step" id="step6">
+      <div class="eyebrow">Zusammenfassung</div>
+      <h1>Alles auf einen Blick</h1>
+      <p class="subtitle">&#220;berpr&#252;fe deine Angaben &#8212; dann sende ich dir innerhalb von 24 Stunden deinen ersten Entwurf.</p>
 
-  <!-- ────────── STEP 6: ZUSAMMENFASSUNG + LOVABLE ────────── -->
-  <div class="step" id="step-6">
-    <div style="width:100%">
-      <div class="eyebrow">Fertig</div>
-      <h1>Dein Briefing</h1>
-      <p class="subtitle">Alles auf einen Blick — und dein fertiger Lovable-Prompt zum Kopieren.</p>
-    </div>
+      <div class="summary-grid" id="summaryGrid"></div>
 
-    <div class="summary-card" id="summaryCard"></div>
-
-    <div class="prompt-box">
-      <div class="prompt-header">
-        <span class="prompt-title">Lovable Prompt</span>
-        <button class="btn-copy" id="copyBtn" onclick="copyPrompt()">
-          <span id="copyBtnText">Kopieren</span>
+      <div class="btn-row">
+        <button class="btn btn-back" onclick="goBack()">&#8592;</button>
+        <button class="btn btn-submit" id="submitBtn" onclick="submitForm()">
+          <span>Briefing absenden</span><span>&#8594;</span>
         </button>
       </div>
-      <div class="prompt-text" id="lovablePrompt"></div>
+      <div class="trust-line">DSGVO-konform &middot; EU-Datenschutz &middot; Kein Abo &middot; Kein Spam</div>
     </div>
 
-    <div class="hint-box warn" style="margin-top:1rem;">
-      <span class="icon">⚡</span>
-      <p>Prompt in Lovable einfügen → Seite generieren → Jan reviewed und verfeinert. Du bekommst den Prompt auch per E-Mail.</p>
+    <!-- SUCCESS -->
+    <div class="step" id="stepSuccess">
+      <div class="success-card">
+        <div class="success-icon">&#10003;</div>
+        <h2>Briefing angekommen!</h2>
+        <p>Ich melde mich innerhalb von <strong>24 Stunden</strong> mit deinem ersten Entwurf und einem konkreten Angebot.<br><br>Bis gleich &#8212; Jan von SeitenWertig</p>
+      </div>
+      <div class="trust-line" style="margin-top:1.5rem;">DSGVO-konform &middot; EU-Datenschutz &middot; Kein Abo</div>
     </div>
 
-    <div class="btn-row">
-      <button class="btn btn-back" onclick="goTo(5)">←</button>
-      <button class="btn btn-submit" id="submitBtn" onclick="submitForm()">Briefing absenden ✓</button>
-    </div>
   </div>
-
-  <!-- SUCCESS -->
-  <div class="success-state" id="successState">
-    <div class="success-icon">🎉</div>
-    <div class="success-title">Alles angekommen!</div>
-    <p class="success-sub">Ich melde mich innerhalb von 24 Stunden mit deinem ersten Entwurf. Schau auch kurz ins E-Mail-Postfach — dort findest du deinen Lovable-Prompt.</p>
-    <div style="margin-top:2rem;">
-      <a href="https://seitenwertig.de/" class="btn btn-next" style="display:inline-flex;padding:0.8rem 2rem;text-decoration:none;">← Zurück zur Website</a>
-    </div>
-  </div>
-
-  <div class="trust-line">DSGVO-konform · EU-Datenschutz · Kein Abo · Keine Weitergabe deiner Daten</div>
-
-</main>
+</div>
 
 <script>
-// ── STATE ──
-const state = {
-  ziele:[], ziel_freitext:'', branche:'', betrieb_name:'', betrieb_ort:'', betrieb_tel:'',
-  leistungen:'', usp:'', zielgruppe:'', akquise:[], kundenproblem:'', warum_wir:'',
-  wb_aktiv:false, wb_wettbewerber:'', wb_einzugsgebiet:'', wb_suchbegriffe:'', wb_einschaetzung:'',
-  design_stil:'', design_farbe:'', logo_status:'', design_ref1:'', design_ref2:'',
-  bilder_urls:'', calendly:''
-};
-const chipState = {};
-const chipMulti = {};
+var currentStep = 1;
+var wbActive = false;
+var chipState = {};
+var multiChips = {};
+var ynState = {};
 
-// ── STEP NAVIGATION ──
-const LABELS = ['','Dein Ziel','Dein Betrieb','Deine Kunden','Wettbewerb','Design & Bilder','Zusammenfassung'];
-let current = 1;
+// Init multi-chips default selection
+multiChips['seiten'] = ['Startseite','Leistungen','Über mich / uns','Kontakt'];
 
-function goTo(n) {
-  collect(current);
-  document.getElementById('step-'+current).classList.remove('active');
-  current = n;
-  document.getElementById('step-'+n).classList.add('active');
-  const pct = (n/6*100).toFixed(1);
-  document.getElementById('progressFill').style.width = pct+'%';
-  document.getElementById('progressLabel').textContent = 'Schritt '+n+' von 6';
-  document.getElementById('progressSteps').textContent = LABELS[n];
-  window.scrollTo({top:0,behavior:'smooth'});
-}
-
-function collect(n) {
-  if (n===1) {
-    state.ziele = [...document.querySelectorAll('#goalCards .goal-card.selected')].map(c=>c.dataset.val);
-    state.ziel_freitext = document.getElementById('ziel-freitext').value.trim();
-  }
-  if (n===2) {
-    state.betrieb_name = document.getElementById('betrieb-name').value.trim();
-    state.betrieb_ort  = document.getElementById('betrieb-ort').value.trim();
-    state.betrieb_tel  = document.getElementById('betrieb-tel').value.trim();
-    state.branche      = chipState['branche']||'';
-    state.leistungen   = document.getElementById('betrieb-leistungen').value.trim();
-    state.usp          = document.getElementById('betrieb-usp').value.trim();
-  }
-  if (n===3) {
-    state.zielgruppe    = chipState['zielgruppe']||'';
-    state.akquise       = Object.keys(chipMulti['akquise']||{}).filter(k=>chipMulti['akquise'][k]);
-    state.kundenproblem = document.getElementById('kunde-problem').value.trim();
-    state.warum_wir     = document.getElementById('kunde-warum').value.trim();
-  }
-  if (n===4) {
-    state.wb_aktiv = wbActive;
-    if (wbActive) {
-      const comps=[];
-      for(let i=1;i<=3;i++){
-        const nm=document.getElementById('wb-name'+i).value.trim();
-        const ur=document.getElementById('wb-url'+i).value.trim();
-        if(nm) comps.push(nm+(ur?' ('+ur+')':''));
-      }
-      state.wb_wettbewerber  = comps.join(' | ')||'—';
-      state.wb_einzugsgebiet = chipState['radius']||'—';
-      state.wb_suchbegriffe  = document.getElementById('wb-keywords').value.trim()||'—';
-      state.wb_einschaetzung = document.getElementById('wb-delta').value.trim()||'—';
-    }
-  }
-  if (n===5) {
-    state.design_stil  = chipState['stil']||'';
-    state.design_farbe = chipState['farbe']||'';
-    state.logo_status  = chipState['logo']||'';
-    state.design_ref1  = document.getElementById('design-ref1').value.trim();
-    state.design_ref2  = document.getElementById('design-ref2').value.trim();
-    state.calendly     = document.getElementById('calendly-link').value.trim();
-    const urls=[...document.querySelectorAll('.img-url-input')].map(i=>i.value.trim()).filter(Boolean);
-    state.bilder_urls  = urls.join('\n');
+function updateProgress(step, isSummary) {
+  var label = document.getElementById('progressLabel');
+  var fill  = document.getElementById('progressFill');
+  if (isSummary) {
+    label.textContent = 'Zusammenfassung';
+    fill.style.width  = '100%';
+  } else {
+    label.textContent = 'Schritt ' + step + ' von 5';
+    fill.style.width  = (step / 5 * 100) + '%';
   }
 }
 
-function buildAndGoTo6() {
-  collect(5);
+function showStep(id, isBack) {
+  document.querySelectorAll('.step').forEach(function(s) {
+    s.classList.remove('active','back-enter');
+  });
+  var el = document.getElementById(id);
+  el.classList.add('active');
+  if (isBack) el.classList.add('back-enter');
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function goNext() {
+  currentStep++;
+  showStep('step' + currentStep, false);
+  updateProgress(currentStep, false);
+}
+
+function goBack() {
+  if (currentStep === 6) {
+    currentStep = 5;
+    showStep('step5', true);
+    updateProgress(5, false);
+    return;
+  }
+  currentStep--;
+  showStep('step' + currentStep, true);
+  updateProgress(currentStep, false);
+}
+
+function goSummary() {
   buildSummary();
-  buildPrompt();
-  goTo(6);
+  currentStep = 6;
+  showStep('step6', false);
+  updateProgress(6, true);
 }
 
-// ── CHIPS ──
-function selChip(el,group) {
-  el.closest('.chip-group').querySelectorAll('.chip').forEach(c=>c.classList.remove('selected'));
+function selChip(el, group) {
+  el.closest('.chip-group').querySelectorAll('.chip').forEach(function(c) {
+    c.classList.remove('selected');
+  });
   el.classList.add('selected');
-  chipState[group]=el.textContent.trim();
-}
-function toggleChip(el,group) {
-  if(!chipMulti[group]) chipMulti[group]={};
-  const k=el.textContent.trim();
-  if(el.classList.contains('selected')){ el.classList.remove('selected'); delete chipMulti[group][k]; }
-  else { el.classList.add('selected'); chipMulti[group][k]=true; }
-}
-function toggleGoal(el){ el.classList.toggle('selected'); }
-
-// ── WETTBEWERB TOGGLE ──
-let wbActive=false;
-function toggleWB(){
-  wbActive=!wbActive;
-  document.getElementById('wbToggle').classList.toggle('active',wbActive);
-  document.getElementById('wbFields').classList.toggle('open',wbActive);
-  if(wbActive) setTimeout(()=>document.getElementById('wb-name1').focus(),450);
-}
-document.getElementById('wbFields').addEventListener('click',e=>e.stopPropagation());
-
-// ── IMAGE ADDER ──
-function addImg(){
-  const list=document.getElementById('imgList');
-  const row=document.createElement('div');
-  row.className='img-row';
-  row.innerHTML=`<input type="url" placeholder="https://…" class="img-url-input">
-    <div class="img-row-del" onclick="removeImg(this)" title="Entfernen">×</div>`;
-  list.appendChild(row);
-  row.querySelector('input').focus();
-}
-function removeImg(btn){
-  const list=document.getElementById('imgList');
-  if(list.children.length>1) btn.closest('.img-row').remove();
-  else btn.closest('.img-row').querySelector('input').value='';
+  chipState[group] = el.textContent.trim();
 }
 
-// ── SUMMARY ──
-function buildSummary(){
-  const s=state;
-  const v=(x,fb='—')=>Array.isArray(x)?(x.length?x.join(', '):fb):(x||fb);
-  const refs=[s.design_ref1,s.design_ref2].filter(Boolean).join(' · ')||'—';
-  const imgs=s.bilder_urls?s.bilder_urls.split('\n').filter(Boolean).length+' Link(s)':'—';
-  let wbHtml='';
-  if(s.wb_aktiv){
-    wbHtml=`<hr class="section-div" style="margin:1rem 0">
-    <div class="summary-section-title">Wettbewerb</div>
-    <div class="summary-row"><span class="summary-key">Wettbewerber</span><span class="summary-val">${esc(v(s.wb_wettbewerber))}</span></div>
-    <div class="summary-row"><span class="summary-key">Einzugsgebiet</span><span class="summary-val">${esc(v(s.wb_einzugsgebiet))}</span></div>
-    <div class="summary-row"><span class="summary-key">Keywords</span><span class="summary-val">${esc(v(s.wb_suchbegriffe))}</span></div>`;
+function togChip(el, group) {
+  el.classList.toggle('selected');
+  multiChips[group] = Array.from(
+    el.closest('.chip-group').querySelectorAll('.chip.selected')
+  ).map(function(c) { return c.textContent.trim(); });
+}
+
+function selYN(el, group, val) {
+  el.parentElement.querySelectorAll('.yn-btn').forEach(function(b) {
+    b.classList.remove('selected');
+  });
+  el.classList.add('selected');
+  ynState[group] = val;
+  var panel = document.getElementById('yn-' + group + '-ja');
+  if (panel) panel.classList.toggle('show', val === 'ja');
+}
+
+function toggleWB() {
+  wbActive = !wbActive;
+  document.getElementById('wbToggle').classList.toggle('active', wbActive);
+  document.getElementById('wbFields').classList.toggle('open', wbActive);
+  if (wbActive) {
+    setTimeout(function() { document.getElementById('wb-name1').focus(); }, 400);
   }
-  document.getElementById('summaryCard').innerHTML=`
-    <div class="summary-section-title">Ziel</div>
-    <div class="summary-row"><span class="summary-key">Ziele</span><span class="summary-val">${esc(v(s.ziele))}</span></div>
-    <div class="summary-row"><span class="summary-key">Situation heute</span><span class="summary-val">${esc(v(s.ziel_freitext))}</span></div>
-    <hr class="section-div" style="margin:1rem 0">
-    <div class="summary-section-title">Betrieb</div>
-    <div class="summary-row"><span class="summary-key">Name</span><span class="summary-val">${esc(v(s.betrieb_name))}</span></div>
-    <div class="summary-row"><span class="summary-key">Ort · Branche</span><span class="summary-val">${esc(v(s.betrieb_ort))} · ${esc(v(s.branche))}</span></div>
-    <div class="summary-row"><span class="summary-key">Leistungen</span><span class="summary-val">${esc(v(s.leistungen))}</span></div>
-    <div class="summary-row"><span class="summary-key">USP</span><span class="summary-val">${esc(v(s.usp))}</span></div>
-    <hr class="section-div" style="margin:1rem 0">
-    <div class="summary-section-title">Kunden</div>
-    <div class="summary-row"><span class="summary-key">Zielgruppe</span><span class="summary-val">${esc(v(s.zielgruppe))}</span></div>
-    <div class="summary-row"><span class="summary-key">Akquise heute</span><span class="summary-val">${esc(v(s.akquise))}</span></div>
-    <div class="summary-row"><span class="summary-key">Kundenproblem</span><span class="summary-val">${esc(v(s.kundenproblem))}</span></div>
-    ${wbHtml}
-    <hr class="section-div" style="margin:1rem 0">
-    <div class="summary-section-title">Design</div>
-    <div class="summary-row"><span class="summary-key">Stil · Farbe</span><span class="summary-val">${esc(v(s.design_stil))} · ${esc(v(s.design_farbe))}</span></div>
-    <div class="summary-row"><span class="summary-key">Logo</span><span class="summary-val">${esc(v(s.logo_status))}</span></div>
-    <div class="summary-row"><span class="summary-key">Referenzen</span><span class="summary-val">${esc(refs)}</span></div>
-    <div class="summary-row"><span class="summary-key">Bilder</span><span class="summary-val">${imgs}</span></div>`;
+}
+document.getElementById('wbFields').addEventListener('click', function(e) {
+  e.stopPropagation();
+});
+
+function val(id) {
+  var el = document.getElementById(id);
+  return el ? el.value.trim() : '';
 }
 
-// ── LOVABLE PROMPT ──
-function buildPrompt(){
-  const s=state;
-  const v=(x,fb='(nicht angegeben)')=>Array.isArray(x)?(x.length?x.join(', '):fb):(x||fb);
-  const refs=[s.design_ref1,s.design_ref2].filter(Boolean).join('\n')||'(keine Referenzen)';
-  const imgs=s.bilder_urls
-    ?s.bilder_urls.split('\n').filter(Boolean).map((u,i)=>`  Bild ${i+1}: ${u}`).join('\n')
-    :'  (keine Links angegeben — Platzhalter mit passenden Unsplash-Bildern verwenden)';
-  const wb=s.wb_aktiv
-    ?`Wettbewerber: ${v(s.wb_wettbewerber)}
-Einzugsgebiet: ${v(s.wb_einzugsgebiet)}
-Google-Keywords: ${v(s.wb_suchbegriffe)}
-Einschätzung Stärken/Schwächen: ${v(s.wb_einschaetzung)}`
-    :'(keine Wettbewerbsdaten angegeben)';
-
-  const prompt=`# Website-Briefing: ${v(s.betrieb_name)}
-
----
-
-## DEINE ROLLE
-Du bist Senior Webdesigner und Conversion-Stratege mit Fokus auf lokale B2B-Unternehmen in Deutschland. Erstelle eine vollständige, produktionsreife Website als einzelne HTML-Datei. Kein Platzhaltertext — ausschließlich echte Inhalte aus diesem Briefing.
-
----
-
-## KONTEXT
-
-Betrieb: ${v(s.betrieb_name)}, ${v(s.betrieb_ort)}
-Branche: ${v(s.branche)}
-Telefon: ${v(s.betrieb_tel)}
-Leistungen: ${v(s.leistungen)}
-USP: ${v(s.usp)}
-
----
-
-## ZIELE DER WEBSITE
-
-${v(s.ziele,'(keine Ziele ausgewählt)')}
-
-Situation heute / Problem:
-${v(s.ziel_freitext)}
-
----
-
-## ZIELKUNDEN & POSITIONIERUNG
-
-Zielgruppe: ${v(s.zielgruppe)}
-Akquise heute: ${v(s.akquise)}
-Kernproblem das gelöst wird: ${v(s.kundenproblem)}
-Differenzierung zum Wettbewerb: ${v(s.warum_wir)}
-
----
-
-## SEITENSTRUKTUR (pflichtgemäß einhalten)
-
-Hero → Problem & Lösung → Leistungen → Referenzen → Über uns → CTA
-
-Hero: Headline adressiert das Kundenproblem direkt. Subline nennt den USP. CTA = Erstgespräch buchen.
-Problem/Lösung: Schmerz des Kunden benennen, Lösung durch den Betrieb zeigen.
-Leistungen: Konkret, Nutzen formuliert — nicht generisch.
-Referenzen: Echte Kundenstimmen oder Projekt-Beispiele (realistischer Platzhalterinhalt).
-Über uns: Persönlich und nahbar — Vertrauen aufbauen.
-CTA-Sektion: Prominent, direkte Handlungsaufforderung, leichte Dringlichkeit.
-
----
-
-## DESIGN-VORGABEN
-
-Stilrichtung: ${v(s.design_stil,'Klar & Modern')}
-Farbwelt: ${v(s.design_farbe,'Warm, keine Kaltblau-Agentur-Ästhetik')}
-Logo: ${v(s.logo_status)}
-
-Referenzseiten (Stil-Inspiration, nicht kopieren):
-${refs}
-
-Design-Prinzipien:
-- Mobile First — alles perfekt auf 375px Breite
-- Warme Farbwelt, kein generisches Agentur-Blau
-- Echte Fotos bevorzugen (Unsplash-Platzhalter wenn nötig)
-- Maximal 3 Schriftgewichte
-- Kontrastreiche CTAs — nie verstecken
-- Vertrauenselemente: Bewertungen, Logos, Fotos der Mitarbeiter
-
----
-
-## BILDER & MATERIAL
-
-${imgs}
-
----
-
-## WETTBEWERBSKONTEXT
-
-${wb}
-
----
-
-## TECHNISCHE ANFORDERUNGEN
-
-- Einzelne HTML-Datei (inline CSS + JS, kein externes Framework)
-- Bunny Fonts statt Google Fonts: https://fonts.bunny.net
-- DSGVO-konform: keine externen Tracker, kein Google Analytics, kein eingebettetes Google Maps
-- Kontaktformular: name="kontakt" netlify data-netlify="true"
-- CTA-Link: ${v(s.calendly,'https://calendly.com/PLATZHALTER — bitte ersetzen')}
-- Hosting: Netlify (keine Server-Side-Logic nötig)
-- Favicon: Initialen des Betriebsnamens als Inline-SVG
-- Semantisches HTML5 (header, main, section, footer)
-- Kein jQuery, kein Bootstrap
-- Smooth Scroll, sanfte IntersectionObserver-Animationen
-
----
-
-## QUALITÄTSKRITERIEN
-
-✓ Kein einziger generischer Platzhaltertext
-✓ Alle Headlines aus dem Briefing formuliert, nicht aus Templates
-✓ Mobile First verifiziert (mental auf 375px)
-✓ CTA in Hero, nach Leistungen UND am Ende
-✓ Vollständig deploybar auf Netlify ohne weitere Änderungen`;
-
-  document.getElementById('lovablePrompt').textContent=prompt;
+function collect() {
+  var competitors = [];
+  for (var i = 1; i <= 3; i++) {
+    var n = val('wb-name' + i);
+    var u = val('wb-url' + i);
+    if (n) competitors.push(n + (u ? ' (' + u + ')' : ''));
+  }
+  return {
+    hauptziel:    chipState['hauptziel'] || '—',
+    aktion:       chipState['aktion']    || '—',
+    problem:      chipState['problem']   || '—',
+    erfolg:       val('ziel-erfolg')     || '—',
+    name:         val('betrieb-name')    || '—',
+    branche:      val('betrieb-branche') || '—',
+    ort:          val('betrieb-ort')     || '—',
+    usp:          val('betrieb-usp')     || '—',
+    zielkunden:   (multiChips['zielkunden'] || []).join(', ') || '—',
+    email:        val('kontakt-email')   || '—',
+    wbAktiv:      wbActive,
+    competitors:  competitors.join(' | ') || '—',
+    einzugsgebiet: chipState['radius']   || '—',
+    keywords:     val('wb-keywords')     || '—',
+    wbDelta:      val('wb-delta')        || '—',
+    bestehtUrl:   ynState['besteht'] === 'ja' ? (val('besteht-url') || '—') : (ynState['besteht'] === 'nein' ? 'Keine vorhanden' : '—'),
+    bildLinks:    val('inhalte-bilder')  || '—',
+    logoLink:     ynState['logo'] === 'ja' ? (val('logo-link') || '—') : (ynState['logo'] === 'nein' ? 'Kein Logo vorhanden' : '—'),
+    seiten:       (multiChips['seiten']  || []).join(', ') || '—',
+    texte:        val('inhalte-texte')   || '—',
+    ausstrahlung: (multiChips['ausstrahlung'] || []).join(', ') || '—',
+    farben:       val('design-farben')   || '—',
+    referenzen:   val('design-referenzen') || '—',
+    vermeiden:    val('design-vermeiden')  || '—'
+  };
 }
 
-// ── COPY ──
-function copyPrompt(){
-  navigator.clipboard.writeText(document.getElementById('lovablePrompt').textContent).then(()=>{
-    const btn=document.getElementById('copyBtn');
-    const txt=document.getElementById('copyBtnText');
-    btn.classList.add('copied');
-    txt.textContent='✓ Kopiert';
-    setTimeout(()=>{btn.classList.remove('copied');txt.textContent='Kopieren';},2500);
+function esc(str) {
+  return String(str)
+    .replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')
+    .replace(/\n/g,'<br>');
+}
+
+function buildSummary() {
+  var d = collect();
+  var grid = document.getElementById('summaryGrid');
+
+  function block(title, rows) {
+    var rowsHtml = rows.map(function(r) {
+      var isEmpty = !r[1] || r[1] === '—';
+      return '<div class="summary-row"><div class="summary-key">' + r[0] +
+        '</div><div class="summary-val' + (isEmpty ? ' empty' : '') + '">' +
+        (isEmpty ? 'Keine Angabe' : esc(r[1])) + '</div></div>';
+    }).join('');
+    return '<div class="summary-block"><div class="summary-block-header">' +
+      title + '</div>' + rowsHtml + '</div>';
+  }
+
+  var html = '';
+  html += block('Ziele', [
+    ['Hauptziel', d.hauptziel],
+    ['Besucher-Aktion', d.aktion],
+    ['Aktuelles Problem', d.problem],
+    ['Erfolgsdefinition', d.erfolg]
+  ]);
+  html += block('Dein Betrieb', [
+    ['Firma', d.name],
+    ['Branche', d.branche],
+    ['Standort', d.ort],
+    ['USP / Stärken', d.usp],
+    ['Zielkunden', d.zielkunden],
+    ['Kontakt-E-Mail', d.email]
+  ]);
+  if (d.wbAktiv) {
+    html += block('Wettbewerbsanalyse', [
+      ['Wettbewerber', d.competitors],
+      ['Einzugsgebiet', d.einzugsgebiet],
+      ['Google-Suchbegriffe', d.keywords],
+      ['Einschätzung', d.wbDelta]
+    ]);
+  }
+  html += block('Inhalte & Bilder', [
+    ['Bestehende Website', d.bestehtUrl],
+    ['Logo', d.logoLink],
+    ['Bild-Links', d.bildLinks],
+    ['Seiten', d.seiten],
+    ['Vorhandene Texte', d.texte]
+  ]);
+  html += block('Design & Stil', [
+    ['Ausstrahlung', d.ausstrahlung],
+    ['Farbwünsche', d.farben],
+    ['Referenz-Sites', d.referenzen],
+    ['Vermeiden', d.vermeiden]
+  ]);
+
+  grid.innerHTML = html;
+}
+
+function buildLovablePrompt(d) {
+  var wb = d.wbAktiv
+    ? '\n\n## Wettbewerb\nWettbewerber: ' + d.competitors +
+      '\nEinzugsgebiet: ' + d.einzugsgebiet +
+      '\nSuchbegriffe: ' + d.keywords +
+      '\nEinschätzung: ' + d.wbDelta
+    : '';
+
+  return '# Website-Briefing: ' + d.name + '\n\n' +
+    '## Auftrag\nErstelle eine professionelle, konversionsoptimierte B2B-Website fuer ' + d.name + '.\n' +
+    'Branche: ' + d.branche + ' | Region: ' + d.ort + '\n\n' +
+    '## Geschaeftsziele\nHauptziel: ' + d.hauptziel + '\n' +
+    'Besucher-Aktion: ' + d.aktion + '\n' +
+    'Ausgangssituation: ' + d.problem + '\n' +
+    'Erfolgsdefinition: ' + d.erfolg + '\n\n' +
+    '## Unternehmen\nUSP: ' + d.usp + '\n' +
+    'Zielkunden: ' + d.zielkunden + '\n' +
+    'Kontakt-Email: ' + d.email + wb + '\n\n' +
+    '## Seitenstruktur\nSeiten: ' + d.seiten + '\n' +
+    'Aufbau: Hero > Problem/Loesung > Leistungen > Referenzen > Ueber mich > CTA\n\n' +
+    '## Inhalte\nBestehende Website: ' + d.bestehtUrl + '\n' +
+    'Logo: ' + d.logoLink + '\n' +
+    'Bild-Links:\n' + d.bildLinks + '\n' +
+    'Vorhandene Texte: ' + d.texte + '\n\n' +
+    '## Design\nAusstrahlung: ' + d.ausstrahlung + '\n' +
+    'Farbwuensche: ' + d.farben + '\n' +
+    'Referenz-Sites:\n' + d.referenzen + '\n' +
+    'Vermeiden: ' + d.vermeiden + '\n\n' +
+    '## Technische Anforderungen\n' +
+    '- HTML/CSS/JS, kein React, kein Build-Tool\n' +
+    '- Mobile First, DSGVO-konform (kein Google Analytics)\n' +
+    '- Netlify Forms fuer Kontaktformular\n' +
+    '- Bunny Fonts: DM Sans 300/400/700\n' +
+    '- CTA: Erstgespraech via Calendly\n' +
+    '- Netlify-ready, keine serverseitigen Dependencies\n\n' +
+    '## Markenidentitaet\n' +
+    'Background: #090909 | Akzent: #c9a96e (Gold) | Font: DM Sans\n' +
+    'Negative letter-spacing auf Headings | Eyebrow-Labels mit Linienelement\n' +
+    'S-Logomark Nav | Mobile First | Warme Farbwelt | Echte Fotos bevorzugt';
+}
+
+function sanitize(s) {
+  return String(s || '').replace(/[\x00-\x08\x0B\x0C\x0E-\x1F\x7F]/g, ' ').trim();
+}
+
+function submitForm() {
+  var btn = document.getElementById('submitBtn');
+  btn.disabled = true;
+  btn.innerHTML = '<span>Wird gesendet...</span>';
+
+  var d = collect();
+  var prompt = buildLovablePrompt(d);
+
+  var params = {
+    'form-name':          'briefing',
+    'bot-field':          '',
+    'ziel_hauptziel':      sanitize(d.hauptziel),
+    'ziel_aktion':         sanitize(d.aktion),
+    'ziel_problem':        sanitize(d.problem),
+    'ziel_erfolg':         sanitize(d.erfolg),
+    'betrieb_name':        sanitize(d.name),
+    'betrieb_branche':     sanitize(d.branche),
+    'betrieb_ort':         sanitize(d.ort),
+    'betrieb_usp':         sanitize(d.usp),
+    'betrieb_zielkunden':  sanitize(d.zielkunden),
+    'kontakt_email':       sanitize(d.email),
+    'wb_aktiv':            d.wbAktiv ? 'Ja' : 'Nein',
+    'wb_wettbewerber1':    sanitize(val('wb-name1')),
+    'wb_wettbewerber2':    sanitize(val('wb-name2')),
+    'wb_wettbewerber3':    sanitize(val('wb-name3')),
+    'wb_einzugsgebiet':    sanitize(d.einzugsgebiet),
+    'wb_suchbegriffe':     sanitize(d.keywords),
+    'wb_einschaetzung':    sanitize(d.wbDelta),
+    'inhalte_bestehende_url': sanitize(d.bestehtUrl),
+    'inhalte_logo_link':   sanitize(d.logoLink),
+    'inhalte_bildlinks':   sanitize(d.bildLinks),
+    'inhalte_seiten':      sanitize(d.seiten),
+    'inhalte_texte':       sanitize(d.texte),
+    'design_ausstrahlung': sanitize(d.ausstrahlung),
+    'design_farben':       sanitize(d.farben),
+    'design_referenzen':   sanitize(d.referenzen),
+    'design_vermeiden':    sanitize(d.vermeiden),
+    'lovable_prompt':      sanitize(prompt)
+  };
+
+  var body = Object.keys(params).map(function(k) {
+    return encodeURIComponent(k) + '=' + encodeURIComponent(params[k]);
+  }).join('&');
+
+  fetch('/', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+    body: body
+  })
+  .then(function() {
+    showStep('stepSuccess', false);
+    document.getElementById('progressLabel').textContent = 'Abgeschlossen';
+    document.getElementById('progressFill').style.width = '100%';
+  })
+  .catch(function() {
+    btn.disabled = false;
+    btn.innerHTML = '<span>Briefing absenden</span><span>→</span>';
+    alert('Beim Senden ist ein Fehler aufgetreten. Bitte versuche es erneut oder schreib direkt an jan@seitenwertig.de');
   });
 }
 
-// ── SUBMIT ──
-function submitForm(){
-  collect(6);
-  const s=state;
-  const body=new URLSearchParams({
-    'form-name':'briefing-v2',
-    ziele:s.ziele.join(' | '),
-    ziel_freitext:s.ziel_freitext,
-    betrieb_name:s.betrieb_name,
-    branche:s.branche,
-    ort:s.betrieb_ort,
-    telefon:s.betrieb_tel,
-    leistungen:s.leistungen,
-    usp:s.usp,
-    zielgruppe:s.zielgruppe,
-    akquise:s.akquise.join(' | '),
-    kundenproblem:s.kundenproblem,
-    warum_wir:s.warum_wir,
-    wb_aktiv:s.wb_aktiv?'ja':'nein',
-    wb_wettbewerber:s.wb_wettbewerber,
-    wb_einzugsgebiet:s.wb_einzugsgebiet,
-    wb_suchbegriffe:s.wb_suchbegriffe,
-    wb_einschaetzung:s.wb_einschaetzung,
-    design_stil:s.design_stil,
-    design_farbe:s.design_farbe,
-    design_referenzen:[s.design_ref1,s.design_ref2].filter(Boolean).join(' | '),
-    logo_status:s.logo_status,
-    bilder_urls:s.bilder_urls,
-    calendly:s.calendly,
-    lovable_prompt:document.getElementById('lovablePrompt').textContent,
-  }).toString();
-
-  const btn=document.getElementById('submitBtn');
-  btn.disabled=true;
-  btn.textContent='Wird gesendet…';
-
-  fetch('/',{method:'POST',headers:{'Content-Type':'application/x-www-form-urlencoded'},body})
-    .then(()=>showSuccess())
-    .catch(()=>showSuccess());
-}
-
-function showSuccess(){
-  document.getElementById('step-6').style.display='none';
-  document.getElementById('progressWrap').style.display='none';
-  document.getElementById('successState').classList.add('visible');
-  window.scrollTo({top:0,behavior:'smooth'});
-}
-
-function esc(s){
-  if(!s||s==='—') return '—';
-  return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
-}
+updateProgress(1, false);
 </script>
 </body>
 </html>
