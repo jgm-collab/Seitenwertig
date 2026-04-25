@@ -4,226 +4,240 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Projekt-Briefing — SeitenWertig</title>
+<meta name="description" content="Starte dein Website-Briefing bei SeitenWertig. 10 Minuten. Erster Entwurf in 24 Stunden.">
+<meta name="robots" content="index, follow">
+<link rel="canonical" href="https://seitenwertig.de/briefing">
+<link rel="icon" href="/favicon.ico">
 <link rel="preconnect" href="https://fonts.bunny.net">
-<link href="https://fonts.bunny.net/css2?family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,700&display=swap" rel="stylesheet">
+<link href="https://fonts.bunny.net/css?family=dm-sans:300,400,500,700&display=swap" rel="stylesheet">
 <style>
 :root {
-  --bg:        #0f1219;
-  --bg2:       #151b23;
-  --bg3:       #1a2029;
-  --border:    rgba(255,255,255,0.07);
-  --border-md: rgba(255,255,255,0.13);
-  --border-hi: rgba(255,255,255,0.22);
-  --text:      #e2e8f0;
-  --muted:     #64748b;
-  --muted2:    #3e4a5c;
-  --accent:    #34d399;
-  --accent-bg: rgba(52,211,153,0.08);
-  --accent-border: rgba(52,211,153,0.30);
-  --radius:    8px;
-  --radius-sm: 5px;
-  --font:      'DM Sans', system-ui, -apple-system, sans-serif;
+  --bg:              #0f1219;
+  --bg2:             #151b23;
+  --bg3:             #1a2029;
+  --border:          rgba(255,255,255,0.07);
+  --border-md:       rgba(255,255,255,0.13);
+  --border-hi:       rgba(255,255,255,0.22);
+  --text:            #e2e8f0;
+  --muted:           #64748b;
+  --muted2:          #3e4a5c;
+  --accent:          #34d399;
+  --accent-bg:       rgba(52,211,153,0.08);
+  --accent-border:   rgba(52,211,153,0.30);
+  --radius:          8px;
+  --radius-sm:       5px;
+  --font:            'DM Sans', system-ui, sans-serif;
 }
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 html { background: var(--bg); color: var(--text); font-family: var(--font); font-size: 16px; min-height: 100vh; -webkit-font-smoothing: antialiased; }
 body { display: flex; flex-direction: column; min-height: 100vh; overflow-x: hidden; }
 
-/* NAV */
-.nav {
-  display: flex; align-items: center; justify-content: space-between;
-  padding: 0 1.5rem; height: 58px;
-  border-bottom: 1px solid var(--border);
-  position: sticky; top: 0; background: rgba(15,18,25,0.92);
-  backdrop-filter: blur(12px); z-index: 100;
-}
-.nav-logo { display: flex; align-items: center; gap: 0.45rem; text-decoration: none; color: var(--text); }
-.nav-logo-mark {
-  width: 28px; height: 28px; background: var(--accent); color: var(--bg);
-  border-radius: 4px; display: flex; align-items: center; justify-content: center;
-  font-size: 0.8125rem; font-weight: 700; letter-spacing: -0.02em; flex-shrink: 0;
-}
+/* ── NAV ── */
+.nav { display: flex; align-items: center; justify-content: space-between; padding: 0 1.5rem; height: 58px; border-bottom: 1px solid var(--border); position: sticky; top: 0; background: rgba(15,18,25,0.94); backdrop-filter: blur(12px); z-index: 100; }
+.nav-logo { display: flex; align-items: center; gap: 0.5rem; text-decoration: none; color: var(--text); }
+.nav-logo-mark { width: 28px; height: 28px; background: var(--accent); color: var(--bg); border-radius: 4px; display: flex; align-items: center; justify-content: center; font-size: 0.8125rem; font-weight: 700; flex-shrink: 0; }
 .nav-logo-name { font-size: 0.9375rem; font-weight: 500; letter-spacing: -0.01em; }
 .nav-logo-name span { color: var(--accent); }
 .nav-back { font-size: 0.8125rem; color: var(--muted); text-decoration: none; transition: color 0.2s; }
 .nav-back:hover { color: var(--text); }
 
-/* WRAPPER */
-.steps-outer {
-  flex: 1; display: flex; flex-direction: column; align-items: center;
-  padding: 2.5rem 1.5rem 4rem;
-}
+/* ── WRAPPER ── */
+.outer { flex: 1; display: flex; flex-direction: column; align-items: center; padding: 2.5rem 1.5rem 4rem; }
 
-/* PROGRESS */
+/* ── PROGRESS ── */
 .progress-wrap { width: 100%; max-width: 640px; margin-bottom: 2rem; }
-.progress-label { font-size: 0.75rem; font-weight: 400; color: var(--muted); letter-spacing: 0.04em; text-transform: uppercase; margin-bottom: 0.5rem; }
+.progress-label { font-size: 0.75rem; color: var(--muted); letter-spacing: 0.04em; text-transform: uppercase; margin-bottom: 0.5rem; }
 .progress-bar { width: 100%; height: 2px; background: var(--border); border-radius: 2px; overflow: hidden; }
 .progress-fill { height: 100%; background: var(--accent); border-radius: 2px; transition: width 0.5s cubic-bezier(0.4,0,0.2,1); }
 
-/* STEP PANELS */
-.steps-viewport { width: 100%; max-width: 640px; }
-.step { width: 100%; display: none; flex-direction: column; animation: stepIn 0.35s cubic-bezier(0.4,0,0.2,1); }
+/* ── STEPS ── */
+.viewport { width: 100%; max-width: 640px; }
+.step { display: none; flex-direction: column; animation: stepIn 0.35s cubic-bezier(0.4,0,0.2,1); }
 .step.active { display: flex; }
-.step.back-enter { animation: stepInBack 0.35s cubic-bezier(0.4,0,0.2,1); }
-@keyframes stepIn { from { opacity: 0; transform: translateX(28px); } to { opacity: 1; transform: translateX(0); } }
-@keyframes stepInBack { from { opacity: 0; transform: translateX(-28px); } to { opacity: 1; transform: translateX(0); } }
+.step.back { animation: stepBack 0.35s cubic-bezier(0.4,0,0.2,1); }
+@keyframes stepIn  { from { opacity:0; transform:translateX(28px); }  to { opacity:1; transform:translateX(0); } }
+@keyframes stepBack { from { opacity:0; transform:translateX(-28px); } to { opacity:1; transform:translateX(0); } }
 
-/* EYEBROW */
-.eyebrow { display: flex; align-items: center; gap: 0.6rem; font-size: 0.75rem; font-weight: 500; color: var(--accent); letter-spacing: 0.06em; text-transform: uppercase; margin-bottom: 0.75rem; }
-.eyebrow::before { content: ''; display: block; width: 24px; height: 1px; background: var(--muted2); }
-h1 { font-size: clamp(1.75rem, 5vw, 2.25rem); font-weight: 700; letter-spacing: -0.035em; line-height: 1.15; margin-bottom: 0.75rem; }
-.subtitle { font-size: 0.9375rem; font-weight: 300; color: var(--muted); line-height: 1.55; margin-bottom: 2rem; }
+/* ── TYPOGRAPHY ── */
+.eyebrow { display:flex; align-items:center; gap:0.6rem; font-size:0.75rem; font-weight:500; color:var(--accent); letter-spacing:0.06em; text-transform:uppercase; margin-bottom:0.75rem; }
+.eyebrow::before { content:''; display:block; width:24px; height:1px; background:var(--muted2); }
+h1 { font-size:clamp(1.75rem,5vw,2.25rem); font-weight:700; letter-spacing:-0.035em; line-height:1.15; margin-bottom:0.75rem; }
+.subtitle { font-size:0.9375rem; font-weight:300; color:var(--muted); line-height:1.55; margin-bottom:2rem; }
 
-/* FORM */
-.field { margin-bottom: 1.25rem; }
-.field:last-child { margin-bottom: 0; }
-label { display: block; font-size: 0.8125rem; font-weight: 400; color: var(--muted); margin-bottom: 0.4rem; }
-label .opt { font-weight: 300; color: var(--muted2); }
-input[type="text"], input[type="url"], input[type="email"], textarea {
-  width: 100%; background: var(--bg3); border: 1px solid var(--border);
-  border-radius: var(--radius-sm); padding: 0.7rem 0.85rem;
-  color: var(--text); font-family: var(--font); font-size: 0.875rem;
-  font-weight: 300; outline: none; transition: border-color 0.25s;
+/* ── FORM ── */
+.field { margin-bottom:1.25rem; }
+label { display:block; font-size:0.8125rem; color:var(--muted); margin-bottom:0.4rem; }
+.opt { font-weight:300; color:var(--muted2); }
+input[type="text"], input[type="url"], input[type="email"], textarea, select {
+  width:100%; background:var(--bg3); border:1px solid var(--border); border-radius:var(--radius-sm);
+  padding:0.7rem 0.85rem; color:var(--text); font-family:var(--font); font-size:0.875rem;
+  font-weight:300; outline:none; transition:border-color 0.25s;
 }
-input::placeholder, textarea::placeholder { color: var(--muted2); font-weight: 300; }
-input:focus, textarea:focus { border-color: var(--accent-border); }
-textarea { resize: vertical; min-height: 80px; line-height: 1.55; }
+input::placeholder, textarea::placeholder { color:var(--muted2); }
+input:focus, textarea:focus { border-color:var(--accent-border); }
+textarea { resize:vertical; min-height:80px; line-height:1.55; }
 
-/* CHIPS */
-.chip-group { display: flex; flex-wrap: wrap; gap: 0.5rem; }
-.chip { padding: 0.45rem 0.85rem; border-radius: 20px; background: var(--bg3); border: 1px solid var(--border); font-size: 0.8125rem; font-weight: 400; color: var(--muted); cursor: pointer; transition: all 0.2s; user-select: none; }
-.chip:hover { border-color: var(--border-hi); color: var(--text); }
-.chip.selected { background: var(--accent-bg); border-color: var(--accent-border); color: var(--accent); font-weight: 500; }
+/* ── CHIPS ── */
+.chip-group { display:flex; flex-wrap:wrap; gap:0.5rem; }
+.chip { padding:0.45rem 0.85rem; border-radius:20px; background:var(--bg3); border:1px solid var(--border); font-size:0.8125rem; color:var(--muted); cursor:pointer; transition:all 0.2s; user-select:none; }
+.chip:hover { border-color:var(--border-hi); color:var(--text); }
+.chip.selected { background:var(--accent-bg); border-color:var(--accent-border); color:var(--accent); font-weight:500; }
 
-/* TOGGLE CARD */
-.toggle-card { width: 100%; background: var(--bg2); border: 1px solid var(--border); border-radius: var(--radius); padding: 1.25rem 1.5rem; margin-bottom: 1.75rem; transition: border-color 0.3s, background 0.3s; cursor: pointer; user-select: none; }
-.toggle-card:hover { border-color: var(--border-md); }
-.toggle-card.active { border-color: var(--accent-border); background: var(--accent-bg); }
-.toggle-top { display: flex; align-items: center; justify-content: space-between; gap: 1rem; }
-.toggle-left { display: flex; align-items: flex-start; gap: 0.75rem; flex: 1; }
-.toggle-icon { width: 36px; height: 36px; border-radius: 8px; background: var(--bg3); border: 1px solid var(--border); display: flex; align-items: center; justify-content: center; font-size: 1.125rem; flex-shrink: 0; transition: background 0.3s, border-color 0.3s; }
-.toggle-card.active .toggle-icon { background: var(--accent-bg); border-color: var(--accent-border); }
-.toggle-info h3 { font-size: 0.9375rem; font-weight: 500; letter-spacing: -0.01em; margin-bottom: 0.25rem; }
-.toggle-info p { font-size: 0.8125rem; font-weight: 300; color: var(--muted); line-height: 1.5; }
-.toggle-time { font-size: 0.6875rem; font-weight: 400; color: var(--muted); letter-spacing: 0.04em; text-transform: uppercase; white-space: nowrap; padding: 0.25rem 0.6rem; border: 1px solid var(--border); border-radius: 20px; flex-shrink: 0; }
-.switch { width: 44px; height: 24px; background: var(--bg3); border: 1px solid var(--border-md); border-radius: 12px; position: relative; flex-shrink: 0; transition: background 0.3s, border-color 0.3s; }
-.switch::after { content: ''; position: absolute; top: 2px; left: 2px; width: 18px; height: 18px; border-radius: 50%; background: var(--muted); transition: transform 0.3s, background 0.3s; }
-.toggle-card.active .switch { background: var(--accent); border-color: var(--accent); }
-.toggle-card.active .switch::after { transform: translateX(20px); background: var(--bg); }
-.expand-section { max-height: 0; overflow: hidden; opacity: 0; transition: max-height 0.5s cubic-bezier(0.4,0,0.2,1), opacity 0.4s ease, margin 0.4s ease; margin-top: 0; }
-.expand-section.open { max-height: 2000px; opacity: 1; margin-top: 1.5rem; }
+/* ── TOGGLE CARD ── */
+.toggle-card { width:100%; background:var(--bg2); border:1px solid var(--border); border-radius:var(--radius); padding:1.25rem 1.5rem; margin-bottom:1.75rem; cursor:pointer; user-select:none; transition:border-color 0.3s; }
+.toggle-card:hover { border-color:var(--border-md); }
+.toggle-card.active { border-color:var(--accent-border); background:var(--accent-bg); }
+.toggle-top { display:flex; align-items:center; justify-content:space-between; gap:1rem; }
+.toggle-left { display:flex; align-items:flex-start; gap:0.75rem; flex:1; }
+.toggle-icon { width:36px; height:36px; border-radius:8px; background:var(--bg3); border:1px solid var(--border); display:flex; align-items:center; justify-content:center; font-size:1.125rem; flex-shrink:0; }
+.toggle-info h3 { font-size:0.9375rem; font-weight:500; margin-bottom:0.25rem; }
+.toggle-info p { font-size:0.8125rem; font-weight:300; color:var(--muted); line-height:1.5; }
+.switch { width:44px; height:24px; background:var(--bg3); border:1px solid var(--border-md); border-radius:12px; position:relative; flex-shrink:0; transition:background 0.3s,border-color 0.3s; }
+.switch::after { content:''; position:absolute; top:2px; left:2px; width:18px; height:18px; border-radius:50%; background:var(--muted); transition:transform 0.3s,background 0.3s; }
+.toggle-card.active .switch { background:var(--accent); border-color:var(--accent); }
+.toggle-card.active .switch::after { transform:translateX(20px); background:var(--bg); }
+.expand { max-height:0; overflow:hidden; opacity:0; margin-top:0; transition:max-height 0.5s cubic-bezier(0.4,0,0.2,1),opacity 0.4s ease,margin 0.4s ease; }
+.expand.open { max-height:2000px; opacity:1; margin-top:1.5rem; }
 
-/* COMPETITOR */
-.comp-row { display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem; margin-bottom: 0.75rem; }
-.comp-number { font-size: 0.6875rem; font-weight: 500; color: var(--accent); letter-spacing: 0.06em; text-transform: uppercase; margin-bottom: 0.5rem; display: flex; align-items: center; gap: 0.4rem; }
-.comp-number::before { content: '◆'; font-size: 0.5rem; color: var(--accent); opacity: 0.6; }
-.comp-group { margin-bottom: 1.5rem; }
+/* ── YES/NO ── */
+.yn-group { display:flex; gap:0.5rem; }
+.yn-btn { padding:0.45rem 1.1rem; border-radius:20px; background:var(--bg3); border:1px solid var(--border); font-size:0.8125rem; color:var(--muted); cursor:pointer; transition:all 0.2s; user-select:none; }
+.yn-btn.selected { background:var(--accent-bg); border-color:var(--accent-border); color:var(--accent); font-weight:500; }
+.yn-reveal { margin-top:0.75rem; display:none; }
+.yn-reveal.show { display:block; }
 
-/* BENEFIT PILL */
-.benefit { display: inline-flex; align-items: center; gap: 0.35rem; font-size: 0.75rem; font-weight: 400; color: var(--accent); background: var(--accent-bg); border: 1px solid var(--accent-border); border-radius: 20px; padding: 0.3rem 0.7rem; margin-top: 0.75rem; }
+/* ── MISC ── */
+.divider { width:100%; height:1px; background:var(--border); margin:1.5rem 0; }
+.hint { background:var(--bg2); border:1px solid var(--border); border-radius:var(--radius); padding:0.85rem 1rem; margin-top:1.25rem; display:flex; gap:0.6rem; }
+.hint p { font-size:0.8125rem; font-weight:300; color:var(--muted); line-height:1.5; }
+.comp-row { display:grid; grid-template-columns:1fr 1fr; gap:0.75rem; margin-bottom:0.75rem; }
+.comp-label { font-size:0.6875rem; font-weight:500; color:var(--accent); letter-spacing:0.06em; text-transform:uppercase; margin-bottom:0.5rem; }
 
-/* HINT BOX */
-.hint-box { background: var(--bg2); border: 1px solid var(--border); border-radius: var(--radius); padding: 0.85rem 1rem; margin-top: 1.25rem; display: flex; gap: 0.6rem; align-items: flex-start; }
-.hint-box .icon { font-size: 0.875rem; flex-shrink: 0; margin-top: 0.1rem; }
-.hint-box p { font-size: 0.8125rem; font-weight: 300; color: var(--muted); line-height: 1.5; }
+/* ── BUTTONS ── */
+.btn-row { display:flex; gap:0.75rem; width:100%; margin-top:2rem; }
+.btn { flex:1; display:flex; align-items:center; justify-content:center; gap:0.4rem; padding:0.8rem 1.5rem; border-radius:var(--radius-sm); font-family:var(--font); font-size:0.875rem; font-weight:500; cursor:pointer; transition:all 0.25s; border:none; }
+.btn-back { background:transparent; border:1px solid var(--border); color:var(--muted); flex:0; padding:0.8rem 1.25rem; }
+.btn-back:hover { border-color:var(--border-hi); color:var(--text); }
+.btn-next { background:var(--accent); color:var(--bg); font-weight:600; }
+.btn-next:hover { filter:brightness(1.1); }
+.btn-next:disabled { opacity:0.5; cursor:not-allowed; filter:none; }
+.btn-ghost { background:transparent; border:1px solid var(--border); color:var(--muted); }
+.btn-ghost:hover { border-color:var(--border-hi); color:var(--text); }
 
-/* YES/NO */
-.yn-group { display: flex; gap: 0.5rem; }
-.yn-btn { padding: 0.45rem 1.1rem; border-radius: 20px; background: var(--bg3); border: 1px solid var(--border); font-size: 0.8125rem; font-weight: 400; color: var(--muted); cursor: pointer; transition: all 0.2s; user-select: none; }
-.yn-btn:hover { border-color: var(--border-hi); color: var(--text); }
-.yn-btn.selected { background: var(--accent-bg); border-color: var(--accent-border); color: var(--accent); font-weight: 500; }
-.yn-reveal { margin-top: 0.75rem; display: none; }
-.yn-reveal.show { display: block; }
+/* ── DSGVO ── */
+.dsgvo-row { display:flex; align-items:flex-start; gap:0.75rem; font-size:0.8125rem; color:var(--muted); margin-top:1.25rem; }
+.dsgvo-row input[type="checkbox"] { width:auto; margin:0; flex-shrink:0; margin-top:2px; accent-color:var(--accent); }
+.dsgvo-row a { color:var(--accent); }
 
-/* DIVIDER */
-.sect-divider { width: 100%; height: 1px; background: var(--border); margin: 1.5rem 0; }
+/* ── LOADING ── */
+.ki-loading { text-align:center; padding:3.5rem 1rem; }
+.spinner { display:inline-block; width:40px; height:40px; border:2px solid var(--border); border-top-color:var(--accent); border-radius:50%; animation:spin 0.8s linear infinite; margin-bottom:1.5rem; }
+@keyframes spin { to { transform:rotate(360deg); } }
+.ki-loading h2 { font-size:1.1rem; font-weight:600; letter-spacing:-0.02em; margin-bottom:0.5rem; }
+.ki-loading p { font-size:0.875rem; color:var(--muted); font-weight:300; }
+.ki-steps { list-style:none; margin:1.5rem auto; max-width:280px; text-align:left; display:flex; flex-direction:column; gap:0.6rem; }
+.ki-step { font-size:0.8125rem; color:var(--muted); display:flex; align-items:center; gap:0.6rem; }
+.ki-step.done { color:var(--accent); }
+.ki-step.active { color:var(--text); }
+.dot { width:6px; height:6px; border-radius:50%; background:var(--muted2); flex-shrink:0; }
+.ki-step.done .dot { background:var(--accent); }
+.ki-step.active .dot { background:var(--accent); box-shadow:0 0 0 3px rgba(52,211,153,0.2); animation:pulse 1s ease-in-out infinite; }
+@keyframes pulse { 0%,100%{opacity:1}50%{opacity:0.4} }
 
-/* IMG HINT */
-.img-hint { font-size: 0.75rem; color: var(--muted2); margin-top: 0.4rem; display: flex; align-items: center; gap: 0.4rem; }
+/* ── RESULT ── */
+.result { display:flex; flex-direction:column; gap:1.25rem; }
+.result-card { background:var(--bg2); border:1px solid var(--border); border-radius:var(--radius); overflow:hidden; }
+.result-card.sent { border-color:var(--accent-border); }
+.card-header { display:flex; align-items:center; gap:0.6rem; padding:0.875rem 1.25rem; border-bottom:1px solid var(--border); font-size:0.75rem; font-weight:500; color:var(--accent); letter-spacing:0.07em; text-transform:uppercase; }
+.card-header::before { content:''; display:block; width:16px; height:1px; background:var(--muted2); }
+.card-body { padding:1.25rem; }
 
-/* BUTTONS */
-.btn-row { display: flex; gap: 0.75rem; width: 100%; margin-top: 2rem; }
-.btn { flex: 1; display: flex; align-items: center; justify-content: center; padding: 0.8rem 1.5rem; border-radius: var(--radius-sm); font-family: var(--font); font-size: 0.875rem; font-weight: 500; cursor: pointer; transition: all 0.25s; border: none; text-decoration: none; }
-.btn-back { background: transparent; border: 1px solid var(--border); color: var(--muted); flex: 0; padding: 0.8rem 1.25rem; }
-.btn-back:hover { border-color: var(--border-hi); color: var(--text); }
-.btn-next { background: var(--accent); color: var(--bg); font-weight: 600; letter-spacing: -0.01em; }
-.btn-next:hover { filter: brightness(1.1); }
-.btn-submit { background: var(--accent); color: var(--bg); font-weight: 600; letter-spacing: -0.01em; gap: 0.5rem; }
-.btn-submit:hover { filter: brightness(1.1); }
-.btn-submit:disabled { opacity: 0.5; cursor: not-allowed; filter: none; }
+/* info chips */
+.info-row { display:flex; flex-wrap:wrap; gap:0.75rem; }
+.info-chip { flex:1; min-width:130px; background:var(--bg3); border:1px solid var(--border); border-radius:6px; padding:0.75rem 1rem; }
+.info-chip-label { font-size:0.6875rem; text-transform:uppercase; letter-spacing:0.06em; color:var(--muted); margin-bottom:0.25rem; }
+.info-chip-val { font-size:0.875rem; font-weight:500; }
 
-/* SUMMARY */
-.summary-grid { display: flex; flex-direction: column; gap: 1rem; }
-.summary-block { background: var(--bg2); border: 1px solid var(--border); border-radius: var(--radius); padding: 1.125rem 1.25rem; }
-.summary-block-header { font-size: 0.6875rem; font-weight: 500; color: var(--accent); letter-spacing: 0.07em; text-transform: uppercase; margin-bottom: 0.875rem; display: flex; align-items: center; gap: 0.45rem; }
-.summary-block-header::before { content: ''; display: block; width: 16px; height: 1px; background: var(--muted2); }
-.summary-row { display: flex; gap: 0.75rem; padding: 0.5rem 0; border-bottom: 1px solid var(--border); font-size: 0.875rem; }
-.summary-row:last-child { border-bottom: none; padding-bottom: 0; }
-.summary-key { color: var(--muted); font-weight: 400; min-width: 160px; flex-shrink: 0; font-size: 0.8125rem; }
-.summary-val { color: var(--text); font-weight: 300; line-height: 1.55; flex: 1; word-break: break-word; }
-.summary-val.empty { color: var(--muted2); font-style: italic; }
+/* bullets */
+.bullets { list-style:none; display:flex; flex-direction:column; gap:0.75rem; }
+.bullet { display:flex; gap:0.75rem; font-size:0.875rem; line-height:1.6; font-weight:300; }
+.bullet-mark { color:var(--accent); font-weight:700; flex-shrink:0; margin-top:1px; }
 
-/* SUCCESS */
-.success-card { text-align: center; padding: 3rem 1.5rem; background: var(--bg2); border: 1px solid var(--accent-border); border-radius: 12px; }
-.success-icon { font-size: 2.5rem; margin-bottom: 1rem; }
-.success-card h2 { font-size: 1.5rem; font-weight: 700; letter-spacing: -0.03em; margin-bottom: 0.5rem; }
-.success-card p { font-size: 0.9375rem; font-weight: 300; color: var(--muted); line-height: 1.6; }
+/* prompt */
+.prompt-box { background:var(--bg); border:1px solid var(--border); border-radius:6px; padding:1rem; font-size:0.8125rem; line-height:1.7; white-space:pre-wrap; word-break:break-word; max-height:320px; overflow-y:auto; font-family:'DM Mono','Fira Code',monospace; color:var(--text); }
+.action-row { display:flex; gap:0.6rem; margin-top:0.75rem; flex-wrap:wrap; }
+.action-btn { display:inline-flex; align-items:center; gap:0.4rem; padding:0.5rem 1rem; border-radius:6px; font-size:0.8125rem; font-weight:500; cursor:pointer; border:none; font-family:var(--font); transition:all 0.2s; }
+.action-btn-primary { background:var(--accent); color:var(--bg); }
+.action-btn-primary:hover { filter:brightness(1.1); }
+.action-btn-primary.done { background:var(--accent-bg); color:var(--accent); border:1px solid var(--accent-border); }
+.action-btn-ghost { background:var(--bg3); border:1px solid var(--border); color:var(--muted); }
+.action-btn-ghost:hover { border-color:var(--border-hi); color:var(--text); }
 
-/* TRUST */
-.trust-line { font-size: 0.6875rem; color: var(--muted2); text-align: center; margin-top: 2.5rem; letter-spacing: 0.04em; }
+/* email preview */
+.email-preview { background:var(--bg); border:1px solid var(--border); border-radius:6px; padding:1rem; font-size:0.8125rem; line-height:1.7; font-weight:300; max-height:220px; overflow-y:auto; white-space:pre-wrap; word-break:break-word; color:var(--text); }
+.email-sent-badge { display:inline-flex; align-items:center; gap:0.4rem; font-size:0.8125rem; color:var(--accent); font-weight:500; margin-bottom:0.75rem; }
+.email-sent-badge::before { content:'✓'; font-weight:700; }
 
-@media (max-width: 520px) {
-  .steps-outer { padding: 2rem 1.25rem 3rem; }
-  .comp-row { grid-template-columns: 1fr; }
-  .summary-key { min-width: 110px; }
-  .toggle-top { flex-wrap: wrap; }
+/* error */
+.error-box { background:rgba(239,68,68,0.08); border:1px solid rgba(239,68,68,0.2); border-radius:var(--radius); padding:1rem 1.25rem; font-size:0.875rem; color:#fca5a5; line-height:1.6; }
+
+/* restart */
+.btn-restart { display:flex; align-items:center; justify-content:center; gap:0.5rem; padding:0.75rem 1.5rem; border-radius:var(--radius-sm); font-family:var(--font); font-size:0.875rem; font-weight:500; cursor:pointer; border:1px solid var(--border); background:transparent; color:var(--muted); transition:all 0.2s; margin-top:0.5rem; width:100%; }
+.btn-restart:hover { border-color:var(--border-hi); color:var(--text); }
+.trust { font-size:0.6875rem; color:var(--muted2); text-align:center; margin-top:2rem; letter-spacing:0.04em; }
+
+@media(max-width:520px) {
+  .comp-row { grid-template-columns:1fr; }
+  .info-row { flex-direction:column; }
 }
 </style>
 </head>
 <body>
 
+<!-- Netlify form detection (hidden) -->
+<form name="briefing-ki" netlify netlify-honeypot="bot-field" hidden>
+  <input name="bot-field">
+  <input name="betrieb_name"><input name="branche"><input name="ort"><input name="email">
+  <input name="hauptziel"><input name="aktion"><input name="problem">
+  <input name="usp"><input name="zielkunden"><input name="seiten">
+  <input name="ausstrahlung"><input name="farben">
+  <input name="wb_aktiv"><input name="wettbewerber"><input name="keywords"><input name="einzugsgebiet">
+  <textarea name="ki_analyse"></textarea>
+  <textarea name="lovable_prompt"></textarea>
+  <textarea name="email_vorschau"></textarea>
+</form>
+
 <nav class="nav">
-  <a class="nav-logo" href="https://seitenwertig.de/">
+  <a class="nav-logo" href="/">
     <span class="nav-logo-mark">S</span>
     <span class="nav-logo-name">Seiten<span>Wertig</span></span>
   </a>
-  <a class="nav-back" href="https://seitenwertig.de/">&#8592; Website</a>
+  <a class="nav-back" href="/">← Website</a>
 </nav>
 
-<!-- NETLIFY HIDDEN FORM -->
-<form name="briefing" netlify netlify-honeypot="bot-field" hidden>
-  <input type="hidden" name="form-name" value="briefing">
-  <input name="bot-field">
-  <input name="ziel_hauptziel"><input name="ziel_aktion"><input name="ziel_problem"><textarea name="ziel_erfolg"></textarea>
-  <input name="betrieb_name"><input name="betrieb_branche"><input name="betrieb_ort"><textarea name="betrieb_usp"></textarea><input name="betrieb_zielkunden"><input name="kontakt_email">
-  <input name="wb_aktiv"><input name="wb_wettbewerber1"><input name="wb_wettbewerber2"><input name="wb_wettbewerber3"><input name="wb_einzugsgebiet"><input name="wb_suchbegriffe"><textarea name="wb_einschaetzung"></textarea>
-  <input name="inhalte_bestehende_url"><input name="inhalte_logo_link"><textarea name="inhalte_bildlinks"></textarea><input name="inhalte_seiten"><textarea name="inhalte_texte"></textarea>
-  <input name="design_ausstrahlung"><input name="design_farben"><textarea name="design_referenzen"></textarea><textarea name="design_vermeiden"></textarea>
-  <textarea name="lovable_prompt"></textarea>
-</form>
-
-<div class="steps-outer">
+<div class="outer">
   <div class="progress-wrap">
     <div class="progress-label" id="progressLabel">Schritt 1 von 5</div>
     <div class="progress-bar"><div class="progress-fill" id="progressFill" style="width:20%"></div></div>
   </div>
 
-  <div class="steps-viewport">
+  <div class="viewport">
 
-    <!-- STEP 1: ZIELE -->
+    <!-- ── STEP 1: ZIELE ── -->
     <div class="step active" id="step1">
       <div class="eyebrow">Schritt 1 — Ziele</div>
       <h1>Was soll die Website leisten?</h1>
-      <p class="subtitle">Bevor wir ans Design denken — was ist das konkrete Ziel? Das bestimmt alles andere.</p>
+      <p class="subtitle">Das Ziel bestimmt alles andere — bevor wir ans Design denken.</p>
 
       <div class="field">
-        <label>Was ist das Hauptziel deiner neuen Website?</label>
+        <label>Hauptziel der Website</label>
         <div class="chip-group" id="chips-hauptziel">
           <div class="chip" onclick="selChip(this,'hauptziel')">Mehr Anfragen bekommen</div>
-          <div class="chip" onclick="selChip(this,'hauptziel')">Online-Pr&#228;senz aufbauen</div>
-          <div class="chip" onclick="selChip(this,'hauptziel')">Vertrauen &amp; Glaubw&#252;rdigkeit</div>
-          <div class="chip" onclick="selChip(this,'hauptziel')">Konkurrenz abh&#228;ngen</div>
+          <div class="chip" onclick="selChip(this,'hauptziel')">Online-Präsenz aufbauen</div>
+          <div class="chip" onclick="selChip(this,'hauptziel')">Vertrauen & Glaubwürdigkeit</div>
+          <div class="chip" onclick="selChip(this,'hauptziel')">Konkurrenz abhängen</div>
           <div class="chip" onclick="selChip(this,'hauptziel')">Bestandskunden binden</div>
-          <div class="chip" onclick="selChip(this,'hauptziel')">Fachkr&#228;fte gewinnen</div>
+          <div class="chip" onclick="selChip(this,'hauptziel')">Fachkräfte gewinnen</div>
         </div>
       </div>
 
@@ -231,7 +245,7 @@ textarea { resize: vertical; min-height: 80px; line-height: 1.55; }
         <label>Was sollen Besucher als Erstes tun?</label>
         <div class="chip-group" id="chips-aktion">
           <div class="chip" onclick="selChip(this,'aktion')">Anrufen</div>
-          <div class="chip" onclick="selChip(this,'aktion')">Formular ausf&#252;llen</div>
+          <div class="chip" onclick="selChip(this,'aktion')">Formular ausfüllen</div>
           <div class="chip" onclick="selChip(this,'aktion')">Termin buchen</div>
           <div class="chip" onclick="selChip(this,'aktion')">WhatsApp schreiben</div>
           <div class="chip" onclick="selChip(this,'aktion')">Angebot anfordern</div>
@@ -240,51 +254,51 @@ textarea { resize: vertical; min-height: 80px; line-height: 1.55; }
       </div>
 
       <div class="field">
-        <label>Was ist dein aktuelles Problem?</label>
+        <label>Dein aktuelles Problem</label>
         <div class="chip-group" id="chips-problem">
           <div class="chip" onclick="selChip(this,'problem')">Keine Website vorhanden</div>
           <div class="chip" onclick="selChip(this,'problem')">Website ist veraltet</div>
-          <div class="chip" onclick="selChip(this,'problem')">Kaum Anfragen &#252;ber Website</div>
+          <div class="chip" onclick="selChip(this,'problem')">Kaum Anfragen über Website</div>
           <div class="chip" onclick="selChip(this,'problem')">Konkurrenz ist besser sichtbar</div>
           <div class="chip" onclick="selChip(this,'problem')">Sieht unprofessionell aus</div>
-          <div class="chip" onclick="selChip(this,'problem')">L&#228;uft schlecht auf Handy</div>
+          <div class="chip" onclick="selChip(this,'problem')">Läuft schlecht auf Handy</div>
         </div>
       </div>
 
       <div class="field">
-        <label>Was w&#228;re f&#252;r dich ein Erfolg — 3 Monate nach dem Launch? <span class="opt">(optional)</span></label>
-        <textarea id="ziel-erfolg" placeholder="z.B. Mindestens 5 neue Anfragen pro Monat &#252;ber die Website..."></textarea>
+        <label>Erfolgsdefinition nach 3 Monaten <span class="opt">(optional)</span></label>
+        <textarea id="ziel-erfolg" placeholder="z.B. Mindestens 5 neue Anfragen pro Monat über die Website…"></textarea>
       </div>
 
       <div class="btn-row">
-        <button class="btn btn-next" onclick="goNext()">Weiter &#8594;</button>
+        <button class="btn btn-next" onclick="next()">Weiter →</button>
       </div>
     </div>
 
-    <!-- STEP 2: BETRIEB -->
+    <!-- ── STEP 2: BETRIEB ── -->
     <div class="step" id="step2">
       <div class="eyebrow">Schritt 2 — Dein Betrieb</div>
       <h1>Wer bist du?</h1>
-      <p class="subtitle">Damit die Website wirklich zu dir passt — keine Vorlagen, keine Floskeln.</p>
+      <p class="subtitle">Kein Template, kein Baukasten — die Website soll wirklich zu dir passen.</p>
 
       <div class="field">
         <label>Name des Betriebs</label>
-        <input type="text" id="betrieb-name" placeholder="z.B. Elektro M&#252;ller Forchheim">
+        <input type="text" id="betrieb-name" placeholder="z.B. Elektro Müller Forchheim">
       </div>
       <div class="field">
-        <label>Branche &amp; was du machst</label>
-        <input type="text" id="betrieb-branche" placeholder="z.B. Elektriker &#8212; Neuinstallationen, Sanierung, Notdienst">
+        <label>Branche & was du machst</label>
+        <input type="text" id="betrieb-branche" placeholder="z.B. Elektriker — Neuinstallationen, Sanierung, Notdienst">
       </div>
       <div class="field">
         <label>Standort / Region</label>
         <input type="text" id="betrieb-ort" placeholder="z.B. Forchheim, Erlangen, Bamberg">
       </div>
       <div class="field">
-        <label>Was macht dich besser oder anders als die Konkurrenz?</label>
-        <textarea id="betrieb-usp" placeholder="z.B. Familienunternehmen seit 30 Jahren, 24h-Notdienst, keine versteckten Kosten, Meister vor Ort..."></textarea>
+        <label>Was macht dich besser als die Konkurrenz?</label>
+        <textarea id="betrieb-usp" placeholder="z.B. Familienunternehmen seit 30 Jahren, 24h-Notdienst, keine versteckten Kosten…"></textarea>
       </div>
       <div class="field">
-        <label>Wer sind deine idealen Kunden? <span class="opt">(mehrere m&#246;glich)</span></label>
+        <label>Ideale Kunden <span class="opt">(mehrere möglich)</span></label>
         <div class="chip-group" id="chips-zielkunden">
           <div class="chip" onclick="togChip(this,'zielkunden')">Privatkunden</div>
           <div class="chip" onclick="togChip(this,'zielkunden')">Gewerbekunden</div>
@@ -295,533 +309,540 @@ textarea { resize: vertical; min-height: 80px; line-height: 1.55; }
         </div>
       </div>
       <div class="field">
-        <label>E-Mail f&#252;r Kundenanfragen <span class="opt">(wohin sollen Nachrichten?)</span></label>
+        <label>Deine E-Mail-Adresse <span class="opt">(wohin sollen Anfragen?)</span></label>
         <input type="email" id="kontakt-email" placeholder="deine@email.de">
       </div>
 
       <div class="btn-row">
-        <button class="btn btn-back" onclick="goBack()">&#8592;</button>
-        <button class="btn btn-next" onclick="goNext()">Weiter &#8594;</button>
+        <button class="btn btn-back" onclick="back()">←</button>
+        <button class="btn btn-next" onclick="next()">Weiter →</button>
       </div>
     </div>
 
-    <!-- STEP 3: WETTBEWERB -->
+    <!-- ── STEP 3: WETTBEWERB ── -->
     <div class="step" id="step3">
       <div class="eyebrow">Schritt 3 — Wettbewerb</div>
       <h1>Dein Umfeld</h1>
-      <p class="subtitle">Wer ist in deiner Region aktiv? Das hilft, dich gezielt zu positionieren — nicht am Markt vorbei.</p>
+      <p class="subtitle">Claude analysiert deine Branche & Region — keine externe API, kein make.com.</p>
 
       <div class="toggle-card" id="wbToggle" onclick="toggleWB()">
         <div class="toggle-top">
           <div class="toggle-left">
-            <div class="toggle-icon">&#128269;</div>
+            <div class="toggle-icon">🔍</div>
             <div class="toggle-info">
-              <h3>Wettbewerbsanalyse aktivieren</h3>
-              <p>Ich analysiere deine lokale Konkurrenz und baue die Erkenntnisse direkt ins Design ein — damit sich deine Seite klar abhebt.</p>
-              <div class="benefit">&#10003; Kostenlos im Paket enthalten</div>
+              <h3>KI-Wettbewerbsanalyse aktivieren</h3>
+              <p>Claude bewertet Positionierung, SEO-Chancen und Differenzierungsstrategie für deine Branche — direkt im Prompt.</p>
             </div>
           </div>
-          <div style="display:flex;align-items:center;gap:0.75rem;flex-shrink:0;">
-            <span class="toggle-time">+ ca. 3 Min</span>
-            <div class="switch"></div>
-          </div>
+          <div class="switch"></div>
         </div>
-
-        <div class="expand-section" id="wbFields">
-          <div class="comp-group">
-            <div class="comp-number">Wettbewerber 1</div>
-            <div class="comp-row">
-              <div class="field"><label>Name des Betriebs</label><input type="text" id="wb-name1" placeholder="z.B. M&#252;ller Elektrotechnik"></div>
-              <div class="field"><label>Website <span class="opt">(optional)</span></label><input type="url" id="wb-url1" placeholder="https://..."></div>
-            </div>
-            <div class="comp-number">Wettbewerber 2</div>
-            <div class="comp-row">
-              <div class="field"><label>Name des Betriebs</label><input type="text" id="wb-name2" placeholder="z.B. Schmidt &amp; Sohn GmbH"></div>
-              <div class="field"><label>Website <span class="opt">(optional)</span></label><input type="url" id="wb-url2" placeholder="https://..."></div>
-            </div>
-            <div class="comp-number">Wettbewerber 3 <span style="color:var(--muted2);font-weight:300;text-transform:none;letter-spacing:0;font-size:0.75rem;">&#8212; optional</span></div>
-            <div class="comp-row">
-              <div class="field"><label>Name des Betriebs</label><input type="text" id="wb-name3" placeholder=""></div>
-              <div class="field"><label>Website <span class="opt">(optional)</span></label><input type="url" id="wb-url3" placeholder="https://..."></div>
-            </div>
+        <div class="expand" id="wbFields">
+          <div class="comp-label">Wettbewerber 1</div>
+          <div class="comp-row">
+            <div class="field"><label>Name</label><input type="text" id="wb-name1" placeholder="z.B. Müller Elektrotechnik"></div>
+            <div class="field"><label>Website <span class="opt">(optional)</span></label><input type="url" id="wb-url1" placeholder="https://…"></div>
           </div>
-
+          <div class="comp-label">Wettbewerber 2 <span class="opt">— optional</span></div>
+          <div class="comp-row">
+            <div class="field"><label>Name</label><input type="text" id="wb-name2" placeholder="z.B. Schmidt & Sohn GmbH"></div>
+            <div class="field"><label>Website <span class="opt">(optional)</span></label><input type="url" id="wb-url2" placeholder="https://…"></div>
+          </div>
           <div class="field">
-            <label>Einzugsgebiet &#8212; Wie weit fahren deine Kunden?</label>
+            <label>Einzugsgebiet</label>
             <div class="chip-group" id="chips-radius">
               <div class="chip" onclick="selChip(this,'radius')">Nur mein Ort</div>
               <div class="chip" onclick="selChip(this,'radius')">10 km Umkreis</div>
               <div class="chip" onclick="selChip(this,'radius')">25 km Umkreis</div>
               <div class="chip" onclick="selChip(this,'radius')">Ganz Franken</div>
-              <div class="chip" onclick="selChip(this,'radius')">Ganz Bayern</div>
+              <div class="chip" onclick="selChip(this,'radius')">Deutschlandweit</div>
             </div>
           </div>
-
-          <div class="field" style="margin-top:1.25rem;">
-            <label>Was w&#252;rden deine Kunden bei Google eingeben?</label>
-            <input type="text" id="wb-keywords" placeholder="z.B. Elektriker Forchheim Notdienst, Fu&#223;pflege Bamberg">
+          <div class="field" style="margin-top:1rem">
+            <label>Was würden Kunden bei Google eingeben?</label>
+            <input type="text" id="wb-keywords" placeholder="z.B. Elektriker Forchheim Notdienst">
           </div>
-
-          <div class="field">
-            <label>Was machen deine Wettbewerber gut &#8212; und wo sind sie schwach? <span class="opt">(optional)</span></label>
-            <textarea id="wb-delta" placeholder="z.B. M&#252;ller hat viele Google-Bewertungen, aber die Website ist veraltet und nicht mobil..."></textarea>
-          </div>
-
-          <div class="hint-box">
-            <span class="icon">&#128161;</span>
-            <p>Schon ein Wettbewerber-Name und dein Einzugsgebiet reichen f&#252;r eine fundierte Analyse.</p>
+          <div class="hint">
+            <p>💡 Ein Wettbewerber-Name reicht — Claude ergänzt mit Branchenwissen.</p>
           </div>
         </div>
       </div>
 
       <div class="btn-row">
-        <button class="btn btn-back" onclick="goBack()">&#8592;</button>
-        <button class="btn btn-next" onclick="goNext()">Weiter &#8594;</button>
+        <button class="btn btn-back" onclick="back()">←</button>
+        <button class="btn btn-next" onclick="next()">Weiter →</button>
       </div>
     </div>
 
-    <!-- STEP 4: INHALTE & BILDER -->
+    <!-- ── STEP 4: INHALTE ── -->
     <div class="step" id="step4">
-      <div class="eyebrow">Schritt 4 &#8212; Inhalte &amp; Bilder</div>
+      <div class="eyebrow">Schritt 4 — Inhalte & Bilder</div>
       <h1>Was hast du schon?</h1>
-      <p class="subtitle">Echte Fotos und eigene Texte machen den gr&#246;&#223;ten Unterschied. Schick mir was du hast.</p>
+      <p class="subtitle">Echte Fotos und eigene Texte machen den größten Unterschied.</p>
 
       <div class="field">
-        <label>Gibt es schon eine Website von dir?</label>
+        <label>Gibt es schon eine Website?</label>
         <div class="yn-group">
-          <div class="yn-btn" onclick="selYN(this,'besteht','ja')">Ja</div>
-          <div class="yn-btn" onclick="selYN(this,'besteht','nein')">Nein</div>
+          <div class="yn-btn" onclick="yn(this,'besteht','ja')">Ja</div>
+          <div class="yn-btn" onclick="yn(this,'besteht','nein')">Nein</div>
         </div>
         <div class="yn-reveal" id="yn-besteht-ja">
           <input type="url" id="besteht-url" placeholder="https://deine-bisherige-seite.de">
         </div>
       </div>
 
-      <div class="sect-divider"></div>
+      <div class="divider"></div>
 
       <div class="field">
-        <label>Bilder &amp; Fotos &#8212; Links zu vorhandenen Bildern <span class="opt">(optional)</span></label>
-        <textarea id="inhalte-bilder" rows="5" placeholder="F&#252;ge Links zu deinen Fotos ein &#8212; einen pro Zeile:&#10;&#10;https://drive.google.com/...&#10;https://dropbox.com/...&#10;https://wetransfer.com/...&#10;&#10;Google Drive, Dropbox, WeTransfer, iCloud, Direktlinks &#8212; alles m&#246;glich."></textarea>
-        <div class="img-hint">&#128206; Google Drive &middot; Dropbox &middot; WeTransfer &middot; iCloud &middot; Direktlinks</div>
+        <label>Links zu Fotos <span class="opt">(optional)</span></label>
+        <textarea id="inhalte-bilder" rows="3" placeholder="Google Drive, Dropbox, WeTransfer — einen Link pro Zeile"></textarea>
       </div>
-
       <div class="field">
         <label>Logo vorhanden?</label>
         <div class="yn-group">
-          <div class="yn-btn" onclick="selYN(this,'logo','ja')">Ja</div>
-          <div class="yn-btn" onclick="selYN(this,'logo','nein')">Nein &#8212; wird erstellt</div>
+          <div class="yn-btn" onclick="yn(this,'logo','ja')">Ja</div>
+          <div class="yn-btn" onclick="yn(this,'logo','nein')">Nein — wird erstellt</div>
         </div>
         <div class="yn-reveal" id="yn-logo-ja">
-          <input type="url" id="logo-link" placeholder="Link zu deiner Logo-Datei (PNG oder SVG bevorzugt)">
+          <input type="url" id="logo-link" placeholder="Link zur Logo-Datei (PNG oder SVG bevorzugt)">
         </div>
       </div>
 
-      <div class="sect-divider"></div>
+      <div class="divider"></div>
 
       <div class="field">
-        <label>Welche Seiten soll die Website haben? <span class="opt">(mehrere m&#246;glich)</span></label>
+        <label>Gewünschte Seiten <span class="opt">(mehrere möglich)</span></label>
         <div class="chip-group" id="chips-seiten">
           <div class="chip selected" onclick="togChip(this,'seiten')">Startseite</div>
           <div class="chip selected" onclick="togChip(this,'seiten')">Leistungen</div>
-          <div class="chip selected" onclick="togChip(this,'seiten')">&#220;ber mich / uns</div>
+          <div class="chip selected" onclick="togChip(this,'seiten')">Über mich / uns</div>
           <div class="chip selected" onclick="togChip(this,'seiten')">Kontakt</div>
           <div class="chip" onclick="togChip(this,'seiten')">Referenzen / Projekte</div>
           <div class="chip" onclick="togChip(this,'seiten')">Preise</div>
           <div class="chip" onclick="togChip(this,'seiten')">Galerie</div>
-          <div class="chip" onclick="togChip(this,'seiten')">Blog</div>
-          <div class="chip" onclick="togChip(this,'seiten')">Stellenangebote</div>
           <div class="chip" onclick="togChip(this,'seiten')">FAQ</div>
         </div>
       </div>
 
       <div class="field">
-        <label>Gibt es Texte, die &#252;bernommen werden sollen? <span class="opt">(optional)</span></label>
-        <textarea id="inhalte-texte" placeholder="z.B. &#220;ber-uns-Text, Leistungsbeschreibungen, Preise, &#214;ffnungszeiten..."></textarea>
+        <label>Vorhandene Texte <span class="opt">(optional)</span></label>
+        <textarea id="inhalte-texte" placeholder="z.B. Über-uns-Text, Leistungsbeschreibungen, Preise, Öffnungszeiten…"></textarea>
       </div>
 
       <div class="btn-row">
-        <button class="btn btn-back" onclick="goBack()">&#8592;</button>
-        <button class="btn btn-next" onclick="goNext()">Weiter &#8594;</button>
+        <button class="btn btn-back" onclick="back()">←</button>
+        <button class="btn btn-next" onclick="next()">Weiter →</button>
       </div>
     </div>
 
-    <!-- STEP 5: DESIGN -->
+    <!-- ── STEP 5: DESIGN ── -->
     <div class="step" id="step5">
-      <div class="eyebrow">Schritt 5 &#8212; Design &amp; Stil</div>
+      <div class="eyebrow">Schritt 5 — Design & Stil</div>
       <h1>Wie soll es wirken?</h1>
-      <p class="subtitle">Keine Perfektion erwartet &#8212; Tendenz und Gef&#252;hl reichen mir vollkommen.</p>
+      <p class="subtitle">Keine Perfektion erwartet — Tendenz und Gefühl reichen völlig.</p>
 
       <div class="field">
-        <label>Welche Ausstrahlung soll die Website haben? <span class="opt">(mehrere m&#246;glich)</span></label>
+        <label>Ausstrahlung der Website <span class="opt">(mehrere möglich)</span></label>
         <div class="chip-group" id="chips-ausstrahlung">
-          <div class="chip" onclick="togChip(this,'ausstrahlung')">Professionell &amp; seri&#246;s</div>
-          <div class="chip" onclick="togChip(this,'ausstrahlung')">Warm &amp; pers&#246;nlich</div>
-          <div class="chip" onclick="togChip(this,'ausstrahlung')">Modern &amp; minimalistisch</div>
-          <div class="chip" onclick="togChip(this,'ausstrahlung')">Bodensst&#228;ndig &amp; solide</div>
-          <div class="chip" onclick="togChip(this,'ausstrahlung')">Premium &amp; hochwertig</div>
-          <div class="chip" onclick="togChip(this,'ausstrahlung')">Frisch &amp; dynamisch</div>
-          <div class="chip" onclick="togChip(this,'ausstrahlung')">Klassisch &amp; bew&#228;hrt</div>
+          <div class="chip" onclick="togChip(this,'ausstrahlung')">Professionell & seriös</div>
+          <div class="chip" onclick="togChip(this,'ausstrahlung')">Warm & persönlich</div>
+          <div class="chip" onclick="togChip(this,'ausstrahlung')">Modern & minimalistisch</div>
+          <div class="chip" onclick="togChip(this,'ausstrahlung')">Bodenständig & solide</div>
+          <div class="chip" onclick="togChip(this,'ausstrahlung')">Premium & hochwertig</div>
+          <div class="chip" onclick="togChip(this,'ausstrahlung')">Frisch & dynamisch</div>
         </div>
       </div>
-
       <div class="field">
-        <label>Gibt es Farbw&#252;nsche? <span class="opt">(optional)</span></label>
-        <input type="text" id="design-farben" placeholder="z.B. Firmenfarben Blau/Wei&#223;, warme Erdtöne, #1a3a6b...">
+        <label>Farbwünsche <span class="opt">(optional)</span></label>
+        <input type="text" id="design-farben" placeholder="z.B. Firmenfarben Blau/Weiß, warme Erdtöne, #1a3a6b…">
       </div>
-
       <div class="field">
-        <label>Welche Websites gef&#228;llen dir &#8212; egal aus welcher Branche? <span class="opt">(optional)</span></label>
-        <textarea id="design-referenzen" rows="3" placeholder="URLs oder Namen &#8212; einen pro Zeile:&#10;&#10;https://beispiel.de&#10;apple.com &#8212; klares Layout&#10;Ein Handwerker in meinem Ort: ..."></textarea>
+        <label>Websites die dir gefallen <span class="opt">(optional)</span></label>
+        <textarea id="design-referenzen" rows="2" placeholder="URLs oder Namen — einen pro Zeile"></textarea>
       </div>
-
       <div class="field">
         <label>Was soll auf keinen Fall so aussehen? <span class="opt">(optional)</span></label>
-        <textarea id="design-vermeiden" placeholder="z.B. Keine knalligen Farben, nichts zu verspielt, keine gestellten Stockfotos..."></textarea>
+        <textarea id="design-vermeiden" placeholder="z.B. Keine knalligen Farben, nichts zu verspielt…"></textarea>
       </div>
 
-      <div class="hint-box">
-        <span class="icon">&#10022;</span>
-        <p>Kein Feld hier ist Pflicht. Wenn du keine Pr&#228;ferenz hast, entwickle ich einen Vorschlag auf Basis deiner Branche, Ziele und der Wettbewerbsanalyse.</p>
+      <div class="dsgvo-row">
+        <input type="checkbox" id="dsgvo" required>
+        <label for="dsgvo" style="color:var(--muted);font-size:0.8125rem;margin:0">
+          Ich habe die <a href="/rechtliches" target="_blank">Datenschutzerklärung</a> gelesen und stimme der Verarbeitung meiner Daten zu.
+        </label>
       </div>
 
       <div class="btn-row">
-        <button class="btn btn-back" onclick="goBack()">&#8592;</button>
-        <button class="btn btn-next" onclick="goSummary()">Zusammenfassung ansehen &#8594;</button>
+        <button class="btn btn-back" onclick="back()">←</button>
+        <button class="btn btn-next" id="submitBtn" onclick="startKI()">KI-Analyse starten →</button>
       </div>
     </div>
 
-    <!-- STEP 6: ZUSAMMENFASSUNG -->
+    <!-- ── STEP 6: KI ANALYSE ── -->
     <div class="step" id="step6">
-      <div class="eyebrow">Zusammenfassung</div>
-      <h1>Alles auf einen Blick</h1>
-      <p class="subtitle">&#220;berpr&#252;fe deine Angaben &#8212; dann sende ich dir innerhalb von 24 Stunden deinen ersten Entwurf.</p>
 
-      <div class="summary-grid" id="summaryGrid"></div>
-
-      <div class="btn-row">
-        <button class="btn btn-back" onclick="goBack()">&#8592;</button>
-        <button class="btn btn-submit" id="submitBtn" onclick="submitForm()">
-          <span>Briefing absenden</span><span>&#8594;</span>
-        </button>
+      <!-- Loading -->
+      <div id="kiLoading" class="ki-loading">
+        <div class="spinner"></div>
+        <h2>Claude analysiert dein Briefing…</h2>
+        <p>Gleich hast du alles — fertig zum Kopieren in Lovable.</p>
+        <ul class="ki-steps" id="kiSteps">
+          <li class="ki-step active" id="ks1"><span class="dot"></span>Briefing-Daten auswerten</li>
+          <li class="ki-step"        id="ks2"><span class="dot"></span>Wettbewerbsumfeld einschätzen</li>
+          <li class="ki-step"        id="ks3"><span class="dot"></span>Positionierungsstrategie ableiten</li>
+          <li class="ki-step"        id="ks4"><span class="dot"></span>Lovable-Prompt & E-Mail generieren</li>
+          <li class="ki-step"        id="ks5"><span class="dot"></span>An <a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="0f656e614f7c6a667b6a61786a7d7b6668216b6a">[email&#160;protected]</a> senden</li>
+        </ul>
       </div>
-      <div class="trust-line">DSGVO-konform &middot; EU-Datenschutz &middot; Kein Abo &middot; Kein Spam</div>
+
+      <!-- Result -->
+      <div id="kiResult" style="display:none">
+        <div class="eyebrow">Fertig</div>
+        <h1>Dein Website-Prompt</h1>
+        <p class="subtitle" style="margin-bottom:1.5rem">Claude hat analysiert, der Prompt ist fertig — und Jan hat dein Briefing per E-Mail bekommen.</p>
+
+        <div class="result">
+
+          <!-- Info -->
+          <div class="info-row" id="infoRow"></div>
+
+          <!-- Email sent -->
+          <div class="result-card sent">
+            <div class="card-header">E-Mail an <a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="acc6cdc2ecdfc9c5d8c9c2dbc9ded8c5cb82c8c9">[email&#160;protected]</a></div>
+            <div class="card-body">
+              <div class="email-sent-badge">Erfolgreich gesendet</div>
+              <div class="email-preview" id="emailPreview"></div>
+            </div>
+          </div>
+
+          <!-- Analysis -->
+          <div class="result-card" id="analyseCard">
+            <div class="card-header">Wettbewerbs-Einschätzung</div>
+            <div class="card-body">
+              <ul class="bullets" id="bulletList"></ul>
+            </div>
+          </div>
+
+          <!-- Prompt -->
+          <div class="result-card">
+            <div class="card-header">Lovable-Prompt — bereit zum Einfügen</div>
+            <div class="card-body">
+              <div class="prompt-box" id="promptBox"></div>
+              <div class="action-row">
+                <button class="action-btn action-btn-primary" id="copyBtn" onclick="copyPrompt()">⎘ Prompt kopieren</button>
+                <button class="action-btn action-btn-ghost" onclick="dlPrompt()">↓ Als .txt speichern</button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Error (hidden by default) -->
+          <div class="error-box" id="errBox" style="display:none"></div>
+
+        </div>
+
+        <button class="btn-restart" onclick="location.reload()">← Neues Briefing starten</button>
+        <div class="trust">DSGVO-konform · EU-Datenschutz · Kein Abo · Kein Spam</div>
+      </div>
+
     </div>
 
-    <!-- SUCCESS -->
-    <div class="step" id="stepSuccess">
-      <div class="success-card">
-        <div class="success-icon">&#10003;</div>
-        <h2>Briefing angekommen!</h2>
-        <p>Ich melde mich innerhalb von <strong>24 Stunden</strong> mit deinem ersten Entwurf und einem konkreten Angebot.<br><br>Bis gleich &#8212; Jan von SeitenWertig</p>
-      </div>
-      <div class="trust-line" style="margin-top:1.5rem;">DSGVO-konform &middot; EU-Datenschutz &middot; Kein Abo</div>
-    </div>
+  </div><!-- /viewport -->
+</div><!-- /outer -->
 
-  </div>
-</div>
-
-<script>
-var currentStep = 1;
-var wbActive = false;
-var chipState = {};
-var multiChips = {};
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+/* ── State ── */
+var step = 1;
+var wbOn = false;
+var chips = {};
+var multi = { seiten: ['Startseite','Leistungen','Über mich / uns','Kontakt'] };
 var ynState = {};
+var gPrompt = '';
 
-// Init multi-chips default selection
-multiChips['seiten'] = ['Startseite','Leistungen','Über mich / uns','Kontakt'];
-
-function updateProgress(step, isSummary) {
-  var label = document.getElementById('progressLabel');
-  var fill  = document.getElementById('progressFill');
-  if (isSummary) {
-    label.textContent = 'Zusammenfassung';
-    fill.style.width  = '100%';
-  } else {
-    label.textContent = 'Schritt ' + step + ' von 5';
-    fill.style.width  = (step / 5 * 100) + '%';
-  }
+/* ── Progress ── */
+function setProgress(s) {
+  var labels = ['','Schritt 1 von 5','Schritt 2 von 5','Schritt 3 von 5','Schritt 4 von 5','Schritt 5 von 5','KI-Analyse…'];
+  var pcts   = [0, 20, 40, 60, 80, 100, 100];
+  document.getElementById('progressLabel').textContent = labels[s] || 'Abgeschlossen';
+  document.getElementById('progressFill').style.width = pcts[s] + '%';
 }
 
 function showStep(id, isBack) {
-  document.querySelectorAll('.step').forEach(function(s) {
-    s.classList.remove('active','back-enter');
-  });
+  document.querySelectorAll('.step').forEach(el => el.classList.remove('active','back'));
   var el = document.getElementById(id);
   el.classList.add('active');
-  if (isBack) el.classList.add('back-enter');
-  window.scrollTo({ top: 0, behavior: 'smooth' });
+  if (isBack) el.classList.add('back');
+  window.scrollTo({ top: 0 });
 }
 
-function goNext() {
-  currentStep++;
-  showStep('step' + currentStep, false);
-  updateProgress(currentStep, false);
+function next() { step++; showStep('step'+step, false); setProgress(step); }
+function back() { step--; showStep('step'+step, true); setProgress(step); }
+
+/* ── Chip helpers ── */
+function selChip(el, g) {
+  el.closest('.chip-group').querySelectorAll('.chip').forEach(c => c.classList.remove('selected'));
+  el.classList.add('selected');
+  chips[g] = el.textContent.trim();
+}
+function togChip(el, g) {
+  el.classList.toggle('selected');
+  multi[g] = [...el.closest('.chip-group').querySelectorAll('.chip.selected')].map(c => c.textContent.trim());
+}
+function yn(el, g, v) {
+  el.parentElement.querySelectorAll('.yn-btn').forEach(b => b.classList.remove('selected'));
+  el.classList.add('selected');
+  ynState[g] = v;
+  var p = document.getElementById('yn-'+g+'-ja');
+  if (p) p.classList.toggle('show', v === 'ja');
+}
+function toggleWB() {
+  wbOn = !wbOn;
+  document.getElementById('wbToggle').classList.toggle('active', wbOn);
+  document.getElementById('wbFields').classList.toggle('open', wbOn);
+}
+document.getElementById('wbFields').addEventListener('click', e => e.stopPropagation());
+
+/* ── Collect data ── */
+function v(id) { var el = document.getElementById(id); return el ? el.value.trim() : ''; }
+function collect() {
+  var comp = [];
+  for (var i=1;i<=2;i++) { var n=v('wb-name'+i),u=v('wb-url'+i); if(n) comp.push(n+(u?' ('+u+')':'')); }
+  return {
+    name:          v('betrieb-name'),
+    branche:       v('betrieb-branche'),
+    ort:           v('betrieb-ort'),
+    usp:           v('betrieb-usp'),
+    email:         v('kontakt-email'),
+    hauptziel:     chips['hauptziel']||'',
+    aktion:        chips['aktion']||'',
+    problem:       chips['problem']||'',
+    erfolg:        v('ziel-erfolg'),
+    zielkunden:    (multi['zielkunden']||[]).join(', '),
+    seiten:        (multi['seiten']||[]).join(', '),
+    ausstrahlung:  (multi['ausstrahlung']||[]).join(', '),
+    farben:        v('design-farben'),
+    referenzen:    v('design-referenzen'),
+    vermeiden:     v('design-vermeiden'),
+    bestehtUrl:    ynState['besteht']==='ja' ? v('besteht-url') : (ynState['besteht']==='nein' ? 'Keine' : '—'),
+    logoLink:      ynState['logo']==='ja' ? v('logo-link') : (ynState['logo']==='nein' ? 'Kein Logo vorhanden' : '—'),
+    bildLinks:     v('inhalte-bilder'),
+    texte:         v('inhalte-texte'),
+    wbOn:          wbOn,
+    wettbewerber:  comp.join(' | '),
+    einzugsgebiet: chips['radius']||'',
+    keywords:      v('wb-keywords'),
+  };
 }
 
-function goBack() {
-  if (currentStep === 6) {
-    currentStep = 5;
-    showStep('step5', true);
-    updateProgress(5, false);
+/* ── Loading animation ── */
+function animateLoadingSteps(onDone) {
+  var ids = ['ks1','ks2','ks3','ks4','ks5'];
+  var i = 0;
+  function tick() {
+    if (i > 0) {
+      var prev = document.getElementById(ids[i-1]);
+      prev.classList.remove('active'); prev.classList.add('done');
+    }
+    if (i < ids.length) {
+      document.getElementById(ids[i]).classList.add('active');
+      i++;
+      setTimeout(tick, 750);
+    } else {
+      setTimeout(onDone, 300);
+    }
+  }
+  tick();
+}
+
+/* ── Build Claude prompt ── */
+function buildPrompt(d) {
+  var wb = d.wbOn
+    ? '\n\nWETTBEWERB:\n- Wettbewerber: '+(d.wettbewerber||'keine Angabe')+'\n- Einzugsgebiet: '+(d.einzugsgebiet||'keine Angabe')+'\n- Google-Suchbegriffe: '+(d.keywords||'keine Angabe')
+    : '\n\nWETTBEWERB: Keine Wettbewerber angegeben — generelle Brancheneinschätzung trotzdem erwünscht.';
+
+  return `Du bist Webdesign-Stratege und Prompt-Engineer für SeitenWertig (seitenwertig.de), ein Webdesign-Studio aus Forchheim, Bayern.
+
+BRIEFING-DATEN:
+- Betrieb: ${d.name||'nicht angegeben'}
+- Branche: ${d.branche||'nicht angegeben'}
+- Standort: ${d.ort||'nicht angegeben'}
+- USP / Stärken: ${d.usp||'nicht angegeben'}
+- Zielkunden: ${d.zielkunden||'nicht angegeben'}
+- Hauptziel: ${d.hauptziel||'nicht angegeben'}
+- Besucher-Aktion: ${d.aktion||'nicht angegeben'}
+- Aktuelles Problem: ${d.problem||'nicht angegeben'}
+- Erfolgsdefinition: ${d.erfolg||'nicht angegeben'}
+- Bestehende Website: ${d.bestehtUrl}
+- Logo: ${d.logoLink}
+- Seiten: ${d.seiten}
+- Ausstrahlung: ${d.ausstrahlung||'nicht angegeben'}
+- Farbwünsche: ${d.farben||'keine'}
+- Referenz-Websites: ${d.referenzen||'keine'}
+- Vermeiden: ${d.vermeiden||'nichts angegeben'}${wb}
+
+AUFGABE: Erstelle eine JSON-Antwort mit EXAKT diesem Format (reines JSON, kein Markdown):
+
+{
+  "analyse": [
+    "Einschätzung zur Wettbewerbssituation und lokalen Sichtbarkeit (1-2 Sätze)",
+    "SEO-Chancen und konkrete Keyword-Strategie für diese Branche & Region",
+    "Conversion-Optimierung: Was in dieser Branche am besten funktioniert",
+    "Wichtigste Differenzierungsstrategie gegenüber typischen Mitbewerbern"
+  ],
+  "lovable_prompt": "Vollständiger Lovable-Prompt auf Englisch. Sections: ## Business Context, ## Goals & Success Metrics, ## Target Audience, ## Pages & Structure, ## Design Direction, ## Technical Requirements, ## Content Notes. Mindestens 450 Wörter. Konkret, direkt umsetzbar.",
+  "email_subject": "Neues Briefing: [Betriebsname] — [Branche kurz]",
+  "email_body": "Formatierte, professionelle E-Mail auf Deutsch an Jan (SeitenWertig). Beginnt mit einer kurzen Einleitung (Briefing eingegangen, Branche, Ort). Dann strukturierte Zusammenfassung: Ziel, Betrieb, USP, Zielkunden, gewünschte Seiten, Design-Wunsch, Wettbewerbsinfo (falls angegeben). Endet mit Handlungsempfehlung (z.B. welches Paket passt, nächster Schritt). Ton: professionell aber direkt, kein Blabla. Ca. 200-250 Wörter."
+}
+
+Nur das JSON. Kein Text davor oder danach. Keine Markdown-Code-Blöcke.`;
+}
+
+/* ── Submit to Netlify ── */
+async function submitToNetlify(d, parsed) {
+  var body = new URLSearchParams({
+    'form-name':    'briefing-ki',
+    'bot-field':    '',
+    betrieb_name:   d.name,
+    branche:        d.branche,
+    ort:            d.ort,
+    email:          d.email,
+    hauptziel:      d.hauptziel,
+    aktion:         d.aktion,
+    problem:        d.problem,
+    usp:            d.usp,
+    zielkunden:     d.zielkunden,
+    seiten:         d.seiten,
+    ausstrahlung:   d.ausstrahlung,
+    farben:         d.farben,
+    wb_aktiv:       d.wbOn ? 'Ja' : 'Nein',
+    wettbewerber:   d.wettbewerber,
+    keywords:       d.keywords,
+    einzugsgebiet:  d.einzugsgebiet,
+    ki_analyse:     (parsed.analyse||[]).join('\n\n'),
+    lovable_prompt: parsed.lovable_prompt||'',
+    email_vorschau: parsed.email_body||'',
+  });
+  try {
+    await fetch('/', { method: 'POST', headers: { 'Content-Type': 'application/x-www-form-urlencoded' }, body: body.toString() });
+  } catch(e) { /* silent — Netlify submission is best-effort */ }
+}
+
+/* ── Main: start KI ── */
+async function startKI() {
+  if (!document.getElementById('dsgvo').checked) {
+    alert('Bitte stimme der Datenschutzerklärung zu.');
     return;
   }
-  currentStep--;
-  showStep('step' + currentStep, true);
-  updateProgress(currentStep, false);
-}
-
-function goSummary() {
-  buildSummary();
-  currentStep = 6;
+  var d = collect();
+  step = 6;
   showStep('step6', false);
-  updateProgress(6, true);
-}
+  setProgress(6);
+  document.getElementById('kiLoading').style.display = 'block';
+  document.getElementById('kiResult').style.display = 'none';
 
-function selChip(el, group) {
-  el.closest('.chip-group').querySelectorAll('.chip').forEach(function(c) {
-    c.classList.remove('selected');
-  });
-  el.classList.add('selected');
-  chipState[group] = el.textContent.trim();
-}
+  var parsed = {};
+  var hadError = false;
 
-function togChip(el, group) {
-  el.classList.toggle('selected');
-  multiChips[group] = Array.from(
-    el.closest('.chip-group').querySelectorAll('.chip.selected')
-  ).map(function(c) { return c.textContent.trim(); });
-}
+  // Run Claude + animation in parallel
+  var claudeDone = false;
+  var animDone = false;
+  var claudeResult = null;
 
-function selYN(el, group, val) {
-  el.parentElement.querySelectorAll('.yn-btn').forEach(function(b) {
-    b.classList.remove('selected');
-  });
-  el.classList.add('selected');
-  ynState[group] = val;
-  var panel = document.getElementById('yn-' + group + '-ja');
-  if (panel) panel.classList.toggle('show', val === 'ja');
-}
-
-function toggleWB() {
-  wbActive = !wbActive;
-  document.getElementById('wbToggle').classList.toggle('active', wbActive);
-  document.getElementById('wbFields').classList.toggle('open', wbActive);
-  if (wbActive) {
-    setTimeout(function() { document.getElementById('wb-name1').focus(); }, 400);
+  function tryRender() {
+    if (claudeDone && animDone) renderResult(d, claudeResult, hadError);
   }
-}
-document.getElementById('wbFields').addEventListener('click', function(e) {
-  e.stopPropagation();
-});
 
-function val(id) {
-  var el = document.getElementById(id);
-  return el ? el.value.trim() : '';
-}
+  animateLoadingSteps(() => { animDone = true; tryRender(); });
 
-function collect() {
-  var competitors = [];
-  for (var i = 1; i <= 3; i++) {
-    var n = val('wb-name' + i);
-    var u = val('wb-url' + i);
-    if (n) competitors.push(n + (u ? ' (' + u + ')' : ''));
+  try {
+    var apiRes = await fetch('/.netlify/functions/claude', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ prompt: buildPrompt(d) }),
+    });
+    if (!apiRes.ok) throw new Error('Function error: ' + apiRes.status);
+    var apiData = await apiRes.json();
+    if (apiData.error) throw new Error(apiData.error);
+    var text = (apiData.text || '').trim().replace(/^```json\s*/i,'').replace(/^```/,'').replace(/```$/,'');
+    claudeResult = JSON.parse(text);
+    gPrompt = claudeResult.lovable_prompt || '';
+    await submitToNetlify(d, claudeResult);
+  } catch(e) {
+    hadError = true;
+    claudeResult = buildFallback(d);
+    gPrompt = claudeResult.lovable_prompt || '';
   }
+
+  claudeDone = true;
+  tryRender();
+}
+
+function renderResult(d, parsed, hadError) {
+  // Info chips
+  document.getElementById('infoRow').innerHTML = [
+    { label:'Betrieb',   val: d.name||'—' },
+    { label:'Branche',   val: d.branche||'—' },
+    { label:'Region',    val: d.ort||'—' },
+    { label:'Analyse',   val: d.wbOn ? 'Mit Wettbewerb' : 'Ohne Wettbewerb' },
+  ].map(c => `<div class="info-chip"><div class="info-chip-label">${c.label}</div><div class="info-chip-val">${esc(c.val)}</div></div>`).join('');
+
+  // Email
+  document.getElementById('emailPreview').textContent = (parsed.email_body || 'E-Mail konnte nicht generiert werden.');
+
+  // Analysis bullets
+  var bullets = parsed.analyse || [];
+  if (bullets.length) {
+    document.getElementById('analyseCard').style.display = 'block';
+    document.getElementById('bulletList').innerHTML = bullets.map(b =>
+      `<li class="bullet"><span class="bullet-mark">◆</span><span>${esc(b)}</span></li>`
+    ).join('');
+  } else {
+    document.getElementById('analyseCard').style.display = 'none';
+  }
+
+  // Prompt
+  document.getElementById('promptBox').textContent = gPrompt;
+
+  // Error notice
+  if (hadError) {
+    document.getElementById('errBox').style.display = 'block';
+    document.getElementById('errBox').textContent = 'Die KI-Analyse war nicht verfügbar — der Prompt wurde aus deinen Angaben generiert. Bitte sende dein Briefing zusätzlich direkt an jan@seitenwertig.de.';
+  }
+
+  // Switch screens
+  document.getElementById('kiLoading').style.display = 'none';
+  document.getElementById('kiResult').style.display = 'block';
+}
+
+/* ── Fallback (no Claude) ── */
+function buildFallback(d) {
   return {
-    hauptziel:    chipState['hauptziel'] || '—',
-    aktion:       chipState['aktion']    || '—',
-    problem:      chipState['problem']   || '—',
-    erfolg:       val('ziel-erfolg')     || '—',
-    name:         val('betrieb-name')    || '—',
-    branche:      val('betrieb-branche') || '—',
-    ort:          val('betrieb-ort')     || '—',
-    usp:          val('betrieb-usp')     || '—',
-    zielkunden:   (multiChips['zielkunden'] || []).join(', ') || '—',
-    email:        val('kontakt-email')   || '—',
-    wbAktiv:      wbActive,
-    competitors:  competitors.join(' | ') || '—',
-    einzugsgebiet: chipState['radius']   || '—',
-    keywords:     val('wb-keywords')     || '—',
-    wbDelta:      val('wb-delta')        || '—',
-    bestehtUrl:   ynState['besteht'] === 'ja' ? (val('besteht-url') || '—') : (ynState['besteht'] === 'nein' ? 'Keine vorhanden' : '—'),
-    bildLinks:    val('inhalte-bilder')  || '—',
-    logoLink:     ynState['logo'] === 'ja' ? (val('logo-link') || '—') : (ynState['logo'] === 'nein' ? 'Kein Logo vorhanden' : '—'),
-    seiten:       (multiChips['seiten']  || []).join(', ') || '—',
-    texte:        val('inhalte-texte')   || '—',
-    ausstrahlung: (multiChips['ausstrahlung'] || []).join(', ') || '—',
-    farben:       val('design-farben')   || '—',
-    referenzen:   val('design-referenzen') || '—',
-    vermeiden:    val('design-vermeiden')  || '—'
+    analyse: [],
+    email_body: `Neues Briefing eingegangen\n\nBetrieb: ${d.name}\nBranche: ${d.branche}\nStandort: ${d.ort}\nZiel: ${d.hauptziel}\nUSP: ${d.usp}\nZielkunden: ${d.zielkunden}\nSeiten: ${d.seiten}\n\n(KI-Analyse nicht verfügbar — manuelle Prüfung erforderlich)`,
+    lovable_prompt: `# Website Brief: ${d.name}\n\n## Business Context\nBuild a professional website for ${d.name}.\nIndustry: ${d.branche} | Location: ${d.ort}\n\n## Goals\nPrimary goal: ${d.hauptziel}\nDesired visitor action: ${d.aktion}\nCurrent problem: ${d.problem}\n\n## Target Audience\n${d.zielkunden}\n\n## USP\n${d.usp}\n\n## Pages\n${d.seiten}\n\n## Design\nVibe: ${d.ausstrahlung}\nColours: ${d.farben||'suggest based on industry'}\nAvoid: ${d.vermeiden||'nothing specified'}\n\n## Technical\n- Static HTML/CSS/JS, no build tools\n- Mobile-first, DSGVO-compliant\n- Netlify Forms for contact\n- Bunny Fonts: DM Sans`,
   };
 }
 
-function esc(str) {
-  return String(str)
-    .replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')
-    .replace(/\n/g,'<br>');
+/* ── Clipboard ── */
+async function copyPrompt() {
+  try {
+    await navigator.clipboard.writeText(gPrompt);
+    var btn = document.getElementById('copyBtn');
+    btn.textContent = '✓ Kopiert!';
+    btn.classList.add('done');
+    setTimeout(() => { btn.textContent = '⎘ Prompt kopieren'; btn.classList.remove('done'); }, 2500);
+  } catch(e) {}
 }
 
-function buildSummary() {
+function dlPrompt() {
   var d = collect();
-  var grid = document.getElementById('summaryGrid');
-
-  function block(title, rows) {
-    var rowsHtml = rows.map(function(r) {
-      var isEmpty = !r[1] || r[1] === '—';
-      return '<div class="summary-row"><div class="summary-key">' + r[0] +
-        '</div><div class="summary-val' + (isEmpty ? ' empty' : '') + '">' +
-        (isEmpty ? 'Keine Angabe' : esc(r[1])) + '</div></div>';
-    }).join('');
-    return '<div class="summary-block"><div class="summary-block-header">' +
-      title + '</div>' + rowsHtml + '</div>';
-  }
-
-  var html = '';
-  html += block('Ziele', [
-    ['Hauptziel', d.hauptziel],
-    ['Besucher-Aktion', d.aktion],
-    ['Aktuelles Problem', d.problem],
-    ['Erfolgsdefinition', d.erfolg]
-  ]);
-  html += block('Dein Betrieb', [
-    ['Firma', d.name],
-    ['Branche', d.branche],
-    ['Standort', d.ort],
-    ['USP / Stärken', d.usp],
-    ['Zielkunden', d.zielkunden],
-    ['Kontakt-E-Mail', d.email]
-  ]);
-  if (d.wbAktiv) {
-    html += block('Wettbewerbsanalyse', [
-      ['Wettbewerber', d.competitors],
-      ['Einzugsgebiet', d.einzugsgebiet],
-      ['Google-Suchbegriffe', d.keywords],
-      ['Einschätzung', d.wbDelta]
-    ]);
-  }
-  html += block('Inhalte & Bilder', [
-    ['Bestehende Website', d.bestehtUrl],
-    ['Logo', d.logoLink],
-    ['Bild-Links', d.bildLinks],
-    ['Seiten', d.seiten],
-    ['Vorhandene Texte', d.texte]
-  ]);
-  html += block('Design & Stil', [
-    ['Ausstrahlung', d.ausstrahlung],
-    ['Farbwünsche', d.farben],
-    ['Referenz-Sites', d.referenzen],
-    ['Vermeiden', d.vermeiden]
-  ]);
-
-  grid.innerHTML = html;
+  var blob = new Blob([gPrompt], {type:'text/plain;charset=utf-8'});
+  var a = Object.assign(document.createElement('a'), { href: URL.createObjectURL(blob), download: 'lovable-prompt-'+(d.name||'briefing').toLowerCase().replace(/\s+/g,'-')+'.txt' });
+  a.click();
+  URL.revokeObjectURL(a.href);
 }
 
-function buildLovablePrompt(d) {
-  var wb = d.wbAktiv
-    ? '\n\n## Wettbewerb\nWettbewerber: ' + d.competitors +
-      '\nEinzugsgebiet: ' + d.einzugsgebiet +
-      '\nSuchbegriffe: ' + d.keywords +
-      '\nEinschätzung: ' + d.wbDelta
-    : '';
+function esc(s) { return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
 
-  return '# Website-Briefing: ' + d.name + '\n\n' +
-    '## Auftrag\nErstelle eine professionelle, konversionsoptimierte B2B-Website fuer ' + d.name + '.\n' +
-    'Branche: ' + d.branche + ' | Region: ' + d.ort + '\n\n' +
-    '## Geschaeftsziele\nHauptziel: ' + d.hauptziel + '\n' +
-    'Besucher-Aktion: ' + d.aktion + '\n' +
-    'Ausgangssituation: ' + d.problem + '\n' +
-    'Erfolgsdefinition: ' + d.erfolg + '\n\n' +
-    '## Unternehmen\nUSP: ' + d.usp + '\n' +
-    'Zielkunden: ' + d.zielkunden + '\n' +
-    'Kontakt-Email: ' + d.email + wb + '\n\n' +
-    '## Seitenstruktur\nSeiten: ' + d.seiten + '\n' +
-    'Aufbau: Hero > Problem/Loesung > Leistungen > Referenzen > Ueber mich > CTA\n\n' +
-    '## Inhalte\nBestehende Website: ' + d.bestehtUrl + '\n' +
-    'Logo: ' + d.logoLink + '\n' +
-    'Bild-Links:\n' + d.bildLinks + '\n' +
-    'Vorhandene Texte: ' + d.texte + '\n\n' +
-    '## Design\nAusstrahlung: ' + d.ausstrahlung + '\n' +
-    'Farbwuensche: ' + d.farben + '\n' +
-    'Referenz-Sites:\n' + d.referenzen + '\n' +
-    'Vermeiden: ' + d.vermeiden + '\n\n' +
-    '## Technische Anforderungen\n' +
-    '- HTML/CSS/JS, kein React, kein Build-Tool\n' +
-    '- Mobile First, DSGVO-konform (kein Google Analytics)\n' +
-    '- Netlify Forms fuer Kontaktformular\n' +
-    '- Bunny Fonts: DM Sans 300/400/700\n' +
-    '- CTA: Erstgespraech via Calendly\n' +
-    '- Netlify-ready, keine serverseitigen Dependencies\n\n' +
-    '## Markenidentitaet\n' +
-    'Background: #090909 | Akzent: #c9a96e (Gold) | Font: DM Sans\n' +
-    'Negative letter-spacing auf Headings | Eyebrow-Labels mit Linienelement\n' +
-    'S-Logomark Nav | Mobile First | Warme Farbwelt | Echte Fotos bevorzugt';
-}
-
-function sanitize(s) {
-  return String(s || '').replace(/[\x00-\x08\x0B\x0C\x0E-\x1F\x7F]/g, ' ').trim();
-}
-
-function submitForm() {
-  var btn = document.getElementById('submitBtn');
-  btn.disabled = true;
-  btn.innerHTML = '<span>Wird gesendet...</span>';
-
-  var d = collect();
-  var prompt = buildLovablePrompt(d);
-
-  var params = {
-    'form-name':          'briefing',
-    'bot-field':          '',
-    'ziel_hauptziel':      sanitize(d.hauptziel),
-    'ziel_aktion':         sanitize(d.aktion),
-    'ziel_problem':        sanitize(d.problem),
-    'ziel_erfolg':         sanitize(d.erfolg),
-    'betrieb_name':        sanitize(d.name),
-    'betrieb_branche':     sanitize(d.branche),
-    'betrieb_ort':         sanitize(d.ort),
-    'betrieb_usp':         sanitize(d.usp),
-    'betrieb_zielkunden':  sanitize(d.zielkunden),
-    'kontakt_email':       sanitize(d.email),
-    'wb_aktiv':            d.wbAktiv ? 'Ja' : 'Nein',
-    'wb_wettbewerber1':    sanitize(val('wb-name1')),
-    'wb_wettbewerber2':    sanitize(val('wb-name2')),
-    'wb_wettbewerber3':    sanitize(val('wb-name3')),
-    'wb_einzugsgebiet':    sanitize(d.einzugsgebiet),
-    'wb_suchbegriffe':     sanitize(d.keywords),
-    'wb_einschaetzung':    sanitize(d.wbDelta),
-    'inhalte_bestehende_url': sanitize(d.bestehtUrl),
-    'inhalte_logo_link':   sanitize(d.logoLink),
-    'inhalte_bildlinks':   sanitize(d.bildLinks),
-    'inhalte_seiten':      sanitize(d.seiten),
-    'inhalte_texte':       sanitize(d.texte),
-    'design_ausstrahlung': sanitize(d.ausstrahlung),
-    'design_farben':       sanitize(d.farben),
-    'design_referenzen':   sanitize(d.referenzen),
-    'design_vermeiden':    sanitize(d.vermeiden),
-    'lovable_prompt':      sanitize(prompt)
-  };
-
-  var body = Object.keys(params).map(function(k) {
-    return encodeURIComponent(k) + '=' + encodeURIComponent(params[k]);
-  }).join('&');
-
-  fetch('/', {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-    body: body
-  })
-  .then(function() {
-    showStep('stepSuccess', false);
-    document.getElementById('progressLabel').textContent = 'Abgeschlossen';
-    document.getElementById('progressFill').style.width = '100%';
-  })
-  .catch(function() {
-    btn.disabled = false;
-    btn.innerHTML = '<span>Briefing absenden</span><span>→</span>';
-    alert('Beim Senden ist ein Fehler aufgetreten. Bitte versuche es erneut oder schreib direkt an jan@seitenwertig.de');
-  });
-}
-
-updateProgress(1, false);
+setProgress(1);
 </script>
 </body>
 </html>

@@ -45,6 +45,10 @@
 
 [build]
   publish = "."
+  functions = "netlify/functions"
+
+[functions]
+  node_bundler = "esbuild"
 
 [[headers]]
   for = "/*"
@@ -54,3 +58,10 @@
     Referrer-Policy = "strict-origin-when-cross-origin"
     Permissions-Policy = "camera=(), microphone=(), geolocation=()"
     Content-Security-Policy = "default-src 'self'; script-src 'self' 'unsafe-inline' https://calendly.com https://assets.calendly.com; style-src 'self' 'unsafe-inline' https://fonts.bunny.net https://assets.calendly.com; font-src 'self' https://fonts.bunny.net; img-src 'self' data: https:; connect-src 'self' https://calendly.com; frame-src https://calendly.com;"
+
+[[headers]]
+  for = "/.netlify/functions/*"
+  [headers.values]
+    Access-Control-Allow-Origin = "https://seitenwertig.de"
+    Access-Control-Allow-Methods = "POST, OPTIONS"
+    Access-Control-Allow-Headers = "Content-Type"
