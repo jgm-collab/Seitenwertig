@@ -490,57 +490,61 @@ textarea { resize:vertical; min-height:80px; line-height:1.55; }
           <li class="ki-step"        id="ks2"><span class="dot"></span>Wettbewerbsumfeld einschätzen</li>
           <li class="ki-step"        id="ks3"><span class="dot"></span>Positionierungsstrategie ableiten</li>
           <li class="ki-step"        id="ks4"><span class="dot"></span>Lovable-Prompt & E-Mail generieren</li>
-          <li class="ki-step"        id="ks5"><span class="dot"></span>An <a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="0f656e614f7c6a667b6a61786a7d7b6668216b6a">[email&#160;protected]</a> senden</li>
+          <li class="ki-step"        id="ks5"><span class="dot"></span>An <a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="d9b3b8b799aabcb0adbcb7aebcabadb0bef7bdbc">[email&#160;protected]</a> senden</li>
         </ul>
       </div>
 
-      <!-- Result -->
+      <!-- Result — Danke-Screen (kein Prompt sichtbar) -->
       <div id="kiResult" style="display:none">
-        <div class="eyebrow">Fertig</div>
-        <h1>Dein Website-Prompt</h1>
-        <p class="subtitle" style="margin-bottom:1.5rem">Claude hat analysiert, der Prompt ist fertig — und Jan hat dein Briefing per E-Mail bekommen.</p>
 
-        <div class="result">
+        <!-- Success card -->
+        <div style="text-align:center;padding:2rem 0 1.5rem">
+          <div style="width:56px;height:56px;background:var(--accent-bg);border:1px solid var(--accent-border);border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 1.25rem;font-size:1.5rem">✓</div>
+          <h1 style="margin-bottom:0.5rem">Briefing angekommen!</h1>
+          <p style="font-size:1rem;font-weight:300;color:var(--muted);line-height:1.6;max-width:420px;margin:0 auto">
+            Jan meldet sich innerhalb von <strong style="color:var(--text)">24 Stunden</strong> mit einem ersten Entwurf und einem konkreten Angebot.
+          </p>
+        </div>
 
-          <!-- Info -->
-          <div class="info-row" id="infoRow"></div>
-
-          <!-- Email sent -->
-          <div class="result-card sent">
-            <div class="card-header">E-Mail an <a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="acc6cdc2ecdfc9c5d8c9c2dbc9ded8c5cb82c8c9">[email&#160;protected]</a></div>
-            <div class="card-body">
-              <div class="email-sent-badge">Erfolgreich gesendet</div>
-              <div class="email-preview" id="emailPreview"></div>
-            </div>
-          </div>
-
-          <!-- Analysis -->
-          <div class="result-card" id="analyseCard">
-            <div class="card-header">Wettbewerbs-Einschätzung</div>
-            <div class="card-body">
-              <ul class="bullets" id="bulletList"></ul>
-            </div>
-          </div>
-
-          <!-- Prompt -->
-          <div class="result-card">
-            <div class="card-header">Lovable-Prompt — bereit zum Einfügen</div>
-            <div class="card-body">
-              <div class="prompt-box" id="promptBox"></div>
-              <div class="action-row">
-                <button class="action-btn action-btn-primary" id="copyBtn" onclick="copyPrompt()">⎘ Prompt kopieren</button>
-                <button class="action-btn action-btn-ghost" onclick="dlPrompt()">↓ Als .txt speichern</button>
+        <!-- What happens next -->
+        <div class="result-card" style="margin-bottom:1.25rem">
+          <div class="card-header">Was jetzt passiert</div>
+          <div class="card-body">
+            <div style="display:flex;flex-direction:column;gap:1rem">
+              <div style="display:flex;gap:0.875rem;align-items:flex-start">
+                <div style="width:24px;height:24px;border-radius:50%;background:var(--accent-bg);border:1px solid var(--accent-border);display:flex;align-items:center;justify-content:center;font-size:0.75rem;font-weight:700;color:var(--accent);flex-shrink:0;margin-top:1px">1</div>
+                <div>
+                  <div style="font-size:0.875rem;font-weight:500;margin-bottom:0.2rem">Jan analysiert dein Briefing</div>
+                  <div style="font-size:0.8125rem;color:var(--muted);font-weight:300">Inklusive KI-gestützter Wettbewerbsanalyse für deine Branche und Region.</div>
+                </div>
+              </div>
+              <div style="display:flex;gap:0.875rem;align-items:flex-start">
+                <div style="width:24px;height:24px;border-radius:50%;background:var(--accent-bg);border:1px solid var(--accent-border);display:flex;align-items:center;justify-content:center;font-size:0.75rem;font-weight:700;color:var(--accent);flex-shrink:0;margin-top:1px">2</div>
+                <div>
+                  <div style="font-size:0.875rem;font-weight:500;margin-bottom:0.2rem">Erster Entwurf in 24 Stunden</div>
+                  <div style="font-size:0.8125rem;color:var(--muted);font-weight:300">Du bekommst einen Link zum Entwurf — kostenlos, unverbindlich.</div>
+                </div>
+              </div>
+              <div style="display:flex;gap:0.875rem;align-items:flex-start">
+                <div style="width:24px;height:24px;border-radius:50%;background:var(--accent-bg);border:1px solid var(--accent-border);display:flex;align-items:center;justify-content:center;font-size:0.75rem;font-weight:700;color:var(--accent);flex-shrink:0;margin-top:1px">3</div>
+                <div>
+                  <div style="font-size:0.875rem;font-weight:500;margin-bottom:0.2rem">Dann entscheidest du</div>
+                  <div style="font-size:0.8125rem;color:var(--muted);font-weight:300">Kein Verkaufsgespräch, kein Druck. Gefällt's, geht's weiter.</div>
+                </div>
               </div>
             </div>
           </div>
-
-          <!-- Error (hidden by default) -->
-          <div class="error-box" id="errBox" style="display:none"></div>
-
         </div>
 
-        <button class="btn-restart" onclick="location.reload()">← Neues Briefing starten</button>
-        <div class="trust">DSGVO-konform · EU-Datenschutz · Kein Abo · Kein Spam</div>
+        <!-- Betrieb confirmed -->
+        <div class="info-row" id="infoRow" style="margin-bottom:1.25rem"></div>
+
+        <!-- Contact hint -->
+        <div style="background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius);padding:1rem 1.25rem;font-size:0.8125rem;color:var(--muted);font-weight:300;line-height:1.6">
+          Fragen in der Zwischenzeit? <a href="/cdn-cgi/l/email-protection#3359525d7340565a47565d445641475a541d5756" style="color:var(--accent)"><span class="__cf_email__" data-cfemail="18727976586b7d716c7d766f7d6a6c717f367c7d">[email&#160;protected]</span></a>
+        </div>
+
+        <div class="trust" style="margin-top:1.5rem">DSGVO-konform · EU-Datenschutz · Kein Abo · Kein Spam</div>
       </div>
 
     </div>
@@ -776,36 +780,12 @@ async function startKI() {
 }
 
 function renderResult(d, parsed, hadError) {
-  // Info chips
+  // Info chips — confirm what was submitted
   document.getElementById('infoRow').innerHTML = [
-    { label:'Betrieb',   val: d.name||'—' },
-    { label:'Branche',   val: d.branche||'—' },
-    { label:'Region',    val: d.ort||'—' },
-    { label:'Analyse',   val: d.wbOn ? 'Mit Wettbewerb' : 'Ohne Wettbewerb' },
+    { label:'Betrieb', val: d.name||'—' },
+    { label:'Branche', val: d.branche||'—' },
+    { label:'Region',  val: d.ort||'—' },
   ].map(c => `<div class="info-chip"><div class="info-chip-label">${c.label}</div><div class="info-chip-val">${esc(c.val)}</div></div>`).join('');
-
-  // Email
-  document.getElementById('emailPreview').textContent = (parsed.email_body || 'E-Mail konnte nicht generiert werden.');
-
-  // Analysis bullets
-  var bullets = parsed.analyse || [];
-  if (bullets.length) {
-    document.getElementById('analyseCard').style.display = 'block';
-    document.getElementById('bulletList').innerHTML = bullets.map(b =>
-      `<li class="bullet"><span class="bullet-mark">◆</span><span>${esc(b)}</span></li>`
-    ).join('');
-  } else {
-    document.getElementById('analyseCard').style.display = 'none';
-  }
-
-  // Prompt
-  document.getElementById('promptBox').textContent = gPrompt;
-
-  // Error notice
-  if (hadError) {
-    document.getElementById('errBox').style.display = 'block';
-    document.getElementById('errBox').textContent = 'Die KI-Analyse war nicht verfügbar — der Prompt wurde aus deinen Angaben generiert. Bitte sende dein Briefing zusätzlich direkt an jan@seitenwertig.de.';
-  }
 
   // Switch screens
   document.getElementById('kiLoading').style.display = 'none';
@@ -819,25 +799,6 @@ function buildFallback(d) {
     email_body: `Neues Briefing eingegangen\n\nBetrieb: ${d.name}\nBranche: ${d.branche}\nStandort: ${d.ort}\nZiel: ${d.hauptziel}\nUSP: ${d.usp}\nZielkunden: ${d.zielkunden}\nSeiten: ${d.seiten}\n\n(KI-Analyse nicht verfügbar — manuelle Prüfung erforderlich)`,
     lovable_prompt: `# Website Brief: ${d.name}\n\n## Business Context\nBuild a professional website for ${d.name}.\nIndustry: ${d.branche} | Location: ${d.ort}\n\n## Goals\nPrimary goal: ${d.hauptziel}\nDesired visitor action: ${d.aktion}\nCurrent problem: ${d.problem}\n\n## Target Audience\n${d.zielkunden}\n\n## USP\n${d.usp}\n\n## Pages\n${d.seiten}\n\n## Design\nVibe: ${d.ausstrahlung}\nColours: ${d.farben||'suggest based on industry'}\nAvoid: ${d.vermeiden||'nothing specified'}\n\n## Technical\n- Static HTML/CSS/JS, no build tools\n- Mobile-first, DSGVO-compliant\n- Netlify Forms for contact\n- Bunny Fonts: DM Sans`,
   };
-}
-
-/* ── Clipboard ── */
-async function copyPrompt() {
-  try {
-    await navigator.clipboard.writeText(gPrompt);
-    var btn = document.getElementById('copyBtn');
-    btn.textContent = '✓ Kopiert!';
-    btn.classList.add('done');
-    setTimeout(() => { btn.textContent = '⎘ Prompt kopieren'; btn.classList.remove('done'); }, 2500);
-  } catch(e) {}
-}
-
-function dlPrompt() {
-  var d = collect();
-  var blob = new Blob([gPrompt], {type:'text/plain;charset=utf-8'});
-  var a = Object.assign(document.createElement('a'), { href: URL.createObjectURL(blob), download: 'lovable-prompt-'+(d.name||'briefing').toLowerCase().replace(/\s+/g,'-')+'.txt' });
-  a.click();
-  URL.revokeObjectURL(a.href);
 }
 
 function esc(s) { return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
