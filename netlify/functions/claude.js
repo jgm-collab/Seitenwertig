@@ -3,12 +3,16 @@
 // Env var: ANTHROPIC_API_KEY (in Netlify Dashboard unter Site Settings → Environment Variables setzen)
 
 exports.handler = async (event) => {
-  // CORS preflight
+  // CORS — allow seitenwertig.de and any Netlify preview URL
+  const origin = event.headers.origin || event.headers.Origin || '';
+  const allowed = origin === 'https://seitenwertig.de' || origin.endsWith('.netlify.app') || origin === '';
+  const corsOrigin = allowed ? origin || '*' : 'https://seitenwertig.de';
+
   if (event.httpMethod === 'OPTIONS') {
     return {
       statusCode: 204,
       headers: {
-        'Access-Control-Allow-Origin': 'https://seitenwertig.de',
+        'Access-Control-Allow-Origin': corsOrigin,
         'Access-Control-Allow-Methods': 'POST, OPTIONS',
         'Access-Control-Allow-Headers': 'Content-Type',
       },
@@ -77,7 +81,7 @@ exports.handler = async (event) => {
       statusCode: 200,
       headers: {
         'Content-Type': 'application/json',
-        'Access-Control-Allow-Origin': 'https://seitenwertig.de',
+        'Access-Control-Allow-Origin': corsOrigin,
       },
       body: JSON.stringify({ text }),
     };
