@@ -44,11 +44,13 @@ Falls die Recherche keine oder nur ungeeignete Wettbewerber liefert (Mikrostando
 4. Branchenspezifischen Ton bestimmen: Ein Schreiner spricht anders als ein Physiotherapeut.
 
 ## OUTPUT-FORMAT
-- Ausschließlich der fertige Lovable-Prompt. Kein Kommentar, keine Einleitung, kein Fazit (Ausnahme: Fallback-HTML-Kommentar am Anfang, wenn zutreffend).
+- Beginne mit einem Abschnitt "## 0. WETTBEWERBSANALYSE (intern)" — maximal 5 Stichpunkte: gefundene Mitbewerber-Schwächen, identifizierte Positionierungslücke. Danach der vollständige Lovable-Prompt ab Sektion 1.
 - Strukturiert mit Markdown-Überschriften und Aufzählungen — direkt in Lovable einfügbar.
 - Alle Inhaltstexte (H1, Subheadline, CTAs, Sektions-Überschriften) als konkrete Textvorschläge, nicht als Platzhalter.
 
 ## PROMPT-STRUKTUR (diese Reihenfolge einhalten)
+
+
 
 ### 1. POSITIONIERUNG
 2–3 Sätze. Was die Konkurrenz schlecht macht → welche Lücke diese Seite besetzt → welches Gefühl der Besucher haben soll.
