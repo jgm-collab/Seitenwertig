@@ -760,7 +760,7 @@ async function startKI() {
     var apiRes = await fetch('/.netlify/functions/generate-prompt-background', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ prompt: buildPrompt(d) }),
+      body: JSON.stringify(d),
     });
     if (!apiRes.ok) throw new Error('Function error: ' + apiRes.status);
     var apiData = await apiRes.json();
