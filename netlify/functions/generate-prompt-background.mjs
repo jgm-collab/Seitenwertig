@@ -1,96 +1,96 @@
-// netlify/functions/claude.js
-// Proxy für Anthropic Claude API — schützt den API-Key server-seitig.
-// Env var: ANTHROPIC_API_KEY (in Netlify Dashboard unter Site Settings → Environment Variables setzen)
+// Netlify Background Function
+// Dateiname *-background.mjs → Netlify gibt 15 min Laufzeit, antwortet sofort mit 202.
 
-exports.handler = async (event) => {
-  // CORS — allow seitenwertig.de and any Netlify preview URL
-  const origin = event.headers.origin || event.headers.Origin || '';
-  const allowed = origin === 'https://seitenwertig.de' || origin.endsWith('.netlify.app') || origin === '';
-  const corsOrigin = allowed ? origin || '*' : 'https://seitenwertig.de';
+import Anthropic from "@anthropic-ai/sdk";
+import { SYSTEM_PROMPT } from "./_lib/systemPrompt.js";
+import { formatBriefing } from "./_lib/formatBriefing.js";
+import { sendResultEmail } from "./_lib/sendEmail.js";
 
-  if (event.httpMethod === 'OPTIONS') {
-    return {
-      statusCode: 204,
-      headers: {
-        'Access-Control-Allow-Origin': corsOrigin,
-        'Access-Control-Allow-Methods': 'POST, OPTIONS',
-        'Access-Control-Allow-Headers': 'Content-Type',
-      },
-      body: '',
-    };
-  }
-
-  if (event.httpMethod !== 'POST') {
-    return { statusCode: 405, body: JSON.stringify({ error: 'Method Not Allowed' }) };
-  }
-
-  const apiKey = process.env.ANTHROPIC_API_KEY;
-  if (!apiKey) {
-    console.error('ANTHROPIC_API_KEY nicht gesetzt');
-    return {
-      statusCode: 500,
-      body: JSON.stringify({ error: 'API-Key nicht konfiguriert. Bitte in Netlify → Environment Variables setzen.' }),
-    };
-  }
-
-  let body;
+export default async function handler(req) {
+  // ── Parse body ──────────────────────────────────────────────────────────────
+  let briefing;
   try {
-    body = JSON.parse(event.body || '{}');
+    briefing = await req.json();
   } catch {
-    return { statusCode: 400, body: JSON.stringify({ error: 'Ungültiger Request-Body' }) };
+    await sendError("JSON-Parse-Fehler", "Request-Body ist kein gültiges JSON.", null);
+    return new Response(null, { status: 202 });
   }
 
-  const { prompt } = body;
-  if (!prompt || typeof prompt !== 'string') {
-    return { statusCode: 400, body: JSON.stringify({ error: 'Kein Prompt angegeben' }) };
+  // ── Pflichtfelder ────────────────────────────────────────────────────────────
+  if (!briefing.branche || !briefing.ort) {
+    await sendError("Pflichtfelder fehlen", JSON.stringify(briefing, null, 2), briefing);
+    return new Response(null, { status: 202 });
   }
 
-  // Sicherheit: Prompt-Länge begrenzen (max ~8000 Zeichen = ca. 2000 Token Input)
-  if (prompt.length > 12000) {
-    return { statusCode: 400, body: JSON.stringify({ error: 'Prompt zu lang' }) };
-  }
+  const start = Date.now();
 
   try {
-    const response = await fetch('https://api.anthropic.com/v1/messages', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'x-api-key': apiKey,
-        'anthropic-version': '2023-06-01',
-      },
-      body: JSON.stringify({
-        model: 'claude-haiku-4-5',
-        max_tokens: 2048,
-        messages: [{ role: 'user', content: prompt }],
-      }),
+    const userPrompt = formatBriefing(briefing);
+    const wbAktiv = briefing.wbOn === true || briefing.wbOn === "true";
+
+    const client = new Anthropic({ apiKey: process.env.ANTHROPIC_API_KEY });
+
+    // Tools nur wenn Wettbewerbsanalyse gewünscht
+    const tools = wbAktiv ? [{ type: "web_search_20250305", name: "web_search" }] : undefined;
+
+    const response = await client.messages.create({
+      model: process.env.CLAUDE_MODEL || "claude-opus-4-5-20251101",
+      max_tokens: 4096,
+      system: [
+        {
+          type: "text",
+          text: SYSTEM_PROMPT,
+          cache_control: { type: "ephemeral" },
+        },
+      ],
+      messages: [{ role: "user", content: userPrompt }],
+      ...(tools ? { tools } : {}),
     });
 
-    if (!response.ok) {
-      const err = await response.text();
-      console.error('Anthropic API Fehler:', response.status, err);
-      return {
-        statusCode: 502,
-        body: JSON.stringify({ error: 'Claude nicht erreichbar. Bitte später erneut versuchen.' }),
-      };
-    }
+    // Text aus Response extrahieren (auch wenn Tool-Calls dazwischen sind)
+    const lovablePrompt = response.content
+      .filter((b) => b.type === "text")
+      .map((b) => b.text)
+      .join("")
+      .trim();
 
-    const data = await response.json();
-    const text = data?.content?.[0]?.text || '';
+    await sendResultEmail({
+      to:   process.env.RECIPIENT_EMAIL || "jan@seitenwertig.de",
+      from: process.env.SENDER_EMAIL   || "noreply@seitenwertig.de",
+      briefing,
+      lovablePrompt,
+      usage:      response.usage,
+      durationMs: Date.now() - start,
+    });
 
-    return {
-      statusCode: 200,
-      headers: {
-        'Content-Type': 'application/json',
-        'Access-Control-Allow-Origin': corsOrigin,
-      },
-      body: JSON.stringify({ text }),
-    };
+    console.log(`[OK] ${briefing.name || briefing.branche}, ${briefing.ort} — ${((Date.now() - start) / 1000).toFixed(1)}s`);
 
   } catch (err) {
-    console.error('Fetch-Fehler:', err);
-    return {
-      statusCode: 502,
-      body: JSON.stringify({ error: 'Netzwerkfehler beim Erreichen der Claude API' }),
-    };
+    console.error("[ERROR]", err.message);
+    await sendError("Generierungs-Fehler", err.message, briefing);
   }
-};
+
+  return new Response(null, { status: 202 });
+}
+
+// ── Fehler-Mail an Jan ────────────────────────────────────────────────────────
+async function sendError(titel, details, briefing) {
+  try {
+    const firma = briefing?.name || briefing?.firmenname || "(unbekannt)";
+    await fetch("https://api.resend.com/emails", {
+      method: "POST",
+      headers: {
+        Authorization: `Bearer ${process.env.RESEND_API_KEY}`,
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        from: process.env.SENDER_EMAIL || "noreply@seitenwertig.de",
+        to:   [process.env.RECIPIENT_EMAIL || "jan@seitenwertig.de"],
+        subject: `[SeitenWertig] FEHLER: ${titel} — ${firma}`,
+        html: `<pre style="font-family:monospace;font-size:13px">${titel}\n\n${details}\n\nBriefing:\n${JSON.stringify(briefing, null, 2)}</pre>`,
+      }),
+    });
+  } catch (e) {
+    console.error("[errorEmail]", e.message);
+  }
+}
