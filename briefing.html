@@ -1,809 +1,825 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="de">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Projekt-Briefing — SeitenWertig</title>
-<meta name="description" content="Starte dein Website-Briefing bei SeitenWertig. 10 Minuten. Erster Entwurf in 24 Stunden.">
-<meta name="robots" content="index, follow">
-<link rel="canonical" href="https://seitenwertig.de/briefing">
-<link rel="icon" href="/favicon.ico">
-<link rel="preconnect" href="https://fonts.bunny.net">
-<link href="https://fonts.bunny.net/css?family=dm-sans:300,400,500,700&display=swap" rel="stylesheet">
-<style>
-:root {
-  --bg:              #0f1219;
-  --bg2:             #151b23;
-  --bg3:             #1a2029;
-  --border:          rgba(255,255,255,0.07);
-  --border-md:       rgba(255,255,255,0.13);
-  --border-hi:       rgba(255,255,255,0.22);
-  --text:            #e2e8f0;
-  --muted:           #64748b;
-  --muted2:          #3e4a5c;
-  --accent:          #34d399;
-  --accent-bg:       rgba(52,211,153,0.08);
-  --accent-border:   rgba(52,211,153,0.30);
-  --radius:          8px;
-  --radius-sm:       5px;
-  --font:            'DM Sans', system-ui, sans-serif;
-}
-*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-html { background: var(--bg); color: var(--text); font-family: var(--font); font-size: 16px; min-height: 100vh; -webkit-font-smoothing: antialiased; }
-body { display: flex; flex-direction: column; min-height: 100vh; overflow-x: hidden; }
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="robots" content="noindex,nofollow" />
+  <title>Briefing — Seitenwertig</title>
 
-/* ── NAV ── */
-.nav { display: flex; align-items: center; justify-content: space-between; padding: 0 1.5rem; height: 58px; border-bottom: 1px solid var(--border); position: sticky; top: 0; background: rgba(15,18,25,0.94); backdrop-filter: blur(12px); z-index: 100; }
-.nav-logo { display: flex; align-items: center; gap: 0.5rem; text-decoration: none; color: var(--text); }
-.nav-logo-mark { width: 28px; height: 28px; background: var(--accent); color: var(--bg); border-radius: 4px; display: flex; align-items: center; justify-content: center; font-size: 0.8125rem; font-weight: 700; flex-shrink: 0; }
-.nav-logo-name { font-size: 0.9375rem; font-weight: 500; letter-spacing: -0.01em; }
-.nav-logo-name span { color: var(--accent); }
-.nav-back { font-size: 0.8125rem; color: var(--muted); text-decoration: none; transition: color 0.2s; }
-.nav-back:hover { color: var(--text); }
+  <!-- Falls du eine globale styles.css hast, hier einbinden statt der inline-Styles unten. -->
+  <link rel="stylesheet" href="/styles.css" />
 
-/* ── WRAPPER ── */
-.outer { flex: 1; display: flex; flex-direction: column; align-items: center; padding: 2.5rem 1.5rem 4rem; }
+  <style>
+    /* ----------------------------------------------------------------
+       Briefing-spezifische Styles. Tokens (Farben, Fonts) erben aus
+       deiner globalen styles.css via CSS-Variablen, falls vorhanden.
+       Fallbacks sind passend zur Seitenwertig-Optik (warm, dunkel, mint).
+    ---------------------------------------------------------------- */
+    :root {
+      --sw-bg: var(--bg, #0e1117);
+      --sw-surface: var(--surface, #161b22);
+      --sw-surface-2: var(--surface-2, #1c2230);
+      --sw-border: var(--border, #2a3142);
+      --sw-text: var(--text, #e6edf3);
+      --sw-text-muted: var(--text-muted, #8b949e);
+      --sw-accent: var(--accent, #34d399);
+      --sw-accent-soft: var(--accent-soft, rgba(52, 211, 153, 0.12));
+      --sw-radius: 14px;
+    }
 
-/* ── PROGRESS ── */
-.progress-wrap { width: 100%; max-width: 640px; margin-bottom: 2rem; }
-.progress-label { font-size: 0.75rem; color: var(--muted); letter-spacing: 0.04em; text-transform: uppercase; margin-bottom: 0.5rem; }
-.progress-bar { width: 100%; height: 2px; background: var(--border); border-radius: 2px; overflow: hidden; }
-.progress-fill { height: 100%; background: var(--accent); border-radius: 2px; transition: width 0.5s cubic-bezier(0.4,0,0.2,1); }
+    .briefing-shell {
+      max-width: 820px;
+      margin: 0 auto;
+      padding: 48px 20px 96px;
+    }
 
-/* ── STEPS ── */
-.viewport { width: 100%; max-width: 640px; }
-.step { display: none; flex-direction: column; animation: stepIn 0.35s cubic-bezier(0.4,0,0.2,1); }
-.step.active { display: flex; }
-.step.back { animation: stepBack 0.35s cubic-bezier(0.4,0,0.2,1); }
-@keyframes stepIn  { from { opacity:0; transform:translateX(28px); }  to { opacity:1; transform:translateX(0); } }
-@keyframes stepBack { from { opacity:0; transform:translateX(-28px); } to { opacity:1; transform:translateX(0); } }
+    .briefing-paket-banner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      padding: 14px 18px;
+      margin-bottom: 28px;
+      background: var(--sw-accent-soft);
+      border: 1px solid var(--sw-border);
+      border-radius: var(--sw-radius);
+      color: var(--sw-text);
+    }
+    .briefing-paket-banner strong { color: var(--sw-accent); }
+    .briefing-paket-banner a {
+      color: var(--sw-text-muted);
+      font-size: 14px;
+      text-decoration: underline;
+      text-underline-offset: 3px;
+    }
 
-/* ── TYPOGRAPHY ── */
-.eyebrow { display:flex; align-items:center; gap:0.6rem; font-size:0.75rem; font-weight:500; color:var(--accent); letter-spacing:0.06em; text-transform:uppercase; margin-bottom:0.75rem; }
-.eyebrow::before { content:''; display:block; width:24px; height:1px; background:var(--muted2); }
-h1 { font-size:clamp(1.75rem,5vw,2.25rem); font-weight:700; letter-spacing:-0.035em; line-height:1.15; margin-bottom:0.75rem; }
-.subtitle { font-size:0.9375rem; font-weight:300; color:var(--muted); line-height:1.55; margin-bottom:2rem; }
+    .briefing-paket-picker {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 14px;
+      margin: 28px 0 8px;
+    }
+    @media (min-width: 720px) {
+      .briefing-paket-picker { grid-template-columns: repeat(3, 1fr); }
+    }
+    .briefing-paket-option {
+      text-align: left;
+      padding: 18px;
+      background: var(--sw-surface);
+      border: 1px solid var(--sw-border);
+      border-radius: var(--sw-radius);
+      color: var(--sw-text);
+      cursor: pointer;
+      transition: border-color .15s ease, transform .15s ease;
+    }
+    .briefing-paket-option:hover {
+      border-color: var(--sw-accent);
+      transform: translateY(-2px);
+    }
+    .briefing-paket-option .opt-eyebrow {
+      display: block;
+      color: var(--sw-accent);
+      font-size: 12px;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+      margin-bottom: 8px;
+    }
+    .briefing-paket-option .opt-price {
+      font-weight: 600;
+      font-size: 22px;
+      margin: 4px 0 6px;
+    }
+    .briefing-paket-option .opt-desc {
+      color: var(--sw-text-muted);
+      font-size: 14px;
+      line-height: 1.4;
+    }
 
-/* ── FORM ── */
-.field { margin-bottom:1.25rem; }
-label { display:block; font-size:0.8125rem; color:var(--muted); margin-bottom:0.4rem; }
-.opt { font-weight:300; color:var(--muted2); }
-input[type="text"], input[type="url"], input[type="email"], textarea, select {
-  width:100%; background:var(--bg3); border:1px solid var(--border); border-radius:var(--radius-sm);
-  padding:0.7rem 0.85rem; color:var(--text); font-family:var(--font); font-size:0.875rem;
-  font-weight:300; outline:none; transition:border-color 0.25s;
-}
-input::placeholder, textarea::placeholder { color:var(--muted2); }
-input:focus, textarea:focus { border-color:var(--accent-border); }
-textarea { resize:vertical; min-height:80px; line-height:1.55; }
+    fieldset.briefing-section {
+      border: 1px solid var(--sw-border);
+      border-radius: var(--sw-radius);
+      padding: 22px;
+      margin: 0 0 22px;
+      background: var(--sw-surface);
+    }
+    fieldset.briefing-section legend {
+      padding: 0 8px;
+      color: var(--sw-text);
+      font-weight: 600;
+      letter-spacing: .01em;
+    }
 
-/* ── CHIPS ── */
-.chip-group { display:flex; flex-wrap:wrap; gap:0.5rem; }
-.chip { padding:0.45rem 0.85rem; border-radius:20px; background:var(--bg3); border:1px solid var(--border); font-size:0.8125rem; color:var(--muted); cursor:pointer; transition:all 0.2s; user-select:none; }
-.chip:hover { border-color:var(--border-hi); color:var(--text); }
-.chip.selected { background:var(--accent-bg); border-color:var(--accent-border); color:var(--accent); font-weight:500; }
+    .field { margin-bottom: 16px; }
+    .field:last-child { margin-bottom: 0; }
+    .field label {
+      display: block;
+      font-size: 13px;
+      color: var(--sw-text);
+      margin-bottom: 6px;
+      font-weight: 500;
+    }
+    .field .hint {
+      display: block;
+      font-size: 12px;
+      color: var(--sw-text-muted);
+      margin-top: 4px;
+    }
+    .field input[type="text"],
+    .field input[type="email"],
+    .field input[type="tel"],
+    .field input[type="url"],
+    .field textarea,
+    .field select {
+      width: 100%;
+      padding: 10px 12px;
+      background: var(--sw-surface-2);
+      color: var(--sw-text);
+      border: 1px solid var(--sw-border);
+      border-radius: 10px;
+      font: inherit;
+    }
+    .field textarea { min-height: 90px; resize: vertical; }
+    .field input:focus, .field textarea:focus, .field select:focus {
+      outline: none;
+      border-color: var(--sw-accent);
+    }
 
-/* ── TOGGLE CARD ── */
-.toggle-card { width:100%; background:var(--bg2); border:1px solid var(--border); border-radius:var(--radius); padding:1.25rem 1.5rem; margin-bottom:1.75rem; cursor:pointer; user-select:none; transition:border-color 0.3s; }
-.toggle-card:hover { border-color:var(--border-md); }
-.toggle-card.active { border-color:var(--accent-border); background:var(--accent-bg); }
-.toggle-top { display:flex; align-items:center; justify-content:space-between; gap:1rem; }
-.toggle-left { display:flex; align-items:flex-start; gap:0.75rem; flex:1; }
-.toggle-icon { width:36px; height:36px; border-radius:8px; background:var(--bg3); border:1px solid var(--border); display:flex; align-items:center; justify-content:center; font-size:1.125rem; flex-shrink:0; }
-.toggle-info h3 { font-size:0.9375rem; font-weight:500; margin-bottom:0.25rem; }
-.toggle-info p { font-size:0.8125rem; font-weight:300; color:var(--muted); line-height:1.5; }
-.switch { width:44px; height:24px; background:var(--bg3); border:1px solid var(--border-md); border-radius:12px; position:relative; flex-shrink:0; transition:background 0.3s,border-color 0.3s; }
-.switch::after { content:''; position:absolute; top:2px; left:2px; width:18px; height:18px; border-radius:50%; background:var(--muted); transition:transform 0.3s,background 0.3s; }
-.toggle-card.active .switch { background:var(--accent); border-color:var(--accent); }
-.toggle-card.active .switch::after { transform:translateX(20px); background:var(--bg); }
-.expand { max-height:0; overflow:hidden; opacity:0; margin-top:0; transition:max-height 0.5s cubic-bezier(0.4,0,0.2,1),opacity 0.4s ease,margin 0.4s ease; }
-.expand.open { max-height:2000px; opacity:1; margin-top:1.5rem; }
+    .chips { display: flex; flex-wrap: wrap; gap: 8px; }
+    .chip {
+      padding: 7px 12px;
+      border: 1px solid var(--sw-border);
+      border-radius: 999px;
+      cursor: pointer;
+      user-select: none;
+      font-size: 13px;
+      color: var(--sw-text);
+      background: var(--sw-surface-2);
+    }
+    .chip[aria-pressed="true"] {
+      background: var(--sw-accent);
+      color: #0b1015;
+      border-color: var(--sw-accent);
+    }
 
-/* ── YES/NO ── */
-.yn-group { display:flex; gap:0.5rem; }
-.yn-btn { padding:0.45rem 1.1rem; border-radius:20px; background:var(--bg3); border:1px solid var(--border); font-size:0.8125rem; color:var(--muted); cursor:pointer; transition:all 0.2s; user-select:none; }
-.yn-btn.selected { background:var(--accent-bg); border-color:var(--accent-border); color:var(--accent); font-weight:500; }
-.yn-reveal { margin-top:0.75rem; display:none; }
-.yn-reveal.show { display:block; }
+    .checkbox-row {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      padding: 14px;
+      border: 1px solid var(--sw-border);
+      border-radius: 10px;
+      background: var(--sw-surface-2);
+    }
+    .checkbox-row input { margin-top: 3px; }
+    .checkbox-row .ck-text { color: var(--sw-text); }
+    .checkbox-row small {
+      display: block;
+      color: var(--sw-text-muted);
+      margin-top: 4px;
+    }
 
-/* ── MISC ── */
-.divider { width:100%; height:1px; background:var(--border); margin:1.5rem 0; }
-.hint { background:var(--bg2); border:1px solid var(--border); border-radius:var(--radius); padding:0.85rem 1rem; margin-top:1.25rem; display:flex; gap:0.6rem; }
-.hint p { font-size:0.8125rem; font-weight:300; color:var(--muted); line-height:1.5; }
-.comp-row { display:grid; grid-template-columns:1fr 1fr; gap:0.75rem; margin-bottom:0.75rem; }
-.comp-label { font-size:0.6875rem; font-weight:500; color:var(--accent); letter-spacing:0.06em; text-transform:uppercase; margin-bottom:0.5rem; }
+    .submit-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      margin-top: 28px;
+    }
+    .submit-row .small {
+      color: var(--sw-text-muted);
+      font-size: 12px;
+      max-width: 60%;
+    }
+    button.primary {
+      padding: 12px 22px;
+      border-radius: 10px;
+      background: var(--sw-accent);
+      color: #0b1015;
+      border: 0;
+      font-weight: 600;
+      cursor: pointer;
+    }
+    button.primary:disabled { opacity: .5; cursor: not-allowed; }
+    button.ghost {
+      background: transparent;
+      color: var(--sw-text);
+      border: 1px solid var(--sw-border);
+      padding: 10px 18px;
+      border-radius: 10px;
+      cursor: pointer;
+    }
 
-/* ── BUTTONS ── */
-.btn-row { display:flex; gap:0.75rem; width:100%; margin-top:2rem; }
-.btn { flex:1; display:flex; align-items:center; justify-content:center; gap:0.4rem; padding:0.8rem 1.5rem; border-radius:var(--radius-sm); font-family:var(--font); font-size:0.875rem; font-weight:500; cursor:pointer; transition:all 0.25s; border:none; }
-.btn-back { background:transparent; border:1px solid var(--border); color:var(--muted); flex:0; padding:0.8rem 1.25rem; }
-.btn-back:hover { border-color:var(--border-hi); color:var(--text); }
-.btn-next { background:var(--accent); color:var(--bg); font-weight:600; }
-.btn-next:hover { filter:brightness(1.1); }
-.btn-next:disabled { opacity:0.5; cursor:not-allowed; filter:none; }
-.btn-ghost { background:transparent; border:1px solid var(--border); color:var(--muted); }
-.btn-ghost:hover { border-color:var(--border-hi); color:var(--text); }
+    /* ---------- Upgrade-Modal ---------- */
+    dialog#upgrade-modal {
+      max-width: 480px;
+      width: calc(100% - 32px);
+      border: 1px solid var(--sw-border);
+      background: var(--sw-surface);
+      color: var(--sw-text);
+      border-radius: var(--sw-radius);
+      padding: 24px;
+    }
+    dialog#upgrade-modal::backdrop {
+      background: rgba(0, 0, 0, .55);
+      backdrop-filter: blur(2px);
+    }
+    dialog#upgrade-modal h3 { margin: 0 0 8px; }
+    dialog#upgrade-modal p { color: var(--sw-text-muted); line-height: 1.5; }
+    dialog#upgrade-modal .modal-actions {
+      display: flex;
+      gap: 10px;
+      justify-content: flex-end;
+      margin-top: 18px;
+      flex-wrap: wrap;
+    }
 
-/* ── DSGVO ── */
-.dsgvo-row { display:flex; align-items:flex-start; gap:0.75rem; font-size:0.8125rem; color:var(--muted); margin-top:1.25rem; }
-.dsgvo-row input[type="checkbox"] { width:auto; margin:0; flex-shrink:0; margin-top:2px; accent-color:var(--accent); }
-.dsgvo-row a { color:var(--accent); }
-
-/* ── LOADING ── */
-.ki-loading { text-align:center; padding:3.5rem 1rem; }
-.spinner { display:inline-block; width:40px; height:40px; border:2px solid var(--border); border-top-color:var(--accent); border-radius:50%; animation:spin 0.8s linear infinite; margin-bottom:1.5rem; }
-@keyframes spin { to { transform:rotate(360deg); } }
-.ki-loading h2 { font-size:1.1rem; font-weight:600; letter-spacing:-0.02em; margin-bottom:0.5rem; }
-.ki-loading p { font-size:0.875rem; color:var(--muted); font-weight:300; }
-.ki-steps { list-style:none; margin:1.5rem auto; max-width:280px; text-align:left; display:flex; flex-direction:column; gap:0.6rem; }
-.ki-step { font-size:0.8125rem; color:var(--muted); display:flex; align-items:center; gap:0.6rem; }
-.ki-step.done { color:var(--accent); }
-.ki-step.active { color:var(--text); }
-.dot { width:6px; height:6px; border-radius:50%; background:var(--muted2); flex-shrink:0; }
-.ki-step.done .dot { background:var(--accent); }
-.ki-step.active .dot { background:var(--accent); box-shadow:0 0 0 3px rgba(52,211,153,0.2); animation:pulse 1s ease-in-out infinite; }
-@keyframes pulse { 0%,100%{opacity:1}50%{opacity:0.4} }
-
-/* ── RESULT ── */
-.result { display:flex; flex-direction:column; gap:1.25rem; }
-.result-card { background:var(--bg2); border:1px solid var(--border); border-radius:var(--radius); overflow:hidden; }
-.result-card.sent { border-color:var(--accent-border); }
-.card-header { display:flex; align-items:center; gap:0.6rem; padding:0.875rem 1.25rem; border-bottom:1px solid var(--border); font-size:0.75rem; font-weight:500; color:var(--accent); letter-spacing:0.07em; text-transform:uppercase; }
-.card-header::before { content:''; display:block; width:16px; height:1px; background:var(--muted2); }
-.card-body { padding:1.25rem; }
-
-/* info chips */
-.info-row { display:flex; flex-wrap:wrap; gap:0.75rem; }
-.info-chip { flex:1; min-width:130px; background:var(--bg3); border:1px solid var(--border); border-radius:6px; padding:0.75rem 1rem; }
-.info-chip-label { font-size:0.6875rem; text-transform:uppercase; letter-spacing:0.06em; color:var(--muted); margin-bottom:0.25rem; }
-.info-chip-val { font-size:0.875rem; font-weight:500; }
-
-/* bullets */
-.bullets { list-style:none; display:flex; flex-direction:column; gap:0.75rem; }
-.bullet { display:flex; gap:0.75rem; font-size:0.875rem; line-height:1.6; font-weight:300; }
-.bullet-mark { color:var(--accent); font-weight:700; flex-shrink:0; margin-top:1px; }
-
-/* prompt */
-.prompt-box { background:var(--bg); border:1px solid var(--border); border-radius:6px; padding:1rem; font-size:0.8125rem; line-height:1.7; white-space:pre-wrap; word-break:break-word; max-height:320px; overflow-y:auto; font-family:'DM Mono','Fira Code',monospace; color:var(--text); }
-.action-row { display:flex; gap:0.6rem; margin-top:0.75rem; flex-wrap:wrap; }
-.action-btn { display:inline-flex; align-items:center; gap:0.4rem; padding:0.5rem 1rem; border-radius:6px; font-size:0.8125rem; font-weight:500; cursor:pointer; border:none; font-family:var(--font); transition:all 0.2s; }
-.action-btn-primary { background:var(--accent); color:var(--bg); }
-.action-btn-primary:hover { filter:brightness(1.1); }
-.action-btn-primary.done { background:var(--accent-bg); color:var(--accent); border:1px solid var(--accent-border); }
-.action-btn-ghost { background:var(--bg3); border:1px solid var(--border); color:var(--muted); }
-.action-btn-ghost:hover { border-color:var(--border-hi); color:var(--text); }
-
-/* email preview */
-.email-preview { background:var(--bg); border:1px solid var(--border); border-radius:6px; padding:1rem; font-size:0.8125rem; line-height:1.7; font-weight:300; max-height:220px; overflow-y:auto; white-space:pre-wrap; word-break:break-word; color:var(--text); }
-.email-sent-badge { display:inline-flex; align-items:center; gap:0.4rem; font-size:0.8125rem; color:var(--accent); font-weight:500; margin-bottom:0.75rem; }
-.email-sent-badge::before { content:'✓'; font-weight:700; }
-
-/* error */
-.error-box { background:rgba(239,68,68,0.08); border:1px solid rgba(239,68,68,0.2); border-radius:var(--radius); padding:1rem 1.25rem; font-size:0.875rem; color:#fca5a5; line-height:1.6; }
-
-/* restart */
-.btn-restart { display:flex; align-items:center; justify-content:center; gap:0.5rem; padding:0.75rem 1.5rem; border-radius:var(--radius-sm); font-family:var(--font); font-size:0.875rem; font-weight:500; cursor:pointer; border:1px solid var(--border); background:transparent; color:var(--muted); transition:all 0.2s; margin-top:0.5rem; width:100%; }
-.btn-restart:hover { border-color:var(--border-hi); color:var(--text); }
-.trust { font-size:0.6875rem; color:var(--muted2); text-align:center; margin-top:2rem; letter-spacing:0.04em; }
-
-@media(max-width:520px) {
-  .comp-row { grid-template-columns:1fr; }
-  .info-row { flex-direction:column; }
-}
-</style>
+    .success-shell {
+      text-align: center;
+      padding: 48px 20px;
+    }
+    .success-shell .check {
+      width: 64px;
+      height: 64px;
+      margin: 0 auto 18px;
+      border-radius: 50%;
+      background: var(--sw-accent-soft);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--sw-accent);
+      font-size: 32px;
+    }
+  </style>
 </head>
 <body>
 
-<!-- Netlify form detection (hidden) -->
-<form name="briefing-ki" netlify netlify-honeypot="bot-field" hidden>
-  <input name="bot-field">
-  <input name="betrieb_name"><input name="branche"><input name="ort"><input name="email">
-  <input name="hauptziel"><input name="aktion"><input name="problem">
-  <input name="usp"><input name="zielkunden"><input name="seiten">
-  <input name="ausstrahlung"><input name="farben">
-  <input name="wb_aktiv"><input name="wettbewerber"><input name="keywords"><input name="einzugsgebiet">
-  <textarea name="ki_analyse"></textarea>
-  <textarea name="lovable_prompt"></textarea>
-  <textarea name="email_vorschau"></textarea>
-</form>
+<!--
+  HINWEIS: Header/Navigation aus deiner Site fügt sich oben automatisch ein,
+  falls du sie via include/JS lädst. Sonst hier deinen Header reinkopieren.
+-->
 
-<nav class="nav">
-  <a class="nav-logo" href="/">
-    <span class="nav-logo-mark">S</span>
-    <span class="nav-logo-name">Seiten<span>Wertig</span></span>
-  </a>
-  <a class="nav-back" href="/">← Website</a>
-</nav>
+<main>
+  <section class="briefing-shell">
 
-<div class="outer">
-  <div class="progress-wrap">
-    <div class="progress-label" id="progressLabel">Schritt 1 von 5</div>
-    <div class="progress-bar"><div class="progress-fill" id="progressFill" style="width:20%"></div></div>
-  </div>
-
-  <div class="viewport">
-
-    <!-- ── STEP 1: ZIELE ── -->
-    <div class="step active" id="step1">
-      <div class="eyebrow">Schritt 1 — Ziele</div>
-      <h1>Was soll die Website leisten?</h1>
-      <p class="subtitle">Das Ziel bestimmt alles andere — bevor wir ans Design denken.</p>
-
-      <div class="field">
-        <label>Hauptziel der Website</label>
-        <div class="chip-group" id="chips-hauptziel">
-          <div class="chip" onclick="selChip(this,'hauptziel')">Mehr Anfragen bekommen</div>
-          <div class="chip" onclick="selChip(this,'hauptziel')">Online-Präsenz aufbauen</div>
-          <div class="chip" onclick="selChip(this,'hauptziel')">Vertrauen & Glaubwürdigkeit</div>
-          <div class="chip" onclick="selChip(this,'hauptziel')">Konkurrenz abhängen</div>
-          <div class="chip" onclick="selChip(this,'hauptziel')">Bestandskunden binden</div>
-          <div class="chip" onclick="selChip(this,'hauptziel')">Fachkräfte gewinnen</div>
-        </div>
-      </div>
-
-      <div class="field">
-        <label>Was sollen Besucher als Erstes tun?</label>
-        <div class="chip-group" id="chips-aktion">
-          <div class="chip" onclick="selChip(this,'aktion')">Anrufen</div>
-          <div class="chip" onclick="selChip(this,'aktion')">Formular ausfüllen</div>
-          <div class="chip" onclick="selChip(this,'aktion')">Termin buchen</div>
-          <div class="chip" onclick="selChip(this,'aktion')">WhatsApp schreiben</div>
-          <div class="chip" onclick="selChip(this,'aktion')">Angebot anfordern</div>
-          <div class="chip" onclick="selChip(this,'aktion')">Portfolio ansehen</div>
-        </div>
-      </div>
-
-      <div class="field">
-        <label>Dein aktuelles Problem</label>
-        <div class="chip-group" id="chips-problem">
-          <div class="chip" onclick="selChip(this,'problem')">Keine Website vorhanden</div>
-          <div class="chip" onclick="selChip(this,'problem')">Website ist veraltet</div>
-          <div class="chip" onclick="selChip(this,'problem')">Kaum Anfragen über Website</div>
-          <div class="chip" onclick="selChip(this,'problem')">Konkurrenz ist besser sichtbar</div>
-          <div class="chip" onclick="selChip(this,'problem')">Sieht unprofessionell aus</div>
-          <div class="chip" onclick="selChip(this,'problem')">Läuft schlecht auf Handy</div>
-        </div>
-      </div>
-
-      <div class="field">
-        <label>Erfolgsdefinition nach 3 Monaten <span class="opt">(optional)</span></label>
-        <textarea id="ziel-erfolg" placeholder="z.B. Mindestens 5 neue Anfragen pro Monat über die Website…"></textarea>
-      </div>
-
-      <div class="btn-row">
-        <button class="btn btn-next" onclick="next()">Weiter →</button>
+    <!-- ============================================================
+         STEP 0: Paket-Auswahl (nur sichtbar wenn kein ?paket-Param)
+         ============================================================ -->
+    <div id="step-paket" hidden>
+      <h1>Welches Paket möchtest du?</h1>
+      <p class="hint">
+        Wähle dein Paket — danach passt sich das Briefing automatisch an.
+      </p>
+      <div class="briefing-paket-picker">
+        <button type="button" class="briefing-paket-option" data-pick="onepager">
+          <span class="opt-eyebrow">Paket 1 · Onepager</span>
+          <div class="opt-price">€&nbsp;890</div>
+          <div class="opt-desc">
+            Die digitale Visitenkarte. Eine Seite, alles drauf.
+          </div>
+        </button>
+        <button type="button" class="briefing-paket-option" data-pick="website">
+          <span class="opt-eyebrow">Paket 2 · Website</span>
+          <div class="opt-price">€&nbsp;1.290</div>
+          <div class="opt-desc">
+            Mehrere Unterseiten, KI-Automation, 2 Revisionen.
+          </div>
+        </button>
+        <button type="button" class="briefing-paket-option" data-pick="komplett">
+          <span class="opt-eyebrow">Paket 3 · Komplettpaket</span>
+          <div class="opt-price">€&nbsp;1.590</div>
+          <div class="opt-desc">
+            Schlüsselfertig: Domain, Hosting, E-Mail, Wettbewerbsanalyse.
+          </div>
+        </button>
       </div>
     </div>
 
-    <!-- ── STEP 2: BETRIEB ── -->
-    <div class="step" id="step2">
-      <div class="eyebrow">Schritt 2 — Dein Betrieb</div>
-      <h1>Wer bist du?</h1>
-      <p class="subtitle">Kein Template, kein Baukasten — die Website soll wirklich zu dir passen.</p>
+    <!-- ============================================================
+         STEP 1: Briefing-Formular
+         ============================================================ -->
+    <form id="briefing-form" hidden novalidate>
 
-      <div class="field">
-        <label>Name des Betriebs</label>
-        <input type="text" id="betrieb-name" placeholder="z.B. Elektro Müller Forchheim">
-      </div>
-      <div class="field">
-        <label>Branche & was du machst</label>
-        <input type="text" id="betrieb-branche" placeholder="z.B. Elektriker — Neuinstallationen, Sanierung, Notdienst">
-      </div>
-      <div class="field">
-        <label>Standort / Region</label>
-        <input type="text" id="betrieb-ort" placeholder="z.B. Forchheim, Erlangen, Bamberg">
-      </div>
-      <div class="field">
-        <label>Was macht dich besser als die Konkurrenz?</label>
-        <textarea id="betrieb-usp" placeholder="z.B. Familienunternehmen seit 30 Jahren, 24h-Notdienst, keine versteckten Kosten…"></textarea>
-      </div>
-      <div class="field">
-        <label>Ideale Kunden <span class="opt">(mehrere möglich)</span></label>
-        <div class="chip-group" id="chips-zielkunden">
-          <div class="chip" onclick="togChip(this,'zielkunden')">Privatkunden</div>
-          <div class="chip" onclick="togChip(this,'zielkunden')">Gewerbekunden</div>
-          <div class="chip" onclick="togChip(this,'zielkunden')">Hausverwaltungen</div>
-          <div class="chip" onclick="togChip(this,'zielkunden')">Gastronomen</div>
-          <div class="chip" onclick="togChip(this,'zielkunden')">Handwerkskollegen</div>
-          <div class="chip" onclick="togChip(this,'zielkunden')">Bauherren</div>
+      <!-- Aktuelles Paket-Banner (zeigt was gewählt ist + Wechsel-Link) -->
+      <div class="briefing-paket-banner">
+        <div>
+          <strong id="paket-banner-label">Paket 2 — Website</strong>
+          <span class="hint" id="paket-banner-price">€&nbsp;1.290 zzgl. MwSt.</span>
         </div>
-      </div>
-      <div class="field">
-        <label>Deine E-Mail-Adresse <span class="opt">(wohin sollen Anfragen?)</span></label>
-        <input type="email" id="kontakt-email" placeholder="deine@email.de">
+        <a href="#" id="paket-change">Paket wechseln</a>
       </div>
 
-      <div class="btn-row">
-        <button class="btn btn-back" onclick="back()">←</button>
-        <button class="btn btn-next" onclick="next()">Weiter →</button>
-      </div>
-    </div>
+      <!-- Hidden: trägt das gewählte Paket -->
+      <input type="hidden" name="paket" id="paket-input" value="" />
 
-    <!-- ── STEP 3: WETTBEWERB ── -->
-    <div class="step" id="step3">
-      <div class="eyebrow">Schritt 3 — Wettbewerb</div>
-      <h1>Dein Umfeld</h1>
-      <p class="subtitle">Claude analysiert deine Branche & Region — keine externe API, kein make.com.</p>
+      <!-- ============= GRUNDDATEN ============= -->
+      <fieldset class="briefing-section">
+        <legend>Grunddaten</legend>
 
-      <div class="toggle-card" id="wbToggle" onclick="toggleWB()">
-        <div class="toggle-top">
-          <div class="toggle-left">
-            <div class="toggle-icon">🔍</div>
-            <div class="toggle-info">
-              <h3>KI-Wettbewerbsanalyse aktivieren</h3>
-              <p>Claude bewertet Positionierung, SEO-Chancen und Differenzierungsstrategie für deine Branche — direkt im Prompt.</p>
-            </div>
+        <div class="field">
+          <label for="firmenname">Firmenname *</label>
+          <input id="firmenname" name="firmenname" type="text" required />
+        </div>
+
+        <div class="field">
+          <label for="branche">Branche *</label>
+          <input id="branche" name="branche" type="text" required
+                 placeholder="z. B. Schreinerei, Physiotherapie, Restaurant" />
+        </div>
+
+        <div class="field">
+          <label for="ort">Ort *</label>
+          <input id="ort" name="ort" type="text" required placeholder="z. B. Forchheim" />
+        </div>
+
+        <div class="field">
+          <label for="region">Region</label>
+          <input id="region" name="region" type="text" value="Oberfranken" />
+        </div>
+
+        <div class="field">
+          <label for="adresse">Vollständige Adresse</label>
+          <input id="adresse" name="adresse" type="text"
+                 placeholder="Straße Hausnr., PLZ Ort" />
+        </div>
+
+        <div class="field">
+          <label for="inhaber">Inhaber/in</label>
+          <input id="inhaber" name="inhaber" type="text" />
+        </div>
+
+        <div class="field">
+          <label for="gruendungsjahr">Gründungsjahr</label>
+          <input id="gruendungsjahr" name="gruendungsjahr" type="text"
+                 inputmode="numeric" pattern="\d{4}" placeholder="z. B. 1987" />
+        </div>
+      </fieldset>
+
+      <!-- ============= POSITIONIERUNG ============= -->
+      <fieldset class="briefing-section">
+        <legend>Positionierung</legend>
+
+        <div class="field">
+          <label for="usp">USP / Alleinstellungsmerkmal *</label>
+          <textarea id="usp" name="usp" required
+                    placeholder="Was macht dich anders? Worin bist du wirklich gut?"></textarea>
+        </div>
+
+        <div class="field">
+          <label for="zielgruppe">Zielgruppe</label>
+          <textarea id="zielgruppe" name="zielgruppe"
+                    placeholder="Wer sind deine Kunden? Alter, Einkommen, Werte..."></textarea>
+        </div>
+
+        <div class="field">
+          <label>Ansprache</label>
+          <div class="chips" data-chips="ansprache" data-max="1">
+            <button type="button" class="chip" data-value="Sie" aria-pressed="true">Sie</button>
+            <button type="button" class="chip" data-value="Du" aria-pressed="false">Du</button>
           </div>
-          <div class="switch"></div>
+          <input type="hidden" name="ansprache" value="Sie" />
         </div>
-        <div class="expand" id="wbFields">
-          <div class="comp-label">Wettbewerber 1</div>
-          <div class="comp-row">
-            <div class="field"><label>Name</label><input type="text" id="wb-name1" placeholder="z.B. Müller Elektrotechnik"></div>
-            <div class="field"><label>Website <span class="opt">(optional)</span></label><input type="url" id="wb-url1" placeholder="https://…"></div>
+      </fieldset>
+
+      <!-- ============= LEISTUNGEN ============= -->
+      <fieldset class="briefing-section">
+        <legend>Leistungen</legend>
+        <div class="field">
+          <label for="leistungen">Was bietest du an? *</label>
+          <textarea id="leistungen" name="leistungen" required
+                    placeholder="Eine Leistung pro Zeile"></textarea>
+          <span class="hint">Eine Leistung pro Zeile — wird automatisch als Liste interpretiert.</span>
+        </div>
+      </fieldset>
+
+      <!-- ============= UNTERSEITEN (Paket 2 + 3) ============= -->
+      <fieldset class="briefing-section" data-show-for="website komplett" hidden>
+        <legend>Unterseiten</legend>
+        <div class="field">
+          <label>Welche Unterseiten brauchst du?</label>
+          <div class="chips" data-chips="unterseiten" data-max="6">
+            <button type="button" class="chip" data-value="Über uns" aria-pressed="false">Über uns</button>
+            <button type="button" class="chip" data-value="Leistungen" aria-pressed="false">Leistungen</button>
+            <button type="button" class="chip" data-value="Referenzen" aria-pressed="false">Referenzen</button>
+            <button type="button" class="chip" data-value="Team" aria-pressed="false">Team</button>
+            <button type="button" class="chip" data-value="Kontakt" aria-pressed="false">Kontakt</button>
+            <button type="button" class="chip" data-value="FAQ" aria-pressed="false">FAQ</button>
+            <button type="button" class="chip" data-value="Karriere" aria-pressed="false">Karriere</button>
+            <button type="button" class="chip" data-value="Blog" aria-pressed="false">Blog</button>
           </div>
-          <div class="comp-label">Wettbewerber 2 <span class="opt">— optional</span></div>
-          <div class="comp-row">
-            <div class="field"><label>Name</label><input type="text" id="wb-name2" placeholder="z.B. Schmidt & Sohn GmbH"></div>
-            <div class="field"><label>Website <span class="opt">(optional)</span></label><input type="url" id="wb-url2" placeholder="https://…"></div>
+          <input type="hidden" name="unterseiten" value="" />
+        </div>
+      </fieldset>
+
+      <!-- ============= KI-AUTOMATION (Paket 2 + 3) ============= -->
+      <fieldset class="briefing-section" data-show-for="website komplett" hidden>
+        <legend>KI-Automation (1 Stück inklusive)</legend>
+        <div class="field">
+          <label for="ki_automation_wunsch">Welche Automation wäre für dich am wertvollsten?</label>
+          <textarea id="ki_automation_wunsch" name="ki_automation_wunsch"
+                    placeholder="z. B. automatische Lead-Qualifizierung, FAQ-Bot, Termin-Vorqualifizierung"></textarea>
+          <span class="hint">Falls unklar: ich schlage im Erstgespräch passende Optionen vor.</span>
+        </div>
+      </fieldset>
+
+      <!-- ============= DOMAIN & E-MAIL (nur Paket 3) ============= -->
+      <fieldset class="briefing-section" data-show-for="komplett" hidden>
+        <legend>Domain &amp; E-Mail (Paket 3)</legend>
+
+        <div class="field">
+          <label for="domainwunsch">Wunsch-Domain *</label>
+          <input id="domainwunsch" name="domainwunsch" type="text"
+                 placeholder="z. B. schreinerei-hartmann.de" />
+          <span class="hint">Verfügbarkeit prüfe ich. Alternativen schlage ich vor, falls vergeben.</span>
+        </div>
+
+        <div class="field">
+          <label for="email_adressen">Gewünschte E-Mail-Adressen</label>
+          <textarea id="email_adressen" name="email_adressen"
+                    placeholder="info@..., michael@..., kontakt@..."></textarea>
+          <span class="hint">Eine Adresse pro Zeile. Inkludiert ist 1 Postfach — weitere auf Wunsch.</span>
+        </div>
+      </fieldset>
+
+      <!-- ============= DESIGN ============= -->
+      <fieldset class="briefing-section">
+        <legend>Design-Präferenzen</legend>
+
+        <div class="field">
+          <label for="stil">Gewünschter Stil</label>
+          <textarea id="stil" name="stil"
+                    placeholder="z. B. warm, handwerklich, vertrauensbildend"></textarea>
+        </div>
+
+        <div class="field">
+          <label for="farben">Farbwünsche</label>
+          <input id="farben" name="farben" type="text"
+                 placeholder="z. B. Erdtöne, warmes Braun, dunkelgrün als Akzent" />
+        </div>
+
+        <div class="field">
+          <label for="referenzen">Referenz-Websites (Inspiration)</label>
+          <textarea id="referenzen" name="referenzen"
+                    placeholder="URLs, eine pro Zeile"></textarea>
+        </div>
+      </fieldset>
+
+      <!-- ============= KONTAKT ============= -->
+      <fieldset class="briefing-section">
+        <legend>Kontaktkanäle</legend>
+
+        <div class="field">
+          <label for="telefon">Telefon *</label>
+          <input id="telefon" name="telefon" type="tel" required />
+        </div>
+
+        <div class="field">
+          <label for="email">E-Mail *</label>
+          <input id="email" name="email" type="email" required />
+        </div>
+
+        <div class="field">
+          <label for="whatsapp">WhatsApp (optional)</label>
+          <input id="whatsapp" name="whatsapp" type="tel" />
+        </div>
+
+        <div class="field">
+          <label for="oeffnungszeiten">Öffnungszeiten</label>
+          <input id="oeffnungszeiten" name="oeffnungszeiten" type="text"
+                 placeholder="z. B. Mo–Fr 8–17 Uhr" />
+        </div>
+
+        <div class="field">
+          <label for="cta_primaer">Primärer Call-to-Action</label>
+          <input id="cta_primaer" name="cta_primaer" type="text"
+                 value="Jetzt Termin vereinbaren" />
+        </div>
+      </fieldset>
+
+      <!-- ============= BESONDERHEITEN ============= -->
+      <fieldset class="briefing-section">
+        <legend>Besonderheiten / Auszeichnungen</legend>
+        <div class="field">
+          <label for="besonderheiten">Was solltest du noch hervorheben?</label>
+          <textarea id="besonderheiten" name="besonderheiten"
+                    placeholder="z. B. Meisterbetrieb, seit 1987, Ausbildungsbetrieb — eine Zeile pro Punkt"></textarea>
+        </div>
+      </fieldset>
+
+      <!-- ============= WETTBEWERBSANALYSE ============= -->
+      <!-- Paket 2: Auswahl löst Upgrade-Modal aus
+           Paket 3: fest aktiv, nur Anzeige -->
+      <fieldset class="briefing-section" data-show-for="website komplett" hidden>
+        <legend>Wettbewerbsanalyse</legend>
+
+        <!-- Variante Paket 2: anklickbarer Trigger für Modal -->
+        <div data-show-for="website" hidden>
+          <label class="checkbox-row" for="wbAnalysisTrigger">
+            <input type="checkbox" id="wbAnalysisTrigger" />
+            <span class="ck-text">
+              Wettbewerbsanalyse hinzufügen
+              <small>Lokale Mitbewerber werden vor der Konzeption analysiert,
+              um die Positionierungslücke gezielt zu besetzen.</small>
+            </span>
+          </label>
+        </div>
+
+        <!-- Variante Paket 3: Hinweis (immer aktiv) -->
+        <div data-show-for="komplett" hidden>
+          <div class="checkbox-row" style="border-color: var(--sw-accent);">
+            <span style="color: var(--sw-accent); font-weight: 700;">✓</span>
+            <span class="ck-text">
+              <strong>Wettbewerbsanalyse ist im Komplettpaket enthalten.</strong>
+              <small>Lokale Mitbewerber werden automatisch analysiert.</small>
+            </span>
           </div>
-          <div class="field">
-            <label>Einzugsgebiet</label>
-            <div class="chip-group" id="chips-radius">
-              <div class="chip" onclick="selChip(this,'radius')">Nur mein Ort</div>
-              <div class="chip" onclick="selChip(this,'radius')">10 km Umkreis</div>
-              <div class="chip" onclick="selChip(this,'radius')">25 km Umkreis</div>
-              <div class="chip" onclick="selChip(this,'radius')">Ganz Franken</div>
-              <div class="chip" onclick="selChip(this,'radius')">Deutschlandweit</div>
-            </div>
-          </div>
-          <div class="field" style="margin-top:1rem">
-            <label>Was würden Kunden bei Google eingeben?</label>
-            <input type="text" id="wb-keywords" placeholder="z.B. Elektriker Forchheim Notdienst">
-          </div>
-          <div class="hint">
-            <p>💡 Ein Wettbewerber-Name reicht — Claude ergänzt mit Branchenwissen.</p>
-          </div>
         </div>
-      </div>
 
-      <div class="btn-row">
-        <button class="btn btn-back" onclick="back()">←</button>
-        <button class="btn btn-next" onclick="next()">Weiter →</button>
-      </div>
-    </div>
+        <!-- Hidden value, JS schreibt true/false -->
+        <input type="hidden" name="wettbewerbsanalyse_gewuenscht" id="wbAnalysisValue" value="false" />
 
-    <!-- ── STEP 4: INHALTE ── -->
-    <div class="step" id="step4">
-      <div class="eyebrow">Schritt 4 — Inhalte & Bilder</div>
-      <h1>Was hast du schon?</h1>
-      <p class="subtitle">Echte Fotos und eigene Texte machen den größten Unterschied.</p>
-
-      <div class="field">
-        <label>Gibt es schon eine Website?</label>
-        <div class="yn-group">
-          <div class="yn-btn" onclick="yn(this,'besteht','ja')">Ja</div>
-          <div class="yn-btn" onclick="yn(this,'besteht','nein')">Nein</div>
+        <div class="field" data-show-for="website komplett" hidden style="margin-top:14px;">
+          <label for="wettbewerber_urls">Konkrete Mitbewerber-URLs (optional)</label>
+          <textarea id="wettbewerber_urls" name="wettbewerber_urls"
+                    placeholder="https://… eine pro Zeile"></textarea>
+          <span class="hint">Wenn du konkrete Wettbewerber kennst, werden diese bevorzugt analysiert.</span>
         </div>
-        <div class="yn-reveal" id="yn-besteht-ja">
-          <input type="url" id="besteht-url" placeholder="https://deine-bisherige-seite.de">
+      </fieldset>
+
+      <!-- ============= FREITEXT ============= -->
+      <fieldset class="briefing-section">
+        <legend>Sonstiges</legend>
+        <div class="field">
+          <label for="freitext">Freitext / Wünsche / wichtige Hinweise</label>
+          <textarea id="freitext" name="freitext"
+                    placeholder="Alles, was nicht in die Felder oben passt"></textarea>
         </div>
-      </div>
+      </fieldset>
 
-      <div class="divider"></div>
-
-      <div class="field">
-        <label>Links zu Fotos <span class="opt">(optional)</span></label>
-        <textarea id="inhalte-bilder" rows="3" placeholder="Google Drive, Dropbox, WeTransfer — einen Link pro Zeile"></textarea>
-      </div>
-      <div class="field">
-        <label>Logo vorhanden?</label>
-        <div class="yn-group">
-          <div class="yn-btn" onclick="yn(this,'logo','ja')">Ja</div>
-          <div class="yn-btn" onclick="yn(this,'logo','nein')">Nein — wird erstellt</div>
-        </div>
-        <div class="yn-reveal" id="yn-logo-ja">
-          <input type="url" id="logo-link" placeholder="Link zur Logo-Datei (PNG oder SVG bevorzugt)">
-        </div>
-      </div>
-
-      <div class="divider"></div>
-
-      <div class="field">
-        <label>Gewünschte Seiten <span class="opt">(mehrere möglich)</span></label>
-        <div class="chip-group" id="chips-seiten">
-          <div class="chip selected" onclick="togChip(this,'seiten')">Startseite</div>
-          <div class="chip selected" onclick="togChip(this,'seiten')">Leistungen</div>
-          <div class="chip selected" onclick="togChip(this,'seiten')">Über mich / uns</div>
-          <div class="chip selected" onclick="togChip(this,'seiten')">Kontakt</div>
-          <div class="chip" onclick="togChip(this,'seiten')">Referenzen / Projekte</div>
-          <div class="chip" onclick="togChip(this,'seiten')">Preise</div>
-          <div class="chip" onclick="togChip(this,'seiten')">Galerie</div>
-          <div class="chip" onclick="togChip(this,'seiten')">FAQ</div>
-        </div>
-      </div>
-
-      <div class="field">
-        <label>Vorhandene Texte <span class="opt">(optional)</span></label>
-        <textarea id="inhalte-texte" placeholder="z.B. Über-uns-Text, Leistungsbeschreibungen, Preise, Öffnungszeiten…"></textarea>
-      </div>
-
-      <div class="btn-row">
-        <button class="btn btn-back" onclick="back()">←</button>
-        <button class="btn btn-next" onclick="next()">Weiter →</button>
-      </div>
-    </div>
-
-    <!-- ── STEP 5: DESIGN ── -->
-    <div class="step" id="step5">
-      <div class="eyebrow">Schritt 5 — Design & Stil</div>
-      <h1>Wie soll es wirken?</h1>
-      <p class="subtitle">Keine Perfektion erwartet — Tendenz und Gefühl reichen völlig.</p>
-
-      <div class="field">
-        <label>Ausstrahlung der Website <span class="opt">(mehrere möglich)</span></label>
-        <div class="chip-group" id="chips-ausstrahlung">
-          <div class="chip" onclick="togChip(this,'ausstrahlung')">Professionell & seriös</div>
-          <div class="chip" onclick="togChip(this,'ausstrahlung')">Warm & persönlich</div>
-          <div class="chip" onclick="togChip(this,'ausstrahlung')">Modern & minimalistisch</div>
-          <div class="chip" onclick="togChip(this,'ausstrahlung')">Bodenständig & solide</div>
-          <div class="chip" onclick="togChip(this,'ausstrahlung')">Premium & hochwertig</div>
-          <div class="chip" onclick="togChip(this,'ausstrahlung')">Frisch & dynamisch</div>
-        </div>
-      </div>
-      <div class="field">
-        <label>Farbwünsche <span class="opt">(optional)</span></label>
-        <input type="text" id="design-farben" placeholder="z.B. Firmenfarben Blau/Weiß, warme Erdtöne, #1a3a6b…">
-      </div>
-      <div class="field">
-        <label>Websites die dir gefallen <span class="opt">(optional)</span></label>
-        <textarea id="design-referenzen" rows="2" placeholder="URLs oder Namen — einen pro Zeile"></textarea>
-      </div>
-      <div class="field">
-        <label>Was soll auf keinen Fall so aussehen? <span class="opt">(optional)</span></label>
-        <textarea id="design-vermeiden" placeholder="z.B. Keine knalligen Farben, nichts zu verspielt…"></textarea>
-      </div>
-
-      <div class="dsgvo-row">
-        <input type="checkbox" id="dsgvo" required>
-        <label for="dsgvo" style="color:var(--muted);font-size:0.8125rem;margin:0">
-          Ich habe die <a href="/rechtliches" target="_blank">Datenschutzerklärung</a> gelesen und stimme der Verarbeitung meiner Daten zu.
+      <!-- ============= DATENSCHUTZ ============= -->
+      <div class="checkbox-row" style="margin-bottom: 22px;">
+        <input type="checkbox" id="ds-ok" required />
+        <label for="ds-ok" class="ck-text">
+          Ich habe die <a href="/datenschutz.html" target="_blank" rel="noopener">Datenschutzerklärung</a>
+          gelesen und bin mit der Verarbeitung meiner Angaben zur Erstellung eines Angebots einverstanden.
         </label>
       </div>
 
-      <div class="btn-row">
-        <button class="btn btn-back" onclick="back()">←</button>
-        <button class="btn btn-next" id="submitBtn" onclick="startKI()">KI-Analyse starten →</button>
+      <!-- Submit -->
+      <div class="submit-row">
+        <span class="small">
+          Du erhältst innerhalb von 1–2 Werktagen ein Angebot per E-Mail.
+        </span>
+        <button type="submit" class="primary" id="submit-btn">Briefing absenden →</button>
+      </div>
+    </form>
+
+    <!-- ============================================================
+         STEP 2: Erfolgs-Screen
+         ============================================================ -->
+    <div id="step-success" hidden>
+      <div class="success-shell">
+        <div class="check">✓</div>
+        <h2>Danke! Dein Briefing ist eingegangen.</h2>
+        <p style="color: var(--sw-text-muted);">
+          Du erhältst innerhalb von 1–2 Werktagen ein konkretes Angebot per E-Mail.
+        </p>
+        <p style="margin-top: 24px;">
+          <a href="/" class="ghost" style="display:inline-block; padding:10px 18px; text-decoration:none;">
+            Zurück zur Startseite
+          </a>
+        </p>
       </div>
     </div>
 
-    <!-- ── STEP 6: KI ANALYSE ── -->
-    <div class="step" id="step6">
+  </section>
+</main>
 
-      <!-- Loading -->
-      <div id="kiLoading" class="ki-loading">
-        <div class="spinner"></div>
-        <h2>Claude analysiert dein Briefing…</h2>
-        <p>Gleich hast du alles — fertig zum Kopieren in Lovable.</p>
-        <ul class="ki-steps" id="kiSteps">
-          <li class="ki-step active" id="ks1"><span class="dot"></span>Briefing-Daten auswerten</li>
-          <li class="ki-step"        id="ks2"><span class="dot"></span>Wettbewerbsumfeld einschätzen</li>
-          <li class="ki-step"        id="ks3"><span class="dot"></span>Positionierungsstrategie ableiten</li>
-          <li class="ki-step"        id="ks4"><span class="dot"></span>Lovable-Prompt & E-Mail generieren</li>
-          <li class="ki-step"        id="ks5"><span class="dot"></span>An <a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="d9b3b8b799aabcb0adbcb7aebcabadb0bef7bdbc">[email&#160;protected]</a> senden</li>
-        </ul>
-      </div>
+<!-- ============================================================
+     UPGRADE-MODAL (für Paket 2 → Paket 3)
+     ============================================================ -->
+<dialog id="upgrade-modal">
+  <h3>Diese Funktion gehört zu Paket 3</h3>
+  <p>
+    Die <strong>Wettbewerbsanalyse</strong> ist Teil des Komplettpakets
+    (€&nbsp;1.590). In Paket 2 (€&nbsp;1.290) ist sie nicht enthalten.
+  </p>
+  <p>
+    Möchtest du auf <strong>Paket 3 — Komplettpaket</strong> upgraden?
+    Du kannst den Schritt jederzeit rückgängig machen.
+  </p>
+  <div class="modal-actions">
+    <button type="button" class="ghost" id="upgrade-decline">Ohne fortfahren</button>
+    <button type="button" class="primary" id="upgrade-accept">
+      Auf Paket 3 upgraden
+    </button>
+  </div>
+</dialog>
 
-      <!-- Result — Danke-Screen (kein Prompt sichtbar) -->
-      <div id="kiResult" style="display:none">
-
-        <!-- Success card -->
-        <div style="text-align:center;padding:2rem 0 1.5rem">
-          <div style="width:56px;height:56px;background:var(--accent-bg);border:1px solid var(--accent-border);border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 1.25rem;font-size:1.5rem">✓</div>
-          <h1 style="margin-bottom:0.5rem">Briefing angekommen!</h1>
-          <p style="font-size:1rem;font-weight:300;color:var(--muted);line-height:1.6;max-width:420px;margin:0 auto">
-            Jan meldet sich innerhalb von <strong style="color:var(--text)">24 Stunden</strong> mit einem ersten Entwurf und einem konkreten Angebot.
-          </p>
-        </div>
-
-        <!-- What happens next -->
-        <div class="result-card" style="margin-bottom:1.25rem">
-          <div class="card-header">Was jetzt passiert</div>
-          <div class="card-body">
-            <div style="display:flex;flex-direction:column;gap:1rem">
-              <div style="display:flex;gap:0.875rem;align-items:flex-start">
-                <div style="width:24px;height:24px;border-radius:50%;background:var(--accent-bg);border:1px solid var(--accent-border);display:flex;align-items:center;justify-content:center;font-size:0.75rem;font-weight:700;color:var(--accent);flex-shrink:0;margin-top:1px">1</div>
-                <div>
-                  <div style="font-size:0.875rem;font-weight:500;margin-bottom:0.2rem">Jan analysiert dein Briefing</div>
-                  <div style="font-size:0.8125rem;color:var(--muted);font-weight:300">Inklusive KI-gestützter Wettbewerbsanalyse für deine Branche und Region.</div>
-                </div>
-              </div>
-              <div style="display:flex;gap:0.875rem;align-items:flex-start">
-                <div style="width:24px;height:24px;border-radius:50%;background:var(--accent-bg);border:1px solid var(--accent-border);display:flex;align-items:center;justify-content:center;font-size:0.75rem;font-weight:700;color:var(--accent);flex-shrink:0;margin-top:1px">2</div>
-                <div>
-                  <div style="font-size:0.875rem;font-weight:500;margin-bottom:0.2rem">Erster Entwurf in 24 Stunden</div>
-                  <div style="font-size:0.8125rem;color:var(--muted);font-weight:300">Du bekommst einen Link zum Entwurf — kostenlos, unverbindlich.</div>
-                </div>
-              </div>
-              <div style="display:flex;gap:0.875rem;align-items:flex-start">
-                <div style="width:24px;height:24px;border-radius:50%;background:var(--accent-bg);border:1px solid var(--accent-border);display:flex;align-items:center;justify-content:center;font-size:0.75rem;font-weight:700;color:var(--accent);flex-shrink:0;margin-top:1px">3</div>
-                <div>
-                  <div style="font-size:0.875rem;font-weight:500;margin-bottom:0.2rem">Dann entscheidest du</div>
-                  <div style="font-size:0.8125rem;color:var(--muted);font-weight:300">Kein Verkaufsgespräch, kein Druck. Gefällt's, geht's weiter.</div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <!-- Betrieb confirmed -->
-        <div class="info-row" id="infoRow" style="margin-bottom:1.25rem"></div>
-
-        <!-- Contact hint -->
-        <div style="background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius);padding:1rem 1.25rem;font-size:0.8125rem;color:var(--muted);font-weight:300;line-height:1.6">
-          Fragen in der Zwischenzeit? <a href="/cdn-cgi/l/email-protection#3359525d7340565a47565d445641475a541d5756" style="color:var(--accent)"><span class="__cf_email__" data-cfemail="18727976586b7d716c7d766f7d6a6c717f367c7d">[email&#160;protected]</span></a>
-        </div>
-
-        <div class="trust" style="margin-top:1.5rem">DSGVO-konform · EU-Datenschutz · Kein Abo · Kein Spam</div>
-      </div>
-
-    </div>
-
-  </div><!-- /viewport -->
-</div><!-- /outer -->
-
-<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
-/* ── State ── */
-var step = 1;
-var wbOn = false;
-var chips = {};
-var multi = { seiten: ['Startseite','Leistungen','Über mich / uns','Kontakt'] };
-var ynState = {};
-var gPrompt = '';
-
-/* ── Progress ── */
-function setProgress(s) {
-  var labels = ['','Schritt 1 von 5','Schritt 2 von 5','Schritt 3 von 5','Schritt 4 von 5','Schritt 5 von 5','KI-Analyse…'];
-  var pcts   = [0, 20, 40, 60, 80, 100, 100];
-  document.getElementById('progressLabel').textContent = labels[s] || 'Abgeschlossen';
-  document.getElementById('progressFill').style.width = pcts[s] + '%';
-}
-
-function showStep(id, isBack) {
-  document.querySelectorAll('.step').forEach(el => el.classList.remove('active','back'));
-  var el = document.getElementById(id);
-  el.classList.add('active');
-  if (isBack) el.classList.add('back');
-  window.scrollTo({ top: 0 });
-}
-
-function next() { step++; showStep('step'+step, false); setProgress(step); }
-function back() { step--; showStep('step'+step, true); setProgress(step); }
-
-/* ── Chip helpers ── */
-function selChip(el, g) {
-  el.closest('.chip-group').querySelectorAll('.chip').forEach(c => c.classList.remove('selected'));
-  el.classList.add('selected');
-  chips[g] = el.textContent.trim();
-}
-function togChip(el, g) {
-  el.classList.toggle('selected');
-  multi[g] = [...el.closest('.chip-group').querySelectorAll('.chip.selected')].map(c => c.textContent.trim());
-}
-function yn(el, g, v) {
-  el.parentElement.querySelectorAll('.yn-btn').forEach(b => b.classList.remove('selected'));
-  el.classList.add('selected');
-  ynState[g] = v;
-  var p = document.getElementById('yn-'+g+'-ja');
-  if (p) p.classList.toggle('show', v === 'ja');
-}
-function toggleWB() {
-  wbOn = !wbOn;
-  document.getElementById('wbToggle').classList.toggle('active', wbOn);
-  document.getElementById('wbFields').classList.toggle('open', wbOn);
-}
-document.getElementById('wbFields').addEventListener('click', e => e.stopPropagation());
-
-/* ── Collect data ── */
-function v(id) { var el = document.getElementById(id); return el ? el.value.trim() : ''; }
-function collect() {
-  var comp = [];
-  for (var i=1;i<=2;i++) { var n=v('wb-name'+i),u=v('wb-url'+i); if(n) comp.push(n+(u?' ('+u+')':'')); }
-  return {
-    name:          v('betrieb-name'),
-    branche:       v('betrieb-branche'),
-    ort:           v('betrieb-ort'),
-    usp:           v('betrieb-usp'),
-    email:         v('kontakt-email'),
-    hauptziel:     chips['hauptziel']||'',
-    aktion:        chips['aktion']||'',
-    problem:       chips['problem']||'',
-    erfolg:        v('ziel-erfolg'),
-    zielkunden:    (multi['zielkunden']||[]).join(', '),
-    seiten:        (multi['seiten']||[]).join(', '),
-    ausstrahlung:  (multi['ausstrahlung']||[]).join(', '),
-    farben:        v('design-farben'),
-    referenzen:    v('design-referenzen'),
-    vermeiden:     v('design-vermeiden'),
-    bestehtUrl:    ynState['besteht']==='ja' ? v('besteht-url') : (ynState['besteht']==='nein' ? 'Keine' : '—'),
-    logoLink:      ynState['logo']==='ja' ? v('logo-link') : (ynState['logo']==='nein' ? 'Kein Logo vorhanden' : '—'),
-    bildLinks:     v('inhalte-bilder'),
-    texte:         v('inhalte-texte'),
-    wbOn:          wbOn,
-    wettbewerber:  comp.join(' | '),
-    einzugsgebiet: chips['radius']||'',
-    keywords:      v('wb-keywords'),
+<script>
+/* ================================================================
+   BRIEFING-LOGIK — Vanilla JS, keine Dependencies.
+   ================================================================ */
+(function () {
+  const PAKETE = {
+    onepager: { label: 'Paket 1 — Onepager',     price: '€\u00a0890' },
+    website:  { label: 'Paket 2 — Website',      price: '€\u00a01.290' },
+    komplett: { label: 'Paket 3 — Komplettpaket', price: '€\u00a01.590' },
   };
-}
 
-/* ── Loading animation ── */
-function animateLoadingSteps(onDone) {
-  var ids = ['ks1','ks2','ks3','ks4','ks5'];
-  var i = 0;
-  function tick() {
-    if (i > 0) {
-      var prev = document.getElementById(ids[i-1]);
-      prev.classList.remove('active'); prev.classList.add('done');
-    }
-    if (i < ids.length) {
-      document.getElementById(ids[i]).classList.add('active');
-      i++;
-      setTimeout(tick, 750);
-    } else {
-      setTimeout(onDone, 300);
-    }
-  }
-  tick();
-}
+  const $ = (sel, root) => (root || document).querySelector(sel);
+  const $$ = (sel, root) => Array.from((root || document).querySelectorAll(sel));
 
-/* ── Build Claude prompt ── */
-function buildPrompt(d) {
-  var wb = d.wbOn
-    ? '\n\nWETTBEWERB:\n- Wettbewerber: '+(d.wettbewerber||'keine Angabe')+'\n- Einzugsgebiet: '+(d.einzugsgebiet||'keine Angabe')+'\n- Google-Suchbegriffe: '+(d.keywords||'keine Angabe')
-    : '\n\nWETTBEWERB: Keine Wettbewerber angegeben — generelle Brancheneinschätzung trotzdem erwünscht.';
+  const stepPaket   = $('#step-paket');
+  const form        = $('#briefing-form');
+  const stepSuccess = $('#step-success');
+  const paketInput  = $('#paket-input');
+  const paketLabel  = $('#paket-banner-label');
+  const paketPrice  = $('#paket-banner-price');
+  const wbValue     = $('#wbAnalysisValue');
+  const wbTrigger   = $('#wbAnalysisTrigger');
+  const upgradeDlg  = $('#upgrade-modal');
 
-  return `Du bist Webdesign-Stratege und Prompt-Engineer für SeitenWertig (seitenwertig.de), ein Webdesign-Studio aus Forchheim, Bayern.
+  /* ---------- Paket setzen / wechseln ---------- */
+  function setPaket(paket) {
+    if (!PAKETE[paket]) return false;
+    paketInput.value = paket;
+    paketLabel.textContent = PAKETE[paket].label;
+    paketPrice.textContent = PAKETE[paket].price + ' zzgl. MwSt.';
 
-BRIEFING-DATEN:
-- Betrieb: ${d.name||'nicht angegeben'}
-- Branche: ${d.branche||'nicht angegeben'}
-- Standort: ${d.ort||'nicht angegeben'}
-- USP / Stärken: ${d.usp||'nicht angegeben'}
-- Zielkunden: ${d.zielkunden||'nicht angegeben'}
-- Hauptziel: ${d.hauptziel||'nicht angegeben'}
-- Besucher-Aktion: ${d.aktion||'nicht angegeben'}
-- Aktuelles Problem: ${d.problem||'nicht angegeben'}
-- Erfolgsdefinition: ${d.erfolg||'nicht angegeben'}
-- Bestehende Website: ${d.bestehtUrl}
-- Logo: ${d.logoLink}
-- Seiten: ${d.seiten}
-- Ausstrahlung: ${d.ausstrahlung||'nicht angegeben'}
-- Farbwünsche: ${d.farben||'keine'}
-- Referenz-Websites: ${d.referenzen||'keine'}
-- Vermeiden: ${d.vermeiden||'nichts angegeben'}${wb}
-
-AUFGABE: Erstelle eine JSON-Antwort mit EXAKT diesem Format (reines JSON, kein Markdown):
-
-{
-  "analyse": [
-    "Einschätzung zur Wettbewerbssituation und lokalen Sichtbarkeit (1-2 Sätze)",
-    "SEO-Chancen und konkrete Keyword-Strategie für diese Branche & Region",
-    "Conversion-Optimierung: Was in dieser Branche am besten funktioniert",
-    "Wichtigste Differenzierungsstrategie gegenüber typischen Mitbewerbern"
-  ],
-  "lovable_prompt": "Vollständiger Lovable-Prompt auf Englisch. Sections: ## Business Context, ## Goals & Success Metrics, ## Target Audience, ## Pages & Structure, ## Design Direction, ## Technical Requirements, ## Content Notes. Mindestens 450 Wörter. Konkret, direkt umsetzbar.",
-  "email_subject": "Neues Briefing: [Betriebsname] — [Branche kurz]",
-  "email_body": "Formatierte, professionelle E-Mail auf Deutsch an Jan (SeitenWertig). Beginnt mit einer kurzen Einleitung (Briefing eingegangen, Branche, Ort). Dann strukturierte Zusammenfassung: Ziel, Betrieb, USP, Zielkunden, gewünschte Seiten, Design-Wunsch, Wettbewerbsinfo (falls angegeben). Endet mit Handlungsempfehlung (z.B. welches Paket passt, nächster Schritt). Ton: professionell aber direkt, kein Blabla. Ca. 200-250 Wörter."
-}
-
-Nur das JSON. Kein Text davor oder danach. Keine Markdown-Code-Blöcke.`;
-}
-
-/* ── Submit to Netlify ── */
-async function submitToNetlify(d, parsed) {
-  var body = new URLSearchParams({
-    'form-name':    'briefing-ki',
-    'bot-field':    '',
-    betrieb_name:   d.name,
-    branche:        d.branche,
-    ort:            d.ort,
-    email:          d.email,
-    hauptziel:      d.hauptziel,
-    aktion:         d.aktion,
-    problem:        d.problem,
-    usp:            d.usp,
-    zielkunden:     d.zielkunden,
-    seiten:         d.seiten,
-    ausstrahlung:   d.ausstrahlung,
-    farben:         d.farben,
-    wb_aktiv:       d.wbOn ? 'Ja' : 'Nein',
-    wettbewerber:   d.wettbewerber,
-    keywords:       d.keywords,
-    einzugsgebiet:  d.einzugsgebiet,
-    ki_analyse:     (parsed.analyse||[]).join('\n\n'),
-    lovable_prompt: parsed.lovable_prompt||'',
-    email_vorschau: parsed.email_body||'',
-  });
-  try {
-    await fetch('/', { method: 'POST', headers: { 'Content-Type': 'application/x-www-form-urlencoded' }, body: body.toString() });
-  } catch(e) { /* silent — Netlify submission is best-effort */ }
-}
-
-/* ── Main: start KI ── */
-async function startKI() {
-  if (!document.getElementById('dsgvo').checked) {
-    alert('Bitte stimme der Datenschutzerklärung zu.');
-    return;
-  }
-  var d = collect();
-  step = 6;
-  showStep('step6', false);
-  setProgress(6);
-  document.getElementById('kiLoading').style.display = 'block';
-  document.getElementById('kiResult').style.display = 'none';
-
-  var parsed = {};
-  var hadError = false;
-
-  // Run Claude + animation in parallel
-  var claudeDone = false;
-  var animDone = false;
-  var claudeResult = null;
-
-  function tryRender() {
-    if (claudeDone && animDone) renderResult(d, claudeResult, hadError);
-  }
-
-  animateLoadingSteps(() => { animDone = true; tryRender(); });
-
-  try {
-    var apiRes = await fetch('/.netlify/functions/generate-prompt-background', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(d),
+    // Conditional Sections ein-/ausblenden
+    $$('[data-show-for]').forEach(el => {
+      const allowed = el.dataset.showFor.split(/\s+/);
+      el.hidden = !allowed.includes(paket);
     });
-    if (!apiRes.ok) throw new Error('Function error: ' + apiRes.status);
-    var apiData = await apiRes.json();
-    if (apiData.error) throw new Error(apiData.error);
-    var text = (apiData.text || '').trim().replace(/^```json\s*/i,'').replace(/^```/,'').replace(/```$/,'');
-    claudeResult = JSON.parse(text);
-    gPrompt = claudeResult.lovable_prompt || '';
-    await submitToNetlify(d, claudeResult);
-  } catch(e) {
-    hadError = true;
-    claudeResult = buildFallback(d);
-    gPrompt = claudeResult.lovable_prompt || '';
+
+    // Wettbewerbsanalyse-Default je nach Paket
+    if (paket === 'komplett') {
+      wbValue.value = 'true';
+      if (wbTrigger) wbTrigger.checked = false;
+    } else if (paket === 'website') {
+      wbValue.value = wbTrigger && wbTrigger.checked ? 'true' : 'false';
+    } else {
+      wbValue.value = 'false';
+      if (wbTrigger) wbTrigger.checked = false;
+    }
+
+    // URL-State aktualisieren (ohne Reload)
+    const url = new URL(window.location.href);
+    url.searchParams.set('paket', paket);
+    history.replaceState(null, '', url.toString());
+    return true;
   }
 
-  claudeDone = true;
-  tryRender();
-}
+  /* ---------- Step-Switching ---------- */
+  function showStep(name) {
+    stepPaket.hidden   = name !== 'paket';
+    form.hidden        = name !== 'form';
+    stepSuccess.hidden = name !== 'success';
+    window.scrollTo({ top: 0, behavior: 'instant' });
+  }
 
-function renderResult(d, parsed, hadError) {
-  // Info chips — confirm what was submitted
-  document.getElementById('infoRow').innerHTML = [
-    { label:'Betrieb', val: d.name||'—' },
-    { label:'Branche', val: d.branche||'—' },
-    { label:'Region',  val: d.ort||'—' },
-  ].map(c => `<div class="info-chip"><div class="info-chip-label">${c.label}</div><div class="info-chip-val">${esc(c.val)}</div></div>`).join('');
+  /* ---------- Init aus URL-Parameter ---------- */
+  const initialPaket = new URLSearchParams(window.location.search).get('paket');
+  if (initialPaket && PAKETE[initialPaket]) {
+    setPaket(initialPaket);
+    showStep('form');
+  } else {
+    showStep('paket');
+  }
 
-  // Switch screens
-  document.getElementById('kiLoading').style.display = 'none';
-  document.getElementById('kiResult').style.display = 'block';
-}
+  /* ---------- Paket-Auswahl im Step 0 ---------- */
+  $$('.briefing-paket-option').forEach(btn => {
+    btn.addEventListener('click', () => {
+      setPaket(btn.dataset.pick);
+      showStep('form');
+    });
+  });
 
-/* ── Fallback (no Claude) ── */
-function buildFallback(d) {
-  return {
-    analyse: [],
-    email_body: `Neues Briefing eingegangen\n\nBetrieb: ${d.name}\nBranche: ${d.branche}\nStandort: ${d.ort}\nZiel: ${d.hauptziel}\nUSP: ${d.usp}\nZielkunden: ${d.zielkunden}\nSeiten: ${d.seiten}\n\n(KI-Analyse nicht verfügbar — manuelle Prüfung erforderlich)`,
-    lovable_prompt: `# Website Brief: ${d.name}\n\n## Business Context\nBuild a professional website for ${d.name}.\nIndustry: ${d.branche} | Location: ${d.ort}\n\n## Goals\nPrimary goal: ${d.hauptziel}\nDesired visitor action: ${d.aktion}\nCurrent problem: ${d.problem}\n\n## Target Audience\n${d.zielkunden}\n\n## USP\n${d.usp}\n\n## Pages\n${d.seiten}\n\n## Design\nVibe: ${d.ausstrahlung}\nColours: ${d.farben||'suggest based on industry'}\nAvoid: ${d.vermeiden||'nothing specified'}\n\n## Technical\n- Static HTML/CSS/JS, no build tools\n- Mobile-first, DSGVO-compliant\n- Netlify Forms for contact\n- Bunny Fonts: DM Sans`,
-  };
-}
+  /* ---------- "Paket wechseln"-Link ---------- */
+  $('#paket-change').addEventListener('click', e => {
+    e.preventDefault();
+    showStep('paket');
+  });
 
-function esc(s) { return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+  /* ---------- Chips (Multi-Select) ---------- */
+  $$('[data-chips]').forEach(group => {
+    const max = parseInt(group.dataset.max, 10) || 99;
+    const hidden = group.parentElement.querySelector('input[type="hidden"]');
+    if (!hidden) return;
 
-setProgress(1);
+    group.addEventListener('click', e => {
+      const chip = e.target.closest('.chip');
+      if (!chip) return;
+      const pressed = chip.getAttribute('aria-pressed') === 'true';
+
+      if (max === 1) {
+        // Single-select
+        $$('.chip', group).forEach(c => c.setAttribute('aria-pressed', 'false'));
+        chip.setAttribute('aria-pressed', 'true');
+      } else {
+        chip.setAttribute('aria-pressed', pressed ? 'false' : 'true');
+      }
+
+      const values = $$('.chip[aria-pressed="true"]', group).map(c => c.dataset.value);
+      hidden.value = values.join(', ');
+    });
+  });
+
+  /* ---------- Wettbewerbsanalyse: Modal-Trigger in Paket 2 ---------- */
+  if (wbTrigger) {
+    wbTrigger.addEventListener('change', () => {
+      if (paketInput.value !== 'website') return;
+      if (wbTrigger.checked) {
+        // Modal öffnen — Checkbox bleibt erst mal angehakt, wird ggf. zurückgesetzt
+        if (typeof upgradeDlg.showModal === 'function') {
+          upgradeDlg.showModal();
+        } else {
+          // Fallback für ältere Browser
+          if (confirm('Diese Funktion erfordert Paket 3. Auf Paket 3 upgraden?')) {
+            setPaket('komplett');
+          } else {
+            wbTrigger.checked = false;
+            wbValue.value = 'false';
+          }
+        }
+      } else {
+        wbValue.value = 'false';
+      }
+    });
+  }
+
+  $('#upgrade-accept').addEventListener('click', () => {
+    upgradeDlg.close();
+    setPaket('komplett');  // schaltet alle komplett-only Felder frei
+  });
+  $('#upgrade-decline').addEventListener('click', () => {
+    if (wbTrigger) wbTrigger.checked = false;
+    wbValue.value = 'false';
+    upgradeDlg.close();
+  });
+
+  /* ---------- Submit ---------- */
+  form.addEventListener('submit', async e => {
+    e.preventDefault();
+    const submitBtn = $('#submit-btn');
+
+    // Datenschutz-Checkbox
+    if (!$('#ds-ok').checked) {
+      alert('Bitte bestätige die Datenschutzerklärung.');
+      return;
+    }
+
+    // Paket-spezifische Pflichtfelder
+    const paket = paketInput.value;
+    if (paket === 'komplett' && !$('#domainwunsch').value.trim()) {
+      alert('Im Komplettpaket brauche ich deinen Domain-Wunsch.');
+      $('#domainwunsch').focus();
+      return;
+    }
+    if ((paket === 'website' || paket === 'komplett') &&
+        !$('#ki_automation_wunsch').value.trim()) {
+      // optional — nur Hinweis, nicht blockieren
+    }
+
+    submitBtn.disabled = true;
+    submitBtn.textContent = 'Wird gesendet…';
+
+    // FormData → JSON
+    const fd = new FormData(form);
+    const payload = {};
+    fd.forEach((value, key) => {
+      // Mehrzeilige Felder zu Arrays splitten, wenn sinnvoll
+      if (['leistungen', 'besonderheiten', 'email_adressen',
+           'wettbewerber_urls', 'referenzen'].includes(key)) {
+        payload[key] = String(value).split(/\r?\n/).map(s => s.trim()).filter(Boolean);
+      } else if (key === 'unterseiten') {
+        payload[key] = String(value).split(',').map(s => s.trim()).filter(Boolean);
+      } else if (key === 'wettbewerbsanalyse_gewuenscht') {
+        payload[key] = value === 'true';
+      } else {
+        payload[key] = value;
+      }
+    });
+
+    try {
+      const res = await fetch('/.netlify/functions/generate-prompt-background', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload),
+      });
+      // Background Functions antworten 202 — wir warten auf nichts
+      if (!res.ok && res.status !== 202) {
+        throw new Error('Server-Antwort ' + res.status);
+      }
+      showStep('success');
+    } catch (err) {
+      submitBtn.disabled = false;
+      submitBtn.textContent = 'Briefing absenden →';
+      alert('Da ist etwas schiefgelaufen. Bitte versuch es nochmal oder schick mir eine E-Mail an jan@seitenwertig.de.');
+      console.error(err);
+    }
+  });
+})();
 </script>
 </body>
 </html>

@@ -1,6 +1,7 @@
 {
-  "name": "seitenwertig",
-  "version": "1.0.0",
+  "name": "seitenwertig-prompt-generator",
+  "version": "2.0.0",
+  "description": "Netlify Background Function: generiert paket-spezifische Lovable-Prompts aus Kunden-Briefings für SeitenWertig",
   "type": "module",
   "private": true,
   "engines": {
@@ -8,5 +9,10 @@
   },
   "dependencies": {
     "@anthropic-ai/sdk": "^0.40.0"
+  },
+  "scripts": {
+    "dev": "netlify dev",
+    "test:onepager": "curl -X POST http://localhost:8888/.netlify/functions/generate-prompt-background -H 'Content-Type: application/json' --data @test/example-briefing-onepager.json",
+    "test:komplett": "curl -X POST http://localhost:8888/.netlify/functions/generate-prompt-background -H 'Content-Type: application/json' --data @test/example-briefing-komplett.json"
   }
 }

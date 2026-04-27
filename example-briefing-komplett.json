@@ -1,0 +1,40 @@
+{
+  "paket": "komplett",
+  "firmenname": "Schreinerei Hartmann",
+  "branche": "Schreinerei",
+  "ort": "Forchheim",
+  "region": "Oberfranken",
+  "adresse": "Bayreuther Straße 42, 91301 Forchheim",
+  "inhaber": "Michael Hartmann",
+  "gruendungsjahr": "1987",
+  "usp": "Maßgefertigte Möbel aus heimischen Hölzern, 3. Generation Familienbetrieb, eigene Werkstatt mit CNC-Fräse",
+  "zielgruppe": "Privatkunden 40–65, Eigenheimbesitzer, mittleres bis gehobenes Einkommen, Wert auf Regionalität und Qualität",
+  "ansprache": "Sie",
+  "leistungen": [
+    "Einbauküchen nach Maß",
+    "Individuelle Einbauschränke",
+    "Massivholztische und -betten",
+    "Innentüren und Zargen",
+    "Restaurierung alter Möbel"
+  ],
+  "unterseiten": ["Über uns", "Leistungen", "Referenzen", "Kontakt"],
+  "ki_automation_wunsch": "Automatische Anfrage-Vorqualifizierung: Kunde beschreibt Projekt, KI fragt nach Material, Maßen, Budget — generiert Lead-Profil für Erstgespräch",
+  "domainwunsch": "schreinerei-hartmann.de",
+  "email_adressen": ["info@schreinerei-hartmann.de", "michael@schreinerei-hartmann.de"],
+  "stil": "warm, handwerklich, vertrauensbildend, kein Hochglanz — Holz soll im Mittelpunkt stehen",
+  "farben": "Erdtöne, warmes Braun, Creme, dunkelgrün als Akzent",
+  "referenzen": [],
+  "telefon": "+49 9191 123456",
+  "email": "info@schreinerei-hartmann.de",
+  "whatsapp": "+49 171 1234567",
+  "oeffnungszeiten": "Mo–Fr 7:30–17:00, Sa nach Vereinbarung",
+  "cta_primaer": "Jetzt Beratungstermin vereinbaren",
+  "besonderheiten": [
+    "Meisterbetrieb der Handwerkskammer Oberfranken",
+    "Ausbildungsbetrieb seit 1995",
+    "Regionale Holzbezugsquellen aus dem Frankenwald"
+  ],
+  "wettbewerbsanalyse_gewuenscht": true,
+  "wettbewerber_urls": [],
+  "freitext": "Wichtig: keine langweiligen Schreiner-Standard-Seiten. Der Kunde möchte sich klar von typischen Handwerker-Websites absetzen. Fotos gibt es noch nicht, bitte Platzhalter einplanen."
+}

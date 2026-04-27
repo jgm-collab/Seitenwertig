@@ -1,0 +1,28 @@
+{
+  "paket": "onepager",
+  "firmenname": "Café Lindgrün",
+  "branche": "Café",
+  "ort": "Erlangen",
+  "region": "Mittelfranken",
+  "adresse": "Hauptstraße 12, 91054 Erlangen",
+  "inhaber": "Sandra Lindner",
+  "gruendungsjahr": "2019",
+  "usp": "Hausgemachte Kuchen, fairer Kaffee aus regionaler Rösterei, Wohnzimmer-Atmosphäre",
+  "zielgruppe": "Studierende, junge Familien, Stammgäste 25–55",
+  "ansprache": "Du",
+  "leistungen": [
+    "Frühstück bis 14 Uhr",
+    "Hausgemachte Kuchen",
+    "Spezialitätenkaffee",
+    "Vegane Optionen"
+  ],
+  "stil": "warm, gemütlich, leicht nostalgisch",
+  "farben": "Salbeigrün, Creme, warmes Holzbraun",
+  "telefon": "+49 9131 555123",
+  "email": "hallo@cafe-lindgruen.de",
+  "oeffnungszeiten": "Mo–Sa 8–18 Uhr",
+  "cta_primaer": "Tisch reservieren",
+  "besonderheiten": ["Hund willkommen", "Kostenloses WLAN"],
+  "wettbewerbsanalyse_gewuenscht": false,
+  "freitext": "Reine Visitenkarten-Site. Hauptsächlich Speisekarte und Kontakt."
+}
