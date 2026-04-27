@@ -757,7 +757,7 @@ async function startKI() {
   animateLoadingSteps(() => { animDone = true; tryRender(); });
 
   try {
-    var apiRes = await fetch('/.netlify/functions/claude', {
+    var apiRes = await fetch('/.netlify/functions/generate-prompt-background', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ prompt: buildPrompt(d) }),
