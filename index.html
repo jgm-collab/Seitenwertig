@@ -94,6 +94,17 @@ h1{font-size:clamp(2.4rem,6vw,3.8rem);font-weight:800;line-height:1.1;letter-spa
 .plist{list-style:none;margin-bottom:20px}
 .plist li{font-size:13px;color:var(--muted);padding:4px 0;display:flex;gap:8px}
 .plist li::before{content:"✓";color:var(--accent);font-weight:700;flex-shrink:0}
+.plist-disabled{color:rgba(122,127,150,.4)!important;text-decoration:line-through}
+.plist-disabled::before{content:"✕"!important;color:rgba(122,127,150,.4)!important}
+.plist-included{color:var(--accent)!important;font-weight:600}
+.plist-included::before{content:"✓";color:var(--accent)!important}
+.marktanalyse-opt{display:flex;align-items:center;gap:10px;background:var(--bg-light);border:1px solid var(--border);border-radius:9px;padding:10px 14px;cursor:pointer;margin-bottom:14px;transition:background .2s,border-color .2s;user-select:none}
+.marktanalyse-opt.active{background:rgba(45,212,168,.1);border-color:rgba(45,212,168,.4)}
+.marktanalyse-check{width:18px;height:18px;border-radius:4px;border:2px solid rgba(255,255,255,.2);flex-shrink:0;display:flex;align-items:center;justify-content:center;transition:all .2s;font-size:11px;font-weight:900;color:#0F1117}
+.marktanalyse-opt.active .marktanalyse-check{background:var(--accent);border-color:var(--accent)}
+.marktanalyse-label{font-size:12px;font-weight:600;color:var(--white);transition:color .2s}
+.marktanalyse-opt.active .marktanalyse-label{color:var(--accent)}
+.marktanalyse-sub{font-size:11px;color:var(--muted);margin-top:1px}
 .pbtn{display:block;text-align:center;background:var(--bg-light);border:1px solid var(--border);color:var(--accent);padding:11px;border-radius:9px;font-size:13px;font-weight:700;transition:background .2s,border-color .2s}
 .pbtn:hover{background:var(--accent-dim);border-color:var(--accent)}
 .pcard-aend{background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius);padding:24px;margin-top:16px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:16px}
@@ -189,7 +200,7 @@ footer{background:var(--bg-card);border-top:1px solid var(--border);padding:48px
 .modal-wrap{position:relative}
 </style>
 <script type="application/ld+json">
-{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"Was kostet eine Website?","acceptedAnswer":{"@type":"Answer","text":"Paket S (Onepager, Domain vorhanden) €890 zzgl. MwSt. · Paket A (Redesign, Domain vorhanden) €1.290 zzgl. MwSt. · Paket B (alles inklusive, Domain neu) €1.590 zzgl. MwSt. Alle Preise sind Festpreise — keine versteckten Kosten."}},{"@type":"Question","name":"Wie lange dauert die Umsetzung?","acceptedAnswer":{"@type":"Answer","text":"Du bekommst innerhalb von 24 Stunden einen ersten Entwurf. Die finale Version ist in der Regel in 2–3 Wochen live."}},{"@type":"Question","name":"Was brauche ich um loszulegen?","acceptedAnswer":{"@type":"Answer","text":"10 Minuten für das Briefing. Logo, ein paar Fotos und Impressum-Daten — alles wird im Wizard abgefragt. Bei Paket B kümmern wir uns um den Rest."}},{"@type":"Question","name":"Was ist eine KI-Automation genau?","acceptedAnswer":{"@type":"Answer","text":"Zum Beispiel: Anfragen über das Kontaktformular werden automatisch beantwortet. Oder: Terminanfragen buchen sich selbst ein."}},{"@type":"Question","name":"Wo wird die Website gehostet?","acceptedAnswer":{"@type":"Answer","text":"Auf deutschen Servern — DSGVO-konform ohne Wenn und Aber. Bei Paket B richten wir das komplett für dich ein."}},{"@type":"Question","name":"Arbeitest du nur in Forchheim?","acceptedAnswer":{"@type":"Answer","text":"Nein. Wir arbeiten vollständig digital und betreuen Kunden aus ganz Deutschland. Persönliche Treffen in Forchheim und Umgebung sind jederzeit möglich."}}]}
+{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"Was kostet eine Website?","acceptedAnswer":{"@type":"Answer","text":"Paket Start (Onepager, Domain vorhanden) €890 zzgl. MwSt. · Paket Wachstum (Redesign, Domain vorhanden) €1.290 zzgl. MwSt. · Paket Komplett (Full Service, alles inklusive) €1.590 zzgl. MwSt. Alle Preise sind Festpreise — keine versteckten Kosten."}},{"@type":"Question","name":"Wie lange dauert die Umsetzung?","acceptedAnswer":{"@type":"Answer","text":"Du bekommst innerhalb von 24 Stunden einen ersten Entwurf. Die finale Version ist in der Regel in 2–3 Wochen live."}},{"@type":"Question","name":"Was brauche ich um loszulegen?","acceptedAnswer":{"@type":"Answer","text":"10 Minuten für das Briefing. Logo, ein paar Fotos und Impressum-Daten — alles wird im Wizard abgefragt. Bei Paket B kümmern wir uns um den Rest."}},{"@type":"Question","name":"Was ist eine KI-Automation genau?","acceptedAnswer":{"@type":"Answer","text":"Zum Beispiel: Anfragen über das Kontaktformular werden automatisch beantwortet. Oder: Terminanfragen buchen sich selbst ein."}},{"@type":"Question","name":"Wo wird die Website gehostet?","acceptedAnswer":{"@type":"Answer","text":"Auf deutschen Servern — DSGVO-konform ohne Wenn und Aber. Bei Paket B richten wir das komplett für dich ein."}},{"@type":"Question","name":"Arbeitest du nur in Forchheim?","acceptedAnswer":{"@type":"Answer","text":"Nein. Wir arbeiten vollständig digital und betreuen Kunden aus ganz Deutschland. Persönliche Treffen in Forchheim und Umgebung sind jederzeit möglich."}}]}
 </script>
 <script type="application/ld+json">
 {"@context":"https://schema.org","@type":"Review","itemReviewed":{"@type":"ProfessionalService","name":"SeitenWertig — Webdesign Forchheim","url":"https://seitenwertig.de"},"reviewRating":{"@type":"Rating","ratingValue":"5","bestRating":"5"},"author":{"@type":"Person","name":"Mandy Mazur"},"reviewBody":"Die neue Website ist genau das was ich mir vorgestellt habe — modern, schnell und sie spiegelt meinen Betrieb wirklich wider. Anfragen kommen jetzt automatisch rein."}
@@ -306,7 +317,7 @@ footer{background:var(--bg-card);border-top:1px solid var(--border);padding:48px
   <!-- PAKETE -->
   <div class="pgrid">
     <div class="pcard fade-up d1">
-      <div class="ptag">Paket S · Onepager</div>
+      <div class="ptag">Paket Start · Onepager</div>
       <div class="pamt">€ 890 <sub>zzgl. MwSt.</sub></div>
       <p class="pnote">Die digitale Visitenkarte. Alles Wesentliche auf einer Seite — schnell live, kein Schnickschnack.</p>
       <ul class="plist">
@@ -316,12 +327,13 @@ footer{background:var(--bg-card);border-top:1px solid var(--border);padding:48px
         <li>Impressum & Datenschutz</li>
         <li>SEO-Grundlage</li>
         <li>Domain vorhanden vorausgesetzt</li>
+        <li class="plist-disabled">Marktanalyse nicht enthalten</li>
       </ul>
-      <a href="/briefing?paket=S" class="pbtn">Briefing starten →</a>
+      <a href="/briefing?paket=start" class="pbtn">Briefing starten →</a>
     </div>
     <div class="pcard feat fade-up d2">
-      <div class="ptag">Paket A · Redesign <span class="pbadge">BELIEBT</span></div>
-      <div class="pamt">€ 1.290 <sub>zzgl. MwSt.</sub></div>
+      <div class="ptag">Paket Wachstum · Redesign <span class="pbadge">BELIEBT</span></div>
+      <div class="pamt" id="preis-wachstum">€ 1.290 <sub>zzgl. MwSt.</sub></div>
       <p class="pnote">Du hast Domain & Hosting. Ich übernehme alles andere: Design, Entwicklung, Impressum, SEO, 1 KI-Automation, 2 Revisionen.</p>
       <ul class="plist">
         <li>Mehrere Unterseiten möglich</li>
@@ -331,20 +343,28 @@ footer{background:var(--bg-card);border-top:1px solid var(--border);padding:48px
         <li>2 Revisionsrunden</li>
         <li>Domain & Hosting vorhanden</li>
       </ul>
-      <a href="/briefing?paket=A" class="pbtn">Briefing starten →</a>
+      <div class="marktanalyse-opt" id="marktanalyse-toggle" onclick="toggleMarktanalyse()">
+        <div class="marktanalyse-check" id="marktanalyse-check"></div>
+        <div>
+          <div class="marktanalyse-label">Marktanalyse hinzufügen</div>
+          <div class="marktanalyse-sub">+€ 50 · optional</div>
+        </div>
+      </div>
+      <a href="/briefing?paket=wachstum" class="pbtn" id="btn-wachstum">Briefing starten →</a>
     </div>
     <div class="pcard fade-up d3">
-      <div class="ptag">Paket B · Komplett</div>
+      <div class="ptag">Paket Komplett · Full Service</div>
       <div class="pamt">€ 1.590 <sub>zzgl. MwSt.</sub></div>
       <p class="pnote">Du startest bei null. Domain, Hosting, DNS, E-Mail-Setup plus komplettes Design & Entwicklung — schlüsselfertig.</p>
       <ul class="plist">
-        <li>Alles aus Paket A</li>
+        <li>Alles aus Paket Wachstum</li>
         <li>Domain-Registrierung</li>
         <li>Hosting-Setup (Netlify, DE-Server)</li>
         <li>DNS-Konfiguration</li>
         <li>E-Mail-Adresse einrichten</li>
+        <li class="plist-included">Marktanalyse inklusive</li>
       </ul>
-      <a href="/briefing?paket=B" class="pbtn">Briefing starten →</a>
+      <a href="/briefing?paket=komplett" class="pbtn">Briefing starten →</a>
     </div>
   </div>
 
@@ -433,7 +453,7 @@ footer{background:var(--bg-card);border-top:1px solid var(--border);padding:48px
         <h3>Mandy's Fuß- & Wohlfühloase</h3>
         <p class="ref-result"><span class="ref-stat">Von null auf live</span> — ohne Domain, ohne Vorwissen, in unter 3 Wochen online</p>
         <p>Elegantes Dark-Theme, Terminbuchung direkt über die Website, Leistungsübersicht mit Zertifikaten.</p>
-        <div class="ref-meta"><span>✓ Paket B — alles inklusive</span><span style="color:var(--accent)">🚀 Launch: Juli 2026</span></div>
+        <div class="ref-meta"><span>✓ Paket Komplett — alles inklusive</span><span style="color:var(--accent)">🚀 Launch: Juli 2026</span></div>
       </div>
     </div>
   </div>
@@ -446,7 +466,7 @@ footer{background:var(--bg-card);border-top:1px solid var(--border);padding:48px
   <div style="max-width:680px;margin-top:32px;">
     <div class="faq-item fade-up d1">
       <div class="faq-q" onclick="toggleFaq(this)"><span>Was kostet eine Website?</span><span class="faq-toggle">+</span></div>
-      <div class="faq-a">Paket S (Onepager, Domain vorhanden) <strong>€ 890 zzgl. MwSt.</strong> · Paket A (Redesign, Domain vorhanden) <strong>€ 1.290 zzgl. MwSt.</strong> · Paket B (alles inklusive, Domain neu) <strong>€ 1.590 zzgl. MwSt.</strong> · Weitere Änderungen nach Übergabe: <strong>€ 129 zzgl. MwSt.</strong> pro Auftrag. Alle Preise sind Festpreise — keine versteckten Kosten.</div>
+      <div class="faq-a">Paket Start (Onepager, Domain vorhanden) <strong>€ 890 zzgl. MwSt.</strong> · Paket Wachstum (Redesign, Domain vorhanden) <strong>€ 1.290 zzgl. MwSt.</strong> · Paket Komplett (Full Service, alles inklusive) <strong>€ 1.590 zzgl. MwSt.</strong> · Weitere Änderungen nach Übergabe: <strong>€ 129 zzgl. MwSt.</strong> pro Auftrag. Alle Preise sind Festpreise — keine versteckten Kosten.</div>
     </div>
     <div class="faq-item fade-up d2">
       <div class="faq-q" onclick="toggleFaq(this)"><span>Wie lange dauert die Umsetzung?</span><span class="faq-toggle">+</span></div>
@@ -504,7 +524,7 @@ footer{background:var(--bg-card);border-top:1px solid var(--border);padding:48px
 <section id="kontakt">
   <span class="section-tag fade-up">Erst eine Frage?</span>
   <h2 class="fade-up">Kontakt</h2>
-  <p class="section-sub fade-up d1">Kein Problem — ich antworte innerhalb von 24 Stunden. Oder direkt per E-Mail: <a href="mailto:jan@seitenwertig.de">jan@seitenwertig.de</a></p>
+  <p class="section-sub fade-up d1">Kein Problem — ich antworte innerhalb von 24 Stunden. Oder direkt per E-Mail: <a href="/cdn-cgi/l/email-protection#0268636c4271676b76676c756770766b652c6667"><span class="__cf_email__" data-cfemail="9ef4fff0deedfbf7eafbf0e9fbeceaf7f9b0fafb">[email&#160;protected]</span></a></p>
   <form class="kontakt-form fade-up d2" name="kontakt" method="POST" data-netlify="true" netlify-honeypot="bot-field" onsubmit="submitKontakt(event)">
     <input type="hidden" name="form-name" value="kontakt"/>
     <p style="display:none"><input name="bot-field"/></p>
@@ -528,7 +548,7 @@ footer{background:var(--bg-card);border-top:1px solid var(--border);padding:48px
       <div>
         <div class="footer-logo"><div class="nav-logo" style="width:28px;height:28px;font-size:13px">S</div> Seiten<span style="color:var(--accent)">Wertig</span></div>
         <p class="footer-desc">Webdesign & KI-Automation · Forchheim · Bamberg · Erlangen · Franken</p>
-        <p class="footer-desc" style="margin-top:8px"><a href="mailto:jan@seitenwertig.de" style="color:var(--muted)">jan@seitenwertig.de</a></p>
+        <p class="footer-desc" style="margin-top:8px"><a href="/cdn-cgi/l/email-protection#3e545f507e4d5b574a5b50495b4c4a5759105a5b" style="color:var(--muted)"><span class="__cf_email__" data-cfemail="b0dad1def0c3d5d9c4d5dec7d5c2c4d9d79ed4d5">[email&#160;protected]</span></a></p>
       </div>
       <div>
         <p class="footer-title">Webdesign Region</p>
@@ -581,7 +601,7 @@ footer{background:var(--bg-card);border-top:1px solid var(--border);padding:48px
   </div>
 </div>
 
-<script>
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
 // Fade-up animation
 const obs = new IntersectionObserver(entries=>{entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add('visible');obs.unobserve(e.target)}})},{threshold:.12});
 document.querySelectorAll('.fade-up').forEach(el=>obs.observe(el));
@@ -597,6 +617,20 @@ function toggleFaq(btn){
 window.addEventListener('scroll',()=>{
   document.getElementById('nav').style.boxShadow=window.scrollY>10?'0 2px 20px rgba(0,0,0,.3)':'none';
 });
+
+// Marktanalyse Toggle
+var marktanalyseAktiv=false;
+function toggleMarktanalyse(){
+  marktanalyseAktiv=!marktanalyseAktiv;
+  var toggle=document.getElementById('marktanalyse-toggle');
+  var check=document.getElementById('marktanalyse-check');
+  var preis=document.getElementById('preis-wachstum');
+  var btn=document.getElementById('btn-wachstum');
+  toggle.classList.toggle('active',marktanalyseAktiv);
+  check.textContent=marktanalyseAktiv?'✓':'';
+  preis.innerHTML=marktanalyseAktiv?'€ 1.340 <sub>zzgl. MwSt.</sub>':'€ 1.290 <sub>zzgl. MwSt.</sub>';
+  btn.href=marktanalyseAktiv?'/briefing?paket=wachstum&marktanalyse=1':'/briefing?paket=wachstum';
+}
 
 // Kontakt form
 function submitKontakt(e){
