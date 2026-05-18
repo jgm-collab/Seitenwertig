@@ -227,17 +227,12 @@ textarea { resize: vertical; min-height: 80px; line-height: 1.65; }
 </head>
 <body>
 
-<!-- Netlify form detection (hidden) -->
-<form name="briefing-ki" netlify netlify-honeypot="bot-field" hidden>
+<!-- Backup: Netlify Forms — Roh-Briefing-Log, falls Resend/Background-Function ausfällt -->
+<form name="briefing-backup" netlify netlify-honeypot="bot-field" hidden>
   <input name="bot-field">
-  <input name="betrieb_name"><input name="branche"><input name="ort"><input name="email">
-  <input name="hauptziel"><input name="aktion"><input name="problem">
-  <input name="usp"><input name="zielkunden"><input name="seiten">
-  <input name="ausstrahlung"><input name="farben">
-  <input name="wb_aktiv"><input name="wettbewerber"><input name="keywords"><input name="einzugsgebiet">
-  <textarea name="ki_analyse"></textarea>
-  <textarea name="lovable_prompt"></textarea>
-  <textarea name="email_vorschau"></textarea>
+  <input name="paket"><input name="firmenname"><input name="branche"><input name="ort">
+  <input name="email"><input name="telefon"><input name="domainwunsch">
+  <textarea name="briefing_json"></textarea>
 </form>
 
 <!-- NAV -->
@@ -365,6 +360,10 @@ textarea { resize: vertical; min-height: 80px; line-height: 1.65; }
         <textarea id="betrieb-usp" placeholder="z.B. Familienunternehmen seit 30 Jahren, 24h-Notdienst, keine versteckten Kosten…"></textarea>
       </div>
       <div class="field">
+        <label>Deine Hauptleistungen <span class="opt">(eine pro Zeile)</span></label>
+        <textarea id="betrieb-leistungen" rows="4" placeholder="z.B.&#10;Einbauküchen nach Maß&#10;Massivholztische&#10;Restaurierung alter Möbel"></textarea>
+      </div>
+      <div class="field">
         <label>Ideale Kunden <span class="opt">(mehrere möglich)</span></label>
         <div class="chip-group" id="chips-zielkunden">
           <div class="chip" onclick="togChip(this,'zielkunden')">Privatkunden</div>
@@ -378,6 +377,10 @@ textarea { resize: vertical; min-height: 80px; line-height: 1.65; }
       <div class="field">
         <label>Deine E-Mail-Adresse <span class="opt">(wohin sollen Anfragen?)</span></label>
         <input type="email" id="kontakt-email" placeholder="deine@email.de">
+      </div>
+      <div class="field">
+        <label>Telefon</label>
+        <input type="text" id="kontakt-telefon" placeholder="+49 …">
       </div>
 
       <div class="btn-row">
@@ -445,6 +448,11 @@ textarea { resize: vertical; min-height: 80px; line-height: 1.65; }
       <span class="eyebrow">Schritt 4 — Inhalte & Bilder</span>
       <h1>Was hast du schon?</h1>
       <p class="subtitle">Echte Fotos und eigene Texte machen den größten Unterschied.</p>
+
+      <div class="field" id="field-domainwunsch" style="display:none">
+        <label>Deine Wunsch-Domain <span class="opt">(Pflicht bei Paket Komplett)</span></label>
+        <input type="text" id="domain-wunsch" placeholder="z.B. mein-betrieb.de">
+      </div>
 
       <div class="field">
         <label>Gibt es schon eine Website?</label>
@@ -554,10 +562,10 @@ textarea { resize: vertical; min-height: 80px; line-height: 1.65; }
         <p>Gleich hast du alles — fertig zum Kopieren in Lovable.</p>
         <ul class="ki-steps" id="kiSteps">
           <li class="ki-step active" id="ks1"><span class="dot"></span>Briefing-Daten auswerten</li>
-          <li class="ki-step"        id="ks2"><span class="dot"></span>Wettbewerbsumfeld einschätzen</li>
-          <li class="ki-step"        id="ks3"><span class="dot"></span>Positionierungsstrategie ableiten</li>
-          <li class="ki-step"        id="ks4"><span class="dot"></span>Lovable-Prompt & E-Mail generieren</li>
-          <li class="ki-step"        id="ks5"><span class="dot"></span>An <a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="6f050e012f1c0a061b0a01180a1d1b0608410b0a">[email&#160;protected]</a> senden</li>
+          <li class="ki-step"        id="ks2"><span class="dot"></span>Briefing an Server senden</li>
+          <li class="ki-step"        id="ks3"><span class="dot"></span>Claude generiert Lovable-Prompt</li>
+          <li class="ki-step"        id="ks4"><span class="dot"></span>E-Mail an <a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="670d06092714020e130209100215130e00490302">[email&#160;protected]</a> wird zugestellt</li>
+          <li class="ki-step"        id="ks5"><span class="dot"></span>Bestätigung anzeigen</li>
         </ul>
       </div>
 
@@ -601,10 +609,14 @@ textarea { resize: vertical; min-height: 80px; line-height: 1.65; }
           </div>
         </div>
 
+        <div id="submissionWarn" style="display:none;background:rgba(239,68,68,0.08);border:1px solid rgba(239,68,68,0.25);border-radius:var(--radius-xs);padding:14px 18px;font-size:13px;color:#fca5a5;font-weight:300;line-height:1.65;margin-bottom:16px">
+          <strong style="color:#fca5a5;font-weight:700">Hinweis:</strong> Die automatische Verarbeitung konnte nicht erreicht werden. Jan wurde über die Backup-Logs trotzdem benachrichtigt und meldet sich. Bei Unsicherheit kurz eine E-Mail an <a href="/cdn-cgi/l/email-protection#90faf1fed0e3f5f9e4f5fee7f5e2e4f9f7bef4f5" style="color:#fca5a5;text-decoration:underline"><span class="__cf_email__" data-cfemail="3359525d7340565a47565d445641475a541d5756">[email&#160;protected]</span></a>.
+        </div>
+
         <div class="info-row" id="infoRow"></div>
 
         <div style="background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius-xs);padding:14px 18px;font-size:13px;color:var(--muted);font-weight:300;line-height:1.65">
-          Fragen in der Zwischenzeit? <a href="/cdn-cgi/l/email-protection#49232827093a2c203d2c273e2c3b3d202e672d2c"><span class="__cf_email__" data-cfemail="d4beb5ba94a7b1bda0b1baa3b1a6a0bdb3fab0b1">[email&#160;protected]</span></a>
+          Fragen in der Zwischenzeit? <a href="/cdn-cgi/l/email-protection#f09a919eb083959984959e879582849997de9495"><span class="__cf_email__" data-cfemail="5d373c331d2e38342938332a382f29343a733938">[email&#160;protected]</span></a>
         </div>
 
         <div class="trust">DSGVO-konform · EU-Datenschutz · Kein Abo · Kein Spam</div>
@@ -660,7 +672,16 @@ function showStep(id, isBack) {
   window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 
-function next() { step++; showStep('step'+step, false); setProgress(step); }
+function next() {
+  step++;
+  showStep('step'+step, false);
+  setProgress(step);
+  // Domainwunsch nur bei Paket Komplett zeigen
+  if (step === 4) {
+    var f = document.getElementById('field-domainwunsch');
+    if (f) f.style.display = (selectedPaket === 'komplett') ? 'block' : 'none';
+  }
+}
 function back() { step--; showStep('step'+step, true); setProgress(step); }
 
 /* ── Chip helpers ── */
@@ -690,15 +711,32 @@ document.getElementById('wbFields').addEventListener('click', e => e.stopPropaga
 /* ── Collect data ── */
 function v(id) { var el = document.getElementById(id); return el ? el.value.trim() : ''; }
 function collect() {
+  // Paket-Mapping: Frontend-Werte → Backend-Werte (siehe generate-prompt-background.mjs)
+  var paketMap = { start: 'onepager', wachstum: 'website', komplett: 'komplett' };
+  var paketBackend = paketMap[selectedPaket] || selectedPaket;
+
+  // Leistungen als Array (eine pro Zeile)
+  var leistungenRaw = v('betrieb-leistungen');
+  var leistungenArr = leistungenRaw.split('\n').map(function(s){return s.trim();}).filter(Boolean);
+
   var comp = [];
   for (var i=1;i<=2;i++) { var n=v('wb-name'+i),u=v('wb-url'+i); if(n) comp.push(n+(u?' ('+u+')':'')); }
+
   return {
-    paket:         selectedPaket,
+    /* === Backend-Pflichtfelder (REQUIRED_FIELDS in generate-prompt-background.mjs) === */
+    paket:                          paketBackend,
+    firmenname:                     v('betrieb-name'),
+    branche:                        v('betrieb-branche'),
+    ort:                            v('betrieb-ort'),
+    usp:                            v('betrieb-usp'),
+    leistungen:                     leistungenArr,
+    telefon:                        v('kontakt-telefon'),
+    email:                          v('kontakt-email'),
+    domainwunsch:                   v('domain-wunsch'),
+    wettbewerbsanalyse_gewuenscht:  wbOn,
+
+    /* === Legacy-Felder für formatBriefing.js (liest d.name, d.wbOn etc.) === */
     name:          v('betrieb-name'),
-    branche:       v('betrieb-branche'),
-    ort:           v('betrieb-ort'),
-    usp:           v('betrieb-usp'),
-    email:         v('kontakt-email'),
     hauptziel:     chips['hauptziel']||'',
     aktion:        chips['aktion']||'',
     problem:       chips['problem']||'',
@@ -718,6 +756,20 @@ function collect() {
     einzugsgebiet: chips['radius']||'',
     keywords:      v('wb-keywords'),
   };
+}
+
+/* ── Pflichtfeld-Validierung (mirror REQUIRED_FIELDS Backend) ── */
+function validate(d) {
+  var missing = [];
+  if (!d.firmenname)     missing.push('Firmenname');
+  if (!d.branche)        missing.push('Branche');
+  if (!d.ort)            missing.push('Standort');
+  if (!d.usp)            missing.push('USP / Stärken');
+  if (!d.leistungen.length) missing.push('Leistungen');
+  if (!d.telefon)        missing.push('Telefon');
+  if (!d.email)          missing.push('E-Mail');
+  if (d.paket === 'komplett' && !d.domainwunsch) missing.push('Wunsch-Domain');
+  return missing;
 }
 
 /* ── Loading animation ── */
@@ -740,104 +792,93 @@ function animateLoadingSteps(onDone) {
   tick();
 }
 
-/* ── Build Claude prompt ── */
-function buildPrompt(d) {
-  var wb = d.wbOn
-    ? '\n\nWETTBEWERB:\n- Wettbewerber: '+(d.wettbewerber||'keine Angabe')+'\n- Einzugsgebiet: '+(d.einzugsgebiet||'keine Angabe')+'\n- Google-Suchbegriffe: '+(d.keywords||'keine Angabe')
-    : '\n\nWETTBEWERB: Keine Wettbewerber angegeben — generelle Brancheneinschätzung trotzdem erwünscht.';
-  return `Du bist Webdesign-Stratege und Prompt-Engineer für SeitenWertig (seitenwertig.de), ein Webdesign-Studio aus Forchheim, Bayern.\n\nBRIEFING-DATEN:\n- Paket: ${d.paket||'nicht angegeben'}\n- Betrieb: ${d.name||'nicht angegeben'}\n- Branche: ${d.branche||'nicht angegeben'}\n- Standort: ${d.ort||'nicht angegeben'}\n- USP / Stärken: ${d.usp||'nicht angegeben'}\n- Zielkunden: ${d.zielkunden||'nicht angegeben'}\n- Hauptziel: ${d.hauptziel||'nicht angegeben'}\n- Besucher-Aktion: ${d.aktion||'nicht angegeben'}\n- Aktuelles Problem: ${d.problem||'nicht angegeben'}\n- Erfolgsdefinition: ${d.erfolg||'nicht angegeben'}\n- Bestehende Website: ${d.bestehtUrl}\n- Logo: ${d.logoLink}\n- Seiten: ${d.seiten}\n- Ausstrahlung: ${d.ausstrahlung||'nicht angegeben'}\n- Farbwünsche: ${d.farben||'keine'}\n- Referenz-Websites: ${d.referenzen||'keine'}\n- Vermeiden: ${d.vermeiden||'nichts angegeben'}${wb}\n\nAUFGABE: Erstelle eine JSON-Antwort mit EXAKT diesem Format (reines JSON, kein Markdown):\n\n{\n  "analyse": [\n    "Einschätzung zur Wettbewerbssituation und lokalen Sichtbarkeit (1-2 Sätze)",\n    "SEO-Chancen und konkrete Keyword-Strategie für diese Branche & Region",\n    "Conversion-Optimierung: Was in dieser Branche am besten funktioniert",\n    "Wichtigste Differenzierungsstrategie gegenüber typischen Mitbewerbern"\n  ],\n  "lovable_prompt": "Vollständiger Lovable-Prompt auf Englisch. Sections: ## Business Context, ## Goals & Success Metrics, ## Target Audience, ## Pages & Structure, ## Design Direction, ## Technical Requirements, ## Content Notes. Mindestens 450 Wörter. Konkret, direkt umsetzbar.",\n  "email_subject": "Neues Briefing: [Betriebsname] — [Branche kurz]",\n  "email_body": "Formatierte, professionelle E-Mail auf Deutsch an Jan (SeitenWertig). Beginnt mit einer kurzen Einleitung (Briefing eingegangen, Branche, Ort). Dann strukturierte Zusammenfassung: Ziel, Betrieb, USP, Zielkunden, gewünschte Seiten, Design-Wunsch, Wettbewerbsinfo (falls angegeben). Endet mit Handlungsempfehlung (z.B. welches Paket passt, nächster Schritt). Ton: professionell aber direkt, kein Blabla. Ca. 200-250 Wörter."\n}\n\nNur das JSON. Kein Text davor oder danach. Keine Markdown-Code-Blöcke.`;
-}
-
-/* ── Submit to Netlify ── */
-async function submitToNetlify(d, parsed) {
+/* ── Backup-Log an Netlify Forms (falls Background-Function/Resend ausfällt) ── */
+async function submitBackup(d) {
   var body = new URLSearchParams({
-    'form-name':    'briefing-ki',
-    'bot-field':    '',
-    betrieb_name:   d.name,
-    branche:        d.branche,
-    ort:            d.ort,
-    email:          d.email,
-    hauptziel:      d.hauptziel,
-    aktion:         d.aktion,
-    problem:        d.problem,
-    usp:            d.usp,
-    zielkunden:     d.zielkunden,
-    seiten:         d.seiten,
-    ausstrahlung:   d.ausstrahlung,
-    farben:         d.farben,
-    wb_aktiv:       d.wbOn ? 'Ja' : 'Nein',
-    wettbewerber:   d.wettbewerber,
-    keywords:       d.keywords,
-    einzugsgebiet:  d.einzugsgebiet,
-    ki_analyse:     (parsed.analyse||[]).join('\n\n'),
-    lovable_prompt: parsed.lovable_prompt||'',
-    email_vorschau: parsed.email_body||'',
+    'form-name':   'briefing-backup',
+    'bot-field':   '',
+    paket:         d.paket || '',
+    firmenname:    d.firmenname || '',
+    branche:       d.branche || '',
+    ort:           d.ort || '',
+    email:         d.email || '',
+    telefon:       d.telefon || '',
+    domainwunsch:  d.domainwunsch || '',
+    briefing_json: JSON.stringify(d),
   });
   try {
     await fetch('/', { method: 'POST', headers: { 'Content-Type': 'application/x-www-form-urlencoded' }, body: body.toString() });
-  } catch(e) {}
+  } catch(e) { /* best effort */ }
 }
 
-/* ── Main: start KI ── */
+/* ── Main: Briefing absenden ── */
 async function startKI() {
   if (!document.getElementById('dsgvo').checked) {
     alert('Bitte stimme der Datenschutzerklärung zu.');
     return;
   }
   var d = collect();
+
+  // Pflichtfeld-Check — sonst würde das Backend mit "Pflichtfelder fehlen" antworten
+  var missing = validate(d);
+  if (missing.length) {
+    alert('Bitte fülle noch aus:\n\n• ' + missing.join('\n• '));
+    return;
+  }
+
   step = 6;
   showStep('step6', false);
   setProgress(6);
   document.getElementById('kiLoading').style.display = 'block';
   document.getElementById('kiResult').style.display = 'none';
 
-  var claudeDone = false;
   var animDone = false;
-  var claudeResult = null;
-  var hadError = false;
+  var apiDone = false;
+  var apiError = null;
 
   function tryRender() {
-    if (claudeDone && animDone) renderResult(d, claudeResult, hadError);
+    if (animDone && apiDone) renderResult(d, apiError);
   }
 
-  animateLoadingSteps(() => { animDone = true; tryRender(); });
+  animateLoadingSteps(function(){ animDone = true; tryRender(); });
 
+  // 1. Backup-Log an Netlify Forms (best effort, parallel)
+  submitBackup(d);
+
+  // 2. Background-Function aufrufen — macht Claude-Call + E-Mail via Resend
   try {
-    var apiRes = await fetch('/.netlify/functions/claude', {
+    var res = await fetch('/.netlify/functions/generate-prompt-background', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ prompt: buildPrompt(d) }),
+      body: JSON.stringify(d),
     });
-    if (!apiRes.ok) throw new Error('Function error: ' + apiRes.status);
-    var apiData = await apiRes.json();
-    if (apiData.error) throw new Error(apiData.error);
-    var text = (apiData.text || '').trim().replace(/^```json\s*/i,'').replace(/^```/,'').replace(/```$/,'');
-    claudeResult = JSON.parse(text);
-    await submitToNetlify(d, claudeResult);
+    // Background-Functions geben 202 Accepted zurück — alles andere ist Fehler
+    if (res.status !== 202 && !res.ok) {
+      throw new Error('Server-Fehler: HTTP ' + res.status);
+    }
   } catch(e) {
-    hadError = true;
-    claudeResult = buildFallback(d);
+    apiError = e;
+    console.error('[briefing] Submission fehlgeschlagen:', e);
   }
-  claudeDone = true;
+  apiDone = true;
   tryRender();
 }
 
-function renderResult(d, parsed, hadError) {
+function renderResult(d, apiError) {
   document.getElementById('infoRow').innerHTML = [
-    { label:'Betrieb', val: d.name||'—' },
+    { label:'Betrieb', val: d.firmenname||'—' },
     { label:'Branche', val: d.branche||'—' },
     { label:'Region',  val: d.ort||'—' },
-  ].map(c => `<div class="info-chip"><div class="info-chip-label">${c.label}</div><div class="info-chip-val">${esc(c.val)}</div></div>`).join('');
+  ].map(function(c){ return '<div class="info-chip"><div class="info-chip-label">'+c.label+'</div><div class="info-chip-val">'+esc(c.val)+'</div></div>'; }).join('');
+
   document.getElementById('kiLoading').style.display = 'none';
   document.getElementById('kiResult').style.display = 'block';
-}
 
-function buildFallback(d) {
-  return {
-    analyse: [],
-    email_body: `Neues Briefing eingegangen\n\nBetrieb: ${d.name}\nBranche: ${d.branche}\nStandort: ${d.ort}\nZiel: ${d.hauptziel}\nUSP: ${d.usp}\nZielkunden: ${d.zielkunden}\nSeiten: ${d.seiten}\n\n(KI-Analyse nicht verfügbar)`,
-    lovable_prompt: `# Website Brief: ${d.name}`,
-  };
+  // Falls Submission scheiterte: dezenten Hinweis einblenden
+  if (apiError) {
+    var warn = document.getElementById('submissionWarn');
+    if (warn) warn.style.display = 'block';
+  }
 }
 
 function esc(s) { return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
