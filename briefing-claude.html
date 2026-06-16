@@ -1,0 +1,859 @@
+<!DOCTYPE html>
+<!-- @dsCard group="UI Kit — Website" name="Briefing Wizard + KI-Analyse" subtitle="5-Schritt Briefing → Claude-Analyse → Website-Briefing" viewport="700x700" -->
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Projekt-Briefing — SeitenWertig</title>
+<link rel="preconnect" href="https://fonts.bunny.net">
+<link href="https://fonts.bunny.net/css?family=dm-sans:300,400,500,700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg:        #0f1219;
+  --bg2:       #151b23;
+  --bg3:       #1a2029;
+  --border:    rgba(255,255,255,0.07);
+  --border-md: rgba(255,255,255,0.13);
+  --border-hi: rgba(255,255,255,0.22);
+  --text:      #e2e8f0;
+  --muted:     #64748b;
+  --muted2:    #3e4a5c;
+  --accent:    #34d399;
+  --accent-bg: rgba(52,211,153,0.08);
+  --accent-border: rgba(52,211,153,0.30);
+  --radius:    8px;
+  --radius-sm: 5px;
+  --font:      'DM Sans', system-ui, sans-serif;
+}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { background: var(--bg); color: var(--text); font-family: var(--font); font-size: 16px; min-height: 100vh; -webkit-font-smoothing: antialiased; }
+body { display: flex; flex-direction: column; min-height: 100vh; overflow-x: hidden; }
+
+/* NAV */
+.nav {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 0 1.5rem; height: 58px;
+  border-bottom: 1px solid var(--border);
+  position: sticky; top: 0; background: rgba(15,18,25,0.92);
+  backdrop-filter: blur(12px); z-index: 100;
+}
+.nav-logo { display: flex; align-items: center; gap: 0.45rem; text-decoration: none; color: var(--text); }
+.nav-logo-mark { width: 28px; height: 28px; background: var(--accent); color: var(--bg); border-radius: 4px; display: flex; align-items: center; justify-content: center; font-size: 0.8125rem; font-weight: 700; flex-shrink: 0; }
+.nav-logo-name { font-size: 0.9375rem; font-weight: 500; letter-spacing: -0.01em; }
+.nav-logo-name span { color: var(--accent); }
+.nav-back { font-size: 0.8125rem; color: var(--muted); text-decoration: none; transition: color 0.2s; }
+.nav-back:hover { color: var(--text); }
+
+/* WRAPPER */
+.steps-outer { flex: 1; display: flex; flex-direction: column; align-items: center; padding: 2.5rem 1.5rem 4rem; }
+
+/* PROGRESS */
+.progress-wrap { width: 100%; max-width: 640px; margin-bottom: 2rem; }
+.progress-label { font-size: 0.75rem; color: var(--muted); letter-spacing: 0.04em; text-transform: uppercase; margin-bottom: 0.5rem; }
+.progress-bar { width: 100%; height: 2px; background: var(--border); border-radius: 2px; overflow: hidden; }
+.progress-fill { height: 100%; background: var(--accent); border-radius: 2px; transition: width 0.5s cubic-bezier(0.4,0,0.2,1); }
+
+/* STEPS */
+.steps-viewport { width: 100%; max-width: 640px; }
+.step { width: 100%; display: none; flex-direction: column; animation: stepIn 0.35s cubic-bezier(0.4,0,0.2,1); }
+.step.active { display: flex; }
+.step.back-enter { animation: stepInBack 0.35s cubic-bezier(0.4,0,0.2,1); }
+@keyframes stepIn { from { opacity: 0; transform: translateX(28px); } to { opacity: 1; transform: translateX(0); } }
+@keyframes stepInBack { from { opacity: 0; transform: translateX(-28px); } to { opacity: 1; transform: translateX(0); } }
+
+/* EYEBROW */
+.eyebrow { display: flex; align-items: center; gap: 0.6rem; font-size: 0.75rem; font-weight: 500; color: var(--accent); letter-spacing: 0.06em; text-transform: uppercase; margin-bottom: 0.75rem; }
+.eyebrow::before { content: ''; display: block; width: 24px; height: 1px; background: var(--muted2); }
+h1 { font-size: clamp(1.75rem, 5vw, 2.25rem); font-weight: 700; letter-spacing: -0.035em; line-height: 1.15; margin-bottom: 0.75rem; }
+.subtitle { font-size: 0.9375rem; font-weight: 300; color: var(--muted); line-height: 1.55; margin-bottom: 2rem; }
+
+/* FORM */
+.field { margin-bottom: 1.25rem; }
+label { display: block; font-size: 0.8125rem; color: var(--muted); margin-bottom: 0.4rem; }
+label .opt { font-weight: 300; color: var(--muted2); }
+input[type="text"], input[type="url"], input[type="email"], textarea {
+  width: 100%; background: var(--bg3); border: 1px solid var(--border);
+  border-radius: var(--radius-sm); padding: 0.7rem 0.85rem;
+  color: var(--text); font-family: var(--font); font-size: 0.875rem;
+  font-weight: 300; outline: none; transition: border-color 0.25s;
+}
+input::placeholder, textarea::placeholder { color: var(--muted2); }
+input:focus, textarea:focus { border-color: var(--accent-border); }
+textarea { resize: vertical; min-height: 80px; line-height: 1.55; }
+
+/* CHIPS */
+.chip-group { display: flex; flex-wrap: wrap; gap: 0.5rem; }
+.chip { padding: 0.45rem 0.85rem; border-radius: 20px; background: var(--bg3); border: 1px solid var(--border); font-size: 0.8125rem; color: var(--muted); cursor: pointer; transition: all 0.2s; user-select: none; }
+.chip:hover { border-color: var(--border-hi); color: var(--text); }
+.chip.selected { background: var(--accent-bg); border-color: var(--accent-border); color: var(--accent); font-weight: 500; }
+
+/* TOGGLE */
+.toggle-card { width: 100%; background: var(--bg2); border: 1px solid var(--border); border-radius: var(--radius); padding: 1.25rem 1.5rem; margin-bottom: 1.75rem; transition: border-color 0.3s; cursor: pointer; user-select: none; }
+.toggle-card:hover { border-color: var(--border-md); }
+.toggle-card.active { border-color: var(--accent-border); background: var(--accent-bg); }
+.toggle-top { display: flex; align-items: center; justify-content: space-between; gap: 1rem; }
+.toggle-left { display: flex; align-items: flex-start; gap: 0.75rem; flex: 1; }
+.toggle-icon { width: 36px; height: 36px; border-radius: 8px; background: var(--bg3); border: 1px solid var(--border); display: flex; align-items: center; justify-content: center; font-size: 1.125rem; flex-shrink: 0; }
+.toggle-info h3 { font-size: 0.9375rem; font-weight: 500; margin-bottom: 0.25rem; }
+.toggle-info p { font-size: 0.8125rem; font-weight: 300; color: var(--muted); line-height: 1.5; }
+.switch { width: 44px; height: 24px; background: var(--bg3); border: 1px solid var(--border-md); border-radius: 12px; position: relative; flex-shrink: 0; transition: background 0.3s, border-color 0.3s; }
+.switch::after { content: ''; position: absolute; top: 2px; left: 2px; width: 18px; height: 18px; border-radius: 50%; background: var(--muted); transition: transform 0.3s, background 0.3s; }
+.toggle-card.active .switch { background: var(--accent); border-color: var(--accent); }
+.toggle-card.active .switch::after { transform: translateX(20px); background: var(--bg); }
+.expand-section { max-height: 0; overflow: hidden; opacity: 0; transition: max-height 0.5s cubic-bezier(0.4,0,0.2,1), opacity 0.4s ease, margin 0.4s ease; margin-top: 0; }
+.expand-section.open { max-height: 2000px; opacity: 1; margin-top: 1.5rem; }
+
+/* YES/NO */
+.yn-group { display: flex; gap: 0.5rem; }
+.yn-btn { padding: 0.45rem 1.1rem; border-radius: 20px; background: var(--bg3); border: 1px solid var(--border); font-size: 0.8125rem; color: var(--muted); cursor: pointer; transition: all 0.2s; user-select: none; }
+.yn-btn:hover { border-color: var(--border-hi); color: var(--text); }
+.yn-btn.selected { background: var(--accent-bg); border-color: var(--accent-border); color: var(--accent); font-weight: 500; }
+.yn-reveal { margin-top: 0.75rem; display: none; }
+.yn-reveal.show { display: block; }
+
+/* DIVIDER */
+.sect-divider { width: 100%; height: 1px; background: var(--border); margin: 1.5rem 0; }
+
+/* HINT BOX */
+.hint-box { background: var(--bg2); border: 1px solid var(--border); border-radius: var(--radius); padding: 0.85rem 1rem; margin-top: 1.25rem; display: flex; gap: 0.6rem; align-items: flex-start; }
+.hint-box p { font-size: 0.8125rem; font-weight: 300; color: var(--muted); line-height: 1.5; }
+
+/* BUTTONS */
+.btn-row { display: flex; gap: 0.75rem; width: 100%; margin-top: 2rem; }
+.btn { flex: 1; display: flex; align-items: center; justify-content: center; padding: 0.8rem 1.5rem; border-radius: var(--radius-sm); font-family: var(--font); font-size: 0.875rem; font-weight: 500; cursor: pointer; transition: all 0.25s; border: none; }
+.btn-back { background: transparent; border: 1px solid var(--border); color: var(--muted); flex: 0; padding: 0.8rem 1.25rem; }
+.btn-back:hover { border-color: var(--border-hi); color: var(--text); }
+.btn-next { background: var(--accent); color: var(--bg); font-weight: 600; }
+.btn-next:hover { filter: brightness(1.1); }
+.btn-next:disabled { opacity: 0.5; cursor: not-allowed; filter: none; }
+
+/* SUMMARY */
+.summary-grid { display: flex; flex-direction: column; gap: 1rem; }
+.summary-block { background: var(--bg2); border: 1px solid var(--border); border-radius: var(--radius); padding: 1.125rem 1.25rem; }
+.summary-block-header { font-size: 0.6875rem; font-weight: 500; color: var(--accent); letter-spacing: 0.07em; text-transform: uppercase; margin-bottom: 0.875rem; display: flex; align-items: center; gap: 0.45rem; }
+.summary-block-header::before { content: ''; display: block; width: 16px; height: 1px; background: var(--muted2); }
+.summary-row { display: flex; gap: 0.75rem; padding: 0.5rem 0; border-bottom: 1px solid var(--border); font-size: 0.875rem; }
+.summary-row:last-child { border-bottom: none; padding-bottom: 0; }
+.summary-key { color: var(--muted); min-width: 160px; flex-shrink: 0; font-size: 0.8125rem; }
+.summary-val { color: var(--text); font-weight: 300; line-height: 1.55; flex: 1; word-break: break-word; }
+.summary-val.empty { color: var(--muted2); font-style: italic; }
+
+/* COMP GRID */
+.comp-row { display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem; margin-bottom: 0.75rem; }
+.comp-number { font-size: 0.6875rem; font-weight: 500; color: var(--accent); letter-spacing: 0.06em; text-transform: uppercase; margin-bottom: 0.5rem; }
+
+/* ────────────────────────────────────────────────
+   KI ANALYSE — Result Screen
+   ──────────────────────────────────────────────── */
+
+/* Loading state */
+.ki-loading { text-align: center; padding: 4rem 1rem; }
+.ki-spinner { display: inline-block; width: 40px; height: 40px; border: 2px solid var(--border); border-top-color: var(--accent); border-radius: 50%; animation: spin 0.8s linear infinite; margin-bottom: 1.5rem; }
+@keyframes spin { to { transform: rotate(360deg); } }
+.ki-loading-title { font-size: 1.1rem; font-weight: 600; margin-bottom: 0.5rem; letter-spacing: -0.02em; }
+.ki-loading-sub { font-size: 0.875rem; color: var(--muted); font-weight: 300; }
+.ki-steps-list { list-style: none; margin: 1.5rem auto; max-width: 280px; text-align: left; display: flex; flex-direction: column; gap: 0.6rem; }
+.ki-step-item { font-size: 0.8125rem; color: var(--muted); display: flex; align-items: center; gap: 0.6rem; }
+.ki-step-item.done { color: var(--accent); }
+.ki-step-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--muted2); flex-shrink: 0; }
+.ki-step-item.done .ki-step-dot { background: var(--accent); }
+.ki-step-item.active .ki-step-dot { background: var(--accent); box-shadow: 0 0 0 3px rgba(52,211,153,0.2); animation: pulse 1s ease-in-out infinite; }
+@keyframes pulse { 0%,100% { opacity:1; } 50% { opacity:0.4; } }
+
+/* Result */
+.ki-result { display: flex; flex-direction: column; gap: 1.25rem; }
+.ki-section { background: var(--bg2); border: 1px solid var(--border); border-radius: var(--radius); overflow: hidden; }
+.ki-section-header { display: flex; align-items: center; gap: 0.6rem; padding: 0.875rem 1.25rem; border-bottom: 1px solid var(--border); font-size: 0.75rem; font-weight: 500; color: var(--accent); letter-spacing: 0.07em; text-transform: uppercase; }
+.ki-section-header::before { content: ''; display: block; width: 16px; height: 1px; background: var(--muted2); }
+.ki-section-body { padding: 1.25rem; }
+
+/* Analysis bullets */
+.ki-bullets { list-style: none; display: flex; flex-direction: column; gap: 0.75rem; }
+.ki-bullet { display: flex; gap: 0.75rem; font-size: 0.875rem; line-height: 1.6; color: var(--text); font-weight: 300; }
+.ki-bullet-marker { color: var(--accent); font-weight: 700; flex-shrink: 0; margin-top: 1px; }
+
+/* Prompt box */
+.prompt-box { background: var(--bg); border: 1px solid var(--border); border-radius: 6px; padding: 1rem; font-size: 0.8125rem; line-height: 1.7; color: var(--text); font-weight: 300; white-space: pre-wrap; word-break: break-word; max-height: 340px; overflow-y: auto; font-family: 'DM Mono', 'Fira Code', monospace; }
+.prompt-actions { display: flex; gap: 0.6rem; margin-top: 0.75rem; }
+.prompt-btn { display: flex; align-items: center; gap: 0.4rem; padding: 0.5rem 1rem; border-radius: 6px; font-size: 0.8125rem; font-weight: 500; cursor: pointer; border: none; font-family: var(--font); transition: all 0.2s; }
+.prompt-btn-copy { background: var(--accent); color: var(--bg); }
+.prompt-btn-copy:hover { filter: brightness(1.1); }
+.prompt-btn-copy.copied { background: var(--accent-bg); color: var(--accent); border: 1px solid var(--accent-border); }
+.prompt-btn-dl { background: var(--bg3); border: 1px solid var(--border); color: var(--muted); }
+.prompt-btn-dl:hover { border-color: var(--border-hi); color: var(--text); }
+
+/* Info row */
+.ki-info-row { display: flex; flex-wrap: wrap; gap: 1rem; }
+.ki-info-card { flex: 1; min-width: 140px; background: var(--bg3); border: 1px solid var(--border); border-radius: 6px; padding: 0.75rem 1rem; }
+.ki-info-label { font-size: 0.6875rem; text-transform: uppercase; letter-spacing: 0.06em; color: var(--muted); margin-bottom: 0.25rem; }
+.ki-info-val { font-size: 0.875rem; font-weight: 500; color: var(--text); }
+
+/* Error */
+.ki-error { background: rgba(239,68,68,0.08); border: 1px solid rgba(239,68,68,0.25); border-radius: var(--radius); padding: 1rem 1.25rem; font-size: 0.875rem; color: #fca5a5; line-height: 1.6; }
+
+/* TRUST */
+.trust-line { font-size: 0.6875rem; color: var(--muted2); text-align: center; margin-top: 2.5rem; letter-spacing: 0.04em; }
+
+/* New briefing btn */
+.btn-restart { display: flex; align-items: center; justify-content: center; gap: 0.5rem; padding: 0.75rem 1.5rem; border-radius: var(--radius-sm); font-family: var(--font); font-size: 0.875rem; font-weight: 500; cursor: pointer; border: 1px solid var(--border); background: transparent; color: var(--muted); transition: all 0.2s; margin-top: 1rem; width: 100%; }
+.btn-restart:hover { border-color: var(--border-hi); color: var(--text); }
+
+@media (max-width: 520px) {
+  .comp-row { grid-template-columns: 1fr; }
+  .summary-key { min-width: 110px; }
+  .ki-info-row { flex-direction: column; }
+}
+</style>
+</head>
+<body>
+
+<nav class="nav">
+  <a class="nav-logo" href="https://seitenwertig.de/">
+    <span class="nav-logo-mark">S</span>
+    <span class="nav-logo-name">Seiten<span>Wertig</span></span>
+  </a>
+  <a class="nav-back" href="https://seitenwertig.de/">&#8592; Website</a>
+</nav>
+
+<div class="steps-outer">
+  <div class="progress-wrap">
+    <div class="progress-label" id="progressLabel">Schritt 1 von 5</div>
+    <div class="progress-bar"><div class="progress-fill" id="progressFill" style="width:20%"></div></div>
+  </div>
+
+  <div class="steps-viewport">
+
+    <!-- STEP 1: ZIELE -->
+    <div class="step active" id="step1">
+      <div class="eyebrow">Schritt 1 — Ziele</div>
+      <h1>Was soll die Website leisten?</h1>
+      <p class="subtitle">Bevor wir ans Design denken — was ist das konkrete Ziel?</p>
+
+      <div class="field">
+        <label>Was ist das Hauptziel deiner neuen Website?</label>
+        <div class="chip-group" id="chips-hauptziel">
+          <div class="chip" onclick="selChip(this,'hauptziel')">Mehr Anfragen bekommen</div>
+          <div class="chip" onclick="selChip(this,'hauptziel')">Online-Präsenz aufbauen</div>
+          <div class="chip" onclick="selChip(this,'hauptziel')">Vertrauen & Glaubwürdigkeit</div>
+          <div class="chip" onclick="selChip(this,'hauptziel')">Konkurrenz abhängen</div>
+          <div class="chip" onclick="selChip(this,'hauptziel')">Bestandskunden binden</div>
+          <div class="chip" onclick="selChip(this,'hauptziel')">Fachkräfte gewinnen</div>
+        </div>
+      </div>
+
+      <div class="field">
+        <label>Was sollen Besucher als Erstes tun?</label>
+        <div class="chip-group" id="chips-aktion">
+          <div class="chip" onclick="selChip(this,'aktion')">Anrufen</div>
+          <div class="chip" onclick="selChip(this,'aktion')">Formular ausfüllen</div>
+          <div class="chip" onclick="selChip(this,'aktion')">Termin buchen</div>
+          <div class="chip" onclick="selChip(this,'aktion')">WhatsApp schreiben</div>
+          <div class="chip" onclick="selChip(this,'aktion')">Angebot anfordern</div>
+          <div class="chip" onclick="selChip(this,'aktion')">Portfolio ansehen</div>
+        </div>
+      </div>
+
+      <div class="field">
+        <label>Was ist dein aktuelles Problem?</label>
+        <div class="chip-group" id="chips-problem">
+          <div class="chip" onclick="selChip(this,'problem')">Keine Website vorhanden</div>
+          <div class="chip" onclick="selChip(this,'problem')">Website ist veraltet</div>
+          <div class="chip" onclick="selChip(this,'problem')">Kaum Anfragen über Website</div>
+          <div class="chip" onclick="selChip(this,'problem')">Konkurrenz ist besser sichtbar</div>
+          <div class="chip" onclick="selChip(this,'problem')">Sieht unprofessionell aus</div>
+          <div class="chip" onclick="selChip(this,'problem')">Läuft schlecht auf Handy</div>
+        </div>
+      </div>
+
+      <div class="field">
+        <label>Was wäre für dich ein Erfolg — 3 Monate nach dem Launch? <span class="opt">(optional)</span></label>
+        <textarea id="ziel-erfolg" placeholder="z.B. Mindestens 5 neue Anfragen pro Monat über die Website..."></textarea>
+      </div>
+
+      <div class="btn-row">
+        <button class="btn btn-next" onclick="goNext()">Weiter →</button>
+      </div>
+    </div>
+
+    <!-- STEP 2: BETRIEB -->
+    <div class="step" id="step2">
+      <div class="eyebrow">Schritt 2 — Dein Betrieb</div>
+      <h1>Wer bist du?</h1>
+      <p class="subtitle">Damit die Website wirklich zu dir passt — keine Vorlagen, keine Floskeln.</p>
+
+      <div class="field">
+        <label>Name des Betriebs</label>
+        <input type="text" id="betrieb-name" placeholder="z.B. Elektro Müller Forchheim">
+      </div>
+      <div class="field">
+        <label>Branche & was du machst</label>
+        <input type="text" id="betrieb-branche" placeholder="z.B. Elektriker — Neuinstallationen, Sanierung, Notdienst">
+      </div>
+      <div class="field">
+        <label>Standort / Region</label>
+        <input type="text" id="betrieb-ort" placeholder="z.B. Forchheim, Erlangen, Bamberg">
+      </div>
+      <div class="field">
+        <label>Was macht dich besser oder anders als die Konkurrenz?</label>
+        <textarea id="betrieb-usp" placeholder="z.B. Familienunternehmen seit 30 Jahren, 24h-Notdienst, keine versteckten Kosten..."></textarea>
+      </div>
+      <div class="field">
+        <label>Wer sind deine idealen Kunden?</label>
+        <div class="chip-group" id="chips-zielkunden">
+          <div class="chip" onclick="togChip(this,'zielkunden')">Privatkunden</div>
+          <div class="chip" onclick="togChip(this,'zielkunden')">Gewerbekunden</div>
+          <div class="chip" onclick="togChip(this,'zielkunden')">Hausverwaltungen</div>
+          <div class="chip" onclick="togChip(this,'zielkunden')">Gastronomen</div>
+          <div class="chip" onclick="togChip(this,'zielkunden')">Handwerkskollegen</div>
+          <div class="chip" onclick="togChip(this,'zielkunden')">Bauherren</div>
+        </div>
+      </div>
+      <div class="field">
+        <label>E-Mail für Kundenanfragen</label>
+        <input type="email" id="kontakt-email" placeholder="deine@email.de">
+      </div>
+
+      <div class="btn-row">
+        <button class="btn btn-back" onclick="goBack()">←</button>
+        <button class="btn btn-next" onclick="goNext()">Weiter →</button>
+      </div>
+    </div>
+
+    <!-- STEP 3: WETTBEWERB -->
+    <div class="step" id="step3">
+      <div class="eyebrow">Schritt 3 — Wettbewerb</div>
+      <h1>Dein Umfeld</h1>
+      <p class="subtitle">Optional: Gib Wettbewerber an, und Claude analysiert die Ausgangslage für dich.</p>
+
+      <div class="toggle-card" id="wbToggle" onclick="toggleWB()">
+        <div class="toggle-top">
+          <div class="toggle-left">
+            <div class="toggle-icon">🔍</div>
+            <div class="toggle-info">
+              <h3>KI-Wettbewerbsanalyse aktivieren</h3>
+              <p>Claude analysiert deine Branche & Region und baut die Erkenntnisse direkt in dein Briefing ein.</p>
+            </div>
+          </div>
+          <div class="switch"></div>
+        </div>
+
+        <div class="expand-section" id="wbFields">
+          <div style="margin-bottom:1rem">
+            <div class="comp-number">Wettbewerber 1</div>
+            <div class="comp-row">
+              <div class="field"><label>Name</label><input type="text" id="wb-name1" placeholder="z.B. Müller Elektrotechnik"></div>
+              <div class="field"><label>Website <span class="opt">(optional)</span></label><input type="url" id="wb-url1" placeholder="https://..."></div>
+            </div>
+            <div class="comp-number">Wettbewerber 2</div>
+            <div class="comp-row">
+              <div class="field"><label>Name</label><input type="text" id="wb-name2" placeholder="z.B. Schmidt & Sohn GmbH"></div>
+              <div class="field"><label>Website <span class="opt">(optional)</span></label><input type="url" id="wb-url2" placeholder="https://..."></div>
+            </div>
+          </div>
+
+          <div class="field">
+            <label>Einzugsgebiet</label>
+            <div class="chip-group" id="chips-radius">
+              <div class="chip" onclick="selChip(this,'radius')">Nur mein Ort</div>
+              <div class="chip" onclick="selChip(this,'radius')">10 km Umkreis</div>
+              <div class="chip" onclick="selChip(this,'radius')">25 km Umkreis</div>
+              <div class="chip" onclick="selChip(this,'radius')">Ganz Franken</div>
+              <div class="chip" onclick="selChip(this,'radius')">Deutschlandweit</div>
+            </div>
+          </div>
+
+          <div class="field" style="margin-top:1rem">
+            <label>Was würden Kunden bei Google eingeben?</label>
+            <input type="text" id="wb-keywords" placeholder="z.B. Elektriker Forchheim Notdienst">
+          </div>
+
+          <div class="hint-box">
+            <p>💡 Schon ein Wettbewerber-Name reicht — Claude füllt die Lücken mit Branchenwissen auf.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="btn-row">
+        <button class="btn btn-back" onclick="goBack()">←</button>
+        <button class="btn btn-next" onclick="goNext()">Weiter →</button>
+      </div>
+    </div>
+
+    <!-- STEP 4: INHALTE -->
+    <div class="step" id="step4">
+      <div class="eyebrow">Schritt 4 — Inhalte & Bilder</div>
+      <h1>Was hast du schon?</h1>
+      <p class="subtitle">Echte Fotos und eigene Texte machen den größten Unterschied.</p>
+
+      <div class="field">
+        <label>Gibt es schon eine Website von dir?</label>
+        <div class="yn-group">
+          <div class="yn-btn" onclick="selYN(this,'besteht','ja')">Ja</div>
+          <div class="yn-btn" onclick="selYN(this,'besteht','nein')">Nein</div>
+        </div>
+        <div class="yn-reveal" id="yn-besteht-ja">
+          <input type="url" id="besteht-url" placeholder="https://deine-bisherige-seite.de">
+        </div>
+      </div>
+
+      <div class="sect-divider"></div>
+
+      <div class="field">
+        <label>Links zu vorhandenen Fotos <span class="opt">(optional)</span></label>
+        <textarea id="inhalte-bilder" rows="3" placeholder="Google Drive, Dropbox, WeTransfer — einen Link pro Zeile"></textarea>
+      </div>
+
+      <div class="field">
+        <label>Logo vorhanden?</label>
+        <div class="yn-group">
+          <div class="yn-btn" onclick="selYN(this,'logo','ja')">Ja</div>
+          <div class="yn-btn" onclick="selYN(this,'logo','nein')">Nein — wird erstellt</div>
+        </div>
+        <div class="yn-reveal" id="yn-logo-ja">
+          <input type="url" id="logo-link" placeholder="Link zur Logo-Datei (PNG oder SVG)">
+        </div>
+      </div>
+
+      <div class="sect-divider"></div>
+
+      <div class="field">
+        <label>Welche Seiten soll die Website haben?</label>
+        <div class="chip-group" id="chips-seiten">
+          <div class="chip selected" onclick="togChip(this,'seiten')">Startseite</div>
+          <div class="chip selected" onclick="togChip(this,'seiten')">Leistungen</div>
+          <div class="chip selected" onclick="togChip(this,'seiten')">Über mich / uns</div>
+          <div class="chip selected" onclick="togChip(this,'seiten')">Kontakt</div>
+          <div class="chip" onclick="togChip(this,'seiten')">Referenzen / Projekte</div>
+          <div class="chip" onclick="togChip(this,'seiten')">Preise</div>
+          <div class="chip" onclick="togChip(this,'seiten')">Galerie</div>
+          <div class="chip" onclick="togChip(this,'seiten')">FAQ</div>
+        </div>
+      </div>
+
+      <div class="btn-row">
+        <button class="btn btn-back" onclick="goBack()">←</button>
+        <button class="btn btn-next" onclick="goNext()">Weiter →</button>
+      </div>
+    </div>
+
+    <!-- STEP 5: DESIGN -->
+    <div class="step" id="step5">
+      <div class="eyebrow">Schritt 5 — Design & Stil</div>
+      <h1>Wie soll es wirken?</h1>
+      <p class="subtitle">Keine Perfektion erwartet — Tendenz und Gefühl reichen völlig.</p>
+
+      <div class="field">
+        <label>Welche Ausstrahlung soll die Website haben?</label>
+        <div class="chip-group" id="chips-ausstrahlung">
+          <div class="chip" onclick="togChip(this,'ausstrahlung')">Professionell & seriös</div>
+          <div class="chip" onclick="togChip(this,'ausstrahlung')">Warm & persönlich</div>
+          <div class="chip" onclick="togChip(this,'ausstrahlung')">Modern & minimalistisch</div>
+          <div class="chip" onclick="togChip(this,'ausstrahlung')">Bodenständig & solide</div>
+          <div class="chip" onclick="togChip(this,'ausstrahlung')">Premium & hochwertig</div>
+          <div class="chip" onclick="togChip(this,'ausstrahlung')">Frisch & dynamisch</div>
+        </div>
+      </div>
+
+      <div class="field">
+        <label>Farbwünsche? <span class="opt">(optional)</span></label>
+        <input type="text" id="design-farben" placeholder="z.B. Firmenfarben Blau/Weiß, warme Erdtöne, #1a3a6b...">
+      </div>
+
+      <div class="field">
+        <label>Websites die dir gefallen <span class="opt">(optional)</span></label>
+        <textarea id="design-referenzen" rows="2" placeholder="URLs oder Namen — einen pro Zeile"></textarea>
+      </div>
+
+      <div class="field">
+        <label>Was soll auf keinen Fall so aussehen? <span class="opt">(optional)</span></label>
+        <textarea id="design-vermeiden" placeholder="z.B. Keine knalligen Farben, nichts zu verspielt..."></textarea>
+      </div>
+
+      <div class="btn-row">
+        <button class="btn btn-back" onclick="goBack()">←</button>
+        <button class="btn btn-next" id="analyseBtn" onclick="startAnalyse()">KI-Analyse starten →</button>
+      </div>
+    </div>
+
+    <!-- STEP 6: KI ANALYSE (loading) -->
+    <div class="step" id="step6">
+      <div class="ki-loading" id="kiLoading">
+        <div class="ki-spinner"></div>
+        <div class="ki-loading-title">Claude analysiert dein Briefing…</div>
+        <p class="ki-loading-sub">Das dauert nur ein paar Sekunden.</p>
+        <ul class="ki-steps-list" id="kiStepsList">
+          <li class="ki-step-item active" id="kistep-1"><span class="ki-step-dot"></span> Briefing-Daten auswerten</li>
+          <li class="ki-step-item" id="kistep-2"><span class="ki-step-dot"></span> Wettbewerbsumfeld analysieren</li>
+          <li class="ki-step-item" id="kistep-3"><span class="ki-step-dot"></span> Positionierungsstrategie ableiten</li>
+          <li class="ki-step-item" id="kistep-4"><span class="ki-step-dot"></span> Website-Briefing zusammenstellen</li>
+        </ul>
+      </div>
+
+      <!-- Result (hidden until done) -->
+      <div id="kiResult" style="display:none">
+        <div class="eyebrow">KI-Analyse abgeschlossen</div>
+        <h1>Dein Website-Briefing</h1>
+        <p class="subtitle" style="margin-bottom:1.5rem">Claude hat dein Briefing ausgewertet. Hier ist deine umsetzungsfertige Projektzusammenfassung — bereit für die Entwicklung.</p>
+
+        <div class="ki-result">
+
+          <!-- Info row -->
+          <div class="ki-info-row" id="kiInfoRow"></div>
+
+          <!-- Competitive analysis -->
+          <div class="ki-section" id="kiAnalysisSection">
+            <div class="ki-section-header">Wettbewerbs-Einschätzung</div>
+            <div class="ki-section-body">
+              <ul class="ki-bullets" id="kiBullets"></ul>
+            </div>
+          </div>
+
+          <!-- Website brief -->
+          <div class="ki-section">
+            <div class="ki-section-header">Website-Briefing — bereit zur Umsetzung</div>
+            <div class="ki-section-body">
+              <div class="prompt-box" id="promptBox"></div>
+              <div class="prompt-actions">
+                <button class="prompt-btn prompt-btn-copy" id="copyBtn" onclick="copyPrompt()">
+                  ⎘ Briefing kopieren
+                </button>
+                <button class="prompt-btn prompt-btn-dl" onclick="downloadPrompt()">
+                  ↓ Als .txt speichern
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Error fallback -->
+          <div class="ki-error" id="kiError" style="display:none"></div>
+
+        </div>
+
+        <button class="btn-restart" onclick="restartBriefing()">← Neues Briefing starten</button>
+        <div class="trust-line">DSGVO-konform · EU-Datenschutz · Kein Abo · Kein Spam</div>
+      </div>
+    </div>
+
+  </div><!-- /steps-viewport -->
+</div><!-- /steps-outer -->
+
+<script>
+var currentStep = 1;
+var wbActive = false;
+var chipState = {};
+var multiChips = { seiten: ['Startseite','Leistungen','Über mich / uns','Kontakt'] };
+var ynState = {};
+var generatedPrompt = '';
+
+function updateProgress(step) {
+  var labels = ['','Schritt 1 von 5','Schritt 2 von 5','Schritt 3 von 5','Schritt 4 von 5','Schritt 5 von 5','KI-Analyse…'];
+  var pcts   = [0,20,40,60,80,100,100];
+  document.getElementById('progressLabel').textContent = labels[step] || 'Abgeschlossen';
+  document.getElementById('progressFill').style.width = pcts[step] + '%';
+}
+
+function showStep(id, isBack) {
+  document.querySelectorAll('.step').forEach(s => s.classList.remove('active','back-enter'));
+  var el = document.getElementById(id);
+  el.classList.add('active');
+  if (isBack) el.classList.add('back-enter');
+  window.scrollTo({ top: 0 });
+}
+
+function goNext() { currentStep++; showStep('step'+currentStep, false); updateProgress(currentStep); }
+function goBack() { currentStep--; showStep('step'+currentStep, true); updateProgress(currentStep); }
+
+function selChip(el, group) {
+  el.closest('.chip-group').querySelectorAll('.chip').forEach(c => c.classList.remove('selected'));
+  el.classList.add('selected');
+  chipState[group] = el.textContent.trim();
+}
+function togChip(el, group) {
+  el.classList.toggle('selected');
+  multiChips[group] = Array.from(el.closest('.chip-group').querySelectorAll('.chip.selected')).map(c => c.textContent.trim());
+}
+function selYN(el, group, val) {
+  el.parentElement.querySelectorAll('.yn-btn').forEach(b => b.classList.remove('selected'));
+  el.classList.add('selected');
+  ynState[group] = val;
+  var panel = document.getElementById('yn-'+group+'-ja');
+  if (panel) panel.classList.toggle('show', val === 'ja');
+}
+function toggleWB() {
+  wbActive = !wbActive;
+  document.getElementById('wbToggle').classList.toggle('active', wbActive);
+  document.getElementById('wbFields').classList.toggle('open', wbActive);
+}
+document.getElementById('wbFields').addEventListener('click', e => e.stopPropagation());
+
+function val(id) { var el = document.getElementById(id); return el ? el.value.trim() : ''; }
+
+function collect() {
+  var competitors = [];
+  for (var i = 1; i <= 2; i++) {
+    var n = val('wb-name'+i), u = val('wb-url'+i);
+    if (n) competitors.push(n + (u ? ' ('+u+')' : ''));
+  }
+  return {
+    hauptziel:    chipState['hauptziel']  || '',
+    aktion:       chipState['aktion']     || '',
+    problem:      chipState['problem']    || '',
+    erfolg:       val('ziel-erfolg'),
+    name:         val('betrieb-name'),
+    branche:      val('betrieb-branche'),
+    ort:          val('betrieb-ort'),
+    usp:          val('betrieb-usp'),
+    zielkunden:   (multiChips['zielkunden']||[]).join(', '),
+    email:        val('kontakt-email'),
+    wbAktiv:      wbActive,
+    competitors:  competitors.join(' | '),
+    einzugsgebiet: chipState['radius']   || '',
+    keywords:     val('wb-keywords'),
+    bestehtUrl:   ynState['besteht']==='ja' ? val('besteht-url') : (ynState['besteht']==='nein' ? 'Keine' : ''),
+    bildLinks:    val('inhalte-bilder'),
+    logoLink:     ynState['logo']==='ja' ? val('logo-link') : (ynState['logo']==='nein' ? 'Kein Logo vorhanden' : ''),
+    seiten:       (multiChips['seiten']||[]).join(', '),
+    ausstrahlung: (multiChips['ausstrahlung']||[]).join(', '),
+    farben:       val('design-farben'),
+    referenzen:   val('design-referenzen'),
+    vermeiden:    val('design-vermeiden'),
+  };
+}
+
+// ─── Animate loading steps ───────────────────────────────────────
+function animateSteps(cb) {
+  var steps = ['kistep-1','kistep-2','kistep-3','kistep-4'];
+  var i = 0;
+  function next() {
+    if (i > 0) {
+      document.getElementById(steps[i-1]).classList.remove('active');
+      document.getElementById(steps[i-1]).classList.add('done');
+    }
+    if (i < steps.length) {
+      document.getElementById(steps[i]).classList.add('active');
+      i++;
+      setTimeout(next, 900);
+    } else {
+      if (cb) cb();
+    }
+  }
+  next();
+}
+
+// ─── Build Claude prompt ─────────────────────────────────────────
+function buildClaudeRequest(d) {
+  var wbSection = d.wbAktiv
+    ? '\n\nWETTBEWERB (vom Interessenten angegeben):\n- Wettbewerber: ' + (d.competitors || 'keine Angabe') +
+      '\n- Einzugsgebiet: ' + (d.einzugsgebiet || 'keine Angabe') +
+      '\n- Google-Suchbegriffe: ' + (d.keywords || 'keine Angabe')
+    : '\n\nWETTBEWERB: Keine Wettbewerber angegeben.';
+
+  return `Du bist ein erfahrener Webdesign-Stratege. Du erhältst ein Briefing für einen Betrieb, der eine neue Website benötigt.
+
+BRIEFING-DATEN:
+- Betrieb: ${d.name || 'nicht angegeben'}
+- Branche: ${d.branche || 'nicht angegeben'}
+- Standort/Region: ${d.ort || 'nicht angegeben'}
+- Hauptziel: ${d.hauptziel || 'nicht angegeben'}
+- Gewünschte Besucher-Aktion: ${d.aktion || 'nicht angegeben'}
+- Aktuelles Problem: ${d.problem || 'nicht angegeben'}
+- USP / Stärken: ${d.usp || 'nicht angegeben'}
+- Zielkunden: ${d.zielkunden || 'nicht angegeben'}
+- Kontakt-E-Mail: ${d.email || 'nicht angegeben'}
+- Erfolgsdefinition (3 Monate): ${d.erfolg || 'nicht angegeben'}
+- Bestehende Website: ${d.bestehtUrl || 'keine'}
+- Logo: ${d.logoLink || 'nicht angegeben'}
+- Gewünschte Seiten: ${d.seiten || 'Startseite, Leistungen, Kontakt'}
+- Ausstrahlung: ${d.ausstrahlung || 'nicht angegeben'}
+- Farbwünsche: ${d.farben || 'keine'}
+- Referenz-Websites: ${d.referenzen || 'keine'}
+- Vermeiden: ${d.vermeiden || 'nichts angegeben'}${wbSection}
+
+DEINE AUFGABE:
+Erstelle eine JSON-Antwort mit exakt diesem Format (kein Markdown drumherum, nur reines JSON):
+
+{
+  "analyse": [
+    "Bullet-Punkt 1 zur Wettbewerbssituation und Positionierung (1-2 Sätze)",
+    "Bullet-Punkt 2 zu SEO-Chancen und lokaler Sichtbarkeit",
+    "Bullet-Punkt 3 zu Conversion-Optimierung für diese Branche",
+    "Bullet-Punkt 4 zur wichtigsten Differenzierungsstrategie"
+  ],
+  "website_brief": "Das vollständige, umsetzungsfertige Website-Briefing hier — auf Englisch. Strukturiert mit Sections: ## Business Context, ## Goals, ## Target Audience, ## Pages & Structure, ## Design Direction, ## Technical Requirements, ## Content Guidelines. Konkret, detailreich, direkt umsetzbar. Mindestens 400 Wörter."
+}
+
+Wichtig: Gib NUR das JSON zurück. Kein Text davor oder danach. Keine Markdown-Code-Blöcke.`;
+}
+
+// ─── Start analysis ──────────────────────────────────────────────
+async function startAnalyse() {
+  var d = collect();
+  currentStep = 6;
+  showStep('step6', false);
+  updateProgress(6);
+
+  // Show loading
+  document.getElementById('kiLoading').style.display = 'block';
+  document.getElementById('kiResult').style.display = 'none';
+
+  // Animate steps in parallel with Claude call
+  animateSteps(null);
+
+  try {
+    var prompt = buildClaudeRequest(d);
+    var response = await window.claude.complete({
+      messages: [{ role: 'user', content: prompt }]
+    });
+
+    // Parse JSON response
+    var text = response.trim();
+    // Strip markdown code blocks if Claude wraps it
+    text = text.replace(/^```json\s*/i,'').replace(/^```\s*/,'').replace(/\s*```$/,'');
+    var parsed = JSON.parse(text);
+
+    generatedPrompt = parsed.website_brief || '';
+
+    // Wait for animation to nearly finish
+    await new Promise(r => setTimeout(r, 800));
+
+    // Mark all steps done
+    ['kistep-1','kistep-2','kistep-3','kistep-4'].forEach(id => {
+      var el = document.getElementById(id);
+      el.classList.remove('active');
+      el.classList.add('done');
+    });
+
+    await new Promise(r => setTimeout(r, 400));
+
+    // Render result
+    renderResult(d, parsed);
+
+  } catch(err) {
+    await new Promise(r => setTimeout(r, 1200));
+    renderError(err, d);
+  }
+}
+
+function renderResult(d, parsed) {
+  // Info cards
+  var infoRow = document.getElementById('kiInfoRow');
+  infoRow.innerHTML = [
+    { label: 'Betrieb', val: d.name || '—' },
+    { label: 'Branche', val: d.branche || '—' },
+    { label: 'Region', val: d.ort || '—' },
+    { label: 'Wettbewerbsanalyse', val: d.wbAktiv ? 'Aktiviert' : 'Übersprungen' },
+  ].map(c => `<div class="ki-info-card"><div class="ki-info-label">${c.label}</div><div class="ki-info-val">${esc(c.val)}</div></div>`).join('');
+
+  // Analysis bullets
+  var bullets = parsed.analyse || [];
+  if (bullets.length > 0) {
+    document.getElementById('kiAnalysisSection').style.display = 'block';
+    document.getElementById('kiBullets').innerHTML = bullets.map(b =>
+      `<li class="ki-bullet"><span class="ki-bullet-marker">◆</span><span>${esc(b)}</span></li>`
+    ).join('');
+  } else {
+    document.getElementById('kiAnalysisSection').style.display = 'none';
+  }
+
+  // Prompt
+  document.getElementById('promptBox').textContent = generatedPrompt;
+
+  // Show
+  document.getElementById('kiLoading').style.display = 'none';
+  document.getElementById('kiError').style.display = 'none';
+  document.getElementById('kiResult').style.display = 'block';
+}
+
+function renderError(err, d) {
+  // Fallback: generate prompt locally
+  generatedPrompt = buildFallbackPrompt(d);
+
+  document.getElementById('kiAnalysisSection').style.display = 'none';
+  document.getElementById('kiError').style.display = 'block';
+  document.getElementById('kiError').textContent =
+    'Die KI-Analyse ist nicht verfügbar — hier ist trotzdem ein vollständiges Briefing auf Basis deiner Angaben.';
+
+  var infoRow = document.getElementById('kiInfoRow');
+  infoRow.innerHTML = [
+    { label: 'Betrieb', val: d.name || '—' },
+    { label: 'Branche', val: d.branche || '—' },
+    { label: 'Region', val: d.ort || '—' },
+  ].map(c => `<div class="ki-info-card"><div class="ki-info-label">${c.label}</div><div class="ki-info-val">${esc(c.val)}</div></div>`).join('');
+
+  document.getElementById('promptBox').textContent = generatedPrompt;
+  document.getElementById('kiLoading').style.display = 'none';
+  document.getElementById('kiResult').style.display = 'block';
+}
+
+function buildFallbackPrompt(d) {
+  return `# Website Brief: ${d.name}
+
+## Business Context
+Build a professional, conversion-optimised website for ${d.name}.
+Industry: ${d.branche} | Location: ${d.ort}
+
+## Goals
+Primary goal: ${d.hauptziel}
+Desired visitor action: ${d.aktion}
+Current problem: ${d.problem}
+Success metric (3 months): ${d.erfolg || 'Increase online enquiries'}
+
+## Target Audience
+${d.zielkunden || 'Local customers'}
+Contact email: ${d.email}
+
+## USP & Differentiators
+${d.usp || 'To be defined'}
+
+## Pages & Structure
+${d.seiten}
+Layout: Hero → Problem/Solution → Services → References → About → CTA → Contact
+
+## Design Direction
+Vibe: ${d.ausstrahlung || 'Professional & modern'}
+Colours: ${d.farben || 'To be suggested based on industry'}
+Reference sites: ${d.referenzen || 'none'}
+Avoid: ${d.vermeiden || 'nothing specified'}
+
+## Content
+Existing website: ${d.bestehtUrl || 'none'}
+Logo: ${d.logoLink || 'to be created'}
+Images: ${d.bildLinks || 'to be provided'}
+
+## Technical Requirements
+- Static HTML/CSS/JS — no React, no build tools
+- Mobile-first, DSGVO-compliant (no Google Analytics, no cookie banners)
+- Netlify Forms for contact form
+- Bunny Fonts: DM Sans 300/400/700
+- Netlify-ready deployment`;
+}
+
+function esc(s) { return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+
+async function copyPrompt() {
+  try {
+    await navigator.clipboard.writeText(generatedPrompt);
+    var btn = document.getElementById('copyBtn');
+    btn.textContent = '✓ Kopiert!';
+    btn.classList.add('copied');
+    setTimeout(() => { btn.textContent = '⎘ Briefing kopieren'; btn.classList.remove('copied'); }, 2000);
+  } catch(e) {}
+}
+
+function downloadPrompt() {
+  var d = collect();
+  var blob = new Blob([generatedPrompt], { type: 'text/plain;charset=utf-8' });
+  var url = URL.createObjectURL(blob);
+  var a = document.createElement('a');
+  a.href = url;
+  a.download = 'website-briefing-' + (d.name || 'briefing').replace(/\s+/g,'-').toLowerCase() + '.txt';
+  a.click();
+  URL.revokeObjectURL(url);
+}
+
+function restartBriefing() { location.reload(); }
+
+updateProgress(1);
+</script>
+</body>
+</html>
